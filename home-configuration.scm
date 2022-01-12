@@ -15,7 +15,11 @@
 
 (home-environment
   (packages
-    (map (compose list specification->package+output)
+   (map (compose list specification->package+output)
+                                        ; Commented Packages were
+                                        ; problematic after major Guix
+                                        ; update, and so I removed
+                                        ; them pending fixes.
          (list "adb"
                "adlmidi"
 ;               "apl"
