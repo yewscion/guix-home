@@ -89,6 +89,7 @@
                "mpv"
                "nasm"
                "ncdu"
+               "netcat"
                "nethack"
                "newlisp"
                "nim"
@@ -154,7 +155,11 @@
                   ("ll" . "ls -alF")
                   ("ls" . "ls --color=auto")
                   ("mark" . "pwd > ~/.sd")
-                  ("port" . "cd $(cat ~/.sd)")))
+                  ("port" . "cd $(cat ~/.sd)")
+                  ("nm-amzn-internet" . "nmcli connection up id amzn-internet && nmcli connection show --active")
+                  ("nm-asin324" . "nmcli connection up id \\\"Amazon Wi-Fi Settings (asin324)\\\" && nmcli connection show --active")
+                  ("nm-cdr255" . "nmcli connection up id cdr255 && nmcli connection show --active")
+                  ("nm-codys-corner" . "nmcli connection up id \\\"Cody's Corner\\\" && nmcli connection show --active")))
               (bash-profile
                (list (plain-file "bash-profile"
                                  (format #f "~a~%~a~%~a~a~a~%~a"
@@ -190,6 +195,7 @@
                '(("SHELL" . "bash")
                  ("HISTCONTROL" . "ignoreboth")
                  ("HISTTIMEFORMAT" . "true")
+                 ("PATH" . "$PATH:$HOME/.local/bin")
                  ("PS1" .
                   (string-append "\"\\[\\e[0;2;35m\\][\\[\\e[0;2;"
                                  "35m\\]\\#\\[\\e[0;2;35m\\].\\[\\e["
@@ -197,7 +203,8 @@
                                  "\\[\\e[0;2;37m\\]{\\[\\e[0;2;"
                                  "37m\\]\\A\\[\\e[0;2;37m\\]} \\[\\e"
                                  "[0;2;90m\\]\\$("
-                                 "dir-git-branch)"
+                                 "dir-git-branch)\\$("
+                                 "display-encoded-wifi) "
                                  "\\[\\e[0;92m\\]\\u\\[\\e[0m\\]@"
                                  "\\[\\e[0;36m\\]\\h\\[\\e[0m\\]:"
                                  "\\[\\e[0;94m\\]\\W\\[\\e[0;94m\\]"
