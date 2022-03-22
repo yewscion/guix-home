@@ -19,8 +19,8 @@
                  "0;2;35m\\]0\\[\\e[0;2;35m\\]] "
                  "\\[\\e[0;2;37m\\]{\\[\\e[0;2;"
                  "37m\\]\\A\\[\\e[0;2;37m\\]} \\[\\e"
-                 "[0;2;90m\\]\\$("
-                 "dir-git-branch)\\$("
+                 "[0;2;34m\\]\\$("
+                 "dir-git-branch)\\[\\e[0;2;33m\\]\\$("
                  "display-encoded-wifi) "
                  "\\[\\e[0;92m\\]\\u\\[\\e[0m\\]@"
                  "\\[\\e[0;36m\\]\\h\\[\\e[0m\\]:"
@@ -422,6 +422,7 @@
                "ghc"
                "gimp"
                "git"
+               "git:send-email"
                "glibc-locales"
                "gnu-apl"
                "gnucobol"
@@ -852,7 +853,9 @@
                   ("nm-amzn-internet" . "nmcli connection up id amzn-internet && nmcli connection show --active")
                   ("nm-asin324" . "nmcli connection up id \\\"Amazon Wi-Fi Settings (asin324)\\\" && nmcli connection show --active")
                   ("nm-cdr255" . "nmcli connection up id cdr255 && nmcli connection show --active")
-                  ("nm-codys-corner" . "nmcli connection up id \\\"Cody's Corner\\\" && nmcli connection show --active")))
+                  ("nm-codys-corner" . "nmcli connection up id \\\"Cody's Corner\\\" && nmcli connection show --active")
+                  ("gitinspect" . "gitinspector -f tex,scm,org,*,md,java,clj,lisp -HlmrTw -F htmlembedded > gitinspector.html")
+                  ("daily-update-guix" . "guix pull && guix home reconfigure $HOME/Documents/guix-home/home-configuration.scm && guix gc")))
               (bash-profile
                (list (plain-file "bash-profile"
                                  (format #f "~a~%~a~%~a~a~a~%~a~%~a~%~a~%~a~%~a~%~a~%~a~a~a~%~a~%~a"
