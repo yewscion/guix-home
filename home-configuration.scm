@@ -37,6 +37,8 @@
          (list "adb"
                "adlmidi"
                ;; "apl"
+               "alsa-plugins"
+               "alsa-plugins:pulseaudio"
                "autoconf"
                "automake"
                "bash"
