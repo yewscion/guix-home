@@ -12,6 +12,7 @@
   (guix gexp)
   (guix i18n)
   (gnu home services shells)
+  (gnu home services)
   (gnu packages bash))
 (define my-ps1-prompt
   (string-append "\\[\\e[0;2;35m\\][\\[\\e[0;2;"
@@ -835,7 +836,7 @@
                "zig"
                "zenity")))
   (services
-    (list (service
+   (list (service
             home-bash-service-type
             (home-bash-configuration
               (aliases
@@ -905,4 +906,9 @@
                  ("HISTTIMEFORMAT" . "true")
                  ("PATH" . "$PATH:$HOME/.local/bin")))
               (guix-defaults? #t)
-              (package bash))))))
+              (package bash)))
+         (simple-service 'test-config
+                         home-files-service-type
+                         (list `("config/test.conf"
+                                 ,(plain-file "tmp-file.txt"
+                                              "the content of ~/.config/test.conf")))))))
