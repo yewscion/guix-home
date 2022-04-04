@@ -41,7 +41,65 @@
 (register-services emacs)
 (action 'shepherd 'daemonize) ; send shepherd into background
 (for-each start (list emacs)) ; services to start automatically")
-  
+
+(define my-msmtprc
+  "# Ensure You have initiated mu with the following command:
+#
+# mu init --my-address=cdr255@gmail.com --my-address=yewscion@gmail.com \\
+# --my-address=rodnchr@amazon.com \\
+# --my-address=christopher.rodriguez@csuglobal.edu
+#
+# Set default values for all following accounts.
+defaults
+auth               on
+tls                on
+tls_starttls       off
+logfile            ~/.msmtp.log
+
+# Gmail - cdr255
+account        gmail-cdr255
+from           cdr255@gmail.com
+host           smtp.gmail.com
+port           465
+user           cdr255@gmail.com
+domain         gmail.com
+passwordeval   \"pass offlineimap/cdr255@gmail.com | head -n1\"
+
+
+# Gmail - yewscion
+account        gmail-yewscion
+from           yewscion@gmail.com
+host           smtp.gmail.com
+port           465
+user           yewscion@gmail.com
+domain         gmail.com
+passwordeval   \"pass offlineimap/yewscion@gmail.com | head -n1\"
+
+
+# csuglobal - christopher.rodriguez
+account        csuglobal
+from           christopher.rodriguez@csuglobal.edu
+host           smtp.gmail.com
+port           465
+user           christopher.rodriguez@csuglobal.edu
+domain         gmail.com
+passwordeval   \"pass offlineimap/christopher.rodriguez@csuglobal.edu | head -n1\"
+
+# amazon - rodnchr
+account amazon
+from rodnchr@amazon.com
+host ballard.amazon.com
+port 1587
+user ANT\\rodnchr
+domain amazon.com
+tls_starttls on
+passwordeval   \"pass amazon | head -n1\"
+
+# # Set a default account
+# account default : gmail-cdr255
+")
+
+
 
 (home-environment
   (packages
@@ -208,6 +266,7 @@
                "emacs-kibit-helper"
                "emacs-know-your-http-well"
                "emacs-kv"
+               "emacs-lsp-java"
                "emacs-ledger-mode"
                "emacs-leetcode"
                "emacs-libmpdel"
@@ -522,6 +581,8 @@
                "python-gitinspector"
                "python-lsp-server"
                "python-pip"
+               "python-pygments"
+               "python-pygments-lexer-pseudocode-std"
                "python-pyqt"
                "qemu"
                "r"
