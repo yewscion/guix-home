@@ -99,8 +99,80 @@ passwordeval   \"pass amazon | head -n1\"
 # account default : gmail-cdr255
 ")
 
+(define my-function-dir-git-branch
+  (string-append "dir-git-branch() {\n"
+                 "    git branch 2>/dev/null | \\\n"
+                 "        grep \"^*\" | \\\n"
+                 "        sed 's/* /</;s/$/> /'\n"
+                 "}\n"))
 
-
+(define my-bash-profile
+  (string-append my-function-dir-git-branch
+                 "case \"$TERM\" in\n"
+                 "    \"dumb\")\n"
+                 "        export PS1=\"> \"\n"
+                 "        ;;\n"
+                 "    xterm*|rxvt*|eterm*|screen*)\n"
+                 "        tty -s && export PS1=\""
+                 my-ps1-prompt
+                 "\"\n"
+                 "        ;;\n"
+                 "esac\n"))
+(define my-bashrc
+  (format #f "~@{~a~^ ~}"
+          "shopt -s"
+          "checkwinsize"
+          "autocd"
+          "cdspell"
+          "checkhash"
+          "cmdhist"
+          "direxpand"
+          "extglob"
+          "gnu_errfmt"
+          "histappend"
+          "lithist"
+          "no_empty_cmd_completion"
+          "progcomp"
+          "sourcepath"
+          "xpg_echo"))
+(define my-function-nm-switch
+  (string-append "nm-switch() {\n"
+                 "    nmcli connection up id \"$1\" && \\\n"
+                 "        nmcli connection show --active\n"
+                 "}"))
+(define my-nm-amzn-internet
+  "nm-switch amzn-internet")
+(define my-nm-asin324
+  "nm-switch \"Amazon Wi-Fi Settings (asin324)\"")
+(define my-nm-cdr255
+  "nm-switch cdr255")
+(define my-nm-codys-corner
+  "nm-switch \"Cody's Corner\"")
+(define my-gitinspect
+  (string-append "gitinspector -f "
+                 "tex,scm,org,*,md,java,clj,lisp "
+                 "-HlmrTw "
+                 "-F htmlembedded > gitinspector.html"))
+(define my-function-log-guix-state
+  (string-append "log-guix-state() {\n"
+                 "    guix describe -f human \| sed -n \"1p\"\n"
+                 "    guix describe -f channels\n"
+                 "    guix package --export-manifest\n"
+                 "    guix package --list-generations\n}"))
+(define my-function-daily-update-guix
+  (string-append "daily-update-guix() {\n"
+                 "    timestamp=$(date -Is)\n"
+                 "    mkdir -pv \"$HOME/.local/var/log/guix\""
+                 "    log-guix-state \| \\\n"
+                 "    tee \"$HOME/.local/var/log/guix/"
+                 "$timestamp-pre-update.log\"\\\n"
+                 "    guix pull\n"
+                 "    guix home reconfigure \\\n"
+                 "         $HOME/Documents/guix-home/"
+                 "home-configuration.scm\n"
+                 "    log-guix-state \| \\\\n"
+                 "    tee \"$HOME/.local/var/logs/guix/"
+                 "$timestamp-post-update.log\n}\n"))
 (home-environment
   (packages
    (map (compose list specification->package+output)
@@ -542,7 +614,7 @@ passwordeval   \"pass amazon | head -n1\"
                "libreoffice"
                "libvirt"
                "links"
-               "lua"
+;               "lua"
                "lxc" ; Look at later
                "maven"
                "mc"
@@ -555,6 +627,7 @@ passwordeval   \"pass amazon | head -n1\"
                "mu"
                "nasm"
                "ncdu"
+               "ncurses"
                "netcat"
                "nethack"
                "newlisp"
@@ -567,10 +640,12 @@ passwordeval   \"pass amazon | head -n1\"
                "offlineimap3"
                "orca-lang"
                "owl-lisp"
+               "pagr"
                "pandoc"
                "password-store"
                "passwordsafe"
                "pavucontrol"
+               "perl"
                "php"
                "picolisp"
                "pinentry-emacs"
@@ -608,8 +683,59 @@ passwordeval   \"pass amazon | head -n1\"
                "talkfilters"
                "telescope"
                "texinfo"
-               "texlive"
+;               "texlive"                                   ; Monolithic, LORGE
+               "texlive-biblatex"
+               "texlive-biblatex-apa"
+               "texlive-capt-of"
+               "texlive-csquotes"
+               "texlive-etoolbox"
+               "texlive-fontspec"
+               "texlive-generic-etexcmds"
+               "texlive-generic-gettitlestring"
+               "texlive-generic-ifptex"
+               "texlive-generic-iftex"
+               "texlive-generic-xstring"
+               "texlive-ifmtarg"
+               "texlive-latex-catchfile"
+               "texlive-latex-cleveref"
+               "texlive-latex-comment"
+               "texlive-latex-datetime2"
+               "texlive-latex-datetime2-english"
+               "texlive-latex-endfloat"
+               "texlive-latex-environ"
+               "texlive-latex-everyhook"
+               "texlive-latex-fancyhdr"
+               "texlive-latex-fancyvrb"
+               "texlive-latex-float"
+               "texlive-latex-framed"
+               "texlive-latex-fvextra"
+               "texlive-latex-geometry"
+               "texlive-latex-ifplatform"
+               "texlive-latex-kvoptions"
+               "texlive-latex-letltxmacro"
+               "texlive-latex-lineno"
+               "texlive-latex-lwarp"
+               "texlive-latex-minted"
+               "texlive-latex-newfloat"
+               "texlive-latex-newunicodechar"
+               "texlive-latex-pdftexcmds"
+               "texlive-latex-printlen"
+               "texlive-latex-refcount"
+               "texlive-latex-setspace"
+               "texlive-latex-titlesec"
+               "texlive-latex-trimspaces"
+               "texlive-latex-upquote"
+               "texlive-latex-xkeyval"
+               "texlive-latex-xpatch"
+               "texlive-listings"
+               "texlive-lm"
+               "texlive-luaotfload"
+               "texlive-svn-prov"
                "texlive-tex-gyre"
+               "texlive-tracklang"
+               "texlive-varwidth"
+               "texlive-xcolor"
+               "texlive-xifthen"
                "the-silver-searcher"
                "timidity++"
                "tintin++"
@@ -620,9 +746,11 @@ passwordeval   \"pass amazon | head -n1\"
                "virt-viewer"
                "vlang"
                "wesnoth"
+               "which"
                "wireshark"
                "wordnet"
                "xdpyprobe"
+               "xindy"
                "xmp"
                "yewscion-scripts"
                "yt-dlp"
@@ -634,7 +762,7 @@ passwordeval   \"pass amazon | head -n1\"
             home-bash-service-type
             (home-bash-configuration
               (aliases
-                '((".." . "cd ..")
+                `((".." . "cd ..")
                   ("..." . "cd ../..")
                   ("...." . "cd ../../..")
                   ("....." . "cd ../../../..")
@@ -646,50 +774,18 @@ passwordeval   \"pass amazon | head -n1\"
                   ("ll" . "ls -alF")
                   ("ls" . "ls --color=auto")
                   ("mark" . "pwd > ~/.sd")
-                  ("port" . "cd $(cat ~/.sd)")
-                  ("nm-amzn-internet" . "nmcli connection up id amzn-internet && nmcli connection show --active")
-                  ("nm-asin324" . "nmcli connection up id \\\"Amazon Wi-Fi Settings (asin324)\\\" && nmcli connection show --active")
-                  ("nm-cdr255" . "nmcli connection up id cdr255 && nmcli connection show --active")
-                  ("nm-codys-corner" . "nmcli connection up id \\\"Cody's Corner\\\" && nmcli connection show --active")
-                  ("gitinspect" . "gitinspector -f tex,scm,org,*,md,java,clj,lisp -HlmrTw -F htmlembedded > gitinspector.html")
-                  ("daily-update-guix" . "guix pull && guix home reconfigure $HOME/Documents/guix-home/home-configuration.scm && guix gc && guix gc --delete-generations")))
+                  ("port" . "'cd $(cat ~/.sd)'")
+                  ("nm-amzn-internet" . ,my-nm-amzn-internet)
+                  ("nm-asin324" . ,my-nm-asin324)
+                  ("nm-cdr255" . ,my-nm-cdr255)
+                  ("nm-codys-corner" . ,my-nm-codys-corner)
+                  ("gitinspect" . ,my-gitinspect)))
               (bash-profile
                (list (plain-file "bash-profile"
-                                 (format #f "~a~%~a~%~a~a~a~%~a~%~a~%~a~%~a~%~a~%~a~%~a~a~a~%~a~%~a"
-                                         "function dir-git-branch()"
-                                         "{"
-                                         "git branch 2>/dev/null | "
-                                         "grep \"^*\" | "
-                                         "sed 's/* /</;s/$/> /'"
-                                         "}"
-                                         "case \"$TERM\" in"
-                                         "\"dumb\")"
-                                         "export PS1=\"> \""
-                                         ";;"
-                                         "xterm*|rxvt*|eterm*|screen*)"
-                                         "tty -s && export PS1=\""
-                                         my-ps1-prompt
-                                         "\""
-                                         ";;"
-                                         "esac"))))
+                                 my-bash-profile)))
               (bashrc
                (list (plain-file "bashrc"
-                                 (format #f "~@{~a~^ ~}"
-                                         "shopt -s"
-                                         "checkwinsize"
-                                         "autocd"
-                                         "cdspell"
-                                         "checkhash"
-                                         "cmdhist"
-                                         "direxpand"
-                                         "extglob"
-                                         "gnu_errfmt"
-                                         "histappend"
-                                         "lithist"
-                                         "no_empty_cmd_completion"
-                                         "progcomp"
-                                         "sourcepath"
-                                         "xpg_echo"))))
+                                 my-bashrc)))
               (bash-logout
                 (list (plain-file
                         "bash_logout"
@@ -698,7 +794,8 @@ passwordeval   \"pass amazon | head -n1\"
                '(("SHELL" . "bash")
                  ("HISTCONTROL" . "ignoreboth")
                  ("HISTTIMEFORMAT" . "true")
-                 ("PATH" . "$PATH:$HOME/.local/bin")))
+                 ("PATH" . "$PATH:$HOME/.local/bin")
+                 ("EDITOR" . "emacsclient")))
               (guix-defaults? #t)
               (package bash)))
          (simple-service 'test-config
@@ -708,4 +805,9 @@ passwordeval   \"pass amazon | head -n1\"
                                               my-shepherd-init))
                                `("config/shepherd/services.scm"
                                  ,(plain-file "user-shepherd-services.scm"
-                                              my-shepherd-services)))))))
+                                              my-shepherd-services))
+                               `("msmtprc"
+                                 ,(plain-file "msmtprc"
+                                              my-msmtprc)))))))
+
+
