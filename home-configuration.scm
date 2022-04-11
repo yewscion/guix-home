@@ -143,11 +143,11 @@ passwordeval   \"pass amazon | head -n1\"
 (define my-nm-amzn-internet
   "nm-switch amzn-internet")
 (define my-nm-asin324
-  "nm-switch \"Amazon Wi-Fi Settings (asin324)\"")
+  "nm-switch \\\"Amazon Wi-Fi Settings (asin324)\\\"")
 (define my-nm-cdr255
   "nm-switch cdr255")
 (define my-nm-codys-corner
-  "nm-switch \"Cody's Corner\"")
+  "nm-switch \\\"Cody's Corner\\\"")
 (define my-gitinspect
   (string-append "gitinspector -f "
                  "tex,scm,org,*,md,java,clj,lisp "
