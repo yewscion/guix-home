@@ -1,0 +1,10 @@
+"Summary
+
+Arguments
+=========
+
+Returns
+=======
+
+Side Effects
+============"

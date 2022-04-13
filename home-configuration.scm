@@ -41,83 +41,71 @@
 (register-services emacs)
 (action 'shepherd 'daemonize) ; send shepherd into background
 (for-each start (list emacs)) ; services to start automatically")
-
 (define my-msmtprc
-  "# Ensure You have initiated mu with the following command:
-#
-# mu init --my-address=cdr255@gmail.com --my-address=yewscion@gmail.com \\
-# --my-address=rodnchr@amazon.com \\
-# --my-address=christopher.rodriguez@csuglobal.edu
-#
-# Set default values for all following accounts.
-defaults
-auth               on
-tls                on
-tls_starttls       off
-logfile            ~/.msmtp.log
-
-# Gmail - cdr255
-account        gmail-cdr255
-from           cdr255@gmail.com
-host           smtp.gmail.com
-port           465
-user           cdr255@gmail.com
-domain         gmail.com
-passwordeval   \"pass offlineimap/cdr255@gmail.com | head -n1\"
-
-
-# Gmail - yewscion
-account        gmail-yewscion
-from           yewscion@gmail.com
-host           smtp.gmail.com
-port           465
-user           yewscion@gmail.com
-domain         gmail.com
-passwordeval   \"pass offlineimap/yewscion@gmail.com | head -n1\"
-
-
-# csuglobal - christopher.rodriguez
-account        csuglobal
-from           christopher.rodriguez@csuglobal.edu
-host           smtp.gmail.com
-port           465
-user           christopher.rodriguez@csuglobal.edu
-domain         gmail.com
-passwordeval   \"pass offlineimap/christopher.rodriguez@csuglobal.edu | head -n1\"
-
-# amazon - rodnchr
-account amazon
-from rodnchr@amazon.com
-host ballard.amazon.com
-port 1587
-user ANT\\rodnchr
-domain amazon.com
-tls_starttls on
-passwordeval   \"pass amazon | head -n1\"
-
-# # Set a default account
-# account default : gmail-cdr255
-")
-
+  (string-append
+   "# Ensure You have initiated mu with the following command:\n"
+   "#\n"
+   "# mu init --my-address=cdr255@gmail.com "
+   "--my-address=yewscion@gmail.com \\\n"
+   "# --my-address=rodnchr@amazon.com \\\n"
+   "# --my-address=christopher.rodriguez@csuglobal.edu\n"
+   "#\n"
+   "# Set default values for all following accounts.\n"
+   "defaults\n"
+   "auth               on\n"
+   "tls                on\n"
+   "tls_starttls       off\n"
+   "logfile            ~/.msmtp.log\n"
+   "\n"
+   "# Gmail - cdr255\n"
+   "account        gmail-cdr255\n"
+   "from           cdr255@gmail.com\n"
+   "host           smtp.gmail.com\n"
+   "port           465\n"
+   "user           cdr255@gmail.com\n"
+   "domain         gmail.com\n"
+   "passwordeval   \"pass offlineimap/cdr255@gmail.com | head -n1\"\n"
+   "\n"
+   "\n"
+   "# Gmail - yewscion\n"
+   "account        gmail-yewscion\n"
+   "from           yewscion@gmail.com\n"
+   "host           smtp.gmail.com\n"
+   "port           465\n"
+   "user           yewscion@gmail.com\n"
+   "domain         gmail.com\n"
+   "passwordeval   \"pass offlineimap/yewscion@gmail.com | head -n1\"\n"
+   "\n"
+   "\n"
+   "# csuglobal - christopher.rodriguez\n"
+   "account        csuglobal\n"
+   "from           christopher.rodriguez@csuglobal.edu\n"
+   "host           smtp.gmail.com\n"
+   "port           465\n"
+   "user           christopher.rodriguez@csuglobal.edu\n"
+   "domain         gmail.com\n"
+   "passwordeval \n"
+   "\"pass offlineimap/christopher.rodriguez@csuglobal.edu | head -n1\"\n"
+   "\n"
+   "# amazon - rodnchr\n"
+   "account amazon\n"
+   "from rodnchr@amazon.com\n"
+   "host ballard.amazon.com\n"
+   "port 1587\n"
+   "user ANT\\rodnchr\n"
+   "domain amazon.com\n"
+   "tls_starttls on\n"
+   "passwordeval   \"pass amazon | head -n1\"\n"
+   "\n"
+   "# # Set a default account\n"
+   "# account default : gmail-cdr255\n"
+))
 (define my-function-dir-git-branch
   (string-append "dir-git-branch() {\n"
                  "    git branch 2>/dev/null | \\\n"
                  "        grep \"^*\" | \\\n"
                  "        sed 's/* /</;s/$/> /'\n"
                  "}\n"))
-
-(define my-bash-profile
-  (string-append my-function-dir-git-branch
-                 "case \"$TERM\" in\n"
-                 "    \"dumb\")\n"
-                 "        export PS1=\"> \"\n"
-                 "        ;;\n"
-                 "    xterm*|rxvt*|eterm*|screen*)\n"
-                 "        tty -s && export PS1=\""
-                 my-ps1-prompt
-                 "\"\n"
-                 "        ;;\n"
-                 "esac\n"))
 (define my-bashrc
   (format #f "~@{~a~^ ~}"
           "shopt -s"
@@ -139,7 +127,20 @@ passwordeval   \"pass amazon | head -n1\"
   (string-append "nm-switch() {\n"
                  "    nmcli connection up id \"$1\" && \\\n"
                  "        nmcli connection show --active\n"
-                 "}"))
+                 "}\n"))
+(define my-bash-profile
+  (string-append my-function-dir-git-branch
+                 my-function-nm-switch
+                 "case \"$TERM\" in\n"
+                 "    \"dumb\")\n"
+                 "        export PS1=\"> \"\n"
+                 "        ;;\n"
+                 "    xterm*|rxvt*|eterm*|screen*)\n"
+                 "        tty -s && export PS1=\""
+                 my-ps1-prompt
+                 "\"\n"
+                 "        ;;\n"
+                 "esac\n"))
 (define my-nm-amzn-internet
   "nm-switch amzn-internet")
 (define my-nm-asin324
@@ -594,6 +595,7 @@ passwordeval   \"pass amazon | head -n1\"
                "guile"
                "guile-bash"
                "guile-chickadee"
+               "guile-colorized"
                "guile-git"
                "guile-ncurses"
                "guile-readline"
@@ -696,6 +698,7 @@ passwordeval   \"pass amazon | head -n1\"
                "texlive-generic-iftex"
                "texlive-generic-xstring"
                "texlive-ifmtarg"
+               "texlive-kpathsea"
                "texlive-latex-catchfile"
                "texlive-latex-cleveref"
                "texlive-latex-comment"
@@ -727,6 +730,7 @@ passwordeval   \"pass amazon | head -n1\"
                "texlive-latex-upquote"
                "texlive-latex-xkeyval"
                "texlive-latex-xpatch"
+               "texlive-libkpathsea"
                "texlive-listings"
                "texlive-lm"
                "texlive-luaotfload"
@@ -798,16 +802,27 @@ passwordeval   \"pass amazon | head -n1\"
                  ("EDITOR" . "emacsclient")))
               (guix-defaults? #t)
               (package bash)))
-         (simple-service 'test-config
+         (simple-service 'dotfiles
                          home-files-service-type
-                         (list `("config/shepherd/init.scm"
+                         (list `(".config/shepherd/init.scm"
                                  ,(plain-file "user-shepherd-init.scm"
                                               my-shepherd-init))
-                               `("config/shepherd/services.scm"
+                               `(".config/shepherd/services.scm"
                                  ,(plain-file "user-shepherd-services.scm"
                                               my-shepherd-services))
-                               `("msmtprc"
+                               `(".msmtprc"
                                  ,(plain-file "msmtprc"
-                                              my-msmtprc)))))))
-
-
+                                              my-msmtprc))
+                               `(".emacs.d/init.el"
+                                 ,(local-file "dotfiles/emacs-config.el"))
+                               `(".emacs.d/library-of-babel.org"
+                                 ,(local-file "dotfiles/library-of-babel.org"))
+                               `(".emacs.d/lisp"
+                                 ,(local-file "dotfiles/local-elisp"
+                                              #:recursive? #true))
+                               `(".emacs.d/templates"
+                                 ,(local-file "dotfiles/textfile-templates"
+                                              #:recursive? #true))
+                               `(".Xresources"
+                                 ,(local-file "dotfiles/.Xresources" "xresources"
+                                              #:recursive? #true)))))))

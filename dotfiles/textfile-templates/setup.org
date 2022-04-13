@@ -1,0 +1,21 @@
+#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+options: author:t broken-links:nil c:nil creator:nil
+#+options: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
+#+options: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+options: timestamp:t title:t toc:t todo:t |:t
+#+options: html-preamble:nil html-scripts:nil html-style:nil
+#+options: html-link-use-abs-url:nil html-postamble:nil
+#+options: html5-fancy:nil tex:t
+#+author: Christopher Rodriguez
+#+email: yewscion@gmail.com
+#+language: en
+#+select_tags: export yup
+#+exclude_tags: noexport nope
+#+property: header-args :mkdirp yes :results output verbatim
+#+property: header-args:text :eval never
+#+property: header-args:markdown :eval never
+#+property: header-args:fundamental :eval never
+#+property: header-args:lisp :noweb yes :mkdirp yes
+#+property: header-args:scheme :noweb yes :mkdirp yes :session GUILE
+#+property: header-args:dot :cmd sfdp :mkdirp yes
+#+property: header-args:bash :dir ~ :shebang #!/usr/bin/env -S bash -i

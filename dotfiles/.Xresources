@@ -1,0 +1,61 @@
+!! Color Scheme is /collection/s3r0-modified from terminal.sexy
+! special
+*.foreground:   #e1e1e0
+*.background:   #2d3743
+*.cursorColor:  #e1e1e0
+
+! black
+*.color0:       #2d3743
+*.color8:       #2d3743
+
+! red
+*.color1:       #ff4242
+*.color9:       #ff4242
+
+! green
+*.color2:       #338f86
+*.color10:      #338f86
+
+! yellow
+*.color3:       #ffad29
+*.color11:      #ffad29
+
+! blue
+*.color4:       #34cae2
+*.color12:      #34cae2
+
+! magenta
+*.color5:       #ee7ae9
+*.color13:      #ee7ae9
+
+! cyan
+*.color6:       #e67128
+*.color14:      #e67128
+
+! white
+*.color7:       #e1e1e0
+*.color15:      #e1e1e0
+
+!! rxvt-unicode stuff
+URxvt*borderColor: #28211c
+URxvt.font: xft:FreeMono:size=11
+URxvt.boldFont: xft:FreeMono:size=11
+URxvt.italicFont: xft:FreeMono:size=11
+URxvt.boldItalicfont: xft:FreeMono:size=11
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 4
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 20480
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 24
+URxvt.iso14755: false
+URxvt.scrollTtyOutput: false
+URxvt*print-pipe: cat > $HOME/Downloads/$(date --iso-8601=s | sed 's/://g').urxvt.out
+URxvt.loginShell: true
+XTerm.metaSendsEscape: true
+URxvt.altSendsEscape: true
