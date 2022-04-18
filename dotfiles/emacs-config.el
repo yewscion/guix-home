@@ -568,6 +568,13 @@ even beep.)"
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/scheme-docstring.txt"))
 
+(defun cdr:edit-region-as-org ()
+  "Create an indirect buffer for a region's content, and switch to Org Mode."
+  (interactive)
+  (edit-indirect-region (region-beginning) (region-end) t)
+  (beginning-of-line)
+  (org-mode))
+
 (defun cdr:edit-email-as-org ()
   "Create an indirect buffer for an Email Message's content, and switch to Org Mode."
   (interactive)
@@ -853,13 +860,33 @@ even beep.)"
 ;;; Load the Library
 (org-babel-lob-ingest "~/.emacs.d/library-of-babel.org")
 
-;; Make it so code blocks in Org Babel Behave Consistently.
+;;; Make it so code blocks in Org Babel Behave Consistently.
 (setq org-src-preserve-indentation t)
 
+;;; LSP stuff
+
+(setq lsp-headerline-breadcrumb-enable-symbol-numbers t
+      lsp-headerline-breadcrumb-icons-enable nil
+      lsp-modeline-code-action-fallback-icon "⚕"
+      lsp-progress-function 'lsp-on-progress-legacy
+      lsp-progress-via-spinner nil
+      lsp-server-trace "verbose"
+      lsp-ui-doc-enable t
+      lsp-ui-doc-header nil
+      lsp-ui-doc-position 'at-point
+      lsp-ui-doc-show-with-cursor t
+      lsp-ui-doc-show-with-mouse nil
+      lsp-ui-doc-use-childframe t
+      lsp-ui-doc-use-webkit t)
+
+;;; Ebib
 (setq ebib-bibtex-dialect 'biblatex
       ebib-preload-bib-files '("~/Documents/biblio/main.bib")
       ebib-reading-list-file "~/Documents/org/data/reading-list.org"
-      ebib-file-associations '())
+      ebib-file-associations '()
+      ebib-hidden-fields
+      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor" "booksubtitle" "booktitleaddon" "commentator" "edition" "editora" "editorb" "editorc" "eid" "eventdate" "eventtitle" "foreword" "holder" "howpublished" "introduction" "isrn" "issuesubtitle" "issuetitle" "issuetitleaddon" "journaltitleadddon" "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon" "month" "pagetotal" "part" "primaryclass" "remark" "subtitle" "titleaddon" "translator" "venue" "version" "volumes")
+      ebib-use-timestamp t)
 
 (setq org-cite-global-bibliography
       '("~/Documents/biblio/main.bib"))
@@ -988,6 +1015,40 @@ even beep.)"
                     :height 110
                     :weight 'normal
                     :width 'normal)
+(set-face-attribute 'header-line nil
+                    :background "#808080"
+                    :foreground "#333333"
+                    :family "unifont")
+(set-face-attribute 'mode-line nil
+                    :background "#212931"
+                    :foreground "#eeeeec"
+                    :family "unifont")
+(set-face-attribute 'org-mode-line-clock nil
+                    :inherit 'header-line)
+(set-face-attribute 'term-color-black nil
+                    :background "#2d3743"
+                    :foreground "#2d3743")
+(set-face-attribute 'term-color-blue nil
+                    :background "#34cae2"
+                    :foreground "#34cae2")
+(set-face-attribute 'term-color-cyan nil
+                    :background "#e67128"
+                    :foreground "#e67128")
+(set-face-attribute 'term-color-green nil
+                    :background "#338f86"
+                    :foreground "#338f86")
+(set-face-attribute 'term-color-magenta nil
+                    :background "#ee7ae7"
+                    :foreground "#ee7ae7")
+(set-face-attribute 'term-color-red nil
+                    :background "#ff4242"
+                    :foreground "#ff4242")
+(set-face-attribute 'term-color-white nil
+                    :background "#e1e1e0"
+                    :foreground "#e1e1e0")
+(set-face-attribute 'term-color-yellow nil
+                    :background "#ffad29"
+                    :foreground "#ffad29")
 
 ;;; Set Up UI
 (when (display-graphic-p)
@@ -1068,17 +1129,54 @@ even beep.)"
  10000)
 
 ;;; Header Line Format
+
 (setq emms-mode-line-cycle-current-title-function
       'cdr:emms-describe-track)
 
 (pinentry-start)
 
+(setq show-paren-mode t
+      term-buffer-maximum-size 16384
+      term-set-terminal-size t
+      titlecase-style 'apa
+      user-full-name "Christopher Rodriguez"
+      vterm-kill-buffer-on-exit nil
+      vterm-shell "bash"
+      comint-use-prompt-regexp t
+      scroll-preserve-screen-position t
+      inf-janet-program "janet -s")
+
+
+(pdf-tools-install)
+
+;;; Printing PDFs      
+
+(setq pdf-misc-print-program-args
+      '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
+      pdf-misc-print-program-executable "/usr/bin/lpr")
+
+;;; Elfeed
+
+(setq elfeed-feeds
+      '("https://jany.st/rss.xml"
+        "https://alhassy.github.io/rss.xml"
+        "http://retro-style.software-by-mabe.com/blog-atom-feed"
+        "https://freedom-to-tinker.com/feed/rss/"
+        "https://planet.lisp.org/rss20.xml"
+        "https://ambrevar.xyz/atom.xml"
+        "https://andysalerno.com/index.xml"
+        "https://p6steve.wordpress.com/rss"
+        "https://yewscion.com/feed.xml"
+        "https://blog.tecosaur.com/tmio/rss.xml"))
+
 ;; Maps
 
 ;;; Prefixes
+
 (define-prefix-command 'template-map)
 (define-prefix-command 'subprocess-map)
 (define-prefix-command 'process-buffer-map)
+(define-prefix-command 'transform-map)
 
 ;;; Template Map
 
@@ -1092,10 +1190,17 @@ even beep.)"
 
 (define-key subprocess-map (kbd "s") #'slime)
 (define-key subprocess-map (kbd "c") #'cider)
-(define-key subprocess-map (kbd "r") #'inf-ruby)
+(define-key subprocess-map (kbd "g") #'run-guile)
+(define-key subprocess-map (kbd "p") #'run-python)
+(define-key subprocess-map (kbd "C-p") #'run-prolog)
+(define-key subprocess-map (kbd "j") #'run-janet)
+(define-key subprocess-map (kbd "C-g") #'run-geiser)
+(define-key subprocess-map (kbd "v") #'vterm)
+(define-key subprocess-map (kbd "r") #'run-ruby)
 (define-key subprocess-map (kbd "e") #'eshell)
+(define-key subprocess-map (kbd "l") #'lsp)
 
-;;; CM Map
+;;; Process Buffer Map
 
 (define-key process-buffer-map (kbd "C-w") #'org-copy-src-block)
 (define-key process-buffer-map (kbd "C-n") #'orgy-cm-step-next)
@@ -1103,27 +1208,37 @@ even beep.)"
 (define-key process-buffer-map (kbd "w") #'whitespace-report)
 (define-key process-buffer-map (kbd "c") #'whitespace-cleanup)
 
+;;; Transform Map
+(define-key transform-map (kbd "r") #'replace-string)
+(define-key transform-map (kbd "C-r") #'replace-regexp)
+(define-key transform-map (kbd "o") #'cdr:edit-region-as-org)
+(define-key transform-map (kbd "u") #'upcase-dwim)
+(define-key transform-map (kbd "d") #'downcase-dwim)
+(define-key transform-map (kbd "t") #'titlecase-dwim)
+(define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
+
+
 ;; Keys
 
 ;;; Function (Major Modes)
 
-                                        ;(global-set-key (kbd "<f1>") nil) ; Help prefix
-                                        ;(global-set-key (kbd "<f2>") nil) ; 2 Column prefix
-                                        ;(global-set-key (kbd "<f3>") nil) ; Define Macros
-                                        ;(global-set-key (kbd "<f4>") nil) ; Run Macro
+;(global-set-key (kbd "<f1>") nil) ; Help prefix
+;(global-set-key (kbd "<f2>") nil) ; 2 Column prefix
+;(global-set-key (kbd "<f3>") nil) ; Define Macros
+;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
 (global-set-key (kbd "<f7>") 'mastodon)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
-                                        ; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
-                                        ; (global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
+; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
+; (global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
 (global-set-key (kbd "<f12>") 'forms-mode)
 
 ;;; Ctrl Function (Maps)
 
 ;; (global-set-key (kbd "C-<f1>") nil)
-;; (global-set-key (kbd "C-<f2>") nil)
+(global-set-key (kbd "C-<f2>") 'transform-map)
 (global-set-key (kbd "C-<f3>") 'process-buffer-map)
 (global-set-key (kbd "C-<f4>") 'subprocess-map)
 (global-set-key (kbd "C-<f5>") 'template-map)
