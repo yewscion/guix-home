@@ -84,7 +84,7 @@
    "port           465\n"
    "user           christopher.rodriguez@csuglobal.edu\n"
    "domain         gmail.com\n"
-   "passwordeval \n"
+   "passwordeval "
    "\"pass offlineimap/christopher.rodriguez@csuglobal.edu | head -n1\"\n"
    "\n"
    "# amazon - rodnchr\n"
@@ -825,4 +825,10 @@
                                               #:recursive? #true))
                                `(".Xresources"
                                  ,(local-file "dotfiles/.Xresources" "xresources"
+                                              #:recursive? #true))
+                               `(".config/mc/ini"
+                                 ,(local-file "dotfiles/mc.ini" "mc-ini"
+                                              #:recursive? #true))
+                               `(".gitconfig"
+                                 ,(local-file "dotfiles/gitconfig" "gitconfig"
                                               #:recursive? #true)))))))
