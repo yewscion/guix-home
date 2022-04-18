@@ -744,6 +744,7 @@
                "timidity++"
                "tintin++"
                "tree"
+               "universal-ctags"
                "uxn"
                "valgrind"
                "virt-manager"
