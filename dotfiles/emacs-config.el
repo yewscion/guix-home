@@ -1141,7 +1141,7 @@ even beep.)"
       titlecase-style 'apa
       user-full-name "Christopher Rodriguez"
       vterm-kill-buffer-on-exit nil
-      vterm-shell "bash"
+      vterm-shell "bash -l"
       comint-use-prompt-regexp t
       scroll-preserve-screen-position t
       inf-janet-program "janet -s")
