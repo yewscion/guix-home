@@ -1158,16 +1158,22 @@ even beep.)"
 ;;; Elfeed
 
 (setq elfeed-feeds
-      '("https://jany.st/rss.xml"
-        "https://alhassy.github.io/rss.xml"
-        "http://retro-style.software-by-mabe.com/blog-atom-feed"
-        "https://freedom-to-tinker.com/feed/rss/"
-        "https://planet.lisp.org/rss20.xml"
-        "https://ambrevar.xyz/atom.xml"
-        "https://andysalerno.com/index.xml"
-        "https://p6steve.wordpress.com/rss"
-        "https://yewscion.com/feed.xml"
-        "https://blog.tecosaur.com/tmio/rss.xml"))
+      '(("https://jany.st/rss.xml" tech hardware)
+       ("https://alhassy.github.io/rss.xml" tech code lisp cl)
+       ("http://retro-style.software-by-mabe.com/blog-atom-feed" tech code lisp cl)
+       ("https://freedom-to-tinker.com/feed/rss/" tech policy)
+       ("https://planet.lisp.org/rss20.xml" tech code lisp cl)
+       ("https://andysalerno.com/index.xml" tech)
+       ("https://yewscion.com/feed.xml" personal tech code)
+       ("https://blog.tecosaur.com/tmio/rss.xml" tech emacs org-mode)
+       ("https://guix.gnu.org/feeds/blog.atom" tech gnu guix lisp scheme guile)
+       ("https://www.webtoons.com/en/challenge/the-prettiest-platypus/rss?title_no=463063" comic trans)
+       ("https://xkcd.com/atom.xml" comic)
+       ("https://www.questionablecontent.net/QCRSS.xml" comic nsfw)
+       ("https://somethingpositive.net/feed/" comic nsfw)
+       ("https://www.gnu.org/software/guile/news/feed.xml" tech code lisp scheme guile)
+       ("https://planet.scheme.org/atom.xml" tech code lisp scheme)
+       ("https://www.wingolog.org/feed/atom" tech code lisp scheme guile)))
 
 ;; Maps
 
