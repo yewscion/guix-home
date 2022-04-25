@@ -223,6 +223,7 @@
                "emacs-bongo"
                "emacs-bui"
                "emacs-caml"
+               "emacs-chess"
                "emacs-cider"
                "emacs-circe"
                "emacs-citar"
@@ -655,6 +656,7 @@
                "picolisp"
                "pinentry-emacs"
                "pkg-config"
+               "plantuml"
                "portmidi"
                "postgresql"
                "python"
@@ -761,6 +763,7 @@
                "which"
                "wireshark"
                "wordnet"
+               "xboard"
                "xdpyprobe"
                "xindy"
                "xmp"
@@ -807,7 +810,8 @@
                  ("HISTCONTROL" . "ignoreboth")
                  ("HISTTIMEFORMAT" . "true")
                  ("PATH" . "$PATH:$HOME/.local/bin")
-                 ("EDITOR" . "emacsclient")))
+                 ("EDITOR" . "emacsclient")
+                 ("TEXMFCACHE" . "$HOME/.local/share/texmf-dist")))
               (guix-defaults? #t)
               (package bash)))
          (simple-service 'dotfiles

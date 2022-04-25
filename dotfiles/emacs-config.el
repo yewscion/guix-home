@@ -75,7 +75,10 @@
 (setq markdown-command "kramdown"
       inferior-lisp-program "sbcl"
       inferior-julia-program-name "julia"
-      geiser-default-implementation 'guile)
+      geiser-default-implementation 'guile
+      python-shell-interpreter "python3"
+      inf-janet-program "janet -s")
+
 (setq-default geiser-scheme-implementation 'guile)
 
 ;;; i-ching-mode
@@ -83,8 +86,9 @@
 
 ;;; plantuml-mode
 (setq
- plantuml-default-exec-mode 'jar
- plantuml-jar-path "~/.local/share/plantuml.jar")
+ plantuml-default-exec-mode 'executable
+ plantuml-jar-path "~/.guix-home/profile/bin/plantuml"
+ plantuml-output-type "svg")
 
 ;;; httpd config
 (setq httpd-port 8888)
@@ -600,6 +604,81 @@ even beep.)"
   (if (y-or-n-p "Send Email?")
       (message-send-and-exit)
     (message "Email not Sent.")))
+;;; Convert Lwarp HTML to copyable discussion post HTML
+(defun cdr:prep-latex-for-copy ()
+  "Remove parts of the generated HTML from lwarp that I don't
+need, and move the anchors to the correct places."
+  (interactive)
+  (cdr:prep-latex-for-copy-remove-mathjax)
+  (cdr:prep-latex-for-copy-remove-ambles)
+  (condition-case nil
+      (while t
+        (cdr:prep-latex-for-copy-move-id))
+    (error nil))
+  (goto-char (point-max))
+  (insert "</section>")
+  (condition-case nil
+      (while t
+        (cdr:prep-latex-for-copy-remove-empty-anchor))
+    (error nil))
+  (cdr:prep-latex-for-copy-remove-title-page))
+
+(defun cdr:prep-latex-for-copy-remove-ambles ()
+  "Remove the stuff before and after the content of our HTML."
+  (goto-char (point-min))
+  (search-forward "<section class=\"textbody\" >")
+  (beginning-of-line)
+  (delete-region (point-min) (point))
+  (goto-char (point-max))
+  (search-backward "</section>")
+  (end-of-line 2)
+  (delete-region (point) (point-max))
+  (goto-char (point-min)))
+(defun cdr:prep-latex-for-copy-remove-mathjax ()
+  "Remove the MathJax customizations from lwarp's HTML output."
+  (goto-char (point-min))
+  (search-forward "<!--MathJax customizations:-->")
+  (end-of-line 0)
+  (let ((start (point)))
+    (search-forward "<div class=\"titlepage\" >")
+    (end-of-line -1)
+    (delete-region start (point)))
+  (goto-char (point-min)))
+(defun cdr:prep-latex-for-copy-move-id ()
+  "Move an HTML ID to the p tag below it."
+  (goto-char (point-min))
+  (search-forward ">References</h4>")
+  (search-forward "<li>
+<a id=")
+  (let ((start (point)))
+    (forward-char 1)
+    (search-forward "\"")
+    (kill-region start (point))
+    (delete-region (line-beginning-position)
+                   (line-end-position)))
+  (search-forward "<p>")
+  (forward-char -1)
+  (insert " id=")
+  (yank)
+  (goto-char (point-min)))
+(defun cdr:prep-latex-for-copy-remove-title-page ()
+  "Remove the title page from lwarp's HTML output."
+  (goto-char (point-min))
+  (search-forward "<div class=\"titlepage\" >")
+  (beginning-of-line)
+  (let ((start (point)))
+    (search-forward "</div>
+
+</div>")
+    (delete-region start (point)))
+  (goto-char (point-min)))
+(defun cdr:prep-latex-for-copy-remove-empty-anchor ()
+  "Remove one of the anchor inserted by lwarp with no display content."
+  (goto-char (point-min))
+  (search-forward-regexp "<a id=\".+\"></a>")
+  (delete-region (line-beginning-position)
+                 (line-end-position))
+  (goto-char (point-min)))
 
 ;;; Skeletons
 (define-skeleton hog-skeleton
@@ -956,7 +1035,7 @@ even beep.)"
            :match-func (lambda (msg)
                          (when msg
                            (string-match-p "^/csuglobal" (mu4e-message-field msg :maildir))))
-           :vars '( ( user-mail-address	     . "christopher.rodriguez@csuglobal.com" )
+           :vars '( ( user-mail-address	     . "christopher.rodriguez@csuglobal.edu" )
                     ( user-full-name	     . "Christopher Rodriguez" )
                     ( mu4e-compose-signature  .
                       (concat
@@ -1049,6 +1128,14 @@ even beep.)"
 (set-face-attribute 'term-color-yellow nil
                     :background "#ffad29"
                     :foreground "#ffad29")
+(require 'projectile)
+;;; Projectile
+(projectile-register-project-type 'genpro '(".metadata")
+                                  :project-file ".metadata"
+				  :compile "genpro -p")
+
+(setq projectile-track-known-projects-automatically nil)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 
 ;;; Set Up UI
 (when (display-graphic-p)
@@ -1143,8 +1230,7 @@ even beep.)"
       vterm-kill-buffer-on-exit nil
       vterm-shell "bash -l"
       comint-use-prompt-regexp t
-      scroll-preserve-screen-position t
-      inf-janet-program "janet -s")
+      scroll-preserve-screen-position t)
 
 
 (pdf-tools-install)
