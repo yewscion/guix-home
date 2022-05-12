@@ -15,3 +15,53 @@
          <title>%s</title>
        </head>" canonical title)
 #+end_src
+
+#+name: tower-read-pdf-metadata 
+#+begin_src elisp :var file="file-not-entered.pdf" :results list
+(cond ((string= file "file-not-entered.pdf")
+       '("Please define the file to be worked on."
+       " "
+       "The function should be called like:"
+       " "
+       "tower-read-pdf-metadata(file=<name-of-file>)"
+       " "
+       "Where <name-of-file> is the name of the file to read."))
+      (t
+       (let ((filename (concat
+                        (getenv "HOME")
+                        "/"
+                        (replace-regexp-in-string "\n\\'" "" file))))
+         (exiftool-read filename))))
+#+end_src
+
+#+name: tower-change-pdf-metadata
+#+begin_src elisp :var input='(("Title" . "Untested") ("Author" . "No One")) key="key-not-entered  val="val-not-entered"
+(setf (alist-get key input) val)
+#+end_src
+
+#+name: tower-write-pdf-metadata
+#+begin_src elisp :var file="file-not-entered.pdf" key="key-not-entered" val="val-not-entered" :results list
+(cond ((or (string= file "file-not-entered.pdf")
+           (string= key "key-not-entered")
+           (string= val "val-not-entered"))
+       '("Please define the values to be worked on."
+         " "
+         "The function should be called like:"
+         " "
+         "tower-write-pdf-metadata(file=<name-of-file>, key=<key>, val=<val>)"
+         " "
+         "Where <name-of-file> is the name of the file to read,"
+         "<key> is the key to update, and <val> is the value to store there."))
+      (t (let ((pair (cons
+                         (replace-regexp-in-string "\n\\'" "" key)
+                         (replace-regexp-in-string "\n\\'" "" val)))
+                  (filename (concat
+                             (getenv "HOME")
+                             "/"
+                             (replace-regexp-in-string "\n\\'" "" file))))
+              (exiftool-write
+               filename
+               pair))))
+#+end_src
+
+

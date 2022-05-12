@@ -89,6 +89,8 @@
  plantuml-default-exec-mode 'executable
  plantuml-jar-path "~/.guix-home/profile/bin/plantuml"
  plantuml-output-type "svg")
+(setenv "JAVA_TOOL_OPTIONS")
+
 
 ;;; httpd config
 (setq httpd-port 8888)
@@ -125,8 +127,11 @@
 
 (setq Info-additional-directory-list '("~/.local/share/info"))
 
+;;; TeX
 (setq-default TeX-engine 'luatex)
+(setenv "TEXMFCACHE" "$HOME/.local/share/texmf-dist" t)
 
+;;; Load Local Custom
 (load "~/.emacs.d/custom.el")
 
 ;;; Functions
@@ -571,6 +576,10 @@ even beep.)"
   "Inserts a docstring at the current position."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/scheme-docstring.txt"))
+(defun cdr:templates-insert-org-header ()
+  "Inserts my org header at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/header.org"))
 
 (defun cdr:edit-region-as-org ()
   "Create an indirect buffer for a region's content, and switch to Org Mode."
@@ -1232,6 +1241,9 @@ need, and move the anchors to the correct places."
       comint-use-prompt-regexp t
       scroll-preserve-screen-position t)
 
+;;; Zone Mode - Screensaverlike
+(require 'zone)
+(zone-when-idle 120)
 
 (pdf-tools-install)
 
