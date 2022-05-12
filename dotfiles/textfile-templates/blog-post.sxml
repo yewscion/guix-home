@@ -4,8 +4,8 @@
   (let
                                                   ; Any Links should be bound to
                                                   ; symbols here.
-      (()
-       ())
+      ((blog "https://yewscion.com")
+       (home "https://cdr255.com"))
                                                   ; Reference these below with
                                                   ; ,(anchor "text" symbol)
     
@@ -25,6 +25,17 @@
                                                   ; link symbols above. And
                                                   ; remember to escape all
                                                   ; double-quotes!
-       ))))
+       (p "Introduction Paragraph"
+          ,(endnote 1))
+       (h2 "First Header")
+       ,(codeblock "scheme"
+                   "(display \"Hello world!\")")
+       (p "First Header Paragraph")
+       (hr)
+       (section (@ (class "endnotes"))
+                (p (@ (id "en1"))
+                   (a (@ (href "#r1")) "[1]")": "
+                   "First Endnote")
+                )))))
 
 
