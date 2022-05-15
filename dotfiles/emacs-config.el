@@ -580,6 +580,22 @@ even beep.)"
   "Inserts my org header at the current position."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/header.org"))
+(defun cdr:templates-insert-bib-annotation ()
+  "Inserts my biblatex annotation template at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/bib-annotation.txt"))
+(defun cdr:templates-insert-blog-post ()
+  "Inserts my blog post template at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/blog-post.sxml"))
+(defun cdr:templates-insert-scm-project ()
+  "Inserts my scheme project template at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/scheme-project.org"))
+(defun cdr:templates-insert-setup ()
+  "Inserts my org setup file at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/setup.org"))
 
 (defun cdr:edit-region-as-org ()
   "Create an indirect buffer for a region's content, and switch to Org Mode."
@@ -1284,11 +1300,12 @@ need, and move the anchors to the correct places."
 
 ;;; Template Map
 
-(define-key template-map (kbd "s") #'orgy-setup-cm-step)
-(define-key template-map (kbd "h") #'hog-skeleton)
-(define-key template-map (kbd "m") #'teammeeting-skeleton)
-(define-key template-map (kbd "w") #'orgy-kill-cm-for-hog)
 (define-key template-map (kbd "d") #'cdr:templates-insert-scm-docstring)
+(define-key template-map (kbd "b") #'cdr:templates-insert-bib-annotation)
+(define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
+(define-key template-map (kbd "h") #'cdr:templates-insert-org-header)
+(define-key template-map (kbd "C-s") #'cdr:templates-insert-scm-project)
+(define-key template-map (kbd "s") #'cdr:templates-insert-setup)
 
 ;;; Subprocess Map
 
