@@ -596,6 +596,14 @@ even beep.)"
   "Inserts my org setup file at the current position."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/setup.org"))
+(defun cdr:templates-insert-latex-figure-image ()
+  "Inserts the boilerplate for an image figure in LaTeX."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/latex-figure-image.tex"))
+(defun cdr:templates-insert-latex-figure-list ()
+  "Inserts the boilerplate for a list figure in LaTeX."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/latex-figure-list.tex"))
 
 (defun cdr:edit-region-as-org ()
   "Create an indirect buffer for a region's content, and switch to Org Mode."
@@ -704,6 +712,15 @@ need, and move the anchors to the correct places."
   (delete-region (line-beginning-position)
                  (line-end-position))
   (goto-char (point-min)))
+(defun cdr:cleanup-script-output ()
+  "Remove Unneeded codes from the output of the Unix script
+command. Relies on GNU sed."
+  (interactive)
+  (shell-command-on-region
+   (point-min)
+   (point-max)
+   "sed 's/\\x1b\\[[0-9;]*[a-zA-Z]//g;s/\\x1b\\[[\\?1-9].....//g;s///g;s///g'"
+   t t))
 
 ;;; Skeletons
 (define-skeleton hog-skeleton
@@ -1306,6 +1323,8 @@ need, and move the anchors to the correct places."
 (define-key template-map (kbd "h") #'cdr:templates-insert-org-header)
 (define-key template-map (kbd "C-s") #'cdr:templates-insert-scm-project)
 (define-key template-map (kbd "s") #'cdr:templates-insert-setup)
+(define-key template-map (kbd "l") #'cdr:templates-insert-latex-figure-image)
+(define-key template-map (kbd "C-l") #'cdr:templates-insert-latex-figure-list)
 
 ;;; Subprocess Map
 
