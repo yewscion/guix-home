@@ -129,19 +129,6 @@
                  "    nmcli connection up id \"$1\" && \\\n"
                  "        nmcli connection show --active\n"
                  "}\n"))
-(define my-bash-profile
-  (string-append my-function-dir-git-branch
-                 my-function-nm-switch
-                 "case \"$TERM\" in\n"
-                 "    \"dumb\")\n"
-                 "        export PS1=\"> \"\n"
-                 "        ;;\n"
-                 "    xterm*|rxvt*|eterm*|screen*)\n"
-                 "        tty -s && export PS1=\""
-                 my-ps1-prompt
-                 "\"\n"
-                 "        ;;\n"
-                 "esac\n"))
 (define my-nm-amzn-internet
   "nm-switch amzn-internet")
 (define my-nm-asin324
@@ -175,6 +162,20 @@
                  "    log-guix-state \| \\\\n"
                  "    tee \"$HOME/.local/var/logs/guix/"
                  "$timestamp-post-update.log\n}\n"))
+(define my-bash-profile
+  (string-append my-function-dir-git-branch
+                 my-function-nm-switch
+                 my-function-daily-update-guix
+                 "case \"$TERM\" in\n"
+                 "    \"dumb\")\n"
+                 "        export PS1=\"> \"\n"
+                 "        ;;\n"
+                 "    xterm*|rxvt*|eterm*|screen*)\n"
+                 "        tty -s && export PS1=\""
+                 my-ps1-prompt
+                 "\"\n"
+                 "        ;;\n"
+                 "esac\n"))
 ;;; Grouping Packages By Type
 
 ;;;; Graveyard
@@ -190,7 +191,8 @@
                                         ; emacs-request - same
 ; emacs-list-utils - similar error to deferred, except it crashed the build.
                                         ; emacs-elisp-refs - list-utils
-; emacs-elm-mode
+					; emacs-elm-mode
+					; maven - build error (temp removal)
 
 ;;;; Emacs
 (define my-emacs-packages (list "emacs" "emacs-alert" "emacs-anaphora"
@@ -306,7 +308,7 @@
 "esbuild" "exercism" "gauche" "git" "git:send-email" "graphviz" "guildhall"
 "guile" "guile-bash" "guile-chickadee" "guile-colorized" "guile-git"
 "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk" "icedtea:doc"
-"janet" "java-bsh" "maven" "make" "mit-scheme" "mit-scheme:doc" "mono"
+"janet" "java-bsh" "make" "mit-scheme" "mit-scheme:doc" "mono"
 "nasm" "ncurses" "newlisp" "newt" "perl" "perl-image-exiftool" "php" "picolisp"
 "pkg-config" "plantuml" "portmidi" "python" "python-gitinspector"
 "python-lsp-server" "python-pip" "python-pygments"
@@ -330,8 +332,8 @@
 "genpro" "gimp" "gnurobots" "haunt" "hledger" "hledger-ui" "httrack" "inkscape"
 "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack" "nomad"
 "offlineimap3" "orca-lang" "owl-lisp" "pagr" "pandoc" "passwordsafe"
-"talkfilters" "telescope" "timidity++" "tintin++" "uxn" "wesnoth" "xboard" "xmp"
-"yewscion-scripts"))
+"talkfilters" "telescope" "timidity++" "tintin++" "ungoogled-chromium" "uxn" "wesnoth"
+"xboard" "xmp" "xrdb" "yewscion-scripts"))
 (define my-package-list (append my-emacs-packages
                                 my-texlive-packages
                                 my-programming-packages
@@ -382,9 +384,10 @@
                '(("SHELL" . "bash")
                  ("HISTCONTROL" . "ignoreboth")
                  ("HISTTIMEFORMAT" . "true")
-                 ("PATH" . "$HOME/.local/bin:$PATH")
+                 ("PATH" . "$HOME/.local/bin:$PATH:$HOME/.local/npm/bin")
                  ("EDITOR" . "emacsclient")
-                 ("TEXMFCACHE" . "$HOME/.local/share/texmf-dist")))
+                 ("TEXMFCACHE" . "$HOME/.local/share/texmf-dist")
+                 ("PYTHONPYCACHEPREFIX" . "$HOME/.local/share/")))
               (guix-defaults? #t)
               (package bash)))
          (simple-service 'dotfiles

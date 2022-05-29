@@ -927,7 +927,6 @@ command. Relies on GNU sed."
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((abc . t)
-   (ammonite . t)
    (C . t)
    (clojure . t)
    (browser . t)
@@ -964,16 +963,6 @@ command. Relies on GNU sed."
    ))
 (setq org-confirm-babel-evaluate nil)
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-
-;;;; Babel for Scala
-(setq ob-ammonite-prompt-str "scala>") ;; This is the same value as
-;; repl.prompt(), defined in
-;; ~/.ammonite/predef.sc
-;; without trailing
-;; whitespace. E.g.
-;; repl.prompt() = "scala> "
-;; would give You "scala>"
-;; here.
 
 ;;;; Babel for Raku
 (setq org-babel-raku-command "rakudo")
