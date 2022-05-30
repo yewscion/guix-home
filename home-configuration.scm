@@ -147,24 +147,25 @@
                  "    guix describe -f human \| sed -n \"1p\"\n"
                  "    guix describe -f channels\n"
                  "    guix package --export-manifest\n"
-                 "    guix package --list-generations\n}"))
+                 "    guix package --list-generations\n}\n"))
 (define my-function-daily-update-guix
   (string-append "daily-update-guix() {\n"
                  "    timestamp=$(date -Is)\n"
-                 "    mkdir -pv \"$HOME/.local/var/log/guix\""
+                 "    mkdir -pv \"$HOME/.local/var/log/guix\"\n"
                  "    log-guix-state \| \\\n"
                  "    tee \"$HOME/.local/var/log/guix/"
-                 "$timestamp-pre-update.log\"\\\n"
+                 "$timestamp-pre-update.log\"\n"
                  "    guix pull\n"
                  "    guix home reconfigure \\\n"
                  "         $HOME/Documents/guix-home/"
                  "home-configuration.scm\n"
-                 "    log-guix-state \| \\\\n"
-                 "    tee \"$HOME/.local/var/logs/guix/"
+                 "    log-guix-state \| \\\n"
+                 "    tee \"$HOME/.local/var/log/guix/"
                  "$timestamp-post-update.log\"\n}\n"))
 (define my-bash-profile
   (string-append my-function-dir-git-branch
                  my-function-nm-switch
+                 my-function-log-guix-state
                  my-function-daily-update-guix
                  "case \"$TERM\" in\n"
                  "    \"dumb\")\n"
