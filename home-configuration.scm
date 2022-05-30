@@ -161,7 +161,7 @@
                  "home-configuration.scm\n"
                  "    log-guix-state \| \\\\n"
                  "    tee \"$HOME/.local/var/logs/guix/"
-                 "$timestamp-post-update.log\n}\n"))
+                 "$timestamp-post-update.log\"\n}\n"))
 (define my-bash-profile
   (string-append my-function-dir-git-branch
                  my-function-nm-switch
@@ -303,12 +303,12 @@
 "texlive-txfonts" "texlive-varwidth" "texlive-xcolor" "texlive-xifthen"
 "xindy"))
 ;;;; Programming
-(define my-programming-packages (list "adb" "apl" "autoconf" "automake"
+(define my-programming-packages (list "adb" "ant" "apl" "autoconf" "automake"
 "chez-scheme" "chez-scheme:doc" "clisp" "clojure" "cmake" "doxygen" "elm"
 "esbuild" "exercism" "gauche" "git" "git:send-email" "graphviz" "guildhall"
 "guile" "guile-bash" "guile-chickadee" "guile-colorized" "guile-git"
 "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk" "icedtea:doc"
-"janet" "java-bsh" "make" "mit-scheme" "mit-scheme:doc" "mono"
+"janet" "java-bsh" "java-log4j-core" "make" "mit-scheme" "mit-scheme:doc" "mono"
 "nasm" "ncurses" "newlisp" "newt" "perl" "perl-image-exiftool" "php" "picolisp"
 "pkg-config" "plantuml" "portmidi" "python" "python-gitinspector"
 "python-lsp-server" "python-pip" "python-pygments"
@@ -387,7 +387,7 @@
                  ("PATH" . "$HOME/.local/bin:$PATH:$HOME/.local/npm/bin")
                  ("EDITOR" . "emacsclient")
                  ("TEXMFCACHE" . "$HOME/.local/share/texmf-dist")
-                 ("PYTHONPYCACHEPREFIX" . "$HOME/.local/share/")))
+		 ("CLASSPATH" . "$GUIX_PROFILE/share/java")))
               (guix-defaults? #t)
               (package bash)))
          (simple-service 'dotfiles
