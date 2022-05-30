@@ -1107,6 +1107,8 @@ command. Relies on GNU sed."
 
 (setq mail-user-agent (mu4e-user-agent))
 
+;;; Theming and UI
+(require 'eterm-256color)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -1422,7 +1424,7 @@ command. Relies on GNU sed."
 ;; (global-set-key (kbd "s-b") nil)
 ;; (global-set-key (kbd "s-n") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-m") nil) ; GNOME ?
-;; (global-set-key (kbd "s-") nil)
+(global-set-key (kbd "s-;") 'projectile-mode)
 ;; (global-set-key (kbd "s-q") nil)
 ;; (global-set-key (kbd "s-q") nil)
 ;; (global-set-key (kbd "s-q") nil)
@@ -1434,6 +1436,7 @@ command. Relies on GNU sed."
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-;") 'iedit-mode)
 
 ;;; Load Initial File.
 
