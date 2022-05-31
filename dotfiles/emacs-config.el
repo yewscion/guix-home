@@ -32,7 +32,7 @@
 		".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
 		".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
 		".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
-  "xmp" "")
+  "xmp" "--nocmd")
 (define-emms-simple-player adlmidi '(file)
   (regexp-opt '(".mid"))
   "adlmidi-wrapper" "-nl")
@@ -721,6 +721,14 @@ command. Relies on GNU sed."
    (point-max)
    "sed 's/\\x1b\\[[0-9;]*[a-zA-Z]//g;s/\\x1b\\[[\\?1-9].....//g;s///g;s///g'"
    t t))
+(defun cdr:set-variable-from-shell (variable)
+  (let ((path-from-shell
+         (replace-regexp-in-string
+          "[ \t\n]*$"
+          ""
+          (shell-command-to-string
+           (concat "$SHELL --login -c 'echo $'" variable)))))
+    (Setenv variable path-from-shell)))
 
 ;;; Skeletons
 (define-skeleton hog-skeleton
@@ -1166,6 +1174,11 @@ command. Relies on GNU sed."
 (projectile-register-project-type 'genpro '(".metadata")
                                   :project-file ".metadata"
 				  :compile "genpro -p")
+(projectile-register-project-type 'java-ant '("build.xml")
+                                  :project-file "build.xml"
+				  :compile "ant compile"
+                                  :package "ant dist"
+                                  :run "ant run")
 
 (setq projectile-track-known-projects-automatically nil)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -1438,6 +1451,12 @@ command. Relies on GNU sed."
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-;") 'iedit-mode)
 
-;;; Load Initial File.
+;;; Ensure paths are set properly
+(cdr:set-variable-from-shell "HOME")
+(cdr:set-variable-from-shell "PATH")
+(cdr:set-variable-from-shell "CLASSPATH")
+(setq exec-path (split-string (getenv "PATH") path-separator))
 
+;;; Load Initial File.
 (find-file "~/Documents/org/main.org")
+
