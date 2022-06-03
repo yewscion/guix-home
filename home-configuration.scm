@@ -320,7 +320,7 @@
    "guildhall" "guile" "guile-bash" "guile-chickadee" "guile-colorized"
    "guile-git" "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk"
    "icedtea:doc" "janet" "java-bsh" "java-junit" "java-log4j-core" "make"
-   "mit-scheme" "mit-scheme:doc" "mono" "nasm" "ncurses" "newlisp" "newt"
+   "mit-scheme" "mit-scheme:doc" "mono" "nasm" "ncurses" "newlisp" "newt" "node"
    "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "perl" "perl-image-exiftool" "php" "picolisp" "pkg-config" "plantuml"
    "portmidi" "python" "python-gitinspector" "python-lsp-server" "python-pip"
    "python-pygments" "python-pygments-lexer-pseudocode-std" "python-pyqt"
