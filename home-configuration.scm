@@ -315,18 +315,20 @@
   my-programming-packages
   (list
    "adb" "ant" "ant-junit" "apl" "autoconf" "automake" "chez-scheme"
-   "chez-scheme:doc" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen" "dune" "elm" "erlang" "esbuild"
-   "exercism" "fennel" "fnlfmt" "gauche" "gcc-toolchain" "git" "git:send-email" "graphviz"
-   "guildhall" "guile" "guile-bash" "guile-chickadee" "guile-colorized"
-   "guile-git" "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk"
+   "chez-scheme:doc" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen"
+   "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gauche"
+   "gcc-toolchain" "git" "git:send-email" "graphviz" "guildhall" "guile"
+   "guile-bash" "guile-cdr255" "guile-chickadee" "guile-colorized" "guile-git" "guile-hall"
+   "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk"
    "icedtea:doc" "janet" "java-bsh" "java-junit" "java-log4j-core" "make"
    "mit-scheme" "mit-scheme:doc" "mono" "nasm" "ncurses" "newlisp" "newt"
-   "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "perl" "perl-image-exiftool" "php" "picolisp" "pkg-config" "plantuml"
-   "portmidi" "python" "python-gitinspector" "python-lsp-server" "python-pip"
-   "python-pygments" "python-pygments-lexer-pseudocode-std" "python-pyqt"
-   "ruby" "ruby-kramdown" "rust" "sassc" "sbcl"
-   "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-screenshot" "sbcl-zpng"
-   "slang" "swi-prolog" "texinfo" "universal-ctags" "vlang"))
+   "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "perl"
+   "perl-image-exiftool" "php" "picolisp" "pkg-config" "plantuml" "portmidi"
+   "python" "python-lsp-server" "python-pip" "python-pygments"
+   "python-pygments-lexer-pseudocode-std" "python-pyqt" "ruby" "ruby-kramdown"
+   "rust" "sassc" "sbcl" "sbcl-stumpwm-battery-portable"
+   "sbcl-stumpwm-screenshot" "sbcl-zpng" "slang" "swi-prolog" "texinfo"
+   "universal-ctags" "vlang"))
 ;;;; System Stuff
 (define
   my-system-packages
@@ -453,9 +455,6 @@
                               `(".config/stumpwm/window-placement.lisp"
                                 ,(local-file "dotfiles/stumpwm-windows.lisp"
                                              "stumpwm-windows.lisp"
-                                             #:recursive? #true))
-                              `(".gitconfig"
-                                ,(local-file "dotfiles/gitconfig" "gitconfig"
                                              #:recursive? #true))
                               `(".local/bin/u-ctags"
                                 ,(file-append my-u-ctags "/bin/u-ctags")))))))
