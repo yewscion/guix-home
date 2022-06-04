@@ -728,7 +728,7 @@ command. Relies on GNU sed."
           ""
           (shell-command-to-string
            (concat "$SHELL --login -c 'echo $'" variable)))))
-    (Setenv variable path-from-shell)))
+    (setenv variable path-from-shell)))
 
 ;;; Skeletons
 (define-skeleton hog-skeleton

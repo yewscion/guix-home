@@ -63,12 +63,41 @@
            (execl (string-append #$findutils "/bin/updatedb")
                   "updatedb"
                   "--prunepaths=/tmp /var/tmp /gnu/store"))))
+(define %my-keyboard-layout
+  (keyboard-layout "us,apl" #:options
+		   '("ctrl:swapcaps_hyper" "compose:rctrl"
+		     "grp:toggle")))
+(define %my-services (append
+   (list
+    (service gnome-desktop-service-type)
+    (service openssh-service-type
+             (openssh-configuration
+              (password-authentication? #f)
+              (authorized-keys
+               `(("ming" ,%ming-pubkey)
+                 ("git" ,%ming-pubkey)))))
+    (service postgresql-service-type
+             (postgresql-configuration
+              (postgresql postgresql-10)))
+    (service gmnisrv-service-type)
+    (service wesnothd-service-type)
+    (service docker-service-type)
+    (service qemu-binfmt-service-type
+             (qemu-binfmt-configuration
+              (platforms (lookup-qemu-platforms "arm"
+						"aarch64"
+						"risc-v"))))
+    (simple-service 'my-cron-jobs
+		    mcron-service-type
+		    (list updatedb-job))
+    (set-xorg-configuration
+     (xorg-configuration
+      (keyboard-layout %my-keyboard-layout))))
+   %desktop-services))
 (operating-system
  (locale "en_US.utf8")
  (timezone "America/New_York")
- (keyboard-layout (keyboard-layout "us,apl" #:options
-				   '("ctrl:swapcaps_hyper" "compose:rctrl"
-				     "grp:toggle")))
+ (keyboard-layout %my-keyboard-layout)
  (host-name "evvy")
  (users (cons* (user-account
                 (name "ming")
@@ -101,33 +130,15 @@
 	      "stumpwm"))
    %base-packages))
  (services
-  (append
-   (list
-    (service gnome-desktop-service-type)
-    (service openssh-service-type
-             (openssh-configuration
-              (password-authentication? #f)
-              (authorized-keys
-               `(("ming" ,%ming-pubkey)
-                 ("git" ,%ming-pubkey)))))
-    (service postgresql-service-type
-             (postgresql-configuration
-              (postgresql postgresql-10)))
-    (service gmnisrv-service-type)
-    (service wesnothd-service-type)
-    (service docker-service-type)
-    (service qemu-binfmt-service-type
-             (qemu-binfmt-configuration
-              (platforms (lookup-qemu-platforms "arm"
-						"aarch64"
-						"risc-v"))))
-    (simple-service 'my-cron-jobs
-		    mcron-service-type
-		    (list updatedb-job))
-    (set-xorg-configuration
-     (xorg-configuration
-      (keyboard-layout keyboard-layout))))
-   %desktop-services))
+  (modify-services
+   %my-services
+   (guix-service-type
+    config =>
+    (guix-configuration
+     (inherit config)
+     (authorized-keys
+      (append (list (local-file "/etc/cdr255/frostpine.pub"))
+              %default-authorized-guix-keys))))))
  (bootloader
   (bootloader-configuration
    (bootloader grub-bootloader)
