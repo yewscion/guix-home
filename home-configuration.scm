@@ -452,6 +452,9 @@
                               `(".config/stumpwm/config"
                                 ,(local-file "dotfiles/stumpwmrc" "stumpwmrc"
                                              #:recursive? #true))
+                              `(".config/gitconfig.scm"
+                                ,(local-file "dotfiles/gitconfig.scm" "gitconfig-values"
+                                             #:recursive? #true))
                               `(".config/stumpwm/window-placement.lisp"
                                 ,(local-file "dotfiles/stumpwm-windows.lisp"
                                              "stumpwm-windows.lisp"
