@@ -722,6 +722,10 @@ command. Relies on GNU sed."
    "sed 's/\\x1b\\[[0-9;]*[a-zA-Z]//g;s/\\x1b\\[[\\?1-9].....//g;s///g;s///g'"
    t t))
 (defun cdr:set-variable-from-shell (variable)
+  "Pull the value of an environment variable from a newly-spawned
+login shell, and set Emacs' corresponding variable to that
+value."
+  (interactive)
   (let ((path-from-shell
          (replace-regexp-in-string
           "[ \t\n]*$"
@@ -729,6 +733,121 @@ command. Relies on GNU sed."
           (shell-command-to-string
            (concat "$SHELL --login -c 'echo $'" variable)))))
     (setenv variable path-from-shell)))
+(defun cdr:readme-guix-instructions (project)
+  "Templating function for the 'Guix' section of my README.md files."
+  (interactive)
+   (concat
+    "*** GNU Guix\n\n"
+    "If You use [[https://guix.gnu.org/][GNU Guix]], this package \n"
+    "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]. \n\n"
+    "Once You have it "
+    "set up, You can just run:\n\n"
+    "#+begin_src bash\n"
+    "guix pull\n"
+    "guix install "
+    project
+    "\n"
+    "#+end_src\n\n"
+    "If You just want to try it out, You can use Guix Shell instead:\n\n"
+    "#+begin_src bash\n"
+    "guix shell "
+    project
+    " bash --pure\n"
+    "#+end_src\n\n"
+    "And if You'd rather just try it out "
+    "without my channel, You can clone this\nrepo and then do:\n"
+    "#+begin_src bash\n"
+    "cd "
+    project
+    "\nguix shell -f guix.scm bash --pure\n"
+    "#+end_src\n\n"
+    "This'll create a profile with *just* this project in it, "
+    "to mess around with.\n\n"))
+(defun cdr:readme-src-instructions (project)
+  "Templating function for the 'Source' section of my README.md files."
+  (interactive)
+  (concat
+   "*** Source\n\n"
+   "If You don't want to use [[https://guix.gnu.org/][GNU Guix]],\n"
+   "You can clone this repo and install it in the normal way:\n\n"
+   "#+begin_src bash\n"
+   "git clone https://git.sr.ht/~yewscion/"
+   project
+   "\ncd "
+   project
+   "\n./configure\n"
+   "make\n"
+   "make check\n"
+   "make install\n"
+   "#+end_src\n\n"
+   "If You don't want to use git, or would rather stick with an\n"
+   "actual release, then see the tagged releases for some tarballs\n"
+   "of the source.\n\n"
+   "The needed dependencies are tracked in the DEPENDENCIES.txt file\n"
+   "to support this use case.\n\n"))
+(defun cdr:readme-install-instructions (project)
+  "Templating function for the 'Install' section of my README.md files."
+  (interactive)
+  (concat
+   "** Installation\n"
+  (cdr:readme-guix-instructions project)
+  (cdr:readme-src-instructions project)))
+(defun cdr:readme-contrib-instructions (project)
+  "Templating function for the 'Contributing' section of my README.md files."
+  (interactive)
+  (concat
+   "** Contributing\n"
+   "Pull Requests are welcome, as are bugfixes and extensions. Please open\n"
+   "issues as needed. If You contribute a feature, needs to be tests and\n"
+   "documentation.\n\n"
+   "Development is expected to be done using "
+   "[[https://guix.gnu.org/][GNU Guix]].\n"
+   "If You have =guix= set up, You should be able to enter a development\n"
+   "environment with the following:\n\n"
+   "#+begin_src bash\n"
+   "cd "
+   project
+   "\n"
+   "guix shell -D -f guix.scm bash --pure\n"
+   "#+end_src\n\n"
+   "If You've made changes without the above precautions, those changes will\n"
+   "need to be confirmed to work in the above environment before merge.\n\n"))
+(defun cdr:readme-license-instructions (project license)
+  "Templating function for the 'License' section of my README.md files."
+  (interactive)
+  (concat
+   "** License\n\n"
+   "The ="
+   project
+   "= project and all associated files are ©2022 Christopher\nRodriguez, but"
+   "licensed to the public at large under the terms of the:\n\n"
+   (cond ((string= license "agpl")
+          "[[https://www.gnu.org/licenses/agpl-3.0.html][GNU AGPL3.0+]]")
+         (t
+          "project's"))
+   " license.\n\n"
+   "Please see the =LICENSE= file and the above link for more information."))
+(defun cdr:readme-std-usage-instructions (project)
+  "Templating function for the 'Usage' section of my README.md files."
+  (interactive)
+   (concat
+    "** Usage\n\n"
+    "Full usage is documented in the =doc/"
+    project
+    ".info= file. Here are\nonly generic instructions.\n\n"
+    "Once ="
+    project
+    "= in installed, You should be able to access all of\nits exported functions"
+    "in guile by using its modules:\n\n"
+    "#+begin_src scheme\n"
+    "(use-modules ("
+    (cadr (split-string project "-"))
+    " main))\n(library-info) ;; I include this in all my libraries\n"
+    "#+end_src\n\n"
+    "Any binaries or scripts will be available in Your =$PATH=. A list of these\n"
+    "is maintained in the info file. They all also have the =--help== flag, so\n"
+    "if You prefer learning that way, that is also available.\n\n"))
+
 
 ;;; Skeletons
 (define-skeleton hog-skeleton

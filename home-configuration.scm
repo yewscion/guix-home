@@ -288,11 +288,11 @@
   my-texlive-packages
   (list
    "biber" "extractpdfmark" "texlive-biblatex" "texlive-biblatex-apa"
-   "texlive-booktabs" "texlive-capt-of" "texlive-csquotes" "texlive-etoolbox"
+   "texlive-booktabs" "texlive-capt-of" "texlive-csquotes" "texlive-doi" "texlive-etoolbox"
    "texlive-enumitem" "texlive-fontspec" "texlive-generic-etexcmds"
    "texlive-generic-gettitlestring" "texlive-generic-ifptex"
    "texlive-generic-iftex" "texlive-generic-xstring" "texlive-hyperref"
-   "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts"
+   "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts" "texlive-latex-appendix"
    "texlive-latex-catchfile" "texlive-latex-cleveref" "texlive-latex-comment"
    "texlive-latex-datetime2" "texlive-latex-datetime2-english"
    "texlive-latex-endfloat" "texlive-latex-environ" "texlive-latex-everyhook"
@@ -307,7 +307,7 @@
    "texlive-latex-setspace" "texlive-latex-titlesec"
    "texlive-latex-trimspaces" "texlive-latex-upquote" "texlive-latex-xkeyval"
    "texlive-latex-xpatch" "texlive-libkpathsea" "texlive-listings"
-   "texlive-lm" "texlive-luaotfload" "texlive-stringenc" "texlive-svn-prov"
+   "texlive-lm" "texlive-luaotfload" "texlive-pdfx" "texlive-stringenc" "texlive-svn-prov"
    "texlive-tex-gyre" "texlive-tracklang" "texlive-txfonts" "texlive-varwidth"
    "texlive-xcolor" "texlive-xifthen" "xindy"))
 ;;;; Programming
@@ -316,11 +316,11 @@
   (list
    "adb" "ant" "ant-junit" "apl" "autoconf" "automake" "chez-scheme"
    "chez-scheme:doc" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen"
-   "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gauche"
-   "gcc-toolchain" "git" "git:send-email" "graphviz" "guildhall" "guile"
+   "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gambit-c" "gauche"
+   "gcc-toolchain" "gerbil" "git" "git:send-email" "graphviz" "guildhall" "guile"
    "guile-bash" "guile-cdr255" "guile-chickadee" "guile-colorized" "guile-git" "guile-hall"
    "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk"
-   "icedtea:doc" "janet" "java-bsh" "java-junit" "java-log4j-core" "make"
+   "icedtea:doc" "janet" "java-bsh" "java-junit" "java-log4j-core" "kawa" "make"
    "mit-scheme" "mit-scheme:doc" "mono" "nasm" "ncurses" "newlisp" "newt" "node"
    "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "perl"
    "perl-image-exiftool" "php" "picolisp" "pkg-config" "plantuml" "portmidi"
@@ -339,7 +339,7 @@
    "extundelete" "gash" "glibc-locales" "gnupg" "gparted" "grep" "icecat"
    "le-certs" "libvirt" "links" "lxc" "mc" "ncdu" "netcat" "nmap" "nss-certs"
    "password-store" "pavucontrol" "postgresql" "qemu" "ripgrep" "rxvt-unicode"
-   "sed" "sedsed" "setxkbmap" "shepherd" "sqlite" "sshfs" "sshpass" "stumpwm"
+   "sed" "sedsed" "setxkbmap" "shepherd" "sshfs" "sshpass" "stumpwm"
    "stumpwm:lib" "the-silver-searcher" "tree" "virt-manager" "virt-viewer"
    "which" "wireshark" "wordnet" "xdpyprobe" "yt-dlp" "zenity" "zutils"))
 ;;;; Userland/Etc
@@ -350,7 +350,7 @@
    "endless-sky" "evince" "exempi" "exercism" "filters" "fluid-3" "fluidsynth"
    "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gimp"
    "gnurobots" "haunt" "hledger" "hledger-ui" "httrack" "inkscape"
-   "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack"
+   "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu@1.6.10" "nethack"
    "nomad" "offlineimap3" "orca-lang" "owl-lisp" "pagr" "pandoc"
    "passwordsafe" "talkfilters" "telescope" "timidity++" "tintin++"
    "ungoogled-chromium" "uxn" "wesnoth" "xboard" "xmp" "xrdb"

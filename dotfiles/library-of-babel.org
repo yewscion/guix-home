@@ -63,5 +63,3 @@
                filename
                pair))))
 #+end_src
-
-
