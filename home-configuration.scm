@@ -140,11 +140,6 @@
   "nm-switch cdr255")
 (define my-nm-codys-corner
   "nm-switch \\\"Cody's Corner\\\"")
-(define my-gitinspect
-  (string-append "gitinspector -f "
-                 "tex,scm,org,*,md,java,clj,lisp "
-                 "-HlmrTw "
-                 "-F htmlembedded > gitinspector.html"))
 (define my-function-log-guix-state
   (string-append "log-guix-state() {\n"
                  "    guix describe -f human \| sed -n \"1p\"\n"
@@ -322,7 +317,7 @@
    "guile-ncurses" "guile-readline" "guile-sqlite3" "icedtea:jdk"
    "icedtea:doc" "janet" "java-bsh" "java-junit" "java-log4j-core" "kawa" "make"
    "mit-scheme" "mit-scheme:doc" "mono" "nasm" "ncurses" "newlisp" "newt" "node"
-   "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "perl"
+   "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "openjdk" "perl"
    "perl-image-exiftool" "php" "picolisp" "pkg-config" "plantuml" "portmidi"
    "python" "python-lsp-server" "python-pip" "python-pygments"
    "python-pygments-lexer-pseudocode-std" "python-pyqt" "ruby" "ruby-kramdown"
@@ -334,26 +329,26 @@
   my-system-packages
   (list
    "alsa-plugins" "alsa-plugins:pulseaudio" "bash" "btrfs-progs" "coreutils"
-   "curl" "dfc" "docker" "dosfstools" "efibootmgr" "erofs-utils" "es"
+   "curl" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr" "erofs-utils" "es"
    "espeak-ng" "exa" "exfat-utils" "exfatprogs" "exomizer" "expect"
-   "extundelete" "gash" "glibc-locales" "gnupg" "gparted" "grep" "icecat"
-   "le-certs" "libvirt" "links" "lxc" "mc" "ncdu" "netcat" "nmap" "nss-certs"
+   "extundelete" "fluid-3" "gash" "glibc-locales" "gnupg" "gparted" "grep" "icecat"
+   "le-certs" "libvirt" "links" "lxc" "mc" "memtester" "ncdu" "netcat" "nmap" "nss-certs"
    "password-store" "pavucontrol" "postgresql" "qemu" "ripgrep" "rxvt-unicode"
    "sed" "sedsed" "setxkbmap" "shepherd" "sshfs" "sshpass" "stumpwm"
-   "stumpwm:lib" "the-silver-searcher" "tree" "virt-manager" "virt-viewer"
+   "stumpwm:lib" "the-silver-searcher" "tree" "unzip" "virt-manager" "virt-viewer"
    "which" "wireshark" "wordnet" "xdpyprobe" "yt-dlp" "zenity" "zutils"))
 ;;;; Userland/Etc
 (define
   my-user-packages
   (list
-   "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "bsd-games"
+   "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "brightnessctl" "bsd-games"
    "endless-sky" "evince" "exempi" "exercism" "filters" "fluid-3" "fluidsynth"
    "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gimp"
-   "gnurobots" "haunt" "hledger" "hledger-ui" "httrack" "inkscape"
-   "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu@1.6.10" "nethack"
+   "gnurobots" "haunt" "hexchat" "hledger" "hledger-ui" "httrack" "inkscape" "ispell"
+   "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack"
    "nomad" "offlineimap3" "orca-lang" "owl-lisp" "pagr" "pandoc"
-   "passwordsafe" "talkfilters" "telescope" "timidity++" "tintin++"
-   "ungoogled-chromium" "uxn" "wesnoth" "xboard" "xmp" "xrdb"
+   "passwordsafe" "patchelf" "talkfilters" "telescope" "timidity++" "tintin++"
+   "ungoogled-chromium" "uxn" "wesnoth" "wine" "xapian" "xboard" "xdg-utils" "xmp" "xrdb"
    "yewscion-scripts"))
 (define my-u-ctags (computed-file
                     "u-ctags"
@@ -400,8 +395,7 @@
              ("nm-amzn-internet" . ,my-nm-amzn-internet)
              ("nm-asin324" . ,my-nm-asin324)
              ("nm-cdr255" . ,my-nm-cdr255)
-             ("nm-codys-corner" . ,my-nm-codys-corner)
-             ("gitinspect" . ,my-gitinspect)))
+             ("nm-codys-corner" . ,my-nm-codys-corner)))
           (bash-profile
            (list (plain-file "bash-profile"
                              my-bash-profile)))
