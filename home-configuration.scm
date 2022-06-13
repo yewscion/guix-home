@@ -346,7 +346,7 @@
    "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gimp"
    "gnurobots" "haunt" "hexchat" "hledger" "hledger-ui" "httrack" "inkscape" "ispell"
    "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack"
-   "nomad" "offlineimap3" "orca-lang" "owl-lisp" "pagr" "pandoc"
+   "nomad" "offlineimap3" "orca-music" "owl-lisp" "pagr" "pandoc"
    "passwordsafe" "patchelf" "talkfilters" "telescope" "timidity++" "tintin++"
    "ungoogled-chromium" "uxn" "wesnoth" "wine" "xapian" "xboard" "xdg-utils" "xmp" "xrdb"
    "yewscion-scripts"))
