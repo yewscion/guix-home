@@ -341,7 +341,7 @@
 (define
   my-user-packages
   (list
-   "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "brightnessctl" "bsd-games"
+   "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "brightnessctl" "bsd-games" "codechallenge-solutions"
    "endless-sky" "evince" "exempi" "exercism" "filters" "fluid-3" "fluidsynth"
    "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gimp"
    "gnurobots" "haunt" "hexchat" "hledger" "hledger-ui" "httrack" "inkscape" "ispell"

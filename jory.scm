@@ -86,7 +86,12 @@
       (keyboard-layout %my-keyboard-layout)))
     (elogind-service
      #:config (elogind-configuration
-               (handle-power-key 'ignore))))
+               (handle-power-key 'ignore)))
+    (service libvirt-service-type
+         (libvirt-configuration
+          (unix-sock-group "libvirt")
+          (tls-port "16555")))
+    (service virtlog-service-type))
    %my-desktop-services))
 
 (define %my-services
@@ -104,8 +109,10 @@
         "xorg-server-xwayland"
         "emacs"
         "openssh"
+        "openssl"
         "rxvt-unicode"
         "git"
+        "libvirt"
         "openjdk"
         "stumpwm"
         "ncurses"
@@ -121,7 +128,7 @@
                 (group "users")
                 (home-directory "/home/ming")
                 (supplementary-groups
-                 '("wheel" "netdev" "audio" "video" "docker")))
+                 '("wheel" "netdev" "audio" "video" "docker" "libvirt" "kvm")))
                (user-account
                 (name "git")
                 (group "git")
