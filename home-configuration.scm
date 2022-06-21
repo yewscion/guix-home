@@ -343,8 +343,8 @@
   (list
    "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "brightnessctl" "bsd-games" "codechallenge-solutions"
    "endless-sky" "evince" "exempi" "exercism" "filters" "fluid-3" "fluidsynth"
-   "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gimp"
-   "gnurobots" "haunt" "hexchat" "hledger" "hledger-ui" "httrack" "inkscape" "ispell"
+   "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gifsicle" "gimp"
+   "gnurobots" "haunt" "hexchat" "httrack" "inkscape" "ispell" "jpegoptim"
    "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack"
    "nomad" "offlineimap3" "orca-music" "owl-lisp" "pagr" "pandoc"
    "passwordsafe" "patchelf" "talkfilters" "telescope" "timidity++" "tintin++"
@@ -391,7 +391,7 @@
              ("ll" . "ls -alF")
              ("ls" . "ls --color=auto")
              ("mark" . "pwd > ~/.sd")
-             ("port" . "'cd $(cat ~/.sd)'")
+             ("port" . "cd \\$(cat ~/.sd)")
              ("nm-amzn-internet" . ,my-nm-amzn-internet)
              ("nm-asin324" . ,my-nm-asin324)
              ("nm-cdr255" . ,my-nm-cdr255)
