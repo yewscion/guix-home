@@ -160,11 +160,16 @@
                  "    log-guix-state \| \\\n"
                  "    tee \"$HOME/.local/var/log/guix/"
                  "$timestamp-post-update.log\"\n}\n"))
+(define my-start-shepherd
+  (string-append "if [[ ! -S ${XDG_RUNTIME_DIR-$HOME/.cache}/shepherd/socket ]]"
+                 "; then\n    shepherd\nfi\n"))
+
 (define my-bash-profile
   (string-append my-function-dir-git-branch
                  my-function-nm-switch
                  my-function-log-guix-state
                  my-function-daily-update-guix
+                 my-start-shepherd
                  "case \"$TERM\" in\n"
                  "    \"dumb\")\n"
                  "        export PS1=\"> \"\n"
@@ -178,17 +183,14 @@
 ;;; Grouping Packages By Type
 
 ;;;; Graveyard
-                                        ; "emacs-elm-mode" - still a problem,
-                                        ; look at emacs-request for fix inspo?
-
-                                        ; "maven" - No such file or directory,
-                                        ; probably a transient issue.
+                                        ; None! :^)
 ;;; Once Problematic
 (define my-problem-packages
   (list
    "emacs-webpaste" "emacs-slack" "emacs-org-web-tools" "emacs-lsp-java"
    "emacs-tldr" "emacs-company-jedi" "emacs-jedi" "emacs-request"
-   "emacs-list-utils" "emacs-elisp-refs" "java-eclipse-core-runtime"))
+   "emacs-list-utils" "emacs-elisp-refs" "java-eclipse-core-runtime" 
+   "emacs-elm-mode" "maven"))
 ;;;; Emacs
 (define my-emacs-packages
   (list
