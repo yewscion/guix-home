@@ -847,7 +847,79 @@ value."
     "Any binaries or scripts will be available in Your =$PATH=. A list of these\n"
     "is maintained in the info file. They all also have the =--help== flag, so\n"
     "if You prefer learning that way, that is also available.\n\n"))
+(defun cdr:lisp-fill-paragraph (&optional justify)
+  "Like \\[fill-paragraph], but handle Emacs Lisp comments and docstrings.
+If any of the current line is a comment, fill the comment or the
+paragraph of it that point is in, preserving the comment's
+indentation and initial semicolons. This version will always wrap
+strings according to the fill column of the source file, not the
+fill column of the resulting string."
+  (interactive "P")
+  (or (fill-comment-paragraph justify)
+      ;; Since fill-comment-paragraph returned nil, that means we're not in
+      ;; a comment: Point is on a program line; we are interested
+      ;; particularly in docstring lines.
+      ;;
+      ;; We bind `paragraph-start' and `paragraph-separate' temporarily.  They
+      ;; are buffer-local, but we avoid changing them so that they can be set
+      ;; to make `forward-paragraph' and friends do something the user wants.
+      ;;
+      ;; `paragraph-start': The `(' in the character alternative and the
+      ;; left-singlequote plus `(' sequence after the \\| alternative prevent
+      ;; sexps and backquoted sexps that follow a docstring from being filled
+      ;; with the docstring.  This setting has the consequence of inhibiting
+      ;; filling many program lines that are not docstrings, which is sensible,
+      ;; because the user probably asked to fill program lines by accident, or
+      ;; expecting indentation (perhaps we should try to do indenting in that
+      ;; case).  The `;' and `:' stop the paragraph being filled at following
+      ;; comment lines and at keywords (e.g., in `defcustom').  Left parens are
+      ;; escaped to keep font-locking, filling, & paren matching in the source
+      ;; file happy.  The `:' must be preceded by whitespace so that keywords
+      ;; inside of the docstring don't start new paragraphs (Bug#7751).
+      ;;
+      ;; `paragraph-separate': A clever regexp distinguishes the first line of
+      ;; a docstring and identifies it as a paragraph separator, so that it
+      ;; won't be filled.  (Since the first line of documentation stands alone
+      ;; in some contexts, filling should not alter the contents the author has
+      ;; chosen.)  Only the first line of a docstring begins with whitespace
+      ;; and a quotation mark and ends with a period or (rarely) a comma.
+      ;;
+      ;; The `fill-column' is temporarily bound to
+      ;; `emacs-lisp-docstring-fill-column' if that value is an integer.
+      (let ((paragraph-start
+             (concat paragraph-start
+                     "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
+	    (paragraph-separate
+	     (concat paragraph-separate "\\|\\s-*\".*[,\\.]$"))
+            (fill-column (if (and (integerp emacs-lisp-docstring-fill-column)
+                                  (derived-mode-p 'emacs-lisp-mode))
+                             emacs-lisp-docstring-fill-column
+                           fill-column)))
+        (save-restriction
+          (save-excursion
+          (let ((ppss (syntax-ppss))
+                (start (point)))
 
+            ;; If we're in a string, then narrow (roughly) to that
+            ;; string before filling.  This avoids filling Lisp
+            ;; statements that follow the string.
+            (when (ppss-string-terminator ppss)
+              ;; (goto-char (ppss-comment-or-string-start ppss))
+              ;; (beginning-of-line)
+              ;; (let (current-position (point))
+              ;; ;; The string may be unterminated -- in that case, don't
+              ;; ;; narrow.
+              ;; (when (ignore-errors
+              ;;         (progn
+              ;;           (forward-sexp 1)
+              ;;           t))
+              ;;   (narrow-to-region (ppss-comment-or-string-start ppss)
+              ;;                     (point))))
+            ;; Move back to where we were.
+            (goto-char start)
+	    (fill-paragraph justify)))))
+      ;; Never return nil.
+      t)))
 
 ;;; Skeletons
 (define-skeleton hog-skeleton
@@ -906,6 +978,7 @@ value."
 
 ;;; Ensure Packages are Loaded
 (require 'org-chef)
+(require 'org-ebib)
 
 ;;; Local Lisp
 (load "~/.emacs.d/lisp/ob-markdown.el")

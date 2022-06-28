@@ -160,16 +160,11 @@
                  "    log-guix-state \| \\\n"
                  "    tee \"$HOME/.local/var/log/guix/"
                  "$timestamp-post-update.log\"\n}\n"))
-(define my-start-shepherd
-  (string-append "if [[ ! -S ${XDG_RUNTIME_DIR-$HOME/.cache}/shepherd/socket ]]"
-                 "; then\n    shepherd\nfi\n"))
-
 (define my-bash-profile
   (string-append my-function-dir-git-branch
                  my-function-nm-switch
                  my-function-log-guix-state
                  my-function-daily-update-guix
-                 my-start-shepherd
                  "case \"$TERM\" in\n"
                  "    \"dumb\")\n"
                  "        export PS1=\"> \"\n"
@@ -190,7 +185,7 @@
    "emacs-webpaste" "emacs-slack" "emacs-org-web-tools" "emacs-lsp-java"
    "emacs-tldr" "emacs-company-jedi" "emacs-jedi" "emacs-request"
    "emacs-list-utils" "emacs-elisp-refs" "java-eclipse-core-runtime" 
-   "emacs-elm-mode" "maven"))
+   "emacs-elm-mode" "maven" "my-frotz"))
 ;;;; Emacs
 (define my-emacs-packages
   (list
@@ -205,7 +200,8 @@
    "emacs-datetime" "emacs-debbugs" "emacs-deft" "emacs-dictionary"
    "emacs-diff-hl" "emacs-disable-mouse" "emacs-dmenu" "emacs-docker"
    "emacs-docker-compose-mode" "emacs-docker-tramp" "emacs-dockerfile-mode"
-   "emacs-download-region" "emacs-easy-kill" "emacs-ebib" "emacs-ediprolog"
+   "emacs-download-region" "emacs-easy-kill" "emacs-ebdb" "emacs-ebib"
+   "emacs-ediprolog"
    "emacs-edit-indirect" "emacs-edn" "emacs-eldoc" "emacs-elf-mode"
    "emacs-elfeed" "emacs-elfeed-protocol" "emacs-elisp-docstring-mode"
    "emacs-elisp-slime-nav" "emacs-elixir-mode" "emacs-elpher" "emacs-elpy"
@@ -313,10 +309,11 @@
   (list
    "adb" "ant" "ant-junit" "apl" "autoconf" "automake" "chez-scheme"
    "chez-scheme:doc" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen"
-   "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gambit-c" "gauche"
-   "gcc-toolchain" "gerbil" "git" "git:send-email" "graphviz" "guildhall" "guile"
-   "guile-bash" "guile-cdr255" "guile-chickadee" "guile-colorized" "guile-git" "guile-hall"
-   "guile-ncurses" "guile-readline" "guile-sqlite3"
+   "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gambit-c"
+   "gauche" "gcc-toolchain" "gerbil" "git" "git:send-email" "graphviz"
+   "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
+   "guile-colorized" "guile-git" "guile-goblins" "guile-hall"
+   "guile-ncurses" "guile-readline" "guile-ssh" "guile-sqlite3"
    "janet" "java-bsh" "java-junit" "java-log4j-core" "kawa" "make"
    "mit-scheme" "mit-scheme:doc" "mono" "nasm" "ncurses" "newlisp" "newt" "node"
    "ocaml" "ocaml-down" "ocaml-merlin" "ocaml-utop" "opam" "openjdk:jdk" "openjdk:doc" "perl"
@@ -343,7 +340,8 @@
 (define
   my-user-packages
   (list
-   "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "brightnessctl" "bsd-games" "codechallenge-solutions"
+   "adlmidi" "ardour" "b3sum" "beets" "borg" "brasero" "brightnessctl" "bsd-games"
+   "codechallenge-solutions"
    "endless-sky" "evince" "exempi" "exercism" "filters" "fluid-3" "fluidsynth"
    "font-gnu-freefont" "font-gnu-unifont" "font-tex-gyre" "genpro" "gifsicle" "gimp"
    "gnurobots" "haunt" "hexchat" "httrack" "inkscape" "ispell" "jpegoptim"
@@ -436,10 +434,13 @@
                               `(".emacs.d/lisp"
                                 ,(local-file "dotfiles/local-elisp"
                                              #:recursive? #true))
+                              `(".local/share/empty-repo"
+                                ,(local-file "dotfiles/empty-repo"
+                                             #:recursive? #true))                              
                               `(".emacs.d/templates"
-                                ,(local-file "dotfiles/textfile-templates"
+                                ,(local-file "dotfiles/templates"
                                              #:recursive? #true))
-                              `(".Xresources"
+                               `(".Xresources"
                                 ,(local-file "dotfiles/.Xresources" "xresources"
                                              #:recursive? #true))
                               `(".config/mc/ini"
