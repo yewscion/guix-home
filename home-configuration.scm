@@ -17,7 +17,9 @@
  (guix transformations)
  (guix monads)
  (guix store)
- (gnu packages code))
+ (gnu packages code)
+ (gnu packages curl)
+ (gnu packages emacs-xyz))
 (define my-ps1-prompt
   (string-append "\\[\\e[0;2;35m\\][\\[\\e[0;2;"
                  "35m\\]\\#\\[\\e[0;2;35m\\].\\[\\e["
@@ -189,9 +191,9 @@
 ;;;; Emacs
 (define my-emacs-packages
   (list
-   "emacs" "emacs-alert" "emacs-anaphora" "emacs-async" "emacs-avy"
+   "emacs" "emacs-alert" "emacs-anaphora" "emacs-async" "emacs-auctex" "emacs-avy"
    "emacs-biblio" "emacs-bongo" "emacs-bui" "emacs-caml" "emacs-chess"
-   "emacs-cider" "emacs-circe" "emacs-citar" "emacs-citeproc-el"
+   "emacs-cider" "emacs-circe" ;"emacs-citar" "emacs-citeproc-el"
    "emacs-clojure-mode" "emacs-cmake-mode" "emacs-company"
    "emacs-company-emoji" "emacs-company-lsp" "emacs-company-lua"
    "emacs-company-math" "emacs-company-org-block" "emacs-company-quickhelp"
@@ -200,7 +202,7 @@
    "emacs-datetime" "emacs-debbugs" "emacs-deft" "emacs-dictionary"
    "emacs-diff-hl" "emacs-disable-mouse" "emacs-dmenu" "emacs-docker"
    "emacs-docker-compose-mode" "emacs-docker-tramp" "emacs-dockerfile-mode"
-   "emacs-download-region" "emacs-easy-kill" "emacs-ebdb" "emacs-ebib"
+   "emacs-download-region" "emacs-easy-kill" "emacs-ebdb" ;"emacs-ebib"
    "emacs-ediprolog"
    "emacs-edit-indirect" "emacs-edn" "emacs-eldoc" "emacs-elf-mode"
    "emacs-elfeed" "emacs-elfeed-protocol" "emacs-elisp-docstring-mode"
@@ -237,9 +239,9 @@
    "emacs-org-drill" "emacs-org-drill-table" "emacs-org-emms"
    "emacs-org-journal" "emacs-org-mind-map" "emacs-org-msg" "emacs-org-noter"
    "emacs-org-pandoc-import" "emacs-org-pomodoro" "emacs-org-present"
-   "emacs-org-re-reveal" "emacs-org-ref" "emacs-org-roam" "emacs-org-vcard"
+   "emacs-org-re-reveal" "emacs-org-roam" "emacs-org-vcard" ;"emacs-org-ref"
    "emacs-ox-epub" "emacs-ox-gemini" "emacs-ox-gfm" "emacs-ox-haunt"
-   "emacs-ox-pandoc" "emacs-pandoc-mode" "emacs-paredit" "emacs-parsebib"
+   "emacs-ox-pandoc" "emacs-pandoc-mode" "emacs-paredit" ;"emacs-parsebib"
    "emacs-parseclj" "emacs-parseedn" "emacs-pass" "emacs-password-store"
    "emacs-password-store-otp" "emacs-pcre2el" "emacs-pdf-tools" "emacs-peg"
    "emacs-php-mode" "emacs-picpocket" "emacs-pinentry" "emacs-pkg-info"
@@ -308,7 +310,7 @@
   my-programming-packages
   (list
    "adb" "ant" "ant-junit" "apl" "autoconf" "automake" "chez-scheme"
-   "chez-scheme:doc" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen"
+   "chez-scheme:doc" "cl-asdf" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen"
    "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gambit-c"
    "gauche" "gcc-toolchain" "gerbil" "git" "git:send-email" "graphviz"
    "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
@@ -320,7 +322,7 @@
    "perl-image-exiftool" "php" "picolisp" "pkg-config" "plantuml" "portmidi"
    "python" "python-lsp-server" "python-pip" "python-pygments"
    "python-pygments-lexer-pseudocode-std" "python-pyqt" "ruby" "ruby-kramdown"
-   "rust" "sassc" "sbcl" "sbcl-stumpwm-battery-portable"
+   "rust" "sassc" "sbcl" "sbcl-esrap" "sbcl-stumpwm-battery-portable"
    "sbcl-stumpwm-screenshot" "sbcl-zpng" "slang" "swi-prolog" "texinfo"
    "universal-ctags" "vlang"))
 ;;;; System Stuff
@@ -328,7 +330,7 @@
   my-system-packages
   (list
    "alsa-plugins" "alsa-plugins:pulseaudio" "bash" "btrfs-progs" "coreutils"
-   "curl" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr" "erofs-utils" "es"
+   "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr" "erofs-utils" "es"
    "espeak-ng" "exa" "exfat-utils" "exfatprogs" "exomizer" "expect"
    "extundelete" "fluid-3" "gash" "glibc-locales" "gnupg" "gparted" "grep" "icecat"
    "le-certs" "libvirt" "links" "lxc" "mc" "memtester" "ncdu" "netcat" "nmap" "nss-certs"
@@ -348,8 +350,22 @@
    "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack"
    "nomad" "offlineimap3" "orca-music" "owl-lisp" "pagr" "pandoc"
    "passwordsafe" "patchelf" "talkfilters" "telescope" "timidity++" "tintin++"
-   "ungoogled-chromium" "uxn" "wesnoth" "wine" "xapian" "xboard" "xdg-utils" "xmp" "xrdb"
+   "ungoogled-chromium" "uxn" "wesnoth" "xapian" "xboard" "xdg-utils" "xmp" "xrdb"
    "yewscion-scripts"))
+(define
+  my-no-test-packages
+  (list
+;   curl
+   emacs-parsebib
+   emacs-ebib
+   emacs-citar
+   emacs-org-ref))
+(define my-transformation
+  (options->transformation
+   '(
+     ;(without-tests . "curl")
+     (with-commit . "emacs-parsebib=185239020f878cfbe1036270e6c3d1026ba8f255"))))
+
 (define my-u-ctags (computed-file
                     "u-ctags"
 	            #~(begin
@@ -363,14 +379,18 @@
 		         (string-append
                           #$output
                           "/bin/u-ctags")))))
-(define my-spec-list (append my-emacs-packages
-                             my-texlive-packages
-                             my-programming-packages
-                             my-system-packages
-                             my-user-packages
-                             my-problem-packages))
-(define my-package-list (map (compose list specification->package+output)
-                             my-spec-list))
+(define my-transformed-packages
+  (map my-transformation
+       my-no-test-packages))
+(define my-spec-list (append
+                      my-emacs-packages
+                      my-texlive-packages
+                      my-programming-packages
+                      my-system-packages
+                      my-user-packages
+                      my-problem-packages))
+(define my-package-list
+  (append my-transformed-packages (map (compose list specification->package+output) my-spec-list)))
 (home-environment
  (packages
   my-package-list)
