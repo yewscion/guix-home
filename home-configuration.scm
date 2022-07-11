@@ -193,7 +193,7 @@
   (list
    "emacs" "emacs-alert" "emacs-anaphora" "emacs-async" "emacs-auctex" "emacs-avy"
    "emacs-biblio" "emacs-bongo" "emacs-bui" "emacs-caml" "emacs-chess"
-   "emacs-cider" "emacs-circe" ;"emacs-citar" "emacs-citeproc-el"
+   "emacs-cider" "emacs-circe" "emacs-citar" "emacs-citeproc-el"
    "emacs-clojure-mode" "emacs-cmake-mode" "emacs-company"
    "emacs-company-emoji" "emacs-company-lsp" "emacs-company-lua"
    "emacs-company-math" "emacs-company-org-block" "emacs-company-quickhelp"
@@ -202,7 +202,7 @@
    "emacs-datetime" "emacs-debbugs" "emacs-deft" "emacs-dictionary"
    "emacs-diff-hl" "emacs-disable-mouse" "emacs-dmenu" "emacs-docker"
    "emacs-docker-compose-mode" "emacs-docker-tramp" "emacs-dockerfile-mode"
-   "emacs-download-region" "emacs-easy-kill" "emacs-ebdb" ;"emacs-ebib"
+   "emacs-download-region" "emacs-easy-kill" "emacs-ebdb" "emacs-ebib"
    "emacs-ediprolog"
    "emacs-edit-indirect" "emacs-edn" "emacs-eldoc" "emacs-elf-mode"
    "emacs-elfeed" "emacs-elfeed-protocol" "emacs-elisp-docstring-mode"
@@ -237,11 +237,11 @@
    "emacs-nov-el" "emacs-npm-mode" "emacs-oauth2" "emacs-ob-async" "emacs-org"
    "emacs-org-brain" "emacs-org-contrib" "emacs-org-cv" "emacs-org-download"
    "emacs-org-drill" "emacs-org-drill-table" "emacs-org-emms"
-   "emacs-org-journal" "emacs-org-mind-map" "emacs-org-msg" "emacs-org-noter"
+   "emacs-org-journal" "emacs-org-mind-map" "emacs-org-mime" "emacs-org-msg" "emacs-org-noter"
    "emacs-org-pandoc-import" "emacs-org-pomodoro" "emacs-org-present"
-   "emacs-org-re-reveal" "emacs-org-roam" "emacs-org-vcard" ;"emacs-org-ref"
+   "emacs-org-re-reveal" "emacs-org-roam" "emacs-org-vcard" "emacs-org-ref"
    "emacs-ox-epub" "emacs-ox-gemini" "emacs-ox-gfm" "emacs-ox-haunt"
-   "emacs-ox-pandoc" "emacs-pandoc-mode" "emacs-paredit" ;"emacs-parsebib"
+   "emacs-ox-pandoc" "emacs-pandoc-mode" "emacs-paredit" "emacs-parsebib"
    "emacs-parseclj" "emacs-parseedn" "emacs-pass" "emacs-password-store"
    "emacs-password-store-otp" "emacs-pcre2el" "emacs-pdf-tools" "emacs-peg"
    "emacs-php-mode" "emacs-picpocket" "emacs-pinentry" "emacs-pkg-info"
@@ -282,34 +282,35 @@
 (define
   my-texlive-packages
   (list
-   "biber" "extractpdfmark" "texlive-biblatex" "texlive-biblatex-apa"
-   "texlive-booktabs" "texlive-capt-of" "texlive-csquotes" "texlive-doi" "texlive-etoolbox"
-   "texlive-enumitem" "texlive-fontspec" "texlive-generic-etexcmds"
-   "texlive-generic-gettitlestring" "texlive-generic-ifptex"
-   "texlive-generic-iftex" "texlive-generic-xstring" "texlive-hyperref"
-   "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts" "texlive-latex-appendix"
-   "texlive-latex-catchfile" "texlive-latex-cleveref" "texlive-latex-comment"
-   "texlive-latex-datetime2" "texlive-latex-datetime2-english"
-   "texlive-latex-endfloat" "texlive-latex-environ" "texlive-latex-everyhook"
-   "texlive-latex-fancyhdr" "texlive-latex-fancyvrb" "texlive-latex-float"
-   "texlive-latex-framed" "texlive-latex-fvextra" "texlive-latex-geometry"
-   "texlive-latex-ifplatform" "texlive-latex-kvoptions"
-   "texlive-latex-letltxmacro" "texlive-latex-lineno" "texlive-latex-lipsum"
-   "texlive-latex-lwarp" "texlive-latex-memoir" "texlive-latex-minted"
-   "texlive-latex-newfloat" "texlive-latex-newunicodechar"
-   "texlive-latex-pdftexcmds" "texlive-latex-printlen"
-   "texlive-latex-readablecv" "texlive-latex-refcount"
-   "texlive-latex-setspace" "texlive-latex-titlesec"
-   "texlive-latex-trimspaces" "texlive-latex-upquote" "texlive-latex-xkeyval"
-   "texlive-latex-xpatch" "texlive-libkpathsea" "texlive-listings"
-   "texlive-lm" "texlive-luaotfload" "texlive-pdfx" "texlive-stringenc" "texlive-svn-prov"
-   "texlive-tex-gyre" "texlive-tracklang" "texlive-txfonts" "texlive-varwidth"
-   "texlive-xcolor" "texlive-xifthen" "xindy"))
+   "biber" "extractpdfmark" "texlive-babel-russian" "texlive-biblatex" "texlive-biblatex-apa"
+   "texlive-booktabs" "texlive-capt-of" "texlive-csquotes" "texlive-doi"
+   "texlive-etoolbox" "texlive-enumitem" "texlive-fontspec"
+   "texlive-generic-etexcmds" "texlive-generic-gettitlestring"
+   "texlive-generic-ifptex" "texlive-generic-iftex" "texlive-generic-xstring"
+   "texlive-hyperref" "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts"
+   "texlive-latex-appendix" "texlive-latex-catchfile" "texlive-latex-cleveref"
+   "texlive-latex-comment" "texlive-latex-datetime2"
+   "texlive-latex-datetime2-english" "texlive-latex-endfloat"
+   "texlive-latex-environ" "texlive-latex-everyhook" "texlive-latex-fancyhdr"
+   "texlive-latex-fancyvrb" "texlive-latex-float" "texlive-latex-framed"
+   "texlive-latex-fvextra" "texlive-latex-geometry" "texlive-latex-ifplatform"
+   "texlive-latex-kvoptions" "texlive-latex-letltxmacro" "texlive-latex-lineno"
+   "texlive-latex-lipsum" "texlive-latex-lwarp" "texlive-latex-memoir"
+   "texlive-latex-minted" "texlive-latex-newfloat"
+   "texlive-latex-newunicodechar" "texlive-latex-pdftexcmds"
+   "texlive-latex-printlen" "texlive-latex-readablecv" "texlive-latex-refcount"
+   "texlive-latex-setspace" "texlive-latex-titlesec" "texlive-latex-trimspaces"
+   "texlive-latex-upquote" "texlive-latex-venndiagram" "texlive-latex-xkeyval"
+   "texlive-latex-xpatch" "texlive-libkpathsea" "texlive-listings" "texlive-lm"
+   "texlive-luaotfload" "texlive-metapost" "texlive-pdfx" "texlive-pgf"
+   "texlive-stringenc" "texlive-svn-prov" "texlive-tex-gyre" "texlive-tracklang"
+   "texlive-txfonts" "texlive-varwidth" "texlive-xcolor" "texlive-xifthen"
+   "xindy"))
 ;;;; Programming
 (define
   my-programming-packages
   (list
-   "adb" "ant" "ant-junit" "apl" "autoconf" "automake" "chez-scheme"
+   "adb" "ant" "ant-junit" "apl" "autoconf" "automake" "carp" "chez-scheme"
    "chez-scheme:doc" "cl-asdf" "clang-toolchain" "clisp" "clojure" "cmake" "doxygen"
    "dune" "elm" "erlang" "esbuild" "exercism" "fennel" "fnlfmt" "gambit-c"
    "gauche" "gcc-toolchain" "gerbil" "git" "git:send-email" "graphviz"
@@ -330,11 +331,11 @@
   my-system-packages
   (list
    "alsa-plugins" "alsa-plugins:pulseaudio" "bash" "btrfs-progs" "coreutils"
-   "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr" "erofs-utils" "es"
+   "curl" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr" "erofs-utils" "es"
    "espeak-ng" "exa" "exfat-utils" "exfatprogs" "exomizer" "expect"
    "extundelete" "fluid-3" "gash" "glibc-locales" "gnupg" "gparted" "grep" "icecat"
    "le-certs" "libvirt" "links" "lxc" "mc" "memtester" "ncdu" "netcat" "nmap" "nss-certs"
-   "password-store" "pavucontrol" "postgresql" "qemu" "ripgrep" "rxvt-unicode"
+   "password-store" "pavucontrol" "postgresql" "qemu" "ripgrep" "rsync" "rxvt-unicode"
    "sed" "sedsed" "setxkbmap" "shepherd" "sshfs" "sshpass" "stumpwm"
    "stumpwm:lib" "the-silver-searcher" "tree" "unzip" "virt-manager" "virt-viewer"
    "which" "wireshark" "wordnet" "xdpyprobe" "yt-dlp" "zenity" "zutils"))
@@ -349,22 +350,24 @@
    "gnurobots" "haunt" "hexchat" "httrack" "inkscape" "ispell" "jpegoptim"
    "leiningen-ng" "libreoffice" "milkytracker" "mpv" "msmtp" "mu" "nethack"
    "nomad" "offlineimap3" "orca-music" "owl-lisp" "pagr" "pandoc"
-   "passwordsafe" "patchelf" "talkfilters" "telescope" "timidity++" "tintin++"
+   "passwordsafe" "patchelf" "scheme-primer" "talkfilters" "telescope" "timidity++" "tintin++"
    "ungoogled-chromium" "uxn" "wesnoth" "xapian" "xboard" "xdg-utils" "xmp" "xrdb"
    "yewscion-scripts"))
 (define
   my-no-test-packages
-  (list
+  '(
 ;   curl
-   emacs-parsebib
-   emacs-ebib
-   emacs-citar
-   emacs-org-ref))
+;   emacs-parsebib
+;   emacs-ebib
+;   emacs-citar
+;   emacs-org-ref
+   ))
 (define my-transformation
   (options->transformation
    '(
      ;(without-tests . "curl")
-     (with-commit . "emacs-parsebib=185239020f878cfbe1036270e6c3d1026ba8f255"))))
+     ;(with-commit . "emacs-parsebib=185239020f878cfbe1036270e6c3d1026ba8f255")
+     )))
 
 (define my-u-ctags (computed-file
                     "u-ctags"
@@ -379,6 +382,16 @@
 		         (string-append
                           #$output
                           "/bin/u-ctags")))))
+(define my-scheme-primer (computed-file
+                          "scheme-primer"
+	                  #~(begin
+		              (mkdir #$output)
+		              (install
+                               (local-file
+                                "local-info/scheme-primer.info")
+		               (string-append
+                                #$output
+                                "/share/info")))))
 (define my-transformed-packages
   (map my-transformation
        my-no-test-packages))
