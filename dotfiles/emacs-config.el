@@ -1649,6 +1649,49 @@ fill column of the resulting string."
 (cdr:set-variable-from-shell "CLASSPATH")
 (setq exec-path (split-string (getenv "PATH") path-separator))
 
+;;; This is here to patch org mode for recent geiser.
+(defun org-babel-scheme-execute-with-geiser (code output impl repl)
+  "Execute code in specified REPL.
+If the REPL doesn't exist, create it using the given scheme
+implementation.
+
+Returns the output of executing the code if the OUTPUT parameter
+is true; otherwise returns the last value."
+  (let ((result nil))
+    (with-temp-buffer
+      (insert (format ";; -*- geiser-scheme-implementation: %s -*-" impl))
+      (newline)
+      (insert code)
+      (geiser-mode)
+      (let ((geiser-repl-window-allow-split nil)
+	    (geiser-repl-use-other-window nil))
+	(let ((repl-buffer (save-current-buffer
+			     (org-babel-scheme-get-repl impl repl))))
+	  (when (not (eq impl (org-babel-scheme-get-buffer-impl
+			       (current-buffer))))
+	    (message "Implementation mismatch: %s (%s) %s (%s)" impl (symbolp impl)
+		     (org-babel-scheme-get-buffer-impl (current-buffer))
+		     (symbolp (org-babel-scheme-get-buffer-impl
+			       (current-buffer)))))
+	  (setq geiser-repl--repl repl-buffer)
+	  (setq geiser-impl--implementation nil)
+	  (let ((geiser-debug-jump-to-debug-p nil)
+		(geiser-debug-show-debug-p nil))
+	    (let ((ret (funcall (if (fboundp 'geiser-eval-region/wait)
+                                    #'geiser-eval-region/wait
+                                  #'geiser-eval-region)
+                                (point-min) (point-max))))
+	      (setq result (if output
+			       (or (geiser-eval--retort-output ret)
+				   "Geiser Interpreter produced no output")
+			     (geiser-eval--retort-result-str ret "")))))
+	  (when (not repl)
+	    (save-current-buffer (set-buffer repl-buffer)
+				 (geiser-repl-exit))
+	    (set-process-query-on-exit-flag (get-buffer-process repl-buffer) nil)
+	    (kill-buffer repl-buffer)))))
+    result))
+
 ;;; Load Initial File.
 (find-file "~/Documents/org/main.org")
 
