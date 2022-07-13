@@ -920,7 +920,90 @@ fill column of the resulting string."
 	    (fill-paragraph justify)))))
       ;; Never return nil.
       t)))
+(defun cdr:fill-sexp ()
+  "Wrap the s-expression at point 3 characters shy of fill-column.
 
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+<undefined>.
+
+Impurities
+==========
+Acts on the current buffer."
+  (interactive)
+  (save-excursion
+    (cdr:goto-last-open-paren)
+    (let ((start (point)))
+      (forward-list)
+      (let ((end (point)))
+        (unfill-region start end)
+        (goto-char start)
+        (cdr:space-fill end (- fill-column 3))))))
+(defun cdr:space-fill (end length)
+  "Replace the space closest to LENGTH with a newline until the END point.
+
+This is an ACTION.
+
+Arguments
+=========
+END <position>: The cursor position where filling should stop.
+LENGTH <integer>: The column to ensure no line is longer than.
+
+Returns
+=======
+<undefined>.
+
+Impurities
+==========
+Acts on the current buffer."
+  (while (< (point) end)
+    (forward-char length)
+    (if (< (point) end)
+        (cdr:fill-at-character " "))))
+(defun cdr:fill-at-character (character)
+  "Replace the first occurance before the current point of CHARACTER with a
+newline.
+
+This is an ACTION.
+
+Arguments
+=========
+CHARACTER <string>: The character (or string) to replace with a newline.
+
+Returns
+=======
+<undefined>.
+
+Impurities
+==========
+Acts on the current buffer."
+  (search-backward character)
+  (delete-char 1)
+  (newline)
+  (indent-relative))
+(defun cdr:goto-last-open-paren ()
+  "Go to the start of the innermost (closest) s-expression.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+The <position> of the cursor after the move.
+
+Impurities
+==========
+Moves the cursor in the current buffer."
+  (goto-char (car (last (nth 9 (syntax-ppss))))))
 ;;; Skeletons
 (define-skeleton hog-skeleton
   "Sets up a new hog template in my org file"
@@ -1552,7 +1635,7 @@ fill column of the resulting string."
 (define-key transform-map (kbd "d") #'downcase-dwim)
 (define-key transform-map (kbd "t") #'titlecase-dwim)
 (define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
-
+(define-key transform-map (kbd "f") #'cdr:fill-sexp)
 
 ;; Keys
 
