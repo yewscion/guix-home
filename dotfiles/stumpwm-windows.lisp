@@ -1,5 +1,4 @@
 (("Emacs" 0 T T :CLASS "Emacs" :INSTANCE "emacs")
- ("Default" 1 T T :CLASS "GNU IceCat")
  ("Default" 1 T T :CLASS "IceCat")
  ("Default" 0 T T :CLASS "URxvt")
  ("Messaging" 0 T ("y" T) :CLASS "Slack" :INSTANCE "slack" :TITLE NIL :ROLE
@@ -8,6 +7,8 @@
               :TITLE NIL :ROLE "browser")
  ("Messaging" 1 T ("y" T) :CLASS "Chromium" :INSTANCE "chromium"
               :TITLE NIL :ROLE "browser")
- ("Messaging" 1 T ("y" T) :CLASS "chromium-browser" :INSTANCE "chromium-browser"
+ ("Messaging" 1 T ("y" T) :CLASS "chromiu;m-browser" :INSTANCE "chromium-browser"
               :TITLE NIL :ROLE "browser")
+ ("Messaging" 1 T ("y" T) :CLASS "Midori" :INSTANCE "midori"
+              :TITLE NIL)
  ("Messaging" 2 T ("y" T) :CLASS "discord"))
