@@ -65,13 +65,13 @@
    "pamixer -d 1")
   (show-volume))
 (defcommand
-p    screenshot-now () ()
+    screenshot-now () ()
     "Take a Screenshot NOW."
-  (screenshot::%screenshot-window
-   (xlib:screen-root
-    (stumpwm:screen-number
-     (stumpwm:current-screen)))
-   (concatenate 'string "~/Pictures/" (timestamp) ".screenshot.png")))
+    (screenshot::%screenshot-window
+     (xlib:screen-root
+      (stumpwm:screen-number
+       (stumpwm:current-screen)))
+     (concatenate 'string "~/Pictures/" (timestamp) ".screenshot.png")))
 
 ;;; Keybindings
 (define-key stumpwm:*top-map* (stumpwm:kbd "XF86AudioLowerVolume") "vol-5")
