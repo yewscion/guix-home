@@ -157,8 +157,8 @@
   (string-append "log-guix-state() {\n"
                  "    guix describe -f human \| sed -n \"1p\"\n"
                  "    guix describe -f channels\n"
-                 "    guix package --export-manifest -p \"\\$GUIX_PROFILE\"\n"
-                 "    guix package --list-generations -p \"\\$GUIX_PROFILE\"\n}\n"))
+                 "    guix package --export-manifest -p \"$GUIX_PROFILE\"\n"
+                 "    guix package --list-generations -p \"$GUIX_PROFILE\"\n}\n"))
 (define my-function-daily-update-guix
   (string-append "daily-update-guix() {\n"
                  "    timestamp=$(date -Is)\n"

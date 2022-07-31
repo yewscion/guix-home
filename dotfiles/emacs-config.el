@@ -2003,14 +2003,14 @@ None; Inert Data.")
 (define-key subprocess-map (kbd "l") #'lsp)
 
 ;;; Imperative Map <F3>
-(define-key transform-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
-(define-key transform-map (kbd "C-n") #'orgy-cm-step-next)
-(define-key transform-map (kbd "c") #'whitespace-cleanup)
-(define-key transform-map (kbd "w") #'whitespace-report)
-(define-key transform-map (kbd "p") #'cdr:prep-latex-for-copy)
-(define-key transform-map (kbd "s") #'cdr:cleanup-script-output)
-(define-key transform-map (kbd "i") #'cdr:i-ching-pull)
-(define-key transform-map (kbd "f") #'fill-buffer)
+(define-key imperative-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
+(define-key imperative-map (kbd "C-n") #'orgy-cm-step-next)
+(define-key imperative-map (kbd "c") #'whitespace-cleanup)
+(define-key imperative-map (kbd "w") #'whitespace-report)
+(define-key imperative-map (kbd "p") #'cdr:prep-latex-for-copy)
+(define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
+(define-key imperative-map (kbd "i") #'cdr:i-ching-pull)
+(define-key imperative-map (kbd "f") #'fill-buffer)
 
 ;;; Transform Map <F2>
 (define-key transform-map (kbd "C-r") #'replace-regexp)
@@ -2046,7 +2046,7 @@ None; Inert Data.")
 
 (global-set-key (kbd "C-<f1>") nil)
 (global-set-key (kbd "C-<f2>") 'transform-map)
-(global-set-key (kbd "C-<f3>") 'process-buffer-map)
+(global-set-key (kbd "C-<f3>") 'imperative-map)
 (global-set-key (kbd "C-<f4>") 'subprocess-map)
 (global-set-key (kbd "C-<f5>") 'template-map)
 (global-set-key (kbd "C-<f6>") nil)
@@ -2172,5 +2172,24 @@ is true; otherwise returns the last value."
 (pdf-loader-install)
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
+(define-generic-mode
+    'pseudocode-mode
+                                        ; Comments
+  '(";" "#" "//" ("/*" . "*/"))
+                                        ; Keywords
+  '()
+  `(("\\[.*\\S .*\\]" . 'font-lock-function-name-face)
+    ("`.+`" . 'font-lock-preprocessor-face)
+    (,(regexp-opt '("take the remainder of" "raised to") 'symbols) . 'font-lock-type-face)
+    ("!=\\|!<\\|!>\\|\\^\\|\\*" . 'font-lock-builtin-face)
+    ("true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|success\\|failure\\|newline\\|beep\\|indent" . 'font-lock-constant-face)
+    ("number\\|string\\|character\\|boolean\\|list\\|array\\|sequence\\|nothing\\|maybe\\|symbol\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|sum\\|difference\\|product\\|quotient\\|remainder" . 'font-lock-type-face)
+    
+    (,(regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯" "≮" "≥" "≤" "≠" "less than" "more than" "greater than" "equal to" "different than" "different from" "¬" "⊻" "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive" "->" "<-" "→" "←" "resulting in" "fed" "right" "left" "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times" "divided by" "modulo" "add" "subtract" "multiply" "divide" "take the remainder of" "raised to the" "power" "squared" "cubed" "root" "square" "cube") 'symbols) . 'font-lock-builtin-face)
+    ("'.*'\\|\".*\"\\|\\\".*'.*\\\"" . 'font-lock-string-face)
+    (,(regexp-opt '("begin" "end" "read" "obtain" "get" "take" "use" "copy" "print" "display" "show" "save" "return" "compute" "calculate" "determine" "append" "set" "initialize" "init" "let" "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "while" "done" "endwhile" "do" "case" "of" "others" "endcase" "repeat" "until" "for" "endfor" "call" "exception" "when" "as" "recurse") 'symbols) . 'font-lock-keyword-face))
+  '("\\.pseudo$")
+  nil
+  "A mode for editing a somewhat-standard version of pseudocode.")
 ;;; Load Initial File.
 (find-file "~/Documents/org/main.org")
