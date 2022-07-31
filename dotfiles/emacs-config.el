@@ -1231,7 +1231,10 @@ fill column of the resulting string."
              '( :name  "Non-Trashed"
                 :query "not maildir:/trash and not maildir:/sent"
                 :key   ?n))
-
+(add-to-list 'mu4e-bookmarks
+             '( :name  "Work"
+                :query "maildir:/rodnchr/"
+                :key   ?a))
 (setq mu4e-contexts
       `( ,(make-mu4e-context
            :name "cdr255"
