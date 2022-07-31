@@ -26,13 +26,20 @@
 (emms-all)
 (emms-default-players)
 (emms-mode-line-cycle 0)
+(define-emms-simple-player mikmod '(file)
+  (regexp-opt '(".669" ".AMF" ".DSM" ".FAR" ".GDM" ".IT" ".IMF"
+		".MED" ".MTM" ".OKT" ".S3M" ".STM" ".STX" ".ULT"
+		".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
+		".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
+		".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
+  "mikmod" "-q" "-p" "2" "-X")
 (define-emms-simple-player xmp '(file)
   (regexp-opt '(".669" ".AMF" ".DSM" ".FAR" ".GDM" ".IT" ".IMF"
 		".MED" ".MTM" ".OKT" ".S3M" ".STM" ".STX" ".ULT"
 		".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
 		".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
 		".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
-  "xmp" "--nocmd")
+  "xmp" "-q")
 (define-emms-simple-player adlmidi '(file)
   (regexp-opt '(".mid"))
   "adlmidi-wrapper" "-nl")
@@ -41,8 +48,9 @@
 
       emms-player-list
       '(emms-player-mpv
-	emms-player-xmp
+	emms-player-mikmod
         emms-player-adlmidi
+        emms-player-xmp
 	emms-player-timidity) ; Reverse Order of Precedence
 
       emms-player-timidity-command-name
@@ -74,7 +82,6 @@
 ;;; Backend Defs
 (setq markdown-command "kramdown"
       inferior-lisp-program "sbcl"
-      inferior-julia-program-name "julia"
       geiser-default-implementation 'guile
       python-shell-interpreter "python3"
       inf-janet-program "janet -s")
@@ -157,16 +164,6 @@
               "[ \t\r]+" "[ \t\r]+")
              result-buffer)))))
     (pop-to-buffer result-buffer)))
-
-;;; Stefan Monnier <foo at acm.org>. Opposite of fill-paragraph
-(defun unfill-paragraph (&optional region)
-  "Takes a multi-line paragraph and converts
-     it into a single line of text."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
-  (let ((fill-column (point-max))
-        ;; This would override `fill-column' if it's an integer.
-        (emacs-lisp-docstring-fill-column t))
-    (fill-paragraph nil region)))
 
 ;;; ggrocca and Iqbal Ansari from
 ;;; https://emacs.stackexchange.com
@@ -437,21 +434,25 @@ lists."
       (progn (message "Changing MIDI player to ADLMidi!")
              (setq emms-player-list
                    '(emms-player-mpv
+                     emms-player-mikmod
                      emms-player-xmp
                      emms-player-timidity
                      emms-player-adlmidi)))
     (progn (message "Changing MIDI player to Timidity!")
            (setq emms-player-list
                  '(emms-player-mpv
+                   emms-player-mikmod
                    emms-player-xmp
                    emms-player-adlmidi
                    emms-player-timidity)))))
 
 ;;; EMMS Description Shims.
 (defun cdr:emms-track-description (track)
-  "Isolates the filename of TRACK if timidity or xmp could play it."
+  "Isolates the filename of TRACK if timidity or mikmod could play it."
   (if (or (emms-player-timidity-playable-p track)
-          (emms-player-xmp-playable-p track))
+          (emms-player-mikmod-playable-p track)
+          (emms-player-xmp-playable-p track)
+          )
       (car (last (split-string (cdr (assoc 'name track)) "/")))
     (emms-info-track-description track)))
 
@@ -604,6 +605,10 @@ even beep.)"
   "Inserts the boilerplate for a list figure in LaTeX."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/latex-figure-list.tex"))
+(defun cdr:templates-insert-guix-package ()
+  "Inserts my guix package template at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/guix-package.scm"))
 
 (defun cdr:edit-region-as-org ()
   "Create an indirect buffer for a region's content, and switch to Org Mode."
@@ -654,7 +659,13 @@ need, and move the anchors to the correct places."
       (while t
         (cdr:prep-latex-for-copy-remove-empty-anchor))
     (error nil))
-  (cdr:prep-latex-for-copy-remove-title-page))
+  (cdr:prep-latex-for-copy-remove-title-page)
+  (cdr:prep-latex-for-copy-add-rules-and-footnote-section)
+  (condition-case nil
+      (while t
+        (cdr:prep-latex-for-copy-move-footnote))
+    (error nil))
+  (cdr:clean-up-newlines))
 
 (defun cdr:prep-latex-for-copy-remove-ambles ()
   "Remove the stuff before and after the content of our HTML."
@@ -711,6 +722,30 @@ need, and move the anchors to the correct places."
   (search-forward-regexp "<a id=\".+\"></a>")
   (delete-region (line-beginning-position)
                  (line-end-position))
+  (goto-char (point-min)))
+(defun cdr:prep-latex-for-copy-add-rules-and-footnote-section ()
+  "Add horizontal Rules for Footnotes and References."
+  (goto-char (point-min))
+  (search-forward ">References</h4>")
+  (beginning-of-line)
+  (insert "<hr />\n<h4 id=\"footnotes\">Footnotes</h4>\n\n<!-- FOOTNOTESWILLGOHERE -->\n\n<hr />\n"))
+
+(defun cdr:prep-latex-for-copy-move-footnote ()
+  "Move a Footnote to the Footnote Section."
+  (goto-char (point-min))
+  (search-forward "<div class=\"footnotes\" >")
+  (let ((start (point)))
+    (search-forward "</p>\n\n</div>")
+    (beginning-of-line)
+    (kill-region start (point))
+    (goto-char start))
+  (beginning-of-line)
+  (let ((start (point)))
+    (search-forward "</div>")
+    (delete-region start (point)))
+  (search-forward "<!-- FOOTNOTESWILLGOHERE -->")
+  (forward-line -1)
+  (yank)
   (goto-char (point-min)))
 (defun cdr:cleanup-script-output ()
   "Remove Unneeded codes from the output of the Unix script
@@ -920,7 +955,100 @@ fill column of the resulting string."
 	    (fill-paragraph justify)))))
       ;; Never return nil.
       t)))
+(defun cdr:fill-sexp ()
+  "Wrap the s-expression at point 3 characters shy of fill-column.
 
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+<undefined>.
+
+Impurities
+==========
+Acts on the current buffer."
+  (interactive)
+  (save-excursion
+    (cdr:goto-last-open-paren)
+    (let ((start (point)))
+      (forward-list)
+      (let ((end (point)))
+        (unfill-region start end)
+        (goto-char start)
+        (cdr:space-fill end (- fill-column 3))))))
+(defun cdr:space-fill (end length)
+  "Replace the space closest to LENGTH with a newline until the END point.
+
+This is an ACTION.
+
+Arguments
+=========
+END <position>: The cursor position where filling should stop.
+LENGTH <integer>: The column to ensure no line is longer than.
+
+Returns
+=======
+<undefined>.
+
+Impurities
+==========
+Acts on the current buffer."
+  (while (< (point) end)
+    (forward-char length)
+    (if (< (point) end)
+        (cdr:fill-at-character " "))))
+(defun cdr:fill-at-character (character)
+  "Replace the first occurance before the current point of CHARACTER with a
+newline.
+
+This is an ACTION.
+
+Arguments
+=========
+CHARACTER <string>: The character (or string) to replace with a newline.
+
+Returns
+=======
+<undefined>.
+
+Impurities
+==========
+Acts on the current buffer."
+  (search-backward character)
+  (delete-char 1)
+  (newline)
+  (indent-relative))
+(defun cdr:goto-last-open-paren ()
+  "Go to the start of the innermost (closest) s-expression.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+The <position> of the cursor after the move.
+
+Impurities
+==========
+Moves the cursor in the current buffer."
+  (goto-char (car (last (nth 9 (syntax-ppss))))))
+(defun cdr:clean-up-newlines ()
+  "Remove Repeated Newlines in Buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (condition-case nil
+        (while t
+          (re-search-forward "\n+")
+          (replace-match "\n"))
+      (error nil))))
 ;;; Skeletons
 (define-skeleton hog-skeleton
   "Sets up a new hog template in my org file"
@@ -970,10 +1098,6 @@ fill column of the resulting string."
   "    - " ?\n
   ?\n)
 
-(fset 'cdr:run-genpro-and-update
-      (kmacro-lambda-form [?\M-! ?g ?e ?n ?p ?r ?o ?  ?- ?p return
-                                 ?\C-x ?o ?\C-x ?k return ?g ?y ?e ?s return ?\C-x ?o] 0 "%d"))
-
 ;; Org Mode Config
 
 ;;; Ensure Packages are Loaded
@@ -994,6 +1118,7 @@ fill column of the resulting string."
       org-return-follows-link t
       org-startup-folded t
       org-image-actual-width 590
+      org-pomodoro-audio-player "mpv"
       org-adapt-indentation nil
       org-capture-before-finalize-hook nil
       org-contacts-files '("~/Documents/org/contacts.gpg")
@@ -1009,16 +1134,9 @@ fill column of the resulting string."
       org-journal-encrypt-journal t
 ;;; TODO
       org-todo-keywords
-      '((sequence "TODO(t!)" "|" "DONE(d@)")
-        (sequence "TT(T!)" "ACTION ITEM(A!)" "|" "FIXED(F@)")
-        (sequence "UNPLANNED(u!)" "PLANNED(p!)" "IN PROGRESS(i!)" "|"
-                  "DELAYED(D@)" "COMPLETE(c@)")
-        (sequence "UNSUBMITTED(U!)" "DRAFT(f!)" "PENDING APPROVAL(P!)"
-                  "REWORK REQUIRED(r@)" "SCHEDULED(s!)" "|"
-                  "DISCARDED(I@)" "SUCCESSFUL(S!)" "OFF-SCRIPT(o@)"
-                  "ABORTED(a@)")
+      '((sequence "TODO(t!)" "CWIP(w!)" "|" "DONE(d@)" "|" "TRSH(T@)")
         (sequence "RESEARCHING(r@)" "ONGOING(O!)"
-                  "AWAITING RESPONSE(w@)" "|"
+                  "BLOCKED(b@)" "|"
                   "HANDED OFF(h@)" "CANCELED(C@)")))
 
 ;;; Capture
@@ -1131,30 +1249,21 @@ fill column of the resulting string."
    (clojure . t)
    (browser . t)
    (dot . t)
-   (elixir . t)
    (elm . t)
-   (elvish . t)
    (emacs-lisp . t)
-   (haskell . t)
-   (hledger . t)
    (http . t)
    (js . t)
-   (julia . t)
-   (kotlin . t)
    (lilypond . t)
    (lisp . t)
    (lua . t)
    (makefile . t)
    (markdown . t)
-   (mermaid . t)
-   (nim . t)
    (org . t)
    (perl . t)
    (prolog . t)
    (python . t)
    (raku . t)
    (ruby . t)
-   (rust . t)
    (scheme . t)
    (shell . t)
    (shen . t)
@@ -1189,14 +1298,373 @@ fill column of the resulting string."
       lsp-ui-doc-use-childframe t
       lsp-ui-doc-use-webkit t)
 
-;;; Ebib
+;;; Ebib/biblio/etc
+(require 'ebib)
+(require 'biblio)
+(require 'ebib-biblio)
+(defconst my-ebib-keywords '("ABSTRACTION"
+"AFRICA"
+"ALGORITHM design"
+"ALGORITHMIC information"
+"ALGORITHMS"
+"ALGORITHMS, search"
+"ALGORITHMS, sort - bubble"
+"ALGORITHMS, sort - quicksort"
+"ALGORITHMS, sort"
+"APPROPRIATE access"
+"ARAB spring uprisings"
+"ARTIFICIAL intelligence"
+"ASTROTURFING"
+"ATTRACTION"
+"AUTHORITARIAN regimes"
+"AUTHORITARIANISM"
+"AUTHORITY"
+"AUTOMATION"
+"AWARDS"
+"BALANCE of power"
+"BIOLOGICAL pathogens"
+"BOTS"
+"BUSINESS communication"
+"BUSINESS writing"
+"BUSINESS"
+"CACHE"
+"CANADA"
+"CASE study"
+"CHINA"
+"CHINESE people"
+"CIA triad"
+"CIVIL society"
+"CLUSTERING"
+"CODE quality"
+"COLLABORATION"
+"COLLECTIVE leadership"
+"COLLECTIVE migration"
+"COMMUNICATION"
+"COMMUNICATION, interprocess"
+"COMMUNICATION, mass"
+"COMMUNICATION, online"
+"COMMUNICATION, technical"
+"COMMUNICATIVE competence"
+"COMMUNIST parties"
+"COMMUNITIES, VIRTUAL"
+"COMPILATION"
+"COMPILERS"
+"COMPLEXITY, logical"
+"COMPUTER algorithms"
+"COMPUTER file format, pdf"
+"COMPUTER filesystems"
+"COMPUTER firmware"
+"COMPUTER hardware"
+"COMPUTER input-output equipment"
+"COMPUTER memory"
+"COMPUTER multitasking"
+"COMPUTER networks"
+"COMPUTER operating systems"
+"COMPUTER processors, multi-core"
+"COMPUTER science education"
+"COMPUTER science, artificial intelligence"
+"COMPUTER science, high performance"
+"COMPUTER science, language"
+"COMPUTER science, machine learning"
+"COMPUTER science, moore's law"
+"COMPUTER science, parallelism"
+"COMPUTER science, robotics"
+"COMPUTER scientists"
+"COMPUTER security"
+"COMPUTER software"
+"COMPUTER software, pgp"
+"COMPUTER storage"
+"COMPUTER storage, raid"
+"COMPUTER systems"
+"COMPUTER user interfaces"
+"COMPUTER-AIDED manufacturing"
+"COMPUTERS"
+"COMPUTERS, embedded"
+"CONSENSUS, social science"
+"CONTRACT management"
+"CORRESPONDENCE"
+"COVID-19"
+"CREATIVE ability"
+"CREATIVE writing"
+"CREDIBILITY"
+"CRIME"
+"CRISIS communication"
+"CRITICAL discourse analysis"
+"CULTURE"
+"CYBERSECURITY"
+"DATA analysis"
+"DATA security"
+"DATA"
+"DATABASES, relational"
+"DATAFICATION"
+"DEADLOCKS"
+"DEFINITIONS"
+"DEMOCRACY"
+"DEMOCRATIC socialism"
+"DEMOCRATIZATION"
+"DEVELOPMENT, economic"
+"DEVSECOPS"
+"DIGITAL communication"
+"DIGITAL media"
+"DIGITAL technology"
+"DISCOVERY, scientific"
+"DISINFORMATION"
+"ECONOMY"
+"EDUCATION, distance"
+"EDUCATION, mathematics"
+"EDUCATION, programming"
+"EFFECTIVENESS"
+"EFFICIENCY, energy"
+"ELECTIONS"
+"ELECTIONS, presidential"
+"ELECTRON"
+"ENCRYPTION, public-key"
+"ENTROPY"
+"ETHICS"
+"EXECUTIVE Ability"
+"EXECUTIVES"
+"FAKE news"
+"FICTION, science fiction"
+"FOCUS"
+"FOLLOWER-LEADER"
+"FREEDOM, speech"
+"FUN"
+"GAME, psychology"
+"GAME, theory"
+"GAMES, video games"
+"GATHERING points"
+"GENDER"
+"GENDER, equality"
+"GENERALITY"
+"GOVERNMENT forms, parliamentary democracy"
+"GRAMMAR"
+"GREAT Britain"
+"GUIDELINES"
+"HISTORY, artificial intelligence"
+"HISTORY, computer science"
+"HISTORY, laundry"
+"HISTORY, lisp programming language"
+"HISTORY, victorian england"
+"HOAXES"
+"HOPPER, grace"
+"HUMAN behavior"
+"HUMAN beings"
+"HUMAN multitasking"
+"HUMAN rights"
+"HUMANITIES, digital"
+"IMAN1"
+"IMMUNIZATION"
+"IMPROVEMENT, continuous"
+"INFLUENCE"
+"INFORMATION technology"
+"INSTITUTIONS"
+"INTEGRATED circuits"
+"INTERFACE, message-passing"
+"INTERNATIONAL courts"
+"INTERNATIONAL relations"
+"INTERNET, advertising"
+"INTERNET, culture"
+"INTERNET, protocol"
+"INTERNET, world wide web"
+"INVENTIONS"
+"JACQUARD loom"
+"LAISSEZ-FAIRE"
+"LANGUAGE"
+"LAW"
+"LEADER"
+"LEADERSHIP foundations"
+"LEADERSHIP model"
+"LEADERSHIP style"
+"LEADERSHIP"
+"LEARNING, informal"
+"LEARNING, machine"
+"LINUX distribution, debian"
+"LINUX distribution, slackware linux"
+"LISP machines"
+"LITERATURE, romanticism"
+"LOGIC, boolean"
+"LOGIC, symbolic"
+"LOVELACE, ada byron king"
+"MACHINERY, textile"
+"MANAGEMENT foundations"
+"MANAGEMENT model"
+"MANAGEMENT styles"
+"MANAGEMENT"
+"MANAGEMENT, industrial"
+"MANAGEMENT, information"
+"MANAGEMENT, knowledge"
+"MANAGEMENT, personnel"
+"MANAGEMENT, software"
+"MANAGEMENT, time"
+"MASS shootings"
+"MATHEMATICS, logic"
+"MEDIA, mass"
+"METAPHOR"
+"MICROTARGETING"
+"MIDDLE east"
+"MIS"
+"MOBILIZATION"
+"MODEL, discrete choice"
+"MODEL, domain-specific"
+"MORGAN, augustus de"
+"MULTITHREADING"
+"NARRATIVE"
+"NONLOCAL PDEs"
+"OPEN source firmware"
+"OPERATING system, android"
+"OPERATING system, apple ios"
+"OPERATING system, bsd"
+"OPERATING system, cisco ios"
+"OPERATING system, gnu/linux"
+"OPERATING system, junos"
+"OPERATING system, kernel"
+"OPERATING system, macos"
+"OPERATING system, microsoft dos"
+"OPERATING system, microsoft windows"
+"OPERATING system, os/2"
+"OPERATING system, unix"
+"OPERATING systems"
+"OPERATING systems, security"
+"ORGANIZATION"
+"ORGANIZATIONAL behavior"
+"ORGANIZATIONAL change"
+"ORGANIZATIONAL effectiveness"
+"ORGANIZATIONAL sociology"
+"PARALLELISM, linguistic"
+"PERFORMANCE"
+"PERSONALITY"
+"PERSUASION"
+"PHILOSOPHY of Mind"
+"PHILOSOPHY"
+"POETRY"
+"POLICY"
+"POLITICAL advertising"
+"POLITICAL campaigns"
+"POLITICAL communication"
+"POLITICAL community"
+"POLITICAL development"
+"POLITICAL engagement"
+"POLITICAL participation"
+"POLITICAL science"
+"POLITICAL socialization"
+"POLITICAL succession"
+"POLITICAL systems"
+"POLITICS"
+"POLITICS, elite"
+"POLITICS, global"
+"POLITICS, middle eastern"
+"POLITICS, national"
+"POPULAR culture"
+"POPULAR works"
+"POPULISM"
+"PORTS"
+"POWER sharing"
+"POWER"
+"PRESIDENT"
+"PROBABILITY"
+"PRODUCTIVITY"
+"PRODUCTIVITY, labor"
+"PROGRAMMING language family, lisp"
+"PROGRAMMING language, c++"
+"PROGRAMMING language, clojure"
+"PROGRAMMING language, common lisp"
+"PROGRAMMING language, emacs lisp"
+"PROGRAMMING language, java"
+"PROGRAMMING language, python"
+"PROGRAMMING language, rust"
+"PROGRAMMING language, scheme"
+"PROGRAMMING language, webassembly"
+"PROGRAMMING languages"
+"PROGRAMMING teams"
+"PROGRAMMING, parallelism"
+"PSEUDOCODE"
+"PSYCHOLOGY"
+"PSYCHOLOGY"
+"PSYCHOLOGY, cognitive"
+"PSYCHOLOGY, social"
+"PUBLIC relations"
+"PUBLICATIONS"
+"QUALIFICATIONS"
+"READING, engaged"
+"RELATIONSHIPS, professional"
+"RESEARCH"
+"RESEARCH, publishing"
+"SECURITY"
+"SECURITY, information"
+"SECURITY, software"
+"SELECTIVE exposure"
+"SELF evaluation"
+"SHIPS"
+"SOCIAL dominance"
+"SOCIAL media"
+"SOCIAL networks"
+"SOCIAL sciences"
+"SOCIOLOGY, industrial"
+"SOFTWARE analysis"
+"SOFTWARE collaboration"
+"SOFTWARE creation"
+"SOFTWARE defects"
+"SOFTWARE design"
+"SOFTWARE development, mobile application"
+"SOFTWARE engineering"
+"SOFTWARE shells"
+"SOFTWARE testing"
+"SOFTWARE"
+"SOFTWARE, debugging"
+"SOFTWARE, free, libre, and open source"
+"STATE, failed"
+"STATE, fragile"
+"STUDY, reproduction"
+"SUCCESS"
+"SUCCESSION"
+"SUPERCOMPUTER"
+"SWARMING"
+"SYNTAX"
+"SYSTEMS software"
+"TASK analysis"
+"TAXONOMY"
+"TECHNOLOGY"
+"TECHNOLOGY, sustainable"
+"TEXTBOOK"
+"TILING"
+"TRANSISTORS"
+"TWITTER"
+"UML"
+"UNITED nations"
+"UNITED states"
+"UNIVERSAL basic income (ubi)"
+"VIRTUAL MACHINES"
+"VIRTUALIZATION"
+"VULNERABILITY"
+"WRITING"
+"YEMENI civil war 2015"
+"YOUTUBE"
+"ZETTELKASTEN"
+)
+  "A list of Keywords I use in my biblatex databases.
+
+This is a DATUM.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+None.
+
+Impurities
+==========
+None; Inert Data.")
 (setq ebib-bibtex-dialect 'biblatex
       ebib-preload-bib-files '("~/Documents/biblio/main.bib")
       ebib-reading-list-file "~/Documents/org/data/reading-list.org"
       ebib-file-associations '()
       ebib-hidden-fields
-      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor" "booksubtitle" "booktitleaddon" "commentator" "edition" "editora" "editorb" "editorc" "eid" "eventdate" "eventtitle" "foreword" "holder" "howpublished" "introduction" "isrn" "issuesubtitle" "issuetitle" "issuetitleaddon" "journaltitleadddon" "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon" "month" "pagetotal" "part" "primaryclass" "remark" "subtitle" "titleaddon" "translator" "venue" "version" "volumes")
-      ebib-use-timestamp t)
+      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor" "booksubtitle" "booktitleaddon" "commentator" "edition" "editora" "editorb" "editorc" "eid" "eventdate" "eventtitle" "foreword" "holder" "howpublished" "introduction" "isrn" "issuesubtitle" "issuetitle" "issuetitleaddon" "journaltitleadddon" "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon" "month" "part" "primaryclass" "remark" "subtitle" "titleaddon" "translator" "venue" "version" "volumes")
+      ebib-use-timestamp t
+      biblio-biblatex-use-autokey t
+      ebib-keywords my-ebib-keywords)
 
 (setq org-cite-global-bibliography
       '("~/Documents/biblio/main.bib"))
@@ -1369,6 +1837,11 @@ fill column of the resulting string."
 (projectile-register-project-type 'genpro '(".metadata")
                                   :project-file ".metadata"
 				  :compile "genpro -p")
+(projectile-register-project-type 'assignment-paper '(".assignment")
+                                  :project-file ".assignment"
+                                  :compile "genpro -p"
+                                  :configure "if [ -e content.tex ]; then echo \"Sorry, it looks like this project has already been configured…\"; else echo \"Configuring this project now…\"; genpro; emacsclient .metadata; genpro -g; fi"
+                                  :test "tmpdir=$(mktemp -d); find . -not -wholename './content.tex' -not -name '.assignment' -not -name '.metadata' -not -name '.projectile' -delete && mv -vt $tmpdir .assignment .projectile .metadata content.tex && genpro && mv -vt . $tmpdir/.metadata $tmpdir/.projectile $tmpdir/.assignment && emacsclient .metadata && genpro -g && mv -vt . $tmpdir/content.tex; echo \"Done.\"")
 (projectile-register-project-type 'java-ant '("build.xml")
                                   :project-file "build.xml"
 				  :compile "ant compile"
@@ -1405,8 +1878,10 @@ fill column of the resulting string."
       mark-ring-max most-positive-fixnum
       use-file-dialog nil
       use-dialog-box nil
-      whitespace-line-column nil)
-(setq-default fill-column 80
+      whitespace-line-column nil
+      shell-prompt-pattern "^\\[.*\\..*\\] {..\\:..} .*\\@.*\\:*\\/\\$"
+      tramp-shell-prompt-pattern "$ ")
+(setq-default fill-column 77
               indent-tabs-mode nil
               show-trailing-whitespace nil)
 
@@ -1425,18 +1900,7 @@ fill column of the resulting string."
 (add-hook 'buffer-list-update-hook
           'cdr:display-mode-line)
 
-(if (display-graphic-p)
-    (setq global-mode-string
-          '("🎼"
-            emms-mode-line-string
-            emms-playing-time-string
-            " ⌚"
-            display-time-string
-            " 🔋"
-            battery-mode-line-string
-            " 🦆"
-            org-mode-line-string))
-  (setq global-mode-string
+(setq global-mode-string
         '("♪"
           emms-mode-line-string
           emms-playing-time-string
@@ -1445,14 +1909,11 @@ fill column of the resulting string."
           " ䷡"
           battery-mode-line-string
           " ✿"
-          org-mode-line-string)))
-(setq
+          org-mode-line-string)
  display-time-default-load-average
  nil
- 
  display-time-day-and-date
  't
-
  display-time-load-average-threshold
  10000)
 
@@ -1477,7 +1938,6 @@ fill column of the resulting string."
 (require 'zone)
 (zone-when-idle 120)
 
-(pdf-tools-install)
 
 ;;; Printing PDFs      
 
@@ -1488,22 +1948,27 @@ fill column of the resulting string."
 ;;; Elfeed
 
 (setq elfeed-feeds
-      '(("https://jany.st/rss.xml" tech hardware)
+      '(("http://retro-style.software-by-mabe.com/blog-atom-feed" tech code lisp cl)
        ("https://alhassy.github.io/rss.xml" tech code lisp cl)
-       ("http://retro-style.software-by-mabe.com/blog-atom-feed" tech code lisp cl)
-       ("https://freedom-to-tinker.com/feed/rss/" tech policy)
-       ("https://planet.lisp.org/rss20.xml" tech code lisp cl)
        ("https://andysalerno.com/index.xml" tech)
-       ("https://yewscion.com/feed.xml" personal tech code)
        ("https://blog.tecosaur.com/tmio/rss.xml" tech emacs org-mode)
+       ("https://freedom-to-tinker.com/feed/rss/" tech policy)
        ("https://guix.gnu.org/feeds/blog.atom" tech gnu guix lisp scheme guile)
-       ("https://www.webtoons.com/en/challenge/the-prettiest-platypus/rss?title_no=463063" comic trans)
-       ("https://xkcd.com/atom.xml" comic)
-       ("https://www.questionablecontent.net/QCRSS.xml" comic nsfw)
+       ("https://jany.st/rss.xml" tech hardware)
+       ("https://p6steve.wordpress.com/rss" tech raku)
+       ("https://planet.lisp.org/rss20.xml" tech code lisp cl)
+       ("https://planet.scheme.org/atom.xml" tech code lisp scheme)
        ("https://somethingpositive.net/feed/" comic nsfw)
        ("https://www.gnu.org/software/guile/news/feed.xml" tech code lisp scheme guile)
-       ("https://planet.scheme.org/atom.xml" tech code lisp scheme)
-       ("https://www.wingolog.org/feed/atom" tech code lisp scheme guile)))
+       ("https://www.questionablecontent.net/QCRSS.xml" comic nsfw)
+       ("https://www.webtoons.com/en/challenge/the-prettiest-platypus/rss?title_no=463063" comic trans)
+       ("https://www.webtoons.com/en/challenge/serious-trans-vibes/rss?title_no=206579" comic trans)
+       ("https://www.webtoons.com/en/challenge/friends-with-benefits/rss?title_no=412808" comic trans)
+       ("https://www.webtoons.com/en/challenge/transincidental/rss?title_no=605328" comic trans)
+       ("https://www.wingolog.org/feed/atom" tech code lisp scheme guile)
+       ("https://xkcd.com/atom.xml" comic)
+       ("https://yewscion.com/feed.xml" personal tech code)))
+
 
 ;; Maps
 
@@ -1511,10 +1976,10 @@ fill column of the resulting string."
 
 (define-prefix-command 'template-map)
 (define-prefix-command 'subprocess-map)
-(define-prefix-command 'process-buffer-map)
+(define-prefix-command 'imperative-map)
 (define-prefix-command 'transform-map)
 
-;;; Template Map
+;;; Template Map <F5>
 
 (define-key template-map (kbd "d") #'cdr:templates-insert-scm-docstring)
 (define-key template-map (kbd "b") #'cdr:templates-insert-bib-annotation)
@@ -1524,14 +1989,15 @@ fill column of the resulting string."
 (define-key template-map (kbd "s") #'cdr:templates-insert-setup)
 (define-key template-map (kbd "l") #'cdr:templates-insert-latex-figure-image)
 (define-key template-map (kbd "C-l") #'cdr:templates-insert-latex-figure-list)
+(define-key template-map (kbd "g") #'cdr:templates-insert-guix-package)
 
-;;; Subprocess Map
+;;; Subprocess Map <F4>
 
 (define-key subprocess-map (kbd "s") #'slime)
 (define-key subprocess-map (kbd "c") #'cider)
 (define-key subprocess-map (kbd "g") #'run-guile)
-(define-key subprocess-map (kbd "p") #'run-python)
-(define-key subprocess-map (kbd "C-p") #'run-prolog)
+(define-key subprocess-map (kbd "C-p") #'run-python)
+(define-key subprocess-map (kbd "p") #'run-prolog)
 (define-key subprocess-map (kbd "j") #'run-janet)
 (define-key subprocess-map (kbd "C-g") #'run-geiser)
 (define-key subprocess-map (kbd "v") #'vterm)
@@ -1539,23 +2005,28 @@ fill column of the resulting string."
 (define-key subprocess-map (kbd "e") #'eshell)
 (define-key subprocess-map (kbd "l") #'lsp)
 
-;;; Process Buffer Map
+;;; Imperative Map <F3>
+(define-key imperative-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
+(define-key imperative-map (kbd "C-n") #'orgy-cm-step-next)
+(define-key imperative-map (kbd "c") #'whitespace-cleanup)
+(define-key imperative-map (kbd "w") #'whitespace-report)
+(define-key imperative-map (kbd "p") #'cdr:prep-latex-for-copy)
+(define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
+(define-key imperative-map (kbd "i") #'cdr:i-ching-pull)
+(define-key imperative-map (kbd "f") #'fill-buffer)
 
-(define-key process-buffer-map (kbd "C-w") #'org-copy-src-block)
-(define-key process-buffer-map (kbd "C-n") #'orgy-cm-step-next)
-(define-key process-buffer-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
-(define-key process-buffer-map (kbd "w") #'whitespace-report)
-(define-key process-buffer-map (kbd "c") #'whitespace-cleanup)
-
-;;; Transform Map
-(define-key transform-map (kbd "r") #'replace-string)
+;;; Transform Map <F2>
 (define-key transform-map (kbd "C-r") #'replace-regexp)
-(define-key transform-map (kbd "o") #'cdr:edit-region-as-org)
-(define-key transform-map (kbd "u") #'upcase-dwim)
-(define-key transform-map (kbd "d") #'downcase-dwim)
-(define-key transform-map (kbd "t") #'titlecase-dwim)
 (define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
-
+(define-key transform-map (kbd "d") #'downcase-dwim)
+(define-key transform-map (kbd "f") #'cdr:fill-sexp)
+(define-key transform-map (kbd "i") #'edit-indirect-region)
+(define-key transform-map (kbd "n") #'cdr:clean-up-newlines)
+(define-key transform-map (kbd "o") #'cdr:edit-region-as-org)
+(define-key transform-map (kbd "r") #'replace-string)
+(define-key transform-map (kbd "t") #'titlecase-dwim)
+(define-key transform-map (kbd "u") #'upcase-dwim)
+(define-key transform-map (kbd "w") #'org-copy-src-block)
 
 ;; Keys
 
@@ -1567,53 +2038,53 @@ fill column of the resulting string."
 ;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
-(global-set-key (kbd "<f7>") 'mastodon)
+(global-set-key (kbd "<f7>") 'ispell)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
 ; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
 ; (global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
-(global-set-key (kbd "<f12>") 'forms-mode)
+(global-set-key (kbd "<f12>") 'mu4e)
 
 ;;; Ctrl Function (Maps)
 
-;; (global-set-key (kbd "C-<f1>") nil)
+(global-set-key (kbd "C-<f1>") nil)
 (global-set-key (kbd "C-<f2>") 'transform-map)
-(global-set-key (kbd "C-<f3>") 'process-buffer-map)
+(global-set-key (kbd "C-<f3>") 'imperative-map)
 (global-set-key (kbd "C-<f4>") 'subprocess-map)
 (global-set-key (kbd "C-<f5>") 'template-map)
-;; (global-set-key (kbd "C-<f6>") nil)
-;; (global-set-key (kbd "C-<f7>") nil)
-;; (global-set-key (kbd "C-<f8>") nil)
-;; (global-set-key (kbd "C-<f9>") nil)
-;; (global-set-key (kbd "C-<f10>") nil)
-;; (global-set-key (kbd "C-<f11>") nil)
-;; (global-set-key (kbd "C-<f12>") nil)
+(global-set-key (kbd "C-<f6>") nil)
+(global-set-key (kbd "C-<f7>") nil)
+(global-set-key (kbd "C-<f8>") nil)
+(global-set-key (kbd "C-<f9>") nil)
+;; (global-set-key (kbd "C-<f10>") nil) ; Non-Functional
+(global-set-key (kbd "C-<f11>") nil)
+(global-set-key (kbd "C-<f12>") nil)
 
 ;;; Meta Function (Misc)
 
 (global-set-key (kbd "M-<f1>") 'org-pomodoro)
 (global-set-key (kbd "M-<f2>") 'ebib-insert-citation)
-(global-set-key (kbd "M-<f3>") 'emms-previous)
-(global-set-key (kbd "M-<f4>") 'emms-next) ; Close Program
-(global-set-key (kbd "M-<f5>") 'emms-pause)
-(global-set-key (kbd "M-<f6>") 'emms-shuffle)
-;; (global-set-key (kbd "M-<f7>") nil)
-;; (global-set-key (kbd "M-<f8>") nil)
-;; (global-set-key (kbd "M-<f9>") nil)
-;; (global-set-key (kbd "M-<f10>") nil)
-;; (global-set-key (kbd "M-<f11>") nil)
-;; (global-set-key (kbd "M-<f12>") nil)
+(global-set-key (kbd "M-<f3>") nil)
+(global-set-key (kbd "M-<f4>") nil) ; Close Program
+(global-set-key (kbd "M-<f5>") nil)
+(global-set-key (kbd "M-<f6>") nil)
+(global-set-key (kbd "M-<f7>") nil)
+(global-set-key (kbd "M-<f8>") nil)
+(global-set-key (kbd "M-<f9>") nil)
+;; (global-set-key (kbd "M-<f10>") nil) ; Non-Functional
+(global-set-key (kbd "M-<f11>") nil)
+(global-set-key (kbd "M-<f12>") nil)
 
 ;;; Super (Minor Modes/Special Functions)
 
 ;; (global-set-key (kbd "s-q") nil) ; GNOME ?
 (global-set-key (kbd "s-w") 'whitespace-mode)
 (global-set-key (kbd "s-e") 'show-paren-mode)
-(global-set-key (kbd "s-r") 'display-line-numbers-mode)
-(global-set-key (kbd "s-t") 'titlecase-dwim)
+(global-set-key (kbd "s-n") 'display-line-numbers-mode)
+(global-set-key (kbd "s-t") 'vterm-toggle)
 (global-set-key (kbd "s-y") 'yank-from-primary)
 (global-set-key (kbd "s-u") 'unfill-paragraph)
-;; (global-set-key (kbd "s-i") nil)
+(global-set-key (kbd "s-i") nil)
 ;; (global-set-key (kbd "s-o") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-p") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-a") nil) ; GNOME Application Menu
@@ -1622,23 +2093,27 @@ fill column of the resulting string."
 (global-set-key (kbd "s-f") 'display-fill-column-indicator-mode)
 (global-set-key (kbd "s-g") 'cdr:run-genpro-and-update)
 ;; (global-set-key (kbd "s-h") nil) ; GNOME ?
-;; (global-set-key (kbd "s-j") nil)
-;; (global-set-key (kbd "s-k") nil)
+ (global-set-key (kbd "s-j") nil)
+ (global-set-key (kbd "s-k") nil)
 ;; (global-set-key (kbd "s-l") nil) ; GNOME Lock Screen
-;; (global-set-key (kbd "s-z") nil)
-;; (global-set-key (kbd "s-x") nil)
+ (global-set-key (kbd "s-z") nil)
+ (global-set-key (kbd "s-x") nil)
 (global-set-key (kbd "s-c") 'copy-unfilled-subtree)
 ;; (global-set-key (kbd "s-v") nil) ; GNOME Show Notifications
-;; (global-set-key (kbd "s-b") nil)
+ (global-set-key (kbd "s-b") nil)
 ;; (global-set-key (kbd "s-n") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-m") nil) ; GNOME ?
 (global-set-key (kbd "s-;") 'projectile-mode)
-;; (global-set-key (kbd "s-q") nil)
-;; (global-set-key (kbd "s-q") nil)
-;; (global-set-key (kbd "s-q") nil)
-;; (global-set-key (kbd "s-q") nil)
-;; (global-set-key (kbd "s-q") nil)
 (global-set-key (kbd "s-<tab>") 'indent-relative)
+
+;;; Audio Controls
+(global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
+(global-set-key (kbd "<XF86AudioNext>") 'emms-next) 
+(global-set-key (kbd "<XF86AudioPlay>") 'emms-pause)
+(global-set-key (kbd "M-<XF86AudioPlay>") 'emms-shuffle)
+(global-set-key (kbd "M-s-<XF86AudioPlay>") (lambda () (interactive)
+                                              (emms-play-directory
+                                               "~/Music/MIDI/OST")))
 
 ;;; Mode-specific Keybindings Made Global
 (global-set-key (kbd "C-c l") 'org-store-link)
@@ -1672,7 +2147,8 @@ is true; otherwise returns the last value."
 			     (org-babel-scheme-get-repl impl repl))))
 	  (when (not (eq impl (org-babel-scheme-get-buffer-impl
 			       (current-buffer))))
-	    (message "Implementation mismatch: %s (%s) %s (%s)" impl (symbolp impl)
+	    (message "Implementation mismatch: %s (%s) %s (%s)" impl
+                     (symbolp impl)
 		     (org-babel-scheme-get-buffer-impl (current-buffer))
 		     (symbolp (org-babel-scheme-get-buffer-impl
 			       (current-buffer)))))
@@ -1691,10 +2167,32 @@ is true; otherwise returns the last value."
 	  (when (not repl)
 	    (save-current-buffer (set-buffer repl-buffer)
 				 (geiser-repl-exit))
-	    (set-process-query-on-exit-flag (get-buffer-process repl-buffer) nil)
+	    (set-process-query-on-exit-flag (get-buffer-process repl-buffer)
+                                            nil)
 	    (kill-buffer repl-buffer)))))
     result))
 
+(pdf-loader-install)
+(add-hook 'TeX-after-compilation-finished-functions
+          #'TeX-revert-document-buffer)
+(define-generic-mode
+    'pseudocode-mode
+                                        ; Comments
+  '(";" "#" "//" ("/*" . "*/"))
+                                        ; Keywords
+  '()
+  `(("\\[.*\\S .*\\]" . 'font-lock-function-name-face)
+    ("`.+`" . 'font-lock-preprocessor-face)
+    (,(regexp-opt '("take the remainder of" "raised to") 'symbols) . 'font-lock-type-face)
+    ("!=\\|!<\\|!>\\|\\^\\|\\*" . 'font-lock-builtin-face)
+    ("true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|success\\|failure\\|newline\\|beep\\|indent" . 'font-lock-constant-face)
+    ("number\\|string\\|character\\|boolean\\|list\\|array\\|sequence\\|nothing\\|maybe\\|symbol\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|sum\\|difference\\|product\\|quotient\\|remainder" . 'font-lock-type-face)
+    
+    (,(regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯" "≮" "≥" "≤" "≠" "less than" "more than" "greater than" "equal to" "different than" "different from" "¬" "⊻" "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive" "->" "<-" "→" "←" "resulting in" "fed" "right" "left" "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times" "divided by" "modulo" "add" "subtract" "multiply" "divide" "take the remainder of" "raised to the" "power" "squared" "cubed" "root" "square" "cube") 'symbols) . 'font-lock-builtin-face)
+    ("'.*'\\|\".*\"\\|\\\".*'.*\\\"" . 'font-lock-string-face)
+    (,(regexp-opt '("begin" "end" "read" "obtain" "get" "take" "use" "copy" "print" "display" "show" "save" "return" "compute" "calculate" "determine" "append" "set" "initialize" "init" "let" "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "while" "done" "endwhile" "do" "case" "of" "others" "endcase" "repeat" "until" "for" "endfor" "call" "exception" "when" "as" "recurse") 'symbols) . 'font-lock-keyword-face))
+  '("\\.pseudo$")
+  nil
+  "A mode for editing a somewhat-standard version of pseudocode.")
 ;;; Load Initial File.
 (find-file "~/Documents/org/main.org")
-

@@ -11,7 +11,9 @@
 (use-modules (gnu)
              (srfi srfi-1)
              (ice-9 textual-ports)
-             (guix modules))
+             (guix modules)
+             (cdr255 kernel)
+             (gnu packages linux))
 
 (use-service-modules admin avahi base databases desktop docker games mail mcron
                      networking ssh virtualization web xorg )
@@ -48,14 +50,14 @@
                   "updatedb"
                   "--prunepaths=/tmp /var/tmp /gnu/store"))))
 
- (define %my-keyboard-layout
+(define %my-keyboard-layout
   (keyboard-layout "us,apl" #:options
                    '("ctrl:swapcaps_hyper" "compose:rctrl"
                      "grp:toggle")))
 
 (define %my-desktop-services
   (modify-services %desktop-services
-                 (delete elogind-service-type)))
+    (delete elogind-service-type)))
 
 (define %my-service-addons
   (append
@@ -69,7 +71,7 @@
                  ("git" ,%ming-pubkey)))))
     (service postgresql-service-type
              (postgresql-configuration
-              (postgresql postgresql-10)))
+              (postgresql postgresql-14)))
     (service gmnisrv-service-type)
     (service wesnothd-service-type)
     (service docker-service-type)
@@ -88,85 +90,168 @@
      #:config (elogind-configuration
                (handle-power-key 'ignore)))
     (service libvirt-service-type
-         (libvirt-configuration
-          (unix-sock-group "libvirt")
-          (tls-port "16555")))
+             (libvirt-configuration
+              (unix-sock-group "libvirt")
+              (tls-port "16555")))
     (service virtlog-service-type))
    %my-desktop-services))
 
 (define %my-services
   (modify-services
-   %my-service-addons
-   (guix-service-type
-    config =>
-    (guix-configuration
-     (inherit config)
-     (authorized-keys
-      (append (list (local-file "/etc/cdr255/frostpine.pub"))
-              %default-authorized-guix-keys))))))
+      %my-service-addons
+    (guix-service-type
+     config =>
+     (guix-configuration
+      (inherit config)
+      (authorized-keys
+       (append (list (local-file "/etc/cdr255/frostpine.pub"))
+               %default-authorized-guix-keys))))))
 (define %my-packages
-  (list "nss-certs"
-        "xorg-server-xwayland"
+  (list "b3sum"
+        "bash"
+        "borg"
+        "brightnessctl"
+        "btrfs-progs"
+        "coreutils"
+        "curl"
+        "dfc"
+        "dmidecode"
+        "docker"
+        "dosfstools"
+        "efibootmgr"
         "emacs"
+        "erofs-utils"
+        "espeak-ng"
+        "exa"
+        "exfat-utils"
+        "exfatprogs"
+        "expect"
+        "extundelete"
+        "file"
+        "font-gnu-freefont"
+        "font-gnu-unifont"
+        "font-tex-gyre"
+        "gash"
+        "ghostscript"
+        "git"
+        "glibc-locales"
+        "gnupg"
+        "gparted"
+        "grep"
+        "guile"
+        "gv"
+        "icecat"
+        "le-certs"
+        "libvirt"
+        "links"
+        "lxc"
+        "mc"
+        "msmtp"
+        "mu"
+        "ncdu"
+        "ncurses"
+        "netcat"
+        "nmap"
+        "nss-certs"
+        "openjdk"
         "openssh"
         "openssl"
+        "pinentry-emacs"
+        "postgresql"
+        "qemu"
+        "ripgrep"
+        "rsync"
         "rxvt-unicode"
-        "git"
-        "libvirt"
-        "openjdk"
+        "sbcl-stumpwm-battery-portable"
+        "sbcl-stumpwm-screenshot"
+        "sbcl-zpng"
+        "sed"
+        "sedsed"
+        "setxkbmap"
+        "shepherd"
+        "sshfs"
+        "sshpass"
         "stumpwm"
-        "ncurses"
-        "guile"))
+        "stumpwm:lib"
+        "telescope"
+        "texinfo"
+        "the-silver-searcher"
+        "transmission"
+        "tree"
+        "unzip"
+        "which"
+        "wordnet"
+        "xapian"
+        "xdg-utils"
+        "xdotool"
+        "xdpyprobe"
+        "xorg-server-xwayland"
+        "xrdb"
+        "zenity"
+        "zutils"))
+(define %my-firmware
+  (list "ath9k-htc-firmware"))
+(define %my-kernel-modules
+  (list librem-ec-acpi-linux-module))
+(define %my-kernel-arguments
+  (append (list
+           "panic=30"
+           "splash")
+          %default-kernel-arguments))
 (operating-system
- (locale "en_US.utf8")
- (timezone "America/New_York")
- (keyboard-layout %my-keyboard-layout)
- (host-name "jory")
- (users (cons* (user-account
-                (name "ming")
-                (comment "Christopher Rodriguez")
-                (group "users")
-                (home-directory "/home/ming")
-                (supplementary-groups
-                 '("wheel" "netdev" "audio" "video" "docker" "libvirt" "kvm")))
-               (user-account
-                (name "git")
-                (group "git")
-                (home-directory "/home/git")
-                (comment "For Use With Git")
-                (system? #t))
-               %base-user-accounts))
- (groups (cons* (user-group
+  (kernel linux-libre-jory)
+  (firmware %my-firmware)
+  (kernel-loadable-modules %my-kernel-modules)
+  (kernel-arguments %my-kernel-arguments)
+  (locale "en_US.utf8")
+  (timezone "America/New_York")
+  (keyboard-layout %my-keyboard-layout)
+  (host-name "jory")
+  (users (cons* (user-account
+                 (name "ming")
+                 (comment "Christopher Rodriguez")
+                 (group "users")
+                 (home-directory "/home/ming")
+                 (supplementary-groups
+                  '("wheel" "netdev" "audio" "video" "docker" "libvirt" "kvm")))
+                (user-account
                  (name "git")
+                 (group "git")
+                 (home-directory "/home/git")
+                 (comment "For Use With Git")
                  (system? #t))
-                %base-groups))
- (packages
-  (append
-   (map (compose list specification->package+output)
-        %my-packages)
-   %base-packages))
- (services
-  %my-services)
- (bootloader
-  (bootloader-configuration
-   (bootloader grub-bootloader)
-   (targets (list "/dev/nvme0n1"))
-   (keyboard-layout keyboard-layout)))
- (swap-devices
-  (list (swap-space
-         (target
-          (uuid "0fd9015c-34ca-4d05-843b-584fa94796d3")))))
- (file-systems
-  (cons* (file-system
-          (mount-point "/")
-          (device
-           (uuid "ada80f5c-de9b-4a3b-b25d-cd4518d2a8f7"
-                 'ext4))
-          (type "ext4"))
-         (file-system
-          (mount-point "/home")
-          (device
-           (uuid "0ee6f458-e0d7-4bc3-b449-b368901c70fd"
-                 'ext4))
-          (type "ext4"))
-         %base-file-systems)))
+                %base-user-accounts))
+  (groups (cons* (user-group
+                  (name "git")
+                  (system? #t))
+                 %base-groups))
+  (packages
+   (append
+    (map (compose list specification->package+output)
+         %my-packages)
+    %base-packages))
+  (services
+   %my-services)
+  (bootloader
+   (bootloader-configuration
+    (bootloader grub-bootloader)
+    (targets (list "/dev/nvme0n1"))
+    (keyboard-layout keyboard-layout)))
+  (swap-devices
+   (list (swap-space
+          (target
+           (uuid "0fd9015c-34ca-4d05-843b-584fa94796d3")))))
+  (file-systems
+   (cons* (file-system
+            (mount-point "/")
+            (device
+             (uuid "ada80f5c-de9b-4a3b-b25d-cd4518d2a8f7"
+                   'ext4))
+            (type "ext4"))
+          (file-system
+            (mount-point "/home")
+            (device
+             (uuid "0ee6f458-e0d7-4bc3-b449-b368901c70fd"
+                   'ext4))
+            (type "ext4"))
+          %base-file-systems)))
