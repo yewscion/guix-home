@@ -2,7 +2,7 @@
   (user email "yewscion@gmail.com")
   (user signingKey "F39C D463 49A5 76F8 8EF9  2479 1102 102E BE7C 3AE4")
   (commit template ,(string-append (getenv "HOME")
-                                   "/.emacs/templates/git-commit.txt"))
+                                   "/.emacs.d/templates/git-commit"))
   (init defaultBranch "trunk")
   (alias glog
          ,(string-append "log --graph --pretty=format:'%Cred%h%Creset "

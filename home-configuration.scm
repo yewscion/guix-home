@@ -1,10 +1,3 @@
-;; This "home-environment" file can be passed to 'guix home
-;; reconfigure' to reproduce the content of your profile.  This is
-;; "symbolic": it only specifies package names.  To reproduce the
-;; exact same profile, you also need to capture the channels being
-;; used, as returned by "guix describe".  See the "Replicating Guix"
-;; section in the manual.
-
 (use-modules
  (gnu home)
  (gnu packages)
@@ -33,79 +26,6 @@
                  "\\[\\e[0;36m\\]\\h\\[\\e[0m\\]:"
                  "\\[\\e[0;94m\\]\\W\\[\\e[0;94m\\]"
                  "/\\[\\e[0m\\]$ \\[\\e[0m\\]"))
-(define my-shepherd-services
-  "(define emacs
- (make <service>
-   #:provides '(emacs)
-   #:requires '()
-   #:start (make-system-constructor \"emacs --daemon\")
-   #:stop (make-system-destructor
-           \"emacsclient --eval \\\"(kill-emacs)\\\"\")
-   #:declarative? #f))")
-(define my-shepherd-init
-  "(load \"services.scm\")
-(register-services emacs)
-(action 'shepherd 'daemonize) ; send shepherd into background
-(for-each start (list emacs)) ; services to start automatically")
-(define my-msmtprc
-  (string-append
-   "# Ensure You have initiated mu with the following command:\n"
-   "#\n"
-   "# mu init --my-address=cdr255@gmail.com "
-   "--my-address=yewscion@gmail.com \\\n"
-   "# --my-address=rodnchr@amazon.com \\\n"
-   "# --my-address=christopher.rodriguez@csuglobal.edu\n"
-   "#\n"
-   "# Set default values for all following accounts.\n"
-   "defaults\n"
-   "auth               on\n"
-   "tls                on\n"
-   "tls_starttls       off\n"
-   "logfile            ~/.msmtp.log\n"
-   "\n"
-   "# Gmail - cdr255\n"
-   "account        gmail-cdr255\n"
-   "from           cdr255@gmail.com\n"
-   "host           smtp.gmail.com\n"
-   "port           465\n"
-   "user           cdr255@gmail.com\n"
-   "domain         gmail.com\n"
-   "passwordeval   \"pass offlineimap/cdr255@gmail.com | head -n1\"\n"
-   "\n"
-   "\n"
-   "# Gmail - yewscion\n"
-   "account        gmail-yewscion\n"
-   "from           yewscion@gmail.com\n"
-   "host           smtp.gmail.com\n"
-   "port           465\n"
-   "user           yewscion@gmail.com\n"
-   "domain         gmail.com\n"
-   "passwordeval   \"pass offlineimap/yewscion@gmail.com | head -n1\"\n"
-   "\n"
-   "\n"
-   "# csuglobal - christopher.rodriguez\n"
-   "account        csuglobal\n"
-   "from           christopher.rodriguez@csuglobal.edu\n"
-   "host           smtp.gmail.com\n"
-   "port           465\n"
-   "user           christopher.rodriguez@csuglobal.edu\n"
-   "domain         gmail.com\n"
-   "passwordeval "
-   "\"pass offlineimap/christopher.rodriguez@csuglobal.edu | head -n1\"\n"
-   "\n"
-   "# amazon - rodnchr\n"
-   "account amazon\n"
-   "from rodnchr@amazon.com\n"
-   "host ballard.amazon.com\n"
-   "port 1587\n"
-   "user ANT\\rodnchr\n"
-   "domain amazon.com\n"
-   "tls_starttls on\n"
-   "passwordeval   \"pass amazon | head -n1\"\n"
-   "\n"
-   "# # Set a default account\n"
-   "# account default : gmail-cdr255\n"
-   ))
 (define my-function-dir-git-branch
   (string-append "dir-git-branch() {\n"
                  "    git branch 2>/dev/null | \\\n"
@@ -157,8 +77,9 @@
   (string-append "log-guix-state() {\n"
                  "    guix describe -f human \| sed -n \"1p\"\n"
                  "    guix describe -f channels\n"
-                 "    guix package --export-manifest -p \"$GUIX_PROFILE\"\n"
-                 "    guix package --list-generations -p \"$GUIX_PROFILE\"\n}\n"))
+                 "    guix package --export-manifest -p \"${GUIX_PROFILE}\"\n"
+                 "    guix package --list-generations -p "
+                 "\"${GUIX_PROFILE}\"\n}\n"))
 (define my-function-daily-update-guix
   (string-append "daily-update-guix() {\n"
                  "    timestamp=$(date -Is)\n"
@@ -197,12 +118,12 @@
 (define my-packages
   '("adlmidi" "alsa-plugins" "alsa-plugins:pulseaudio" "ant" "ant-junit"
   "apl" "autoconf" "automake" "b3sum" "bash" "beets" "biber" "borg"
-  "brightnessctl" "bsd-games" "btrfs-progs" "carp" "chez-scheme"
-  "chez-scheme:doc" "cl-asdf" "clang-toolchain" "clisp" "clojure"
-  "codechallenge-solutions" "coreutils" "curl" "dfc" "dmidecode" "docker"
-  "dosfstools" "efibootmgr" "elm" "emacs" "emacs-alert" "emacs-anaphora"
-  "emacs-async" "emacs-auctex" "emacs-biblio" "emacs-bui" "emacs-cider"
-  "emacs-citar" "emacs-citeproc-el" "emacs-clojure-mode" "emacs-company"
+  "brightnessctl" "bsd-games" "btrfs-progs" "carp" "cbqn" "chez-scheme"
+  "chez-scheme:doc" "cl-asdf" "clisp" "clojure" "codechallenge-solutions"
+  "coreutils" "curl" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr"
+  "elm" "emacs" "emacs-alert" "emacs-anaphora" "emacs-async" "emacs-auctex"
+  "emacs-biblio" "emacs-bqn-mode" "emacs-bui" "emacs-cider" "emacs-citar"
+  "emacs-citeproc-el" "emacs-clojure-mode" "emacs-company"
   "emacs-company-lsp" "emacs-company-math" "emacs-company-quickhelp"
   "emacs-csv" "emacs-csv-mode" "emacs-daemons" "emacs-dash"
   "emacs-datetime" "emacs-debbugs" "emacs-deft" "emacs-dictionary"
@@ -265,28 +186,31 @@
   "emacs-xterm-color" "emacs-yaml" "emacs-yaml-mode" "emacspeak"
   "endless-sky" "erofs-utils" "esbuild" "espeak-ng" "exa" "exempi"
   "exfat-utils" "exfatprogs" "expect" "extundelete" "fennel" "file"
-  "filters" "fluid-3" "fluidsynth" "fnlfmt" "font-gnu-freefont"
-  "font-gnu-unifont" "font-tex-gyre" "gambit-c" "gash" "gauche"
-  "gcc-toolchain" "genpro" "gerbil" "ghostscript" "gifsicle" "gimp" "git"
-  "git:send-email" "glibc-locales" "gnupg" "gnurobots" "gparted" "graphviz"
-  "grep" "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
+  "fluid-3" "fluidsynth" "fnlfmt" "font-3270" "font-bqn386"
+  "font-gnu-freefont" "font-gnu-unifont" "font-gnu-unifont:pcf"
+  "font-gnu-unifont:psf" "font-gnu-unifont:bin" "font-terminus"
+  "font-tex-gyre" "gambit-c" "gash" "gauche" "gcc-toolchain" "genpro"
+  "gerbil" "ghostscript" "gifsicle" "gimp" "git" "git:send-email"
+  "glibc-locales" "gnupg" "gnurobots" "gparted" "graphviz" "grep"
+  "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
   "guile-colorized" "guile-git" "guile-goblins" "guile-hall"
   "guile-ncurses" "guile-readline" "guile-sqlite3" "guile-ssh" "gv" "haunt"
   "httrack" "icecat" "inkscape" "innoextract" "ispell" "janet" "java-bsh"
-  "java-junit" "java-log4j-core" "jpegoptim" "kawa" "knock" "le-certs"
-  "libreoffice" "libvirt" "links" "lxc" "make" "mc" "milkytracker" "mono"
-  "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu" "ncurses" "netcat" "nethack"
-  "newlisp" "newt" "nmap" "node" "nomad" "nss-certs" "offlineimap3"
-  "openjdk:doc" "openjdk:jdk" "orca-music" "owl-lisp" "pagr"
-  "password-store" "patchelf" "patchelf-wrapper" "pavucontrol" "perl"
-  "perl-image-exiftool" "picolisp" "pinentry-emacs" "pkg-config" "plantuml"
-  "poppler" "portmidi" "postgresql" "python" "python-lsp-server"
-  "python-pygments" "python-pygments-lexer-pseudocode-std" "qemu" "ripgrep"
-  "rsync" "ruby" "ruby-kramdown" "rxvt-unicode" "sbcl" "sbcl-esrap" "sbcl-ironclad"
+  "java-guice" "java-junit" "java-log4j-core" "jpegoptim" "kawa" "knock"
+  "le-certs" "libreoffice" "libvirt" "links" "lxc" "make" "maven" "mc"
+  "milkytracker" "mono" "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu"
+  "ncurses" "netcat" "nethack" "newlisp" "newt" "nmap" "node" "nomad"
+  "nss-certs" "offlineimap3" "openjdk:doc" "openjdk:jdk" "orca-music"
+  "owl-lisp" "pagr" "password-store" "patchelf" "patchelf-wrapper"
+  "pavucontrol" "perl" "perl-image-exiftool" "picolisp" "pinentry-emacs"
+  "pkg-config" "plantuml" "poppler" "portmidi" "postgresql" "python"
+  "python-lsp-server" "python-pygments"
+  "python-pygments-lexer-pseudocode-std" "qemu" "ripgrep" "rsync" "ruby"
+  "ruby-kramdown" "rxvt-unicode" "sbcl" "sbcl-esrap" "sbcl-ironclad"
   "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
   "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "sed" "sedsed"
-  "setxkbmap" "shellcheck" "shepherd" "sshfs" "sshpass" "stumpish" "stumpwm"
-  "stumpwm:lib" "swi-prolog" "talkfilters" "telescope" "texinfo"
+  "setxkbmap" "shellcheck" "shepherd" "sshfs" "sshpass" "stumpish"
+  "stumpwm" "stumpwm:lib" "swi-prolog" "talkfilters" "telescope" "texinfo"
   "texlive-babel-russian" "texlive-biblatex" "texlive-biblatex-apa"
   "texlive-booktabs" "texlive-capt-of" "texlive-csquotes" "texlive-doi"
   "texlive-enumitem" "texlive-etoolbox" "texlive-fontspec"
@@ -315,23 +239,25 @@
   "texlive-tracklang" "texlive-txfonts" "texlive-varwidth" "texlive-xcolor"
   "texlive-xifthen" "texmacs" "the-silver-searcher" "timidity++" "tintin++"
   "transmission" "tree" "universal-ctags" "unzip" "uxn" "virt-manager"
-  "virt-viewer" "vlang" "wesnoth" "which" "wordnet" "xapian" "xboard"
-  "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xmp" "xrdb" "yewscion-scripts"
-  "yt-dlp" "zenity" "zutils"))
+  "virt-viewer" "vlang" "wesnoth" "which" "wine64-staging" "wordnet"
+  "xapian" "xboard" "xdg-utils" "xdotool" "xdpyprobe" "xindy"
+  "xkeyboard-config" "xmp" "xrdb" "yewscion-scripts" "yt-dlp" "zenity"
+  "zutils"))
 (define
   my-no-test-packages
-  '(
-;   curl
-;   emacs-parsebib
-;   emacs-ebib
-;   emacs-citar
-;   emacs-org-ref
-   ))
+  '(;curl
+    ;emacs-parsebib
+    ;emacs-ebib
+    ;emacs-citar
+    ;emacs-org-ref
+    ))
 (define my-transformation
   (options->transformation
    '(
-     ;(without-tests . "curl")
-     ;(with-commit . "emacs-parsebib=185239020f878cfbe1036270e6c3d1026ba8f255")
+     ;; (without-tests . "curl")
+     ;; (with-commit
+     ;;  .
+     ;;  "emacs-parsebib=185239020f878cfbe1036270e6c3d1026ba8f255")
      )))
 
 (define my-u-ctags (computed-file
@@ -413,14 +339,13 @@
         (simple-service 'dotfiles
                         home-files-service-type
                         (list `(".config/shepherd/init.scm"
-                                ,(plain-file "user-shepherd-init.scm"
-                                             my-shepherd-init))
+                                ,(local-file "dotfiles/shepherd-init.scm"
+                                             "shepherd-init"))
                               `(".config/shepherd/services.scm"
-                                ,(plain-file "user-shepherd-services.scm"
-                                             my-shepherd-services))
+                                ,(local-file "dotfiles/shepherd-services.scm"
+                                             "shepherd-services"))
                               `(".msmtprc"
-                                ,(plain-file "msmtprc"
-                                             my-msmtprc))
+                                ,(local-file "dotfiles/msmtprc" "msmtprc"))
                               `(".emacs.d/init.el"
                                 ,(local-file "dotfiles/emacs-config.el"))
                               `(".emacs.d/library-of-babel.org"
@@ -429,26 +354,89 @@
                                 ,(local-file "dotfiles/local-elisp"
                                              #:recursive? #true))
                               `(".local/share/empty-repo"
-                                ,(local-file "dotfiles/empty-repo"
-                                             #:recursive? #true))                              
-                              `(".emacs.d/templates"
-                                ,(local-file "dotfiles/templates"
-                                             #:recursive? #true))
-                               `(".Xresources"
-                                ,(local-file "dotfiles/.Xresources" "xresources"
-                                             #:recursive? #true))
-                              `(".config/mc/ini"
-                                ,(local-file "dotfiles/mc.ini" "mc-ini"
-                                             #:recursive? #true))
-                              `(".config/stumpwm/config"
-                                ,(local-file "dotfiles/stumpwmrc" "stumpwmrc"
-                                             #:recursive? #true))
-                              `(".config/gitconfig.scm"
-                                ,(local-file "dotfiles/gitconfig.scm" "gitconfig-values"
-                                             #:recursive? #true))
-                              `(".config/stumpwm/window-placement.lisp"
-                                ,(local-file "dotfiles/stumpwm-windows.lisp"
-                                             "stumpwm-windows.lisp"
-                                             #:recursive? #true))
-                              `(".local/bin/u-ctags"
-                                ,(file-append my-u-ctags "/bin/u-ctags")))))))
+                                ,(file-union
+                                  "empty-repo"
+                                  `(("AUTHORS"
+                                     ,(local-file
+                                       "templates/authors"))
+                                    ("bin/project-name.in"
+                                     ,(local-file
+                                       "templates/project-name"))
+                                    ("bin/project-name-info.in"
+                                     ,(local-file
+                                       "templates/project-name-info"))
+                                    ("bootstrap"
+                                     ,(local-file
+                                       "templates/bootstrap"))
+                                    ("Changelog.md"
+                                     ,(local-file
+                                       "templates/changelog"))
+                                    ("configure.ac"
+                                     ,(local-file
+                                       "templates/configure.ac"))
+                                    ("DEPENDENCIES.txt"
+                                     ,(local-file
+                                       "templates/dependencies"))
+                                    ("doc/fdl-1.3.texi"
+                                     ,(local-file
+                                       "templates/fdl-1.3.texi"))
+                                    ("doc/procedure-types.texi"
+                                     ,(local-file
+                                       "templates/procedure-types.texi"))
+                                    ("doc/version.texi.in"
+                                     ,(local-file
+                                       "templates/version.texi"))
+                                    (".gitignore"
+                                     ,(local-file
+                                       "templates/gitignore"))
+                                    (".dir-locals.el"
+                                     ,(local-file
+                                       "templates/dir-locals"))
+                                    ("guix.scm"
+                                     ,(local-file
+                                       "templates/guix-shell-file.scm"))
+                                    ("incant.sh"
+                                     ,(local-file
+                                       "templates/incant.sh"))
+                                    ("LICENSE"
+                                     ,(local-file
+                                       "templates/agpl3.0"))
+                                    ("Makefile.am"
+                                     ,(local-file
+                                       "templates/makefile.am"))
+                                    ("NEWS"
+                                     ,(local-file
+                                       "templates/news"))
+                                    ("pre-inst-env.in"
+                                     ,(local-file
+                                       "templates/pre-inst-env"))
+                                    ("README.org"
+                                     ,(local-file
+                                       "templates/readme"))
+                                    ("setup-symlinks.sh"
+                                     ,(local-file
+                                       "templates/setup-symlinks.sh"))
+                                    ("tests/maintests.scm"
+                                     ,(local-file
+                                       "templates/maintests.scm")))))
+                                  `(".emacs.d/templates"
+                                    ,(local-file "templates"
+                                                 #:recursive? #true))
+                                  `(".Xresources"
+                                    ,(local-file "dotfiles/xresources"
+                                                 "xresources"))
+                                  `(".config/mc/ini"
+                                    ,(local-file "dotfiles/mc.ini" "mc-ini"))
+                                  `(".config/stumpwm/config"
+                                    ,(local-file "dotfiles/stumpwmrc" "stumpwmrc"))
+                                  `(".config/gitconfig.scm"
+                                    ,(local-file "dotfiles/gitconfig.scm"
+                                                 "gitconfig-values"))
+                                  ;; `(".npmrc"
+                                  ;;   ,(local-file "dotfiles/npmrc"
+                                  ;;                "npmrc"))
+                                  `(".config/stumpwm/window-placement.lisp"
+                                    ,(local-file "dotfiles/stumpwm-windows.lisp"
+                                                 "stumpwm-windows.lisp"))
+                                  `(".local/bin/u-ctags"
+                                    ,(file-append my-u-ctags "/bin/u-ctags")))))))

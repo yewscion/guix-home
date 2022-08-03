@@ -14,3 +14,7 @@
 
 (define (main args)
   (basic-tests))
+
+;; Local Variables:
+;; mode: scheme
+;; End:

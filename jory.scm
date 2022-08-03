@@ -16,7 +16,7 @@
              (gnu packages linux))
 
 (use-service-modules admin avahi base databases desktop docker games mail mcron
-                     networking ssh virtualization web xorg )
+                     networking sddm ssh virtualization web xorg)
 
 (use-package-modules admin certs databases emacs games package-management ssh
                      tls version-control xdisorg )
@@ -57,12 +57,11 @@
 
 (define %my-desktop-services
   (modify-services %desktop-services
-    (delete elogind-service-type)))
-
+                   (delete elogind-service-type)))
 (define %my-service-addons
   (append
    (list
-    (service gnome-desktop-service-type)
+    ;(service gnome-desktop-service-type)
     (service openssh-service-type
              (openssh-configuration
               (password-authentication? #f)
@@ -185,6 +184,7 @@
         "xdg-utils"
         "xdotool"
         "xdpyprobe"
+        "xkeyboard-config@2.36"
         "xorg-server-xwayland"
         "xrdb"
         "zenity"

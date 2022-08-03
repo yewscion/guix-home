@@ -59,3 +59,7 @@ URxvt*print-pipe: cat > $HOME/Downloads/$(date --iso-8601=s | sed 's/://g').urxv
 URxvt.loginShell: true
 XTerm.metaSendsEscape: true
 URxvt.altSendsEscape: true
+
+! Local Variables:
+! mode: conf-xdefaults
+! End:

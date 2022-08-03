@@ -5,10 +5,14 @@
 
 ;;; Package System
 (require 'package)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+(setq package-archives '(("gnu" .
+                          "https://elpa.gnu.org/packages/")
+                         ("nongnu" .
+                          "https://elpa.nongnu.org/nongnu/")
+                         ("melpa" .
+                          "https://melpa.org/packages/")
+                         ("melpa-stable" .
+                          "https://stable.melpa.org/packages/")))
 (package-initialize)
 ;;; Local Elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -465,7 +469,8 @@ lists."
 ;;; Header Line Format Function
 (defun cdr:display-header-line ()
   (unless (or (string-equal (symbol-name major-mode) "ebib-entry-mode")
-              (not (equal nil (member 'lsp-headerline-breadcrumb-mode minor-mode-list))))
+              (not (equal nil (member 'lsp-headerline-breadcrumb-mode
+                                      minor-mode-list))))
     (setq header-line-format
           '("%e" mode-line-misc-info))))
 
@@ -494,13 +499,15 @@ lists."
     (find-file f)
     (let ((line-num (random (count-lines (point-min) (point-max)))))
       (goto-line line-num)
-      (let ((result (buffer-substring (line-beginning-position) (line-end-position))))
+      (let ((result (buffer-substring (line-beginning-position)
+                                      (line-end-position))))
         (kill-buffer (current-buffer))
         result))))
 
 (defun my:journal-prompt ()
   (interactive)
-  (let* ((thing (random-thing-from-a-file "~/Documents/journal-prompts.txt")))
+  (let* ((thing (random-thing-from-a-file
+                 "~/.local/share/journal-prompts.txt")))
     (message
      (concat "Journal Prompt for Today: "
              thing))))
@@ -567,16 +574,18 @@ even beep.)"
 (defun cdr:diredy-hide-dotfiles ()
   "Removes the 'a' flag from dired-listing-switches."
   (interactive)
-  (setq dired-listing-switches "-DFhikmopqs"))
+  (setq dired-actual-switches "-DFhikmopqs")
+  (revert-buffer))
 (defun cdr:diredy-show-dotfiles ()
   "Adds the 'a' flag from dired-listing-switches."
   (interactive)
-  (setq dired-listing-switches "-aDFhikmopqs"))
+  (setq dired-actual-switches "-aDFhikmopqs")
+  (revert-buffer))
 
 (defun cdr:templates-insert-scm-docstring ()
   "Inserts a docstring at the current position."
   (interactive)
-  (insert-file-contents "~/.emacs.d/templates/scheme-docstring.txt"))
+  (insert-file-contents "~/.emacs.d/templates/scheme-docstring"))
 (defun cdr:templates-insert-org-header ()
   "Inserts my org header at the current position."
   (interactive)
@@ -584,15 +593,11 @@ even beep.)"
 (defun cdr:templates-insert-bib-annotation ()
   "Inserts my biblatex annotation template at the current position."
   (interactive)
-  (insert-file-contents "~/.emacs.d/templates/bib-annotation.txt"))
+  (insert-file-contents "~/.emacs.d/templates/bib-annotation"))
 (defun cdr:templates-insert-blog-post ()
   "Inserts my blog post template at the current position."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/blog-post.sxml"))
-(defun cdr:templates-insert-scm-project ()
-  "Inserts my scheme project template at the current position."
-  (interactive)
-  (insert-file-contents "~/.emacs.d/templates/scheme-project.org"))
 (defun cdr:templates-insert-setup ()
   "Inserts my org setup file at the current position."
   (interactive)
@@ -609,6 +614,10 @@ even beep.)"
   "Inserts my guix package template at the current position."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/guix-package.scm"))
+(defun cdr:templates-insert-dir-locals ()
+  "Inserts my .dir-locals.el template at the current position."
+  (interactive)
+  (insert-file-contents "~/.emacs.d/templates/dir-locals"))
 
 (defun cdr:edit-region-as-org ()
   "Create an indirect buffer for a region's content, and switch to Org Mode."
@@ -618,7 +627,8 @@ even beep.)"
   (org-mode))
 
 (defun cdr:edit-email-as-org ()
-  "Create an indirect buffer for an Email Message's content, and switch to Org Mode."
+  "Create an indirect buffer for an Email Message's content, and
+switch to Org Mode."
   (interactive)
   (goto-char (point-min))
   (search-forward "--text follows this line--")
@@ -728,7 +738,8 @@ need, and move the anchors to the correct places."
   (goto-char (point-min))
   (search-forward ">References</h4>")
   (beginning-of-line)
-  (insert "<hr />\n<h4 id=\"footnotes\">Footnotes</h4>\n\n<!-- FOOTNOTESWILLGOHERE -->\n\n<hr />\n"))
+  (insert (concat "<hr />\n<h4 id=\"footnotes\">Footnotes</h4>\n\n"
+                  "<!-- FOOTNOTESWILLGOHERE -->\n\n<hr />\n")))
 
 (defun cdr:prep-latex-for-copy-move-footnote ()
   "Move a Footnote to the Footnote Section."
@@ -754,7 +765,8 @@ command. Relies on GNU sed."
   (shell-command-on-region
    (point-min)
    (point-max)
-   "sed 's/\\x1b\\[[0-9;]*[a-zA-Z]//g;s/\\x1b\\[[\\?1-9].....//g;s///g;s///g'"
+   (concat "sed 's/\\x1b\\[[0-9;]*[a-zA-Z]//g;s/\\x1b\\[[\\?1-9].....//g;"
+           "s///g;s///g'")
    t t))
 (defun cdr:set-variable-from-shell (variable)
   "Pull the value of an environment variable from a newly-spawned
@@ -774,7 +786,8 @@ value."
    (concat
     "*** GNU Guix\n\n"
     "If You use [[https://guix.gnu.org/][GNU Guix]], this package \n"
-    "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]. \n\n"
+    "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]."
+    "\n\n"
     "Once You have it "
     "set up, You can just run:\n\n"
     "#+begin_src bash\n"
@@ -845,8 +858,9 @@ value."
    "\n"
    "guix shell -D -f guix.scm bash --pure\n"
    "#+end_src\n\n"
-   "If You've made changes without the above precautions, those changes will\n"
-   "need to be confirmed to work in the above environment before merge.\n\n"))
+   "If You've made changes without the above precautions, those changes will"
+   "\nneed to be confirmed to work in the above environment before merge.\n"
+   "\n"))
 (defun cdr:readme-license-instructions (project license)
   "Templating function for the 'License' section of my README.md files."
   (interactive)
@@ -872,16 +886,17 @@ value."
     ".info= file. Here are\nonly generic instructions.\n\n"
     "Once ="
     project
-    "= in installed, You should be able to access all of\nits exported functions"
-    "in guile by using its modules:\n\n"
+    "= in installed, You should be able to access all of\nits exported"
+    " functions in guile by using its modules:\n\n"
     "#+begin_src scheme\n"
     "(use-modules ("
     (cadr (split-string project "-"))
     " main))\n(library-info) ;; I include this in all my libraries\n"
     "#+end_src\n\n"
-    "Any binaries or scripts will be available in Your =$PATH=. A list of these\n"
-    "is maintained in the info file. They all also have the =--help== flag, so\n"
-    "if You prefer learning that way, that is also available.\n\n"))
+    "Any binaries or scripts will be available in Your =$PATH=. A list of "
+    "these\nis maintained in the info file. They all also have the =--help=="
+    " flag, so\nif You prefer learning that way, that is also available.\n"
+    "\n"))
 (defun cdr:lisp-fill-paragraph (&optional justify)
   "Like \\[fill-paragraph], but handle Emacs Lisp comments and docstrings.
 If any of the current line is a comment, fill the comment or the
@@ -895,29 +910,32 @@ fill column of the resulting string."
       ;; a comment: Point is on a program line; we are interested
       ;; particularly in docstring lines.
       ;;
-      ;; We bind `paragraph-start' and `paragraph-separate' temporarily.  They
-      ;; are buffer-local, but we avoid changing them so that they can be set
-      ;; to make `forward-paragraph' and friends do something the user wants.
+      ;; We bind `paragraph-start' and `paragraph-separate' temporarily.
+      ;; They are buffer-local, but we avoid changing them so that they can
+      ;; be set to make `forward-paragraph' and friends do something the user
+      ;; wants.
       ;;
       ;; `paragraph-start': The `(' in the character alternative and the
       ;; left-singlequote plus `(' sequence after the \\| alternative prevent
       ;; sexps and backquoted sexps that follow a docstring from being filled
       ;; with the docstring.  This setting has the consequence of inhibiting
-      ;; filling many program lines that are not docstrings, which is sensible,
-      ;; because the user probably asked to fill program lines by accident, or
-      ;; expecting indentation (perhaps we should try to do indenting in that
-      ;; case).  The `;' and `:' stop the paragraph being filled at following
-      ;; comment lines and at keywords (e.g., in `defcustom').  Left parens are
-      ;; escaped to keep font-locking, filling, & paren matching in the source
-      ;; file happy.  The `:' must be preceded by whitespace so that keywords
-      ;; inside of the docstring don't start new paragraphs (Bug#7751).
+      ;; filling many program lines that are not docstrings, which is
+      ;; sensible, because the user probably asked to fill program lines by
+      ;; accident, or expecting indentation (perhaps we should try to do
+      ;; indenting in that case).  The `;' and `:' stop the paragraph being
+      ;; filled at following comment lines and at keywords (e.g., in
+      ;; `defcustom').  Left parens are escaped to keep font-locking,
+      ;; filling, & paren matching in the source file happy.  The `:' must be
+      ;; preceded by whitespace so that keywords inside of the docstring
+      ;; don't start new paragraphs (Bug#7751).
       ;;
-      ;; `paragraph-separate': A clever regexp distinguishes the first line of
-      ;; a docstring and identifies it as a paragraph separator, so that it
-      ;; won't be filled.  (Since the first line of documentation stands alone
-      ;; in some contexts, filling should not alter the contents the author has
-      ;; chosen.)  Only the first line of a docstring begins with whitespace
-      ;; and a quotation mark and ends with a period or (rarely) a comma.
+      ;; `paragraph-separate': A clever regexp distinguishes the first line
+      ;; of a docstring and identifies it as a paragraph separator, so that
+      ;; it won't be filled.  (Since the first line of documentation stands
+      ;; alone in some contexts, filling should not alter the contents the
+      ;; author has chosen.)  Only the first line of a docstring begins with
+      ;; whitespace and a quotation mark and ends with a period or (rarely) a
+      ;; comma.
       ;;
       ;; The `fill-column' is temporarily bound to
       ;; `emacs-lisp-docstring-fill-column' if that value is an integer.
@@ -1054,10 +1072,12 @@ Moves the cursor in the current buffer."
   "Sets up a new hog template in my org file"
   nil
   "** " '(let ((current-prefix-arg '(16)))(call-interactively
-                                           'org-time-stamp-inactive)) ?\n "*** Hand-Off Details" ?\n "
+                                           'org-time-stamp-inactive))
+  ?\n "*** Hand-Off Details" ?\n "
   #+begin_src markdown" ?\n "    ### Summary" ?\n "    <pre>" ?\n ?\n
   "    </pre>" ?\n " #+end_src" ?\n
-  ?\n "*** Start of Shift Summary" ?\n ?\n "  #+begin_src org :results html replace"
+  ?\n "*** Start of Shift Summary" ?\n ?\n
+  "  #+begin_src org :results html replace"
   ?\n ?\n "  #+end_src" ?\n)
 
 (define-skeleton teammeeting-skeleton
@@ -1251,7 +1271,6 @@ Moves the cursor in the current buffer."
    (dot . t)
    (elm . t)
    (emacs-lisp . t)
-   (http . t)
    (js . t)
    (lilypond . t)
    (lisp . t)
@@ -1661,7 +1680,15 @@ None; Inert Data.")
       ebib-reading-list-file "~/Documents/org/data/reading-list.org"
       ebib-file-associations '()
       ebib-hidden-fields
-      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor" "booksubtitle" "booktitleaddon" "commentator" "edition" "editora" "editorb" "editorc" "eid" "eventdate" "eventtitle" "foreword" "holder" "howpublished" "introduction" "isrn" "issuesubtitle" "issuetitle" "issuetitleaddon" "journaltitleadddon" "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon" "month" "part" "primaryclass" "remark" "subtitle" "titleaddon" "translator" "venue" "version" "volumes")
+      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor"
+      "booksubtitle" "booktitleaddon" "commentator" "edition"
+      "editora" "editorb" "editorc" "eid" "eprint" "eprintclass"
+      "eprinttype" "eventdate" "eventtitle" "foreword" "holder"
+      "howpublished" "introduction" "isrn" "issuesubtitle"
+      "issuetitle" "issuetitleaddon" "journaltitleadddon"
+      "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon"
+      "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
+      "translator" "venue" "version" "volumes")
       ebib-use-timestamp t
       biblio-biblatex-use-autokey t
       ebib-keywords my-ebib-keywords)
@@ -1686,7 +1713,8 @@ None; Inert Data.")
       mail-specify-envelope-from t
       message-sendmail-envelope-from 'header
       mail-envelope-from 'header
-      mml-secure-openpgp-signers '("F39CD46349A576F88EF924791102102EBE7C3AE4")
+      mml-secure-openpgp-signers
+      '("F39CD46349A576F88EF924791102102EBE7C3AE4")
       user-mail-address ""
       mh-mml-method-default "pgp"
       mml-default-encrypt-method "pgp"
@@ -1705,9 +1733,11 @@ None; Inert Data.")
            :name "cdr255"
            :enter-func (lambda () (mu4e-message "Entering 'cdr255' context"))
            :leave-func (lambda () (mu4e-message "Leaving 'cdr255' context"))
-           :match-func (lambda (msg)
-                         (when msg
-                           (string-match-p "^/cdr255" (mu4e-message-field msg :maildir))))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/cdr255"
+                               (mu4e-message-field msg :maildir))))
            :vars '( ( user-mail-address	    . "cdr255@gmail.com"  )
                     ( user-full-name	    . "Christopher Rodriguez" )
                     ( mu4e-compose-signature .
@@ -1718,9 +1748,11 @@ None; Inert Data.")
            :name "work"
            :enter-func (lambda () (mu4e-message "Entering 'work' context"))
            :leave-func (lambda () (mu4e-message "Leaving 'work' context"))
-           :match-func (lambda (msg)
-                         (when msg
-                           (string-match-p "^/rodnchr" (mu4e-message-field msg :maildir))))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/rodnchr"
+                               (mu4e-message-field msg :maildir))))
            :vars '( ( user-mail-address	     . "rodnchr@amazon.com" )
                     ( user-full-name	     . "Christopher Rodriguez" )
                     ( mu4e-compose-signature  .
@@ -1731,22 +1763,29 @@ None; Inert Data.")
            :name "school"
            :enter-func (lambda () (mu4e-message "Entering 'school' context"))
            :leave-func (lambda () (mu4e-message "Leaving 'school' context"))
-           :match-func (lambda (msg)
-                         (when msg
-                           (string-match-p "^/csuglobal" (mu4e-message-field msg :maildir))))
-           :vars '( ( user-mail-address	     . "christopher.rodriguez@csuglobal.edu" )
-                    ( user-full-name	     . "Christopher Rodriguez" )
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/csuglobal"
+                               (mu4e-message-field msg :maildir))))
+           :vars '( ( user-mail-address	.
+                      "christopher.rodriguez@csuglobal.edu" )
+                    ( user-full-name . "Christopher Rodriguez" )
                     ( mu4e-compose-signature  .
                       (concat
                        "--\n\n"
                        "Christopher Rodriguez\n"))))
          ,(make-mu4e-context
            :name "yewscion"
-           :enter-func (lambda () (mu4e-message "Entering 'yewscion' context"))
-           :leave-func (lambda () (mu4e-message "Leaving 'yewscion' context"))
-           :match-func (lambda (msg)
-                         (when msg
-                           (string-match-p "^/yewscion" (mu4e-message-field msg :maildir))))
+           :enter-func (lambda ()
+                         (mu4e-message "Entering 'yewscion' context"))
+           :leave-func (lambda ()
+                         (mu4e-message "Leaving 'yewscion' context"))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/yewscion"
+                               (mu4e-message-field msg :maildir))))
            :vars '( ( user-mail-address	     . "yewscion@gmail.com" )
                     ( user-full-name	     . "Christopher Rodriguez" )
                     ( mu4e-compose-signature  .
@@ -1758,7 +1797,9 @@ None; Inert Data.")
       mu4e-context-policy 'pick-first
       mu4e-compose-keep-self-cc t)
 (add-hook 'mu4e-compose-mode-hook 'cdr:edit-email-as-org)
-(substitute-key-definition 'message-send-and-exit 'cdr:message-send-and-exit mu4e-compose-mode-map)
+(substitute-key-definition 'message-send-and-exit
+                           'cdr:message-send-and-exit
+                           mu4e-compose-mode-map)
 (define-mail-user-agent 'mu4e-user-agent
   'mu4e-compose-mail
   'message-send-and-exit
@@ -1831,17 +1872,31 @@ None; Inert Data.")
                     :foreground "#ffad29")
 (require 'projectile)
 ;;; Projectile
+(setq cdr:my-assignment-configure-cmd
+      (concat "if [ -e content.tex ]; then echo \"Sorry, it looks like this "
+              "project has already been configured…\"; else echo "
+              "\"Configuring this project now…\"; genpro; emacsclient "
+              ".metadata; genpro -g; fi"))
+(setq cdr:my-assignment-test-cmd
+      (concat "tmpdir=$(mktemp -d); find . -not -wholename './content.tex' "
+              "-not -name '.assignment' -not -name '.metadata' -not -name "
+              "'.projectile' -delete && mv -vt $tmpdir .assignment "
+              ".projectile .metadata content.tex && genpro && mv -vt . "
+              "$tmpdir/.metadata $tmpdir/.projectile $tmpdir/.assignment && "
+              "emacsclient .metadata && genpro -g && mv -vt . "
+              "$tmpdir/content.tex; echo \"Done.\""))
+
 (projectile-register-project-type 'genpro '(".metadata")
                                   :project-file ".metadata"
-				  :compile "genpro -p")
+                                  :compile "genpro -p")
 (projectile-register-project-type 'assignment-paper '(".assignment")
                                   :project-file ".assignment"
                                   :compile "genpro -p"
-                                  :configure "if [ -e content.tex ]; then echo \"Sorry, it looks like this project has already been configured…\"; else echo \"Configuring this project now…\"; genpro; emacsclient .metadata; genpro -g; fi"
-                                  :test "tmpdir=$(mktemp -d); find . -not -wholename './content.tex' -not -name '.assignment' -not -name '.metadata' -not -name '.projectile' -delete && mv -vt $tmpdir .assignment .projectile .metadata content.tex && genpro && mv -vt . $tmpdir/.metadata $tmpdir/.projectile $tmpdir/.assignment && emacsclient .metadata && genpro -g && mv -vt . $tmpdir/content.tex; echo \"Done.\"")
+                                  :configure cdr:my-assignment-configure-cmd
+                                  :test cdr:my-assignment-test-cmd)
 (projectile-register-project-type 'java-ant '("build.xml")
                                   :project-file "build.xml"
-				  :compile "ant compile"
+                                  :compile "ant compile"
                                   :package "ant dist"
                                   :run "ant run")
 
@@ -1933,7 +1988,7 @@ None; Inert Data.")
 
 ;;; Zone Mode - Screensaverlike
 (require 'zone)
-(zone-when-idle 120)
+(zone-when-idle 600)
 
 
 ;;; Printing PDFs      
@@ -1945,26 +2000,50 @@ None; Inert Data.")
 ;;; Elfeed
 
 (setq elfeed-feeds
-      '(("http://retro-style.software-by-mabe.com/blog-atom-feed" tech code lisp cl)
-       ("https://alhassy.github.io/rss.xml" tech code lisp cl)
-       ("https://andysalerno.com/index.xml" tech)
-       ("https://blog.tecosaur.com/tmio/rss.xml" tech emacs org-mode)
-       ("https://freedom-to-tinker.com/feed/rss/" tech policy)
-       ("https://guix.gnu.org/feeds/blog.atom" tech gnu guix lisp scheme guile)
-       ("https://jany.st/rss.xml" tech hardware)
-       ("https://p6steve.wordpress.com/rss" tech raku)
-       ("https://planet.lisp.org/rss20.xml" tech code lisp cl)
-       ("https://planet.scheme.org/atom.xml" tech code lisp scheme)
-       ("https://somethingpositive.net/feed/" comic nsfw)
-       ("https://www.gnu.org/software/guile/news/feed.xml" tech code lisp scheme guile)
-       ("https://www.questionablecontent.net/QCRSS.xml" comic nsfw)
-       ("https://www.webtoons.com/en/challenge/the-prettiest-platypus/rss?title_no=463063" comic trans)
-       ("https://www.webtoons.com/en/challenge/serious-trans-vibes/rss?title_no=206579" comic trans)
-       ("https://www.webtoons.com/en/challenge/friends-with-benefits/rss?title_no=412808" comic trans)
-       ("https://www.webtoons.com/en/challenge/transincidental/rss?title_no=605328" comic trans)
-       ("https://www.wingolog.org/feed/atom" tech code lisp scheme guile)
-       ("https://xkcd.com/atom.xml" comic)
-       ("https://yewscion.com/feed.xml" personal tech code)))
+      `(("http://retro-style.software-by-mabe.com/blog-atom-feed"
+         tech code lisp cl)
+        ("https://alhassy.github.io/rss.xml"
+         tech code lisp cl)
+        ("https://andysalerno.com/index.xml"
+         tech)
+        ("https://blog.tecosaur.com/tmio/rss.xml"
+         tech emacs org-mode)
+        ("https://freedom-to-tinker.com/feed/rss/"
+         tech policy)
+        ("https://guix.gnu.org/feeds/blog.atom"
+         tech gnu guix lisp scheme guile)
+        ("https://jany.st/rss.xml"
+         tech hardware)
+        ("https://p6steve.wordpress.com/rss"
+         tech raku)
+        ("https://planet.lisp.org/rss20.xml"
+         tech code lisp cl)
+        ("https://planet.scheme.org/atom.xml"
+         tech code lisp scheme)
+        ("https://somethingpositive.net/feed/"
+         comic nsfw)
+        ("https://www.gnu.org/software/guile/news/feed.xml"
+         tech code lisp scheme guile)
+        ("https://www.questionablecontent.net/QCRSS.xml"
+         comic nsfw)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+                  "the-prettiest-platypus/rss?title_no=463063")
+         comic trans)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+                  "serious-trans-vibes/rss?title_no=206579")
+         comic trans)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+           "friends-with-benefits/rss?title_no=412808")
+         comic trans)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+                  "transincidental/rss?title_no=605328")
+         comic trans)
+        ("https://www.wingolog.org/feed/atom"
+         tech code lisp scheme guile)
+        ("https://xkcd.com/atom.xml"
+         comic)
+        ("https://yewscion.com/feed.xml"
+         personal tech code)))
 
 
 ;; Maps
@@ -1982,11 +2061,12 @@ None; Inert Data.")
 (define-key template-map (kbd "b") #'cdr:templates-insert-bib-annotation)
 (define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
 (define-key template-map (kbd "h") #'cdr:templates-insert-org-header)
-(define-key template-map (kbd "C-s") #'cdr:templates-insert-scm-project)
 (define-key template-map (kbd "s") #'cdr:templates-insert-setup)
 (define-key template-map (kbd "l") #'cdr:templates-insert-latex-figure-image)
-(define-key template-map (kbd "C-l") #'cdr:templates-insert-latex-figure-list)
+(define-key template-map (kbd "C-l")
+  #'cdr:templates-insert-latex-figure-list)
 (define-key template-map (kbd "g") #'cdr:templates-insert-guix-package)
+(define-key template-map (kbd "C-d") #'cdr:templates-insert-dir-locals)
 
 ;;; Subprocess Map <F4>
 
@@ -2011,6 +2091,8 @@ None; Inert Data.")
 (define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
 (define-key imperative-map (kbd "i") #'cdr:i-ching-pull)
 (define-key imperative-map (kbd "f") #'fill-buffer)
+(define-key imperative-map (kbd "v") #'add-file-local-variable)
+(define-key imperative-map (kbd "d") #'make-directory)
 
 ;;; Transform Map <F2>
 (define-key transform-map (kbd "C-r") #'replace-regexp)
@@ -2172,24 +2254,69 @@ is true; otherwise returns the last value."
 (pdf-loader-install)
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
+
+;;; Pseudocode Mode
+(setq cdr:pseudocode-function-name-regexp
+      "\\[.*\\S .*\\]")
+(setq cdr:pseudocode-variable-name-regexp
+      "\\([[:upper:]]\\w*\\)\\([[:punct:]]\\|[[:space:]]\\|$\\)")
+(setq cdr:pseudocode-preprocessor-regexp
+      "`.+`")
+(setq cdr:pseudocode-constants-regexp
+      (concat "\\(true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|success\\|failure\\|newline\\|beep\\|indent\\|user\\|screen\\|system\\)"))
+(setq cdr:pseudocode-types-regexp
+      (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|list\\|array\\|sequence\\|every\\|each\\|nothing\\|maybe\\|symbol\\|many\\|any\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|line\\|sum\\|difference\\|product\\|quotient\\|remainder\\)\\(ish\\|-like\\|esque\\|s\\)?"))
+(setq cdr:pseudocode-operators-regexp
+      (regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯"
+                     "≮" "≥" "≤" "≠" "less than" "more than" "greater than"
+                     "equal to" "different than" "different from" "¬" "⊻"
+                     "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive"
+                     "->" "<-" "→" "←" "resulting in" "fed" "right" "left"
+                     "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times"
+                     "divided by" "modulo" "add" "subtract" "multiply"
+                     "divide" "take the remainder of" "raised to the"
+                     "power" "squared" "cubed" "root" "square" "cube")
+                  'symbols))
+(setq cdr:pseudocode-keywords-regexp
+      (regexp-opt '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy"
+                    "print" "display" "show" "save" "return" "compute"
+                    "calculate" "determine" "append" "set" "initialize"
+                    "init" "let" "is" "to" "increment" "bump" "decrement" "if"
+                    "then" "else" "otherwise" "when" "unless" "while" "done" "endwhile" "do"
+                    "case" "of" "others" "endcase" "repeat" "until" "for"
+                    "endfor" "call" "exception" "as" "recurse" "this" "expecting" "expect"
+                    "that")
+                  'symbols))
+(setq cdr:pseudocode-string-regexp
+      "\\('.*'\\|\\\".*\\\"\\)")
+(setq cdr:pseudocode-special-types-regexp
+      (regexp-opt '("truthy" "falsey") 'symbols))
+(setq cdr:pseudocode-special-operator-regexp
+      "!=\\|!<\\|!>\\|\\^\\|\\*\\|take the remainder of\\|raised to")
 (define-generic-mode
     'pseudocode-mode
                                         ; Comments
   '(";" "#" "//" ("/*" . "*/"))
                                         ; Keywords
   '()
-  `(("\\[.*\\S .*\\]" . 'font-lock-function-name-face)
-    ("`.+`" . 'font-lock-preprocessor-face)
-    (,(regexp-opt '("take the remainder of" "raised to") 'symbols) . 'font-lock-type-face)
-    ("!=\\|!<\\|!>\\|\\^\\|\\*" . 'font-lock-builtin-face)
-    ("true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|success\\|failure\\|newline\\|beep\\|indent" . 'font-lock-constant-face)
-    ("number\\|string\\|character\\|boolean\\|list\\|array\\|sequence\\|nothing\\|maybe\\|symbol\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|sum\\|difference\\|product\\|quotient\\|remainder" . 'font-lock-type-face)
-    
-    (,(regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯" "≮" "≥" "≤" "≠" "less than" "more than" "greater than" "equal to" "different than" "different from" "¬" "⊻" "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive" "->" "<-" "→" "←" "resulting in" "fed" "right" "left" "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times" "divided by" "modulo" "add" "subtract" "multiply" "divide" "take the remainder of" "raised to the" "power" "squared" "cubed" "root" "square" "cube") 'symbols) . 'font-lock-builtin-face)
-    ("'.*'\\|\".*\"\\|\\\".*'.*\\\"" . 'font-lock-string-face)
-    (,(regexp-opt '("begin" "end" "read" "obtain" "get" "take" "use" "copy" "print" "display" "show" "save" "return" "compute" "calculate" "determine" "append" "set" "initialize" "init" "let" "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "while" "done" "endwhile" "do" "case" "of" "others" "endcase" "repeat" "until" "for" "endfor" "call" "exception" "when" "as" "recurse") 'symbols) . 'font-lock-keyword-face))
+  `((,cdr:pseudocode-string-regexp . 'font-lock-string-face)
+    (,cdr:pseudocode-function-name-regexp . 'font-lock-function-name-face)
+    (,cdr:pseudocode-variable-name-regexp . 'font-lock-variable-name-face)
+    (,cdr:pseudocode-preprocessor-regexp . 'font-lock-preprocessor-face)
+    (,cdr:pseudocode-special-types-regexp . 'font-lock-type-face)
+    (,cdr:pseudocode-special-operator-regexp . 'font-lock-builtin-face)
+    (,cdr:pseudocode-constants-regexp . 'font-lock-constant-face)
+    (,cdr:pseudocode-types-regexp . 'font-lock-type-face)
+    (,cdr:pseudocode-operators-regexp . 'font-lock-builtin-face)
+    (,cdr:pseudocode-keywords-regexp . 'font-lock-keyword-face))
   '("\\.pseudo$")
   nil
   "A mode for editing a somewhat-standard version of pseudocode.")
+;;; End Pseudocode Mode
+
 ;;; Load Initial File.
 (find-file "~/Documents/org/main.org")
+
+;; Local Variables:
+;; mode: emacs-lisp
+;; End:

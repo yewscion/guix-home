@@ -1,3 +1,4 @@
+;;; Variables: project-name project-homepage project-synopsis
 (use-modules
  ;;; These are my commonly needed modules; remove unneeded ones.
  (guix packages)
@@ -42,13 +43,13 @@
   (native-inputs (list autoconf automake pkg-config texinfo
                        `(,openjdk17 "jdk")))
   (inputs (list guile-3.0-latest))
-  (synopsis "A Description of the Project.")
+  (synopsis "project-synopsis")
   (description
    (string-append
     "This is a longer description of the project, which is wrapped using the "
     "string-append function and trailing spaces.."))
   (home-page
-   "https://github.com/yewscion/project-name")
+   "project-homepage")
   (license license:agpl3+))
 
       ;;;; Here is an example of one way to patch a script that references an
@@ -65,3 +66,7 @@
       ;;       (("/usr/local/share/java/project-name.jar")
       ;;        (string-append share
       ;;                       "/java/project-name.jar"))))))
+
+;; Local Variables:
+;; mode: scheme
+;; End:

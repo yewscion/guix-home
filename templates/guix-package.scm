@@ -11,6 +11,7 @@
                 (uri (git-reference
                       (url "")
                       (commit commit)))
+                (file-name (git-file-name name version))
                 (sha256
                  (base32
                   ""))))
