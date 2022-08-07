@@ -32,17 +32,17 @@
 (emms-mode-line-cycle 0)
 (define-emms-simple-player mikmod '(file)
   (regexp-opt '(".669" ".AMF" ".DSM" ".FAR" ".GDM" ".IT" ".IMF"
-		".MED" ".MTM" ".OKT" ".S3M" ".STM" ".STX" ".ULT"
-		".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
-		".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
-		".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
+                ".MED" ".MTM" ".OKT" ".S3M" ".STM" ".STX" ".ULT"
+                ".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
+                ".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
+                ".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
   "mikmod" "-q" "-p" "2" "-X")
 (define-emms-simple-player xmp '(file)
   (regexp-opt '(".669" ".AMF" ".DSM" ".FAR" ".GDM" ".IT" ".IMF"
-		".MED" ".MTM" ".OKT" ".S3M" ".STM" ".STX" ".ULT"
-		".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
-		".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
-		".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
+                ".MED" ".MTM" ".OKT" ".S3M" ".STM" ".STX" ".ULT"
+                ".APUN" ".XM" ".MOD" ".amf" ".dsm" ".far" ".gdm"
+                ".it" ".imf" ".mod" ".med" ".mtm" ".okt" ".s3m"
+                ".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
   "xmp" "-q")
 (define-emms-simple-player adlmidi '(file)
   (regexp-opt '(".mid"))
@@ -52,20 +52,20 @@
 
       emms-player-list
       '(emms-player-mpv
-	emms-player-mikmod
+        emms-player-mikmod
         emms-player-adlmidi
         emms-player-xmp
-	emms-player-timidity) ; Reverse Order of Precedence
+        emms-player-timidity) ; Reverse Order of Precedence
 
       emms-player-timidity-command-name
       "timidity"
 
       emms-player-timidity-parameters
       '("-EFreverb=G,127"
-	"-EFchorus=s,25"
-	"-EFresamp=L"
-	"-EFvlpf=m"
-	"-c~/.config/timidity/timidity.cfg")
+        "-EFchorus=s,25"
+        "-EFresamp=L"
+        "-EFvlpf=m"
+        "-c~/.config/timidity/timidity.cfg")
 
       emms-track-description-function
       'emms-info-track-description
@@ -88,7 +88,8 @@
       inferior-lisp-program "sbcl"
       geiser-default-implementation 'guile
       python-shell-interpreter "python3"
-      inf-janet-program "janet -s")
+      inf-janet-program "janet -s"
+      bqn-interpreter-path "bqn")
 
 (setq-default geiser-scheme-implementation 'guile)
 
@@ -942,8 +943,8 @@ fill column of the resulting string."
       (let ((paragraph-start
              (concat paragraph-start
                      "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
-	    (paragraph-separate
-	     (concat paragraph-separate "\\|\\s-*\".*[,\\.]$"))
+            (paragraph-separate
+             (concat paragraph-separate "\\|\\s-*\".*[,\\.]$"))
             (fill-column (if (and (integerp emacs-lisp-docstring-fill-column)
                                   (derived-mode-p 'emacs-lisp-mode))
                              emacs-lisp-docstring-fill-column
@@ -970,7 +971,7 @@ fill column of the resulting string."
               ;;                     (point))))
             ;; Move back to where we were.
             (goto-char start)
-	    (fill-paragraph justify)))))
+            (fill-paragraph justify)))))
       ;; Never return nil.
       t)))
 (defun cdr:fill-sexp ()
@@ -1986,7 +1987,7 @@ None; Inert Data.")
       user-full-name "Christopher Rodriguez"
       vterm-kill-buffer-on-exit nil
       vterm-shell "bash -l"
-      comint-use-prompt-regexp t
+      comint-use-prompt-regexp nil
       scroll-preserve-screen-position t)
 
 ;;; Zone Mode - Screensaverlike
@@ -1994,7 +1995,7 @@ None; Inert Data.")
 (zone-when-idle 600)
 
 
-;;; Printing PDFs      
+;;; Printing PDFs
 
 (setq pdf-misc-print-program-args
       '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
@@ -2190,7 +2191,7 @@ None; Inert Data.")
 
 ;;; Audio Controls
 (global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
-(global-set-key (kbd "<XF86AudioNext>") 'emms-next) 
+(global-set-key (kbd "<XF86AudioNext>") 'emms-next)
 (global-set-key (kbd "<XF86AudioPlay>") 'emms-pause)
 (global-set-key (kbd "M-<XF86AudioPlay>") 'emms-shuffle)
 (global-set-key (kbd "M-s-<XF86AudioPlay>") (lambda () (interactive)
@@ -2224,34 +2225,34 @@ is true; otherwise returns the last value."
       (insert code)
       (geiser-mode)
       (let ((geiser-repl-window-allow-split nil)
-	    (geiser-repl-use-other-window nil))
-	(let ((repl-buffer (save-current-buffer
-			     (org-babel-scheme-get-repl impl repl))))
-	  (when (not (eq impl (org-babel-scheme-get-buffer-impl
-			       (current-buffer))))
-	    (message "Implementation mismatch: %s (%s) %s (%s)" impl
+            (geiser-repl-use-other-window nil))
+        (let ((repl-buffer (save-current-buffer
+                             (org-babel-scheme-get-repl impl repl))))
+          (when (not (eq impl (org-babel-scheme-get-buffer-impl
+                               (current-buffer))))
+            (message "Implementation mismatch: %s (%s) %s (%s)" impl
                      (symbolp impl)
-		     (org-babel-scheme-get-buffer-impl (current-buffer))
-		     (symbolp (org-babel-scheme-get-buffer-impl
-			       (current-buffer)))))
-	  (setq geiser-repl--repl repl-buffer)
-	  (setq geiser-impl--implementation nil)
-	  (let ((geiser-debug-jump-to-debug-p nil)
-		(geiser-debug-show-debug-p nil))
-	    (let ((ret (funcall (if (fboundp 'geiser-eval-region/wait)
+                     (org-babel-scheme-get-buffer-impl (current-buffer))
+                     (symbolp (org-babel-scheme-get-buffer-impl
+                               (current-buffer)))))
+          (setq geiser-repl--repl repl-buffer)
+          (setq geiser-impl--implementation nil)
+          (let ((geiser-debug-jump-to-debug-p nil)
+                (geiser-debug-show-debug-p nil))
+            (let ((ret (funcall (if (fboundp 'geiser-eval-region/wait)
                                     #'geiser-eval-region/wait
                                   #'geiser-eval-region)
                                 (point-min) (point-max))))
-	      (setq result (if output
-			       (or (geiser-eval--retort-output ret)
-				   "Geiser Interpreter produced no output")
-			     (geiser-eval--retort-result-str ret "")))))
-	  (when (not repl)
-	    (save-current-buffer (set-buffer repl-buffer)
-				 (geiser-repl-exit))
-	    (set-process-query-on-exit-flag (get-buffer-process repl-buffer)
+              (setq result (if output
+                               (or (geiser-eval--retort-output ret)
+                                   "Geiser Interpreter produced no output")
+                             (geiser-eval--retort-result-str ret "")))))
+          (when (not repl)
+            (save-current-buffer (set-buffer repl-buffer)
+                                 (geiser-repl-exit))
+            (set-process-query-on-exit-flag (get-buffer-process repl-buffer)
                                             nil)
-	    (kill-buffer repl-buffer)))))
+            (kill-buffer repl-buffer)))))
     result))
 
 (pdf-loader-install)
@@ -2268,34 +2269,33 @@ is true; otherwise returns the last value."
 (setq cdr:pseudocode-constants-regexp
       (concat "\\(true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|success\\|failure\\|newline\\|beep\\|indent\\|user\\|screen\\|system\\)"))
 (setq cdr:pseudocode-types-regexp
-      (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|list\\|array\\|sequence\\|every\\|each\\|nothing\\|maybe\\|symbol\\|many\\|any\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|line\\|sum\\|difference\\|product\\|quotient\\|remainder\\)\\(ish\\|-like\\|esque\\|s\\)?"))
+      (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|list\\|array\\|sequence\\|every\\|each\\|nothing\\|maybe\\|symbol\\|many\\|any\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|line\\|interrupt\\|sum\\|difference\\|product\\|quotient\\|remainder\\|value\\|name\\|result\\|message\\|field\\|a\\)\\(ish\\|-like\\|esque\\|s\\)?"))
 (setq cdr:pseudocode-operators-regexp
       (regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯"
                      "≮" "≥" "≤" "≠" "less than" "more than" "greater than"
                      "equal to" "different than" "different from" "¬" "⊻"
                      "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive"
-                     "->" "<-" "→" "←" "resulting in" "fed" "right" "left"
+                     "->" "<-" "→" "←" "fed" "right" "left"
                      "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times"
                      "divided by" "modulo" "add" "subtract" "multiply"
                      "divide" "take the remainder of" "raised to the"
                      "power" "squared" "cubed" "root" "square" "cube")
                   'symbols))
 (setq cdr:pseudocode-keywords-regexp
-      (regexp-opt '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy"
-                    "print" "display" "show" "save" "return" "compute"
-                    "calculate" "determine" "append" "set" "initialize"
-                    "init" "let" "is" "to" "increment" "bump" "decrement" "if"
-                    "then" "else" "otherwise" "when" "unless" "while" "done" "endwhile" "do"
-                    "case" "of" "others" "endcase" "repeat" "until" "for"
-                    "endfor" "call" "exception" "as" "recurse" "this" "expecting" "expect"
-                    "that")
-                  'symbols))
+      (regexp-opt '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy" "print"
+      "display" "show" "save" "return" "compute" "calculate" "determine"
+      "append" "set" "initialize" "init" "let" "is" "has" "to" "increment"
+      "bump" "decrement" "if" "then" "else" "otherwise" "when" "unless" "while"
+      "done" "endwhile" "do" "case" "of" "others" "endcase" "repeat" "until"
+      "for" "endfor" "call" "exception" "as" "recurse" "this" "that" "except" "in"
+      "including" "convert" "wrap" "ensure" "cast" "expecting" "expect")
+                 'symbols))
 (setq cdr:pseudocode-string-regexp
       "\\('.*'\\|\\\".*\\\"\\)")
 (setq cdr:pseudocode-special-types-regexp
       (regexp-opt '("truthy" "falsey") 'symbols))
 (setq cdr:pseudocode-special-operator-regexp
-      "!=\\|!<\\|!>\\|\\^\\|\\*\\|take the remainder of\\|raised to")
+      "!=\\|!<\\|!>\\|\\^\\|\\*\\|take the remainder of\\|raised to\\|resulting in")
 (define-generic-mode
     'pseudocode-mode
                                         ; Comments
@@ -2309,13 +2309,155 @@ is true; otherwise returns the last value."
     (,cdr:pseudocode-special-types-regexp . 'font-lock-type-face)
     (,cdr:pseudocode-special-operator-regexp . 'font-lock-builtin-face)
     (,cdr:pseudocode-constants-regexp . 'font-lock-constant-face)
-    (,cdr:pseudocode-types-regexp . 'font-lock-type-face)
     (,cdr:pseudocode-operators-regexp . 'font-lock-builtin-face)
-    (,cdr:pseudocode-keywords-regexp . 'font-lock-keyword-face))
+    (,cdr:pseudocode-keywords-regexp . 'font-lock-keyword-face)
+    (,cdr:pseudocode-types-regexp . 'font-lock-type-face))
   '("\\.pseudo$")
   nil
   "A mode for editing a somewhat-standard version of pseudocode.")
 ;;; End Pseudocode Mode
+
+(defun replace-in-string (what with in)
+  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+
+(require 'bqn-mode)
+(defun bqn-process-execute-region (start end &optional dont-follow)
+  "Send the current region to the bqn-process-session.
+
+When DONT-FOLLOW is non-nil, maintain focus on the buffer where the function was called from."
+  (interactive "r")
+  (when (= start end)
+    (error
+     (concat "Attempt to send empty region to "
+             *bqn-process-buffer-name*)))
+  (when bqn-flash-on-send
+    (bqn--flash-region start end))
+  (let ((region (buffer-substring-no-properties start end))
+        (session (bqn-process-ensure-session))
+        (buffer (current-buffer)))
+    (pop-to-buffer (process-buffer session))
+    (goto-char (point-max))
+    (insert (format ")escaped \"%s\""
+                    (replace-in-string "
+" "\\n" region)))
+    (comint-send-input)
+    (when (or dont-follow nil)
+      (pop-to-buffer buffer))))
+(define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
+(define-key bqn--mode-map (kbd "C-c C-x C-b") #'bqn-process-execute-buffer)
+(define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
+
+(setq bqn-glyphs
+      "
+┌───────┬──────────────────┬──────────────────────────┬───────┬──────────────────┬─────────────────────┐
+│ Glyph │ Monadic          │ Dyadic                   │ Glyph │ Monadic          │ Dyadic              │
+├───────┼──────────────────┼──────────────────────────┼───────┼──────────────────┼─────────────────────┤
+│ +     │ Conjugate        │ Add                      │ ⥊     │ Deshape          │ Reshape             │
+│ ─     │ Negate           │ Subtract                 │ ∾     │ Join             │ Join to             │
+│ ×     │ Sign             │ Multiply                 │ ≍     │ Solo             │ Couple              │
+│ ÷     │ Reciprocal       │ Divide                   │ ⋈     │ Enlist           │ Pair                │
+│ ⋆     │ Exponential      │ Power                    │ ↑     │ Prefixes         │ Take                │
+│ √     │ Square Root      │ Root                     │ ↓     │ Suffixes         │ Drop                │
+│ ⌊     │ Floor            │ Minimum                  │ ↕     │ Range            │ Windows             │
+│ ⌈     │ Ceiling          │ Maximum                  │ »     │ Nudge            │ Shift Before        │
+│ ∧     │ Sort Up          │ And                      │ «     │ Nudge Back       │ Shift After         │
+│ ∨     │ Sort Down        │ Or                       │ ⌽     │ Reverse          │ Rotate              │
+│ ¬     │ Not              │ Span                     │ ⍉     │ Transpose        │ Reorder Axes        │
+│ │     │ Absolute Value   │ Modulus                  │ /     │ Indices          │ Replicate           │
+│ ≤     │                  │ Less Than or Equal to    │ ⍋     │ Grade Up         │ Bins Up             │
+│ <     │ Enclose          │ Less Than                │ ⍒     │ Grade Down       │ Bins Down           │
+│ >     │ Merge            │ Greater Than             │ ⊏     │ First Cell       │ Select              │
+│ ≥     │                  │ Greater Than or Equal to │ ⊑     │ First            │ Pick                │
+│ =     │ Rank             │ Equals                   │ ⊐     │ Classify         │ Index of            │
+│ ≠     │ Length           │ Not Equals               │ ⊒     │ Occurrence Count │ Progressive Index of│
+│ ≡     │ Depth            │ Match                    │ ∊     │ Mark Firsts      │ Member of           │
+│ ≢     │ Shape            │ Not Match                │ ⍷     │ Deduplicate      │ Find                │
+│ ⊣     │ Identity         │ Left                     │ ⊔     │ Group Indices    │ Group               │
+│ ⊢     │ Identity         │ Right                    │ !     │ Assert           │ Assert with Message │
+└───────┴──────────────────┴──────────────────────────┴───────┴──────────────────┴─────────────────────┘")
+
+(defvar *bqn-glyphs-buffer-name* "*BQN Glyphs*")
+
+(defun bqn-glyph-mode-kill-buffer ()
+  "Close the buffer displaying the keymap."
+  (interactive)
+  (let ((buffer (get-buffer *bqn-glyphs-buffer-name*)))
+    (when buffer
+      (delete-windows-on buffer)
+      (kill-buffer buffer))))
+
+(defvar bqn-glyph-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "q") 'bqn-glyph-mode-kill-buffer)
+    map)
+  "Keymap for keymap mode buffers.")
+
+(define-derived-mode bqn-glyph-mode fundamental-mode "BQN-Glyphs"
+  "Major mode for displaying the BQN Glyph help."
+  (use-local-map bqn-glyph-mode-map)
+  (read-only-mode 1)
+  (setq truncate-lines t))
+
+(defun bqn-show-glyphs ()
+  "Display a table of BQN glyphs."
+  (interactive)
+  (let ((glyph-buffer (get-buffer *bqn-glyphs-buffer-name*)))
+    (unless (and glyph-buffer (get-buffer-window glyph-buffer))
+      ;; The buffer is not displayed.
+      (let* ((buffer (get-buffer-create *bqn-glyphs-buffer-name*))
+             (window (split-window nil)))
+        (with-current-buffer buffer
+          (insert bqn-glyphs)
+          (goto-char (point-min))
+          (bqn-glyph-mode))
+        (set-window-buffer window buffer)
+        (fit-window-to-buffer window)))))
+(setq bqn-glyphs
+      '(?× ?÷ ?⋆ ?√ ?⌊ ?⌈ ?¬ ?∧ ?∨ ?≠ ?≤ ?≥ ?≡ ?≢ ?⊣ ?⊢ ?⥊ ?∾ ?≍
+           ?⋈ ?↑ ?↓ ?↕ ?« ?» ?⌽ ?⍉ ?⍋ ?⍒ ?⊏ ?⊑ ?⊐ ?⊒ ?∊ ?⍷ ?⊔ ?˙ ?˜ ?˘ ?¨
+           ?⌜ ?⁼ ?´ ?˝ ?∘ ?○ ?⊸ ?⟜ ?⌾ ?⊘ ?◶ ?⎉ ?⚇ ?⍟ ?⎊ ?𝕨 ?𝕩 ?𝕗 ?𝕘
+           ?𝕤 ?𝕣 ?𝕎 ?𝕏 ?𝔽 ?𝔾 ?𝕊 ?𝕣 ?← ?⇐ ?↩ ?⟨ ?⟩ ?‿ ?· ?⋄))
+
+(mapc (lambda (x)
+        "Set Font of Character to BQN386 Unicode."
+        (set-fontset-font t x (font-spec :family "BQN386 Unicode")))
+      bqn-glyphs)
+
+;; Use monospaced font faces in current buffer
+(defun my-buffer-face-mode-fixed ()
+  "Sets a fixed width (monospace) font in current buffer"
+  (interactive)
+  (setq buffer-face-mode-face '(:family "unifont" :spacing 100))
+  (buffer-face-mode))
+
+(defvar bqn-keyboard-map
+  "
+┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬─────────┐
+│~ ¬ │! ⎉ │@ ⚇ │# ⍟ │$ ◶ │% ⊘ │^ ⎊ │& ⍎ │* ⍕ │( ⟨ │) ⟩ │_ √ │+ ⋆ │Backspace│
+│` ˜ │1 ˘ │2 ¨ │3 ⁼ │4 ⌜ │5 ´ │6 ˝ │7   │8 ∞ │9 ¯ │0 • │- ÷ │= × │         │
+├────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬──────┤
+│Tab    │Q ↙ │W 𝕎 │E ⍷ │R 𝕣 │T ⍋ │Y   │U   │I ⊑ │O ⊒ │P ⍳ │{ ⊣ │} ⊢ │|     │
+│       │q ⌽ │w 𝕨 │e ∊ │r ↑ │t ∧ │y   │u ⊔ │i ⊏ │o ⊐ │p π │[ ← │] → │\\     │
+├───────┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴─┬──┴──────┤
+│Caps    │A ↖ │S 𝕊 │D   │F 𝔽 │G 𝔾 │H « │J   │K ⌾ │L » │: · │\" ˙  │Enter    │
+│Lock    │a ⍉ │s 𝕤 │d ↕ │f 𝕗 │g 𝕘 │h ⊸ │j ∘ │k ○ │l ⟜ │; ⋄ │' ↩  │         │
+├────────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬──┴─────────┤
+│Shift      │Z ⋈ │X 𝕏 │C   │V ⍒ │B ⌈ │N   │M ≢ │< ≤ │> ≥ │? ⇐ │Shift       │
+│           │z ⥊ │x 𝕩 │c ↓ │v ∨ │b ⌊ │n   │m ≡ │, ∾ │. ≍ │/ ≠ │            │
+└───────────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────────────┘
+                             Space: ‿
+"
+  "Keyboard map for BQN.")
+
+
+;; Undo some defaults I don't need.
+;;; StumpWM takes care of this for me.
+(global-unset-key (kbd "C-z"))
+;;; I don't think I'll ever use this, and
+;;; keep getting asked about it.
+(global-unset-key (kbd "C-x C-n"))
+;;; Let me mark any variable as safe.
+(advice-add 'risky-local-variable-p :override #'ignore)
 
 ;;; Load Initial File.
 (find-file "~/Documents/org/main.org")

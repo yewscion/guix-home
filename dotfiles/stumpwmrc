@@ -3,7 +3,7 @@
 (in-package :stumpwm)
 (require :battery-portable)
 (require :screenshot)
-
+(require :uiop)
 ;; These are lifted right from the example.
 ;;;
 ;;; Set our prefix key.
@@ -20,49 +20,59 @@
   (multiple-value-bind
            (second minute hour day month year day-of-week dst-p tz)
     	   (get-decoded-time)
-           (format t "~2,'0d-~2,'0d-~dT~2,'0d~2,'0d~2,'0d"
+           (format nil "~2,'0d~2,'0d~2,'0dT~2,'0d~2,'0d~2,'0d"
 	    	 year
 	    	 month
 	    	 day
 	    	 hour
 	    	 minute
 	    	 second)))
+(defun get-current-sink-port () ()
+       "Get the current output sink port for pulseaudio."
+  (read
+   (uiop:process-info-output
+    (uiop:launch-program
+     "pacmd list-sinks | grep \"active port\" | sed 's/.*: //'"
+     :output :stream))))
+(defun is-current-port-speaker-p () ()
+  "Return truthy if current sink port is <ANALOG-OUTPUT-SPEAKER>, falsey
+otherwise."
+  (string= (get-current-sink-port) "<ANALOG-OUTPUT-SPEAKER>"))
+(defun toggle-sink-port () ()
+  "Swap the port for the default sink between speaker and headphones"
+  (if (is-current-port-speaker-p)
+      (uiop:launch-program "pacmd set-sink-port 0 analog-output-headphones")
+      (uiop:launch-program "pacmd set-sink-port 0 analog-output-speaker")))
 
 ;; Custom Functions
-(defcommand vol-mute () ()
-  "Toggle mute of volume."
-  (run-shell-command
-   "[ $(pamixer --get-mute) = \"false\" ] && pamixer -m || pamixer -u" t)
-  (show-volume))
-(defcommand display-brightness-up () ()
+(defcommand brightness-up (amount)
+  ((:number "Increase Brightness by: "))
   "Increase Brightness of Default Display."
-  (run-shell-command "brightnessctl s 5%+" t))
-(defcommand display-brightness-down () ()
+  (run-shell-command (format nil "brightnessctl s ~d%+" amount) t))
+(defcommand brightness-down (amount)
+  ((:number "Decrease Brightness by: "))
   "Decrease Brightness of Default Display."
-  (run-shell-command "brightnessctl s 5%-" t))
+  (run-shell-command (format nil "brightnessctl s ~d%-" amount) t))
 (defcommand show-volume () ()
   "Show the Current Volume Setting."
   (run-shell-command
    "echo \"Volume: $(pamixer --get-volume-human)\"" t))
-(defcommand vol+5 () ()
-  "Increase Volume by 5%"
+(defcommand volume-mute () ()
+  "Toggle mute of volume."
   (run-shell-command
-   "pamixer -i 5")
+   "[ $(pamixer --get-mute) = \"false\" ] && pamixer -m || pamixer -u" t)
   (show-volume))
-(defcommand vol-5 () ()
+(defcommand volume-up (amount)
+  ((:number "Increase Volume By: "))
+  "Increase Volume."
+  (run-shell-command
+   (format nil "pamixer -i ~d" amount))
+  (show-volume))
+(defcommand volume-down (amount)
+  ((:number "Decrease Volume By: "))
   "Decrease Volume by 5%"
   (run-shell-command
-   "pamixer -d 5")
-  (show-volume))
-(defcommand vol+1 () ()
-  "Increase Volume by 1%"
-  (run-shell-command
-   "pamixer -i 1")
-  (show-volume))
-(defcommand vol-1 () ()
-  "Decrease Volume by 1%"
-  (run-shell-command
-   "pamixer -d 1")
+   (format nil "pamixer -d ~d" amount))
   (show-volume))
 (defcommand
     screenshot-now () ()
@@ -71,15 +81,27 @@
      (xlib:screen-root
       (stumpwm:screen-number
        (stumpwm:current-screen)))
-     (concatenate 'string "~/Pictures/" (timestamp) ".screenshot.png")))
-
-;;; Keybindings
-(define-key stumpwm:*top-map* (stumpwm:kbd "XF86AudioLowerVolume") "vol-5")
-(define-key stumpwm:*top-map* (stumpwm:kbd "XF86AudioRaiseVolume") "vol+5")
-(define-key stumpwm:*top-map* (stumpwm:kbd "C-XF86AudioLowerVolume") "vol-1")
-(define-key stumpwm:*top-map* (stumpwm:kbd "C-XF86AudioRaiseVolume") "vol+1")
+     (format nil "~~/Pictures/~a.screenshot.png" (timestamp))))
+(defcommand
+    swap-sink-port () ()
+  "Swap the default Sink Port Between Speakers and Headphones."
+  (toggle-sink-port))
+;; Keybindings
+;;; Volume
+(define-key stumpwm:*top-map*
+    (stumpwm:kbd "XF86AudioLowerVolume") "volume-down 5")
+(define-key stumpwm:*top-map*
+    (stumpwm:kbd "XF86AudioRaiseVolume") "volume-up 5")
+(define-key stumpwm:*top-map*
+    (stumpwm:kbd "C-XF86AudioLowerVolume") "volume-down 1")
+(define-key stumpwm:*top-map*
+    (stumpwm:kbd "C-XF86AudioRaiseVolume") "volume-up 1")
 ;;; Muting
-(define-key stumpwm:*top-map* (stumpwm:kbd "XF86AudioMute") "vol-mute")
+(define-key stumpwm:*top-map*
+    (stumpwm:kbd "XF86AudioMute") "vol-mute")
+;;; Swap Outputs
+(define-key stumpwm:*top-map*
+    (stumpwm:kbd "C-XF86AudioMute") "swap-sink-port")
 ;;; Display Brightness
 (define-key *top-map* (kbd "XF86MonBrightnessUp")
   "display-brightness-up")
@@ -97,8 +119,7 @@
 ;;; VPN
 (define-key *root-map* (kbd "V") "exec /opt/cisco/anyconnect/bin/vpnui")
 ;;; Emacsclient
-(define-key *root-map* (kbd "e") "exec emacsclient")
-(define-key *root-map* (kbd "E") "exec emacsclient -c")
+(define-key *root-map* (kbd "e") "exec emacsclient -c")
 ;;; Screenshots
 (define-key *top-map* (kbd "Print") "screenshot-now")
 ;; Message/Modeline Font
@@ -133,7 +154,6 @@
  "exec ~/.local/bin/chromium"
  "exec slack"
  "exec discord"
- "exec midori"
  "exec shepherd")
 
 ;; Local Variables:
