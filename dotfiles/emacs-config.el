@@ -93,6 +93,10 @@
 
 (setq-default geiser-scheme-implementation 'guile)
 
+;; Assuming the Guix checkout is in ~/Downloads/guix.
+(with-eval-after-load 'geiser-guile
+  (add-to-list 'geiser-guile-load-path "~/Downloads/guix"))
+
 ;;; i-ching-mode
 (setq i-ching-hexagram-font "unifont")
 
@@ -873,6 +877,8 @@ value."
    "licensed to the public at large under the terms of the:\n\n"
    (cond ((string= license "agpl")
           "[[https://www.gnu.org/licenses/agpl-3.0.html][GNU AGPL3.0+]]")
+         ((string= license "fdl")
+          "[[https://www.gnu.org/licenses/fdl-1.3.en.html][GNU FDL1.3+]]")
          (t
           "project's"))
    " license.\n\n"
@@ -2321,10 +2327,12 @@ is true; otherwise returns the last value."
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
 
 (require 'bqn-mode)
-(defun bqn-process-execute-region (start end &optional dont-follow)
+(defun bqn-process-execute-region (start end &optional dont-follow return-output)
   "Send the current region to the bqn-process-session.
 
-When DONT-FOLLOW is non-nil, maintain focus on the buffer where the function was called from."
+When DONT-FOLLOW is non-nil, maintain focus on the buffer where the function was called from.
+
+When RETURN-OUTPUT is non-nil, return the output as a string."
   (interactive "r")
   (when (= start end)
     (error
@@ -2340,9 +2348,14 @@ When DONT-FOLLOW is non-nil, maintain focus on the buffer where the function was
     (insert (format ")escaped \"%s\""
                     (replace-in-string "
 " "\\n" region)))
-    (comint-send-input)
-    (when (or dont-follow nil)
-      (pop-to-buffer buffer))))
+      (let ((start-of-output (+ (point) 1)))
+        (comint-send-input)
+        (message (number-to-string start-of-output))
+        (let ((result (buffer-substring-no-properties start-of-output (point-max))))
+        (when (or dont-follow nil)
+          (pop-to-buffer buffer))
+        (when return-output
+          result)))))
 (define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
 (define-key bqn--mode-map (kbd "C-c C-x C-b") #'bqn-process-execute-buffer)
 (define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)

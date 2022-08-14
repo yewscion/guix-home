@@ -118,10 +118,10 @@
 (define my-packages
   '("adlmidi" "alsa-plugins" "alsa-plugins:pulseaudio" "ant" "ant-junit"
   "apl" "autoconf" "automake" "b3sum" "bash" "beets" "biber" "borg"
-  "brightnessctl" "bsd-games" "btrfs-progs" "carp" "cbqn" "chez-scheme"
-  "chez-scheme:doc" "clang-toolchain" "cl-asdf" "clisp" "clojure" "codechallenge-solutions"
-  "coreutils" "curl" "dbqn" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr"
-  "elm" "emacs" "emacs-alert" "emacs-anaphora" "emacs-async" "emacs-auctex"
+  "brightnessctl" "bsd-games" "btrfs-progs" "carp" "cbqn" "clang-toolchain"
+  "cl-asdf" "clisp" "clojure" "codechallenge-solutions" "coreutils" "curl"
+  "dbqn" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr" "elm" "emacs"
+  "emacs-alert" "emacs-anaphora" "emacs-async" "emacs-auctex"
   "emacs-biblio" "emacs-bqn-mode" "emacs-bui" "emacs-cider" "emacs-citar"
   "emacs-citeproc-el" "emacs-clojure-mode" "emacs-company"
   "emacs-company-lsp" "emacs-company-math" "emacs-company-quickhelp"
@@ -183,16 +183,16 @@
   "emacs-web-beautify" "emacs-web-server" "emacs-websocket" "emacs-wget"
   "emacs-which-key" "emacs-wisp-mode" "emacs-with-editor" "emacs-wordgen"
   "emacs-writegood-mode" "emacs-writeroom" "emacs-xmlgen" "emacs-xpm"
-  "emacs-xterm-color" "emacs-yaml" "emacs-yaml-mode" "emacspeak"
-  "endless-sky" "erofs-utils" "esbuild" "espeak-ng" "exa" "exempi"
-  "exfat-utils" "exfatprogs" "expect" "extundelete" "fennel" "file"
-  "fluid-3" "fluidsynth" "fnlfmt" "font-3270" "font-bqn386"
+  "emacs-xterm-color" "emacs-yaml" "emacs-yaml-mode" "emacs-yasnippet"
+  "emacspeak" "endless-sky" "erofs-utils" "esbuild" "espeak-ng" "exa"
+  "exempi" "exfat-utils" "exfatprogs" "expect" "extundelete" "fennel"
+  "file" "fluid-3" "fluidsynth" "fnlfmt" "font-3270" "font-bqn386"
   "font-gnu-freefont" "font-gnu-unifont" "font-gnu-unifont:pcf"
   "font-gnu-unifont:psf" "font-gnu-unifont:bin" "font-terminus" "fontforge"
   "font-tex-gyre" "gambit-c" "gash" "gauche" "gcc-toolchain" "genpro"
-  "gerbil" "gfortran-toolchain" "ghostscript" "gifsicle" "gimp" "git" "git:send-email"
-  "glibc-locales" "gnupg" "gnurobots" "gparted" "graphviz" "grep"
-  "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
+  "gerbil" "gfortran-toolchain" "ghostscript" "gifsicle" "gimp" "git"
+  "git:send-email" "glibc-locales" "gnupg" "gnurobots" "gparted" "graphviz"
+  "grep" "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
   "guile-colorized" "guile-git" "guile-goblins" "guile-hall"
   "guile-ncurses" "guile-readline" "guile-sqlite3" "guile-ssh" "gv" "haunt"
   "httrack" "icecat" "inkscape" "innoextract" "ispell" "janet" "java-bsh"
@@ -200,30 +200,32 @@
   "le-certs" "libreoffice" "libvirt" "links" "lxc" "make" "maven" "mc"
   "milkytracker" "mono" "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu"
   "ncurses" "netcat" "nethack" "newlisp" "newt" "nmap" "node" "nomad"
-  "nss-certs" "offlineimap3" "openjdk:doc" "openjdk:jdk" "optipng" "orca-music"
-  "owl-lisp" "pagr" "pamixer" "password-store" "patchelf" "patchelf-wrapper"
-  "pavucontrol" "perl" "perl-image-exiftool" "picolisp" "pinentry-emacs"
-  "pkg-config" "plantuml" "poppler" "portmidi" "postgresql" "pulseaudio" "python"
-  "python-css-html-js-minify" "python-lsp-server" "python-pygments"
-  "python-pygments-lexer-pseudocode-std" "qemu" "ripgrep" "rlwrap" "rsync" "ruby"
-  "ruby-kramdown" "rxvt-unicode" "sbcl" "sbcl-esrap" "sbcl-ironclad"
+  "nss-certs" "offlineimap3" "openjdk:doc" "openjdk:jdk" "optipng"
+  "orca-music" "owl-lisp" "pagr" "pamixer" "password-store" "patchelf"
+  "patchelf-wrapper" "pavucontrol" "perl" "perl-image-exiftool" "picolisp"
+  "pinentry-emacs" "pkg-config" "plantuml" "poppler" "portmidi"
+  "postgresql" "pulseaudio" "python" "python-css-html-js-minify"
+  "python-lsp-server" "python-pygments" "python-pygments-pseudotaxus"
+  "qemu" "ripgrep" "rlwrap" "rsync" "ruby" "ruby-kramdown" "rxvt-unicode"
+  "sbcl" "sbcl-deploy" "sbcl-esrap" "sbcl-ironclad"
   "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
-  "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "screen" "sed" "sedsed"
-  "setxkbmap" "sfarklib" "shellcheck" "shepherd" "sshfs" "sshpass" "stumpish"
-  "stumpwm" "stumpwm:lib" "swi-prolog" "talkfilters" "telescope" "texinfo"
-  "texlive-babel-russian" "texlive-biblatex" "texlive-biblatex-apa"
-  "texlive-booktabs" "texlive-capt-of" "texlive-csquotes" "texlive-doi"
-  "texlive-enumitem" "texlive-etoolbox" "texlive-fontspec"
-  "texlive-generic-etexcmds" "texlive-generic-gettitlestring"
-  "texlive-generic-ifptex" "texlive-generic-iftex"
-  "texlive-generic-xstring" "texlive-hyperref" "texlive-ifmtarg"
-  "texlive-kpathsea" "texlive-kpfonts" "texlive-latex-appendix"
-  "texlive-latex-catchfile" "texlive-latex-cleveref"
-  "texlive-latex-comment" "texlive-latex-datetime2"
-  "texlive-latex-datetime2-english" "texlive-latex-endfloat"
-  "texlive-latex-environ" "texlive-latex-everyhook"
-  "texlive-latex-fancyhdr" "texlive-latex-fancyvrb" "texlive-latex-float"
-  "texlive-latex-framed" "texlive-latex-fvextra" "texlive-latex-geometry"
+  "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "screen" "sed"
+  "sedsed" "setxkbmap" "sfarklib" "shellcheck" "shepherd" "sshfs" "sshpass"
+  "stumpish" "stumpwm" "stumpwm:lib" "swi-prolog" "talkfilters" "telescope"
+  "texinfo" "texlive-amsfonts" "texlive-babel-russian" "texlive-biblatex"
+  "texlive-biblatex-apa" "texlive-booktabs" "texlive-capt-of" "texlive-cm"
+  "texlive-csquotes" "texlive-doi" "texlive-enumitem" "texlive-etoolbox"
+  "texlive-fontspec" "texlive-generic-etexcmds"
+  "texlive-generic-gettitlestring" "texlive-generic-ifptex"
+  "texlive-generic-iftex" "texlive-generic-xstring" "texlive-hyperref"
+  "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts"
+  "texlive-latex-appendix" "texlive-latex-catchfile"
+  "texlive-latex-cleveref" "texlive-latex-comment"
+  "texlive-latex-datetime2" "texlive-latex-datetime2-english"
+  "texlive-latex-endfloat" "texlive-latex-environ"
+  "texlive-latex-everyhook" "texlive-latex-fancyhdr"
+  "texlive-latex-fancyvrb" "texlive-latex-float" "texlive-latex-framed"
+  "texlive-latex-fvextra" "texlive-latex-geometry"
   "texlive-latex-ifplatform" "texlive-latex-kvoptions"
   "texlive-latex-letltxmacro" "texlive-latex-lineno" "texlive-latex-lipsum"
   "texlive-latex-lwarp" "texlive-latex-memoir" "texlive-latex-minted"
@@ -231,25 +233,28 @@
   "texlive-latex-pdftexcmds" "texlive-latex-printlen"
   "texlive-latex-readablecv" "texlive-latex-refcount"
   "texlive-latex-setspace" "texlive-latex-titlesec"
-  "texlive-latex-trimspaces" "texlive-latex-upquote"
-  "texlive-latex-venndiagram" "texlive-latex-xkeyval"
-  "texlive-latex-xpatch" "texlive-libkpathsea" "texlive-listings"
-  "texlive-lm" "texlive-luaotfload" "texlive-metapost" "texlive-pdfx"
-  "texlive-pgf" "texlive-stringenc" "texlive-svn-prov" "texlive-tex-gyre"
-  "texlive-tracklang" "texlive-txfonts" "texlive-varwidth" "texlive-xcolor"
-  "texlive-xifthen" "texmacs" "the-silver-searcher" "timidity++" "tintin++"
-  "transmission" "tree" "universal-ctags" "unzip" "uxn" "virt-manager"
-  "virt-viewer" "vlang" "wesnoth" "which" "wine64-staging" "wordnet"
-  "xapian" "xboard" "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel"
-  "xkeyboard-config" "xmp" "xrdb" "yewscion-scripts" "yt-dlp" "zenity"
-  "zutils"))
+  "texlive-latex-trimspaces" "texlive-latex-type1cm"
+  "texlive-latex-upquote" "texlive-latex-venndiagram"
+  "texlive-latex-xkeyval" "texlive-latex-xpatch" "texlive-libkpathsea"
+  "texlive-listings" "texlive-lm" "texlive-luaotfload" "texlive-metapost"
+  "texlive-pdfx" "texlive-pgf" "texlive-stringenc" "texlive-svn-prov"
+  "texlive-tex-gyre" "texlive-tex-texinfo" "texlive-tracklang"
+  "texlive-txfonts" "texlive-varwidth" "texlive-xcolor" "texlive-xifthen"
+  "texmacs" "the-silver-searcher" "timidity++" "tintin++" "transmission"
+  "tree" "universal-ctags" "unzip" "uxn" "virt-manager" "virt-viewer"
+  "vlang" "wesnoth" "which" "wine64-staging" "wordnet" "xapian" "xboard"
+  "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel" "xkeyboard-config"
+  "xmp" "xrdb" "yewscion-scripts" "yt-dlp" "zenity" "zutils"))
 (define
-  my-no-test-packages
+ 
+ my-no-test-packages
   '(;curl
-    ;emacs-parsebib
-    ;emacs-ebib
-    ;emacs-citar
-    ;emacs-org-ref
+                                       
+                                       ;emacs-parsebib
+                                        ;emacs-ebib
+     
+                                       ;emacs-citar
+                                        ;emacs-org-ref
     ))
 (define my-transformation
   (options->transformation
@@ -336,107 +341,164 @@
                           (list (plain-file "my-bash-profile-ext"
                                             (string-append
                                              my-nvm-setup))))))
-        (simple-service 'dotfiles
-                        home-files-service-type
-                        (list `(".config/shepherd/init.scm"
-                                ,(local-file "dotfiles/shepherd-init.scm"
-                                             "shepherd-init"))
-                              `(".config/shepherd/services.scm"
-                                ,(local-file "dotfiles/shepherd-services.scm"
-                                             "shepherd-services"))
-                              `(".msmtprc"
-                                ,(local-file "dotfiles/msmtprc" "msmtprc"))
-                              `(".emacs.d/init.el"
-                                ,(local-file "dotfiles/emacs-config.el"))
-                              `(".emacs.d/library-of-babel.org"
-                                ,(local-file "dotfiles/library-of-babel.org"))
-                              `(".emacs.d/lisp"
-                                ,(local-file "dotfiles/local-elisp"
-                                             #:recursive? #true))
-                              `(".local/share/empty-repo"
-                                ,(file-union
-                                  "empty-repo"
-                                  `(("AUTHORS"
-                                     ,(local-file
-                                       "templates/authors"))
-                                    ("bin/project-name.in"
-                                     ,(local-file
-                                       "templates/project-name"))
-                                    ("bin/project-name-info.in"
-                                     ,(local-file
-                                       "templates/project-name-info"))
-                                    ("bootstrap"
-                                     ,(local-file
-                                       "templates/bootstrap"))
-                                    ("Changelog.md"
-                                     ,(local-file
-                                       "templates/changelog"))
-                                    ("configure.ac"
-                                     ,(local-file
-                                       "templates/configure.ac"))
-                                    ("DEPENDENCIES.txt"
-                                     ,(local-file
-                                       "templates/dependencies"))
-                                    ("doc/fdl-1.3.texi"
-                                     ,(local-file
-                                       "templates/fdl-1.3.texi"))
-                                    ("doc/procedure-types.texi"
-                                     ,(local-file
-                                       "templates/procedure-types.texi"))
-                                    ("doc/version.texi.in"
-                                     ,(local-file
-                                       "templates/version.texi"))
-                                    (".gitignore"
-                                     ,(local-file
-                                       "templates/gitignore"))
-                                    (".dir-locals.el"
-                                     ,(local-file
-                                       "templates/dir-locals"))
-                                    ("guix.scm"
-                                     ,(local-file
-                                       "templates/guix-shell-file.scm"))
-                                    ("incant.sh"
-                                     ,(local-file
-                                       "templates/incant.sh"))
-                                    ("LICENSE"
-                                     ,(local-file
-                                       "templates/agpl3.0"))
-                                    ("Makefile.am"
-                                     ,(local-file
-                                       "templates/makefile.am"))
-                                    ("NEWS"
-                                     ,(local-file
-                                       "templates/news"))
-                                    ("pre-inst-env.in"
-                                     ,(local-file
-                                       "templates/pre-inst-env"))
-                                    ("README.org"
-                                     ,(local-file
-                                       "templates/readme"))
-                                    ("setup-symlinks.sh"
-                                     ,(local-file
-                                       "templates/setup-symlinks.sh"))
-                                    ("tests/maintests.scm"
-                                     ,(local-file
-                                       "templates/maintests.scm")))))
-                                  `(".emacs.d/templates"
-                                    ,(local-file "templates"
-                                                 #:recursive? #true))
-                                  `(".Xresources"
-                                    ,(local-file "dotfiles/xresources"
-                                                 "xresources"))
-                                  `(".config/mc/ini"
-                                    ,(local-file "dotfiles/mc.ini" "mc-ini"))
-                                  `(".config/stumpwm/config"
-                                    ,(local-file "dotfiles/stumpwmrc" "stumpwmrc"))
-                                  `(".config/gitconfig.scm"
-                                    ,(local-file "dotfiles/gitconfig.scm"
-                                                 "gitconfig-values"))
-                                  ;; `(".npmrc"
-                                  ;;   ,(local-file "dotfiles/npmrc"
-                                  ;;                "npmrc"))
-                                  `(".config/stumpwm/window-placement.lisp"
-                                    ,(local-file "dotfiles/stumpwm-windows.lisp"
-                                                 "stumpwm-windows.lisp"))
-                                  `(".local/bin/u-ctags"
-                                    ,(file-append my-u-ctags "/bin/u-ctags")))))))
+        (simple-service
+         'dotfiles
+         home-files-service-type
+         (list `(".config/shepherd/init.scm"
+                 ,(local-file "dotfiles/shepherd-init.scm"
+                              "shepherd-init"))
+               `(".config/shepherd/services.scm"
+                 ,(local-file "dotfiles/shepherd-services.scm"
+                              "shepherd-services"))
+               `(".msmtprc"
+                 ,(local-file "dotfiles/msmtprc" "msmtprc"))
+               `(".emacs.d/init.el"
+                 ,(local-file "dotfiles/emacs-config.el"))
+               `(".emacs.d/library-of-babel.org"
+                 ,(local-file "dotfiles/library-of-babel.org"))
+               `(".emacs.d/lisp"
+                 ,(local-file "dotfiles/local-elisp"
+                              #:recursive? #true))
+               `(".local/share/empty-repo"
+                 ,(file-union
+                   "empty-repo"
+                   `(("AUTHORS"
+                      ,(local-file
+                        "templates/authors"))
+                     ("bin/project-name.in"
+                      ,(local-file
+                        "templates/project-name"))
+                     ("bin/project-name-info.in"
+                      ,(local-file
+                        "templates/project-name-info"))
+                     ("bootstrap"
+                      ,(local-file
+                        "templates/bootstrap"))
+                     ("Changelog.md"
+                      ,(local-file
+                        "templates/changelog"))
+                     ("configure.ac"
+                      ,(local-file
+                        "templates/configure.ac"))
+                     ("DEPENDENCIES.txt"
+                      ,(local-file
+                        "templates/dependencies"))
+                     ("doc/project-name.texi"
+                      ,(local-file
+                        "templates/project-name.texi"))
+                     ("doc/fdl-1.3.texi"
+                      ,(local-file
+                        "templates/fdl-1.3.texi"))
+                     ("doc/procedure-types.texi"
+                      ,(local-file
+                        "templates/procedure-types.texi"))
+                     ("doc/version.texi.in"
+                      ,(local-file
+                        "templates/version.texi"))
+                     (".gitignore"
+                      ,(local-file
+                        "templates/gitignore"))
+                     (".dir-locals.el"
+                      ,(local-file
+                        "templates/dir-locals"))
+                     ("guix.scm"
+                      ,(local-file
+                        "templates/guix-shell-file.scm"))
+                     ("incant.sh"
+                      ,(local-file
+                        "templates/incant.sh"))
+                     ("LICENSE"
+                      ,(local-file
+                        "templates/agpl3.0"))
+                     ("Makefile.am"
+                      ,(local-file
+                        "templates/makefile.am"))
+                     ("NEWS"
+                      ,(local-file
+                        "templates/news"))
+                     ("pre-inst-env.in"
+                      ,(local-file
+                        "templates/pre-inst-env"))
+                     ("README.org"
+                      ,(local-file
+                        "templates/readme"))
+                     ("setup-symlinks.sh"
+                      ,(local-file
+                        "templates/setup-symlinks.sh"))
+                     ("tests/maintests.scm"
+                      ,(local-file
+                        "templates/maintests.scm"))
+                     ("m4/m4_ax_check_class.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_check_class.m4"))
+                     ("m4/m4_ax_check_classpath.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_check_classpath.m4"))
+                     ("m4/m4_ax_check_java_home.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_check_java_home.m4"))
+                     ("m4/m4_ax_check_java_plugin.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_check_java_plugin.m4"))
+                     ("m4/m4_ax_check_junit.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_check_junit.m4"))
+                     ("m4/m4_ax_java_check_class.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_java_check_class.m4"))
+                     ("m4/m4_ax_java_options.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_java_options.m4"))
+                     ("m4/m4_ax_prog_jar.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_jar.m4"))
+                     ("m4/m4_ax_prog_java_cc.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_java_cc.m4"))
+                     ("m4/m4_ax_prog_javac.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_javac.m4"))
+                     ("m4/m4_ax_prog_javac_works.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_javac_works.m4"))
+                     ("m4/m4_ax_prog_javadoc.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_javadoc.m4"))
+                     ("m4/m4_ax_prog_javah.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_javah.m4"))
+                     ("m4/m4_ax_prog_java.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_java.m4"))
+                     ("m4/m4_ax_prog_java_works.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_prog_java_works.m4"))
+                     ("m4/m4_ax_try_compile_java.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_try_compile_java.m4"))
+                     ("m4/m4_ax_try_run_java.m4"
+                      ,(local-file
+                        "templates/m4/m4_ax_try_run_java.m4"))
+                     ("m4/tar-edited.m4"
+                      ,(local-file "templates/m4/tar-edited.m4")))))
+                   `(".emacs.d/templates"
+                     ,(local-file "templates"
+                                  #:recursive? #true))
+                   `(".Xresources"
+                     ,(local-file "dotfiles/xresources"
+                                  "xresources"))
+                   `(".config/mc/ini"
+                     ,(local-file "dotfiles/mc.ini" "mc-ini"))
+                   `(".config/stumpwm/config"
+                     ,(local-file "dotfiles/stumpwmrc" "stumpwmrc"))
+                   `(".config/gitconfig.scm"
+                     ,(local-file "dotfiles/gitconfig.scm"
+                                  "gitconfig-values"))
+                   ;; `(".npmrc"
+                   ;;   ,(local-file "dotfiles/npmrc"
+                   ;;                "npmrc"))
+                   `(".config/stumpwm/window-placement.lisp"
+                     ,(local-file "dotfiles/stumpwm-windows.lisp"
+                                  "stumpwm-windows.lisp"))
+                   `(".local/bin/u-ctags"
+                     ,(file-append my-u-ctags "/bin/u-ctags")))))))

@@ -89,7 +89,7 @@ The hope is that .
 @printindex fn
 
 @c *********************************************************************
-@node Procedure Types, GNU FDL, Environment Variables, Top
+@node Procedure Types, GNU FDL, Programming Index, Top
 @cindex Procedure Types
 @include procedure-types.texi
 
