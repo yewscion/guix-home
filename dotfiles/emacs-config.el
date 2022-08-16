@@ -2354,7 +2354,8 @@ When RETURN-OUTPUT is non-nil, return the output as a string."
         (let ((result (buffer-substring-no-properties start-of-output (point-max))))
         (when (or dont-follow nil)
           (pop-to-buffer buffer))
-        (when return-output
+        (if return-output
+            (string-join (butlast (split-string result "\n") 2) "\n")
           result)))))
 (define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
 (define-key bqn--mode-map (kbd "C-c C-x C-b") #'bqn-process-execute-buffer)
