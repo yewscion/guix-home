@@ -836,7 +836,7 @@ value."
    "If You don't want to use git, or would rather stick with an\n"
    "actual release, then see the tagged releases for some tarballs\n"
    "of the source.\n\n"
-   "The needed dependencies are tracked in the DEPENDENCIES.txt file\n"
+   "The needed dependencies are tracked in the =DEPENDENCIES.txt= file\n"
    "to support this use case.\n\n"))
 (defun cdr:readme-install-instructions (project)
   "Templating function for the 'Install' section of my README.md files."
@@ -874,7 +874,7 @@ value."
    "The ="
    project
    "= project and all associated files are ©2022 Christopher\nRodriguez, but"
-   "licensed to the public at large under the terms of the:\n\n"
+   " licensed to the public at large under the terms of the:\n\n"
    (cond ((string= license "agpl")
           "[[https://www.gnu.org/licenses/agpl-3.0.html][GNU AGPL3.0+]]")
          ((string= license "fdl")
@@ -1308,6 +1308,8 @@ Moves the cursor in the current buffer."
 ;;; Make it so code blocks in Org Babel Behave Consistently.
 (setq org-src-preserve-indentation t)
 
+;;; Make Org Drill Hide Headings.
+(setq org-drill-hide-item-headings-p t)
 ;;; LSP stuff
 
 (setq lsp-headerline-breadcrumb-enable-symbol-numbers t
@@ -1333,10 +1335,10 @@ Moves the cursor in the current buffer."
 "ALGORITHM design"
 "ALGORITHMIC information"
 "ALGORITHMS"
-"ALGORITHMS, search"
-"ALGORITHMS, sort - bubble"
-"ALGORITHMS, sort - quicksort"
-"ALGORITHMS, sort"
+"ALGORITHMS - search"
+"ALGORITHMS - sort - bubble"
+"ALGORITHMS - sort - quicksort"
+"ALGORITHMS - sort"
 "APPROPRIATE access"
 "ARAB spring uprisings"
 "ARTIFICIAL intelligence"
@@ -1366,18 +1368,18 @@ Moves the cursor in the current buffer."
 "COLLECTIVE leadership"
 "COLLECTIVE migration"
 "COMMUNICATION"
-"COMMUNICATION, interprocess"
-"COMMUNICATION, mass"
-"COMMUNICATION, online"
-"COMMUNICATION, technical"
+"COMMUNICATION - interprocess"
+"COMMUNICATION - mass"
+"COMMUNICATION - online"
+"COMMUNICATION - technical"
 "COMMUNICATIVE competence"
 "COMMUNIST parties"
-"COMMUNITIES, VIRTUAL"
+"COMMUNITIES - VIRTUAL"
 "COMPILATION"
 "COMPILERS"
-"COMPLEXITY, logical"
+"COMPLEXITY - logical"
 "COMPUTER algorithms"
-"COMPUTER file format, pdf"
+"COMPUTER file format - pdf"
 "COMPUTER filesystems"
 "COMPUTER firmware"
 "COMPUTER hardware"
@@ -1386,27 +1388,27 @@ Moves the cursor in the current buffer."
 "COMPUTER multitasking"
 "COMPUTER networks"
 "COMPUTER operating systems"
-"COMPUTER processors, multi-core"
+"COMPUTER processors - multi-core"
 "COMPUTER science education"
-"COMPUTER science, artificial intelligence"
-"COMPUTER science, high performance"
-"COMPUTER science, language"
-"COMPUTER science, machine learning"
-"COMPUTER science, moore's law"
-"COMPUTER science, parallelism"
-"COMPUTER science, robotics"
+"COMPUTER science - artificial intelligence"
+"COMPUTER science - high performance"
+"COMPUTER science - language"
+"COMPUTER science - machine learning"
+"COMPUTER science - moore's law"
+"COMPUTER science - parallelism"
+"COMPUTER science - robotics"
 "COMPUTER scientists"
 "COMPUTER security"
 "COMPUTER software"
-"COMPUTER software, pgp"
+"COMPUTER software - pgp"
 "COMPUTER storage"
-"COMPUTER storage, raid"
+"COMPUTER storage - raid"
 "COMPUTER systems"
 "COMPUTER user interfaces"
 "COMPUTER-AIDED manufacturing"
 "COMPUTERS"
-"COMPUTERS, embedded"
-"CONSENSUS, social science"
+"COMPUTERS - embedded"
+"CONSENSUS - social science"
 "CONTRACT management"
 "CORRESPONDENCE"
 "COVID-19"
@@ -1421,77 +1423,77 @@ Moves the cursor in the current buffer."
 "DATA analysis"
 "DATA security"
 "DATA"
-"DATABASES, relational"
+"DATABASES - relational"
 "DATAFICATION"
 "DEADLOCKS"
 "DEFINITIONS"
 "DEMOCRACY"
 "DEMOCRATIC socialism"
 "DEMOCRATIZATION"
-"DEVELOPMENT, economic"
+"DEVELOPMENT - economic"
 "DEVSECOPS"
 "DIGITAL communication"
 "DIGITAL media"
 "DIGITAL technology"
-"DISCOVERY, scientific"
+"DISCOVERY - scientific"
 "DISINFORMATION"
 "ECONOMY"
-"EDUCATION, distance"
-"EDUCATION, mathematics"
-"EDUCATION, programming"
+"EDUCATION - distance"
+"EDUCATION - mathematics"
+"EDUCATION - programming"
 "EFFECTIVENESS"
-"EFFICIENCY, energy"
+"EFFICIENCY - energy"
 "ELECTIONS"
-"ELECTIONS, presidential"
+"ELECTIONS - presidential"
 "ELECTRON"
-"ENCRYPTION, public-key"
+"ENCRYPTION - public-key"
 "ENTROPY"
 "ETHICS"
 "EXECUTIVE Ability"
 "EXECUTIVES"
 "FAKE news"
-"FICTION, science fiction"
+"FICTION - science fiction"
 "FOCUS"
 "FOLLOWER-LEADER"
-"FREEDOM, speech"
+"FREEDOM - speech"
 "FUN"
-"GAME, psychology"
-"GAME, theory"
-"GAMES, video games"
+"GAME - psychology"
+"GAME - theory"
+"GAMES - video games"
 "GATHERING points"
 "GENDER"
-"GENDER, equality"
+"GENDER - equality"
 "GENERALITY"
-"GOVERNMENT forms, parliamentary democracy"
+"GOVERNMENT forms - parliamentary democracy"
 "GRAMMAR"
 "GREAT Britain"
 "GUIDELINES"
-"HISTORY, artificial intelligence"
-"HISTORY, computer science"
-"HISTORY, laundry"
-"HISTORY, lisp programming language"
-"HISTORY, victorian england"
+"HISTORY - artificial intelligence"
+"HISTORY - computer science"
+"HISTORY - laundry"
+"HISTORY - lisp programming language"
+"HISTORY - victorian england"
 "HOAXES"
-"HOPPER, grace"
+"HOPPER - grace"
 "HUMAN behavior"
 "HUMAN beings"
 "HUMAN multitasking"
 "HUMAN rights"
-"HUMANITIES, digital"
+"HUMANITIES - digital"
 "IMAN1"
 "IMMUNIZATION"
-"IMPROVEMENT, continuous"
+"IMPROVEMENT - continuous"
 "INFLUENCE"
 "INFORMATION technology"
 "INSTITUTIONS"
 "INTEGRATED circuits"
-"INTERFACE, message-passing"
+"INTERFACE - message-passing"
 "INTERNATIONAL courts"
 "INTERNATIONAL relations"
-"INTERNET, advertising"
-"INTERNET, culture"
-"INTERNET, protocol"
-"INTERNET, world wide web"
+"INTERNET - advertising"
+"INTERNET - culture"
+"INTERNET - protocol"
+"INTERNET - world wide web"
 "INVENTIONS"
 "JACQUARD loom"
 "LAISSEZ-FAIRE"
@@ -1502,61 +1504,61 @@ Moves the cursor in the current buffer."
 "LEADERSHIP model"
 "LEADERSHIP style"
 "LEADERSHIP"
-"LEARNING, informal"
-"LEARNING, machine"
-"LINUX distribution, debian"
-"LINUX distribution, slackware linux"
+"LEARNING - informal"
+"LEARNING - machine"
+"LINUX distribution - debian"
+"LINUX distribution - slackware linux"
 "LISP machines"
-"LITERATURE, romanticism"
-"LOGIC, boolean"
-"LOGIC, symbolic"
-"LOVELACE, ada byron king"
-"MACHINERY, textile"
+"LITERATURE - romanticism"
+"LOGIC - boolean"
+"LOGIC - symbolic"
+"LOVELACE - ada byron king"
+"MACHINERY - textile"
 "MANAGEMENT foundations"
 "MANAGEMENT model"
 "MANAGEMENT styles"
 "MANAGEMENT"
-"MANAGEMENT, industrial"
-"MANAGEMENT, information"
-"MANAGEMENT, knowledge"
-"MANAGEMENT, personnel"
-"MANAGEMENT, software"
-"MANAGEMENT, time"
+"MANAGEMENT - industrial"
+"MANAGEMENT - information"
+"MANAGEMENT - knowledge"
+"MANAGEMENT - personnel"
+"MANAGEMENT - software"
+"MANAGEMENT - time"
 "MASS shootings"
-"MATHEMATICS, logic"
-"MEDIA, mass"
+"MATHEMATICS - logic"
+"MEDIA - mass"
 "METAPHOR"
 "MICROTARGETING"
 "MIDDLE east"
 "MIS"
 "MOBILIZATION"
-"MODEL, discrete choice"
-"MODEL, domain-specific"
-"MORGAN, augustus de"
+"MODEL - discrete choice"
+"MODEL - domain-specific"
+"MORGAN - augustus de"
 "MULTITHREADING"
 "NARRATIVE"
 "NONLOCAL PDEs"
 "OPEN source firmware"
-"OPERATING system, android"
-"OPERATING system, apple ios"
-"OPERATING system, bsd"
-"OPERATING system, cisco ios"
-"OPERATING system, gnu/linux"
-"OPERATING system, junos"
-"OPERATING system, kernel"
-"OPERATING system, macos"
-"OPERATING system, microsoft dos"
-"OPERATING system, microsoft windows"
-"OPERATING system, os/2"
-"OPERATING system, unix"
+"OPERATING system - android"
+"OPERATING system - apple ios"
+"OPERATING system - bsd"
+"OPERATING system - cisco ios"
+"OPERATING system - gnu/linux"
+"OPERATING system - junos"
+"OPERATING system - kernel"
+"OPERATING system - macos"
+"OPERATING system - microsoft dos"
+"OPERATING system - microsoft windows"
+"OPERATING system - os/2"
+"OPERATING system - unix"
 "OPERATING systems"
-"OPERATING systems, security"
+"OPERATING systems - security"
 "ORGANIZATION"
 "ORGANIZATIONAL behavior"
 "ORGANIZATIONAL change"
 "ORGANIZATIONAL effectiveness"
 "ORGANIZATIONAL sociology"
-"PARALLELISM, linguistic"
+"PARALLELISM - linguistic"
 "PERFORMANCE"
 "PERSONALITY"
 "PERSUASION"
@@ -1576,10 +1578,10 @@ Moves the cursor in the current buffer."
 "POLITICAL succession"
 "POLITICAL systems"
 "POLITICS"
-"POLITICS, elite"
-"POLITICS, global"
-"POLITICS, middle eastern"
-"POLITICS, national"
+"POLITICS - elite"
+"POLITICS - global"
+"POLITICS - middle eastern"
+"POLITICS - national"
 "POPULAR culture"
 "POPULAR works"
 "POPULISM"
@@ -1589,35 +1591,35 @@ Moves the cursor in the current buffer."
 "PRESIDENT"
 "PROBABILITY"
 "PRODUCTIVITY"
-"PRODUCTIVITY, labor"
-"PROGRAMMING language family, lisp"
-"PROGRAMMING language, c++"
-"PROGRAMMING language, clojure"
-"PROGRAMMING language, common lisp"
-"PROGRAMMING language, emacs lisp"
-"PROGRAMMING language, java"
-"PROGRAMMING language, python"
-"PROGRAMMING language, rust"
-"PROGRAMMING language, scheme"
-"PROGRAMMING language, webassembly"
+"PRODUCTIVITY - labor"
+"PROGRAMMING language family - lisp"
+"PROGRAMMING language - c++"
+"PROGRAMMING language - clojure"
+"PROGRAMMING language - common lisp"
+"PROGRAMMING language - emacs lisp"
+"PROGRAMMING language - java"
+"PROGRAMMING language - python"
+"PROGRAMMING language - rust"
+"PROGRAMMING language - scheme"
+"PROGRAMMING language - webassembly"
 "PROGRAMMING languages"
 "PROGRAMMING teams"
-"PROGRAMMING, parallelism"
+"PROGRAMMING - parallelism"
 "PSEUDOCODE"
 "PSYCHOLOGY"
 "PSYCHOLOGY"
-"PSYCHOLOGY, cognitive"
-"PSYCHOLOGY, social"
+"PSYCHOLOGY - cognitive"
+"PSYCHOLOGY - social"
 "PUBLIC relations"
 "PUBLICATIONS"
 "QUALIFICATIONS"
-"READING, engaged"
-"RELATIONSHIPS, professional"
+"READING - engaged"
+"RELATIONSHIPS - professional"
 "RESEARCH"
-"RESEARCH, publishing"
+"RESEARCH - publishing"
 "SECURITY"
-"SECURITY, information"
-"SECURITY, software"
+"SECURITY - information"
+"SECURITY - software"
 "SELECTIVE exposure"
 "SELF evaluation"
 "SHIPS"
@@ -1625,22 +1627,22 @@ Moves the cursor in the current buffer."
 "SOCIAL media"
 "SOCIAL networks"
 "SOCIAL sciences"
-"SOCIOLOGY, industrial"
+"SOCIOLOGY - industrial"
 "SOFTWARE analysis"
 "SOFTWARE collaboration"
 "SOFTWARE creation"
 "SOFTWARE defects"
 "SOFTWARE design"
-"SOFTWARE development, mobile application"
+"SOFTWARE development - mobile application"
 "SOFTWARE engineering"
 "SOFTWARE shells"
 "SOFTWARE testing"
 "SOFTWARE"
-"SOFTWARE, debugging"
-"SOFTWARE, free, libre, and open source"
-"STATE, failed"
-"STATE, fragile"
-"STUDY, reproduction"
+"SOFTWARE - debugging"
+"SOFTWARE - free - libre - and open source"
+"STATE - failed"
+"STATE - fragile"
+"STUDY - reproduction"
 "SUCCESS"
 "SUCCESSION"
 "SUPERCOMPUTER"
@@ -1650,7 +1652,7 @@ Moves the cursor in the current buffer."
 "TASK analysis"
 "TAXONOMY"
 "TECHNOLOGY"
-"TECHNOLOGY, sustainable"
+"TECHNOLOGY - sustainable"
 "TEXTBOOK"
 "TILING"
 "TRANSISTORS"
@@ -1697,7 +1699,7 @@ None; Inert Data.")
       "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
       "translator" "venue" "version" "volumes")
       ebib-use-timestamp t
-      biblio-biblatex-use-autokey t
+      biblio-bibtex-use-autokey t
       ebib-keywords my-ebib-keywords)
 
 (setq org-cite-global-bibliography
@@ -1752,8 +1754,9 @@ None; Inert Data.")
                     ( user-full-name	    . "Christopher Rodriguez" )
                     ( mu4e-compose-signature .
                       (concat
-                       "--\n\n"
-                       "Christopher Rodriguez\n"))))
+                       "Christopher Rodriguez\n"
+                       "()  ascii ribbon campaign - against html e-mail"
+                       "/\  www.asciiribbon.org   - against proprietary attachments"))))
          ,(make-mu4e-context
            :name "work"
            :enter-func (lambda () (mu4e-message "Entering 'work' context"))
@@ -2273,9 +2276,19 @@ is true; otherwise returns the last value."
 (setq cdr:pseudocode-preprocessor-regexp
       "`.+`")
 (setq cdr:pseudocode-constants-regexp
-      (concat "\\(true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|success\\|failure\\|newline\\|beep\\|indent\\|user\\|screen\\|system\\)"))
+      (concat "\\(true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|"
+              "success\\|failure\\|succeeds\\|fails\\|found\\|newline\\|"
+              "beep\\|indent\\|user\\|screen\\|system\\)"))
 (setq cdr:pseudocode-types-regexp
-      (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|list\\|array\\|sequence\\|every\\|each\\|nothing\\|maybe\\|symbol\\|many\\|any\\|constant\\|operator\\|procedure\\|file\\|stream\\|pipe\\|port\\|line\\|interrupt\\|sum\\|difference\\|product\\|quotient\\|remainder\\|value\\|name\\|result\\|message\\|field\\|a\\)\\(ish\\|-like\\|esque\\|s\\)?"))
+      (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|"
+              "list\\|array\\|sequence\\|every\\|each\\|member\\|index\\|"
+              "nothing\\|maybe\\|"
+              "symbol\\|many\\|any\\|constant\\|operator\\|procedure\\|"
+              "argument\\|parameter\\|"
+              "file\\|stream\\|pipe\\|port\\|line\\|interrupt\\|sum\\|"
+              "difference\\|product\\|quotient\\|remainder\\|value\\|name\\|"
+              "result\\|message\\|field\\|an?\\|the\\)"
+              "\\(ish\\|-like\\|esque\\|s\\)?"))
 (setq cdr:pseudocode-operators-regexp
       (regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯"
                      "≮" "≥" "≤" "≠" "less than" "more than" "greater than"
@@ -2288,20 +2301,48 @@ is true; otherwise returns the last value."
                      "power" "squared" "cubed" "root" "square" "cube")
                   'symbols))
 (setq cdr:pseudocode-keywords-regexp
-      (regexp-opt '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy" "print"
+      (regexp-opt
+       '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy" "print"
       "display" "show" "save" "return" "compute" "calculate" "determine"
-      "append" "set" "initialize" "init" "let" "is" "has" "to" "increment"
-      "bump" "decrement" "if" "then" "else" "otherwise" "when" "unless" "while"
-      "done" "endwhile" "do" "case" "of" "others" "endcase" "repeat" "until"
-      "for" "endfor" "call" "exception" "as" "recurse" "this" "that" "except" "in"
-      "including" "convert" "wrap" "ensure" "cast" "expecting" "expect")
-                 'symbols))
+      "append" "over" "set" "initialize" "init" "let" "is" "has" "contains"
+      "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "when"
+      "unless" "while" "done" "endwhile" "do" "case" "of" "others" "endcase"
+      "repeat" "until" "for" "endfor" "call" "exception" "as" "recurse" "this"
+      "that" "except" "in" "at" "including" "convert" "wrap" "ensure" "cast"
+      "expecting" "expect")
+                  'symbols))
+(setq cdr:pseudocode-algorithms-regexp
+      (regexp-opt
+      '("sum" "difference" "product" "quotient" "remainder" "modulus" "sign"
+      "reciprocal" "magnitude" "logarithm" "average" "mean" "median" "mode"
+      "range" "max" "maximum" "min" "minimum" "maxima" "minima" "ceiling"
+      "floor" "sort" "reverse" "search" "find" "filter in" "filter out"
+      "grade up" "grade down" "scan" "map" "reduce" "expand" "replicate")
+                  'symbols))
 (setq cdr:pseudocode-string-regexp
       "\\('.*'\\|\\\".*\\\"\\)")
 (setq cdr:pseudocode-special-types-regexp
       (regexp-opt '("truthy" "falsey") 'symbols))
 (setq cdr:pseudocode-special-operator-regexp
       "!=\\|!<\\|!>\\|\\^\\|\\*\\|take the remainder of\\|raised to\\|resulting in")
+(setq cdr:pseudocode-numeric-ordinals-regexp
+      (concat
+       "first\\|second\\|third\\|fourth\\|fifth\\|sixth\\|seventh\\|eighth\\|"
+       "ninth\\|tenth\\|eleventh\\|twelfth\\|thirteenth\\|fourteenth\\|"
+       "fifteenth\\|sixteenth\\|seventeenth\\|eighteenth\\|nineteenth\\|"
+       "twentieth\\|thirtieth\\|fortieth\\|fiftieth\\|sixtieth\\|"
+       "seventieth\\|eightieth\\|nintieth\\|hundreth\\|thousandth\\|"
+       "millionth\\|billionth\\|trillionth\\|quadrillionth\\|"
+       "quintillionth\\|sextillionth\\|septillionth\\|octillionth\\|"
+       "nonillionth\\|decillionth\\|undecillionth\\|duodecillionth"))
+(setq cdr:pseudocode-numeric-words-regexp
+      (concat
+       "one\\|two\\|three\\|four\\|five\\|six\\|seven\\|eight\\|nine\\|ten\\|eleven\\|"
+       "twelve\\|thirteen\\|fourteen\\|fifteen\\|sixteen\\|seventeen\\|"
+       "eighteen\\|ninteen\\|twenty\\|thirty\\|forty\\|fifty\\|sixty\\|seventy\\|"
+       "eighty\\|ninety\\|hundred\\|thousand\\|million\\|billion\\|trillion\\|"
+       "quadrillion\\|quintillion\\|sextillion\\|septillion\\|octillion\\|"
+       "nonillion\\|decillion\\|undecillion\\|duodecillion\\|googol\\|centillion"))      
 (define-generic-mode
     'pseudocode-mode
                                         ; Comments
@@ -2314,10 +2355,13 @@ is true; otherwise returns the last value."
     (,cdr:pseudocode-preprocessor-regexp . 'font-lock-preprocessor-face)
     (,cdr:pseudocode-special-types-regexp . 'font-lock-type-face)
     (,cdr:pseudocode-special-operator-regexp . 'font-lock-builtin-face)
+    (,cdr:pseudocode-algorithms-regexp . 'font-lock-function-name-face)
     (,cdr:pseudocode-constants-regexp . 'font-lock-constant-face)
     (,cdr:pseudocode-operators-regexp . 'font-lock-builtin-face)
     (,cdr:pseudocode-keywords-regexp . 'font-lock-keyword-face)
-    (,cdr:pseudocode-types-regexp . 'font-lock-type-face))
+    (,cdr:pseudocode-types-regexp . 'font-lock-type-face)
+    (,cdr:pseudocode-numeric-words-regexp . 'font-lock-number-face)
+    (,cdr:pseudocode-numeric-ordinals-regexp . 'font-lock-number-face))
   '("\\.pseudo$")
   nil
   "A mode for editing a somewhat-standard version of pseudocode.")
@@ -2328,35 +2372,37 @@ is true; otherwise returns the last value."
 
 (require 'bqn-mode)
 (defun bqn-process-execute-region (start end &optional dont-follow return-output)
-  "Send the current region to the bqn-process-session.
-
-When DONT-FOLLOW is non-nil, maintain focus on the buffer where the function was called from.
-
-When RETURN-OUTPUT is non-nil, return the output as a string."
   (interactive "r")
-  (when (= start end)
-    (error
-     (concat "Attempt to send empty region to "
-             *bqn-process-buffer-name*)))
-  (when bqn-flash-on-send
-    (bqn--flash-region start end))
   (let ((region (buffer-substring-no-properties start end))
         (session (bqn-process-ensure-session))
         (buffer (current-buffer)))
-    (pop-to-buffer (process-buffer session))
-    (goto-char (point-max))
-    (insert (format ")escaped \"%s\""
-                    (replace-in-string "
-" "\\n" region)))
-      (let ((start-of-output (+ (point) 1)))
-        (comint-send-input)
-        (message (number-to-string start-of-output))
-        (let ((result (buffer-substring-no-properties start-of-output (point-max))))
-        (when (or dont-follow nil)
-          (pop-to-buffer buffer))
-        (if return-output
-            (string-join (butlast (split-string result "\n") 2) "\n")
-          result)))))
+    (bqn-process-execute-region-setup start end session region)
+    (bqn-process-execute-region-execute buffer)))
+(defun bqn-process-execute-region-setup (start end session region)
+  (when (= start end) (error (concat "Attempt to send empty region to "
+                                     *bqn-process-buffer-name*)))
+  (when bqn-flash-on-send (bqn--flash-region start end))
+  (pop-to-buffer (process-buffer session))
+  (goto-char (point-max))
+  (insert (bqn-format-for-comint region return-output)))
+
+(defun bqn-process-execute-region-execute (buffer)
+  (let ((start-of-output (+ (point) 1)))
+    (comint-send-input)
+    (let ((result (buffer-substring-no-properties start-of-output (point-max))))
+      (when (or dont-follow nil)
+        (pop-to-buffer buffer))
+      result)))
+(defun bqn-format-for-comint (code return-output)
+  (let ((prefix (if return-output ")escaped \")r " ")escaped \""))
+        (suffix "\""))
+    (string-join (list prefix
+                       (bqn-escape-for-comint code)
+                       suffix))))
+(defun bqn-escape-for-comint (code)
+  (replace-in-string "\n" "\\n"
+                     (replace-in-string "\"" "\\\""
+                                        (replace-in-string "\\" "\\\\" code))))
 (define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
 (define-key bqn--mode-map (kbd "C-c C-x C-b") #'bqn-process-execute-buffer)
 (define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)

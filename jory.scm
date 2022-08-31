@@ -82,6 +82,8 @@
     (simple-service 'my-cron-jobs
                     mcron-service-type
                     (list updatedb-job))
+    (extra-special-file "/etc/test"
+                        (local-file "/etc/config.scm"))
     (set-xorg-configuration
      (xorg-configuration
       (keyboard-layout %my-keyboard-layout)))
