@@ -211,7 +211,7 @@
   "qemu" "ripgrep" "rlwrap" "rsync" "ruby" "ruby-kramdown" "rxvt-unicode"
   "sbcl" "sbcl-deploy" "sbcl-esrap" "sbcl-ironclad"
   "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
-  "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "screen" "sed"
+  "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "screen" "sdl2" "sed"
   "sedsed" "setxkbmap" "sfarklib" "shellcheck" "shepherd" "sshfs" "sshpass"
   "stumpish" "stumpwm" "stumpwm:lib" "swi-prolog" "talkfilters" "telescope"
   "texinfo" "texlive-amsfonts" "texlive-babel-russian" "texlive-biblatex"
@@ -333,7 +333,8 @@
              ("EDITOR" . "emacsclient")
              ("TEXMFCACHE" . "$HOME/.local/share/texmf-dist")
 	     ("CLASSPATH" . "$GUIX_PROFILE/share/java")
-             ("NVM_DIR" . "$HOME/.config/nvm")))
+             ("NVM_DIR" . "$HOME/.config/nvm")
+             ("CARP_DIR" . "$GUIX_PROFILE/share/carp")))
           (guix-defaults? #t)
           (package bash)))
         (simple-service 'my-extensions

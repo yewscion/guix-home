@@ -125,7 +125,7 @@
         warning error])
 
 ;;; Dired
-(setq dired-listing-switches "-aDFhikmopqs")
+(setq dired-listing-switches "-aDFhikmoqs")
 (add-hook 'dired-load-hook
           (lambda ()
             (load "dired-x")
