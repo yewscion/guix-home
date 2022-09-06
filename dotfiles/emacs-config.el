@@ -588,9 +588,17 @@ even beep.)"
   (revert-buffer))
 
 (defun cdr:templates-insert-scm-docstring ()
-  "Inserts a docstring at the current position."
+  "Inserts a scheme docstring at the current position."
   (interactive)
-  (insert-file-contents "~/.emacs.d/templates/scheme-docstring"))
+  (save-mark-and-excursion
+    (beginning-of-line)
+  (insert-file-contents "~/.emacs.d/templates/scheme-docstring")))
+(defun cdr:templates-insert-apl-docstring ()
+  "Inserts an APL docstring comment at the current position."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents "~/.emacs.d/templates/apl-docstring")))
 (defun cdr:templates-insert-org-header ()
   "Inserts my org header at the current position."
   (interactive)
@@ -2071,6 +2079,7 @@ None; Inert Data.")
 ;;; Template Map <F5>
 
 (define-key template-map (kbd "d") #'cdr:templates-insert-scm-docstring)
+(define-key template-map (kbd "a") #'cdr:templates-insert-apl-docstring)
 (define-key template-map (kbd "b") #'cdr:templates-insert-bib-annotation)
 (define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
 (define-key template-map (kbd "h") #'cdr:templates-insert-org-header)

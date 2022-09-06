@@ -117,7 +117,7 @@
 
 (define my-packages
   '("adlmidi" "alsa-plugins" "alsa-plugins:pulseaudio" "anki" "ant"
-  "ant-junit" "apl" "autoconf" "automake" "b3sum" "bash" "beets" "biber"
+  "ant-junit" "gnu-apl" "autoconf" "automake" "b3sum" "bash" "beets" "biber"
   "borg" "brightnessctl" "bsd-games" "btrfs-progs" "carp" "cbqn"
   "clang-toolchain" "cl-asdf" "clisp" "clojure" "codechallenge-solutions"
   "coreutils" "curl" "dbqn" "dfc" "dmidecode" "docker" "dosfstools"
@@ -334,7 +334,8 @@
              ("TEXMFCACHE" . "$HOME/.local/share/texmf-dist")
 	     ("CLASSPATH" . "$GUIX_PROFILE/share/java")
              ("NVM_DIR" . "$HOME/.config/nvm")
-             ("CARP_DIR" . "$GUIX_PROFILE/share/carp")))
+             ("CARP_DIR" . "$GUIX_PROFILE/share/carp")
+             ("APL_LIB_ROOT" . "$HOME/Documents/apl-libs")))
           (guix-defaults? #t)
           (package bash)))
         (simple-service 'my-extensions
@@ -497,6 +498,9 @@
                    `(".config/gitconfig.scm"
                      ,(local-file "dotfiles/gitconfig.scm"
                                   "gitconfig-values"))
+                   `(".config/gnu-apl/preferences"
+                     ,(local-file "dotfiles/gnu-apl-preferences.conf"
+                                  "gnu-apl-preferences"))
                    ;; `(".npmrc"
                    ;;   ,(local-file "dotfiles/npmrc"
                    ;;                "npmrc"))
