@@ -124,6 +124,8 @@ otherwise."
 (define-key *root-map* (kbd "V") "exec /opt/cisco/anyconnect/bin/vpnui")
 ;;; Emacsclient
 (define-key *root-map* (kbd "e") "exec emacsclient -c")
+;;; Emacs Everywhere ; Ruins current emacsclient session.
+;(define-key *root-map* (kbd "E") "exec emacsclient --eval '(emacs-everywhere)'")
 ;;; Screenshots
 (define-key *top-map* (kbd "Print") "screenshot-now")
 ;; Message/Modeline Font

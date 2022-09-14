@@ -599,6 +599,12 @@ even beep.)"
   (save-mark-and-excursion
     (beginning-of-line)
     (insert-file-contents "~/.emacs.d/templates/apl-docstring")))
+(defun cdr:templates-insert-java-docstring ()
+  "Inserts a Java docstring comment at the current position."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents "~/.emacs.d/templates/java-docstring")))
 (defun cdr:templates-insert-org-header ()
   "Inserts my org header at the current position."
   (interactive)
@@ -2527,6 +2533,9 @@ is true; otherwise returns the last value."
 (global-unset-key (kbd "C-x C-n"))
 ;;; Let me mark any variable as safe.
 (advice-add 'risky-local-variable-p :override #'ignore)
+;;; I only want warnings for errors unless I ask.
+(setq warning-minimum-level :error)
+
 
 ;;; Load Initial File.
 (find-file "~/Documents/org/main.org")
