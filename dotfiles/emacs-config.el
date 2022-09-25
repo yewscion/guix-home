@@ -713,8 +713,8 @@ need, and move the anchors to the correct places."
   (search-forward "<!--MathJax customizations:-->")
   (end-of-line 0)
   (let ((start (point)))
-    (search-forward "<div class=\"titlepage\" >")
-    (end-of-line -1)
+    (search-forward "<div class=\"center\" >")
+    (end-of-line -2)
     (delete-region start (point)))
   (goto-char (point-min)))
 (defun cdr:prep-latex-for-copy-move-id ()
@@ -737,12 +737,12 @@ need, and move the anchors to the correct places."
 (defun cdr:prep-latex-for-copy-remove-title-page ()
   "Remove the title page from lwarp's HTML output."
   (goto-char (point-min))
-  (search-forward "<div class=\"titlepage\" >")
+  (search-forward "<div class=\"center\" >")
   (beginning-of-line)
   (let ((start (point)))
     (search-forward "</div>
-
-</div>")
+<h4")
+    (end-of-line)
     (delete-region start (point)))
   (goto-char (point-min)))
 (defun cdr:prep-latex-for-copy-remove-empty-anchor ()
@@ -830,35 +830,59 @@ value."
     "#+end_src\n\n"
     "This'll create a profile with *just* this project in it, "
     "to mess around with.\n\n"))
-(defun cdr:readme-src-instructions (project)
+(defun cdr:readme-src-instructions (project &optional type)
   "Templating function for the 'Source' section of my README.md files."
   (interactive)
-  (concat
-   "*** Source\n\n"
-   "If You don't want to use [[https://guix.gnu.org/][GNU Guix]],\n"
-   "You can clone this repo and install it in the normal way:\n\n"
-   "#+begin_src bash\n"
-   "git clone https://git.sr.ht/~yewscion/"
-   project
-   "\ncd "
-   project
-   "\n./configure\n"
-   "make\n"
-   "make check\n"
-   "make install\n"
-   "#+end_src\n\n"
-   "If You don't want to use git, or would rather stick with an\n"
-   "actual release, then see the tagged releases for some tarballs\n"
-   "of the source.\n\n"
-   "The needed dependencies are tracked in the =DEPENDENCIES.txt= file\n"
-   "to support this use case.\n\n"))
-(defun cdr:readme-install-instructions (project)
+  (cond ((or (not type) (string= type "gnu"))
+         (concat
+          "*** Source\n\n"
+          "If You don't want to use [[https://guix.gnu.org/][GNU Guix]],\n"
+          "You can clone this repo and install it in the normal way:\n\n"
+          "#+begin_src bash\n"
+          "git clone https://git.sr.ht/~yewscion/"
+          project
+          "\ncd "
+          project
+          "\n./configure\n"
+          "make\n"
+          "make check\n"
+          "make install\n"
+          "#+end_src\n\n"
+          "If You don't want to use git, or would rather stick with an\n"
+          "actual release, then see the tagged releases for some tarballs\n"
+          "of the source.\n\n"
+          "The needed dependencies are tracked in the =DEPENDENCIES.txt= file\n"
+          "to support this use case.\n\n"))
+        ((string= type "emacs")
+         (concat
+          "*** Source\n\n"
+          "If You don't want to use [[https://guix.gnu.org/][GNU Guix]],\n"
+          "You can clone this repo and install it in the normal way "
+          "(assuming You have\n an =~/.emacs.d/init.el=, and that "
+          "=~/.emacs.d/lisp= is in Your load-path):\n\n"
+          "#+begin_src bash\n"
+          "git clone https://git.sr.ht/~yewscion/"
+          project
+          "\ncd "
+          project
+          "\ncp ogham.el ~/.emacs.d/lisp/"
+          "\ncat >> ~/.emacs.d/init.el <<< (require 'ogham)"
+          "\n#+end_src\n\n"
+          "You can also just open the =ogham.el= file and run =M-x eval-buffer=,\n"
+          "but that only lasts for the current session.\n\n"
+          "If You don't want to use git, or would rather stick with an\n"
+          "actual release, then see the tagged releases for some tarballs\n"
+          "of the source.\n\n"
+          "The needed dependencies are tracked in the =DEPENDENCIES.txt= file\n"
+          "to support this use case.\n\n"))))
+         
+(defun cdr:readme-install-instructions (project &optional type)
   "Templating function for the 'Install' section of my README.md files."
   (interactive)
   (concat
    "** Installation\n"
   (cdr:readme-guix-instructions project)
-  (cdr:readme-src-instructions project)))
+  (cdr:readme-src-instructions project type)))
 (defun cdr:readme-contrib-instructions (project)
   "Templating function for the 'Contributing' section of my README.md files."
   (interactive)
@@ -897,27 +921,43 @@ value."
           "project's"))
    " license.\n\n"
    "Please see the =LICENSE= file and the above link for more information."))
-(defun cdr:readme-std-usage-instructions (project)
+(defun cdr:readme-std-usage-instructions (project &optional type)
   "Templating function for the 'Usage' section of my README.md files."
   (interactive)
-   (concat
-    "** Usage\n\n"
-    "Full usage is documented in the =doc/"
-    project
-    ".info= file. Here are\nonly generic instructions.\n\n"
-    "Once ="
-    project
-    "= in installed, You should be able to access all of\nits exported"
-    " functions in guile by using its modules:\n\n"
-    "#+begin_src scheme\n"
-    "(use-modules ("
-    (cadr (split-string project "-"))
-    " main))\n(library-info) ;; I include this in all my libraries\n"
-    "#+end_src\n\n"
-    "Any binaries or scripts will be available in Your =$PATH=. A list of "
-    "these\nis maintained in the info file. They all also have the =--help=="
-    " flag, so\nif You prefer learning that way, that is also available.\n"
-    "\n"))
+  (cond ((or (not type) (string= type "guile"))
+         (concat
+          "** Usage\n\n"
+          "Full usage is documented in the =doc/"
+          project
+          ".info= file. Here are\nonly generic instructions.\n\n"
+          "Once ="
+          project
+          "= in installed, You should be able to access all of\nits exported"
+          " functions in guile by using its modules:\n\n"
+          "#+begin_src scheme\n"
+          "(use-modules ("
+          (cadr (split-string project "-"))
+          " main))\n"
+          "#+end_src\n\n"
+          "Any binaries or scripts will be available in Your =$PATH=. A list of "
+          "these\nis maintained in the info file. They all also have the =--help=="
+          " flag, so\nif You prefer learning that way, that is also available.\n"
+          "\n"))
+        ((string= type "emacs")
+         (concat
+          "** Usage\n\n"
+          "Full usage is documented in the =doc/"
+          project
+          ".info= file. Here are\nonly generic instructions.\n\n"
+          "Once ="
+          project
+          "= in installed, You should be able to access all of\nits "
+          "functionality in emacs. You may need to add the following to\nYour "
+          "init file: \n"
+          "#+begin_src lisp\n"
+          "(require 'ogham)\n"
+          "#+end_src\n\n"))))
+
 (defun cdr:lisp-fill-paragraph (&optional justify)
   "Like \\[fill-paragraph], but handle Emacs Lisp comments and docstrings.
 If any of the current line is a comment, fill the comment or the
@@ -1088,6 +1128,36 @@ Moves the cursor in the current buffer."
           (re-search-forward "\n+")
           (replace-match "\n"))
       (error nil))))
+(defun cdr:strip-c-comments-from-buffer ()
+  "Remove all multiline C comments from the current buffer.
+
+Example of such a comment:
+/** This
+ *  is
+ *  a
+ *  Comment. */
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Changes current buffer by stripping away all multiline
+C-style comments."
+  (interactive)
+                                        ;  (let ((regexp "\\/\\*\\*\\(.\\|\n\\)+?\\*\\/")
+  (let ((regexp "\\/\\*\\*\\(\n\\|\\([^*]\\(.\\|\n\\)\\||.[^/]\\)\\)+\\*\\/")
+        (empty ""))
+    (save-excursion
+      (goto-char (point-min))
+      (replace-regexp regexp empty))))
 ;;; Skeletons
 (define-skeleton hog-skeleton
   "Sets up a new hog template in my org file"
@@ -1769,8 +1839,9 @@ None; Inert Data.")
                     ( mu4e-compose-signature .
                       (concat
                        "Christopher Rodriguez\n"
-                       "()  ascii ribbon campaign - against html e-mail"
-                       "/\  www.asciiribbon.org   - against proprietary attachments"))))
+                       "()  ascii ribbon campaign - against html e-mail\n"
+                       "/\\  www.asciiribbon.org   - against proprietary "
+                       "attachments"))))
          ,(make-mu4e-context
            :name "work"
            :enter-func (lambda () (mu4e-message "Entering 'work' context"))
@@ -1798,10 +1869,12 @@ None; Inert Data.")
            :vars '( ( user-mail-address	.
                       "christopher.rodriguez@csuglobal.edu" )
                     ( user-full-name . "Christopher Rodriguez" )
-                    ( mu4e-compose-signature  .
+                    ( mu4e-compose-signature .
                       (concat
-                       "--\n\n"
-                       "Christopher Rodriguez\n"))))
+                       "Christopher Rodriguez\n"
+                       "()  ascii ribbon campaign - against html e-mail\n"
+                       "/\\  www.asciiribbon.org   - against proprietary "
+                       "attachments"))))
          ,(make-mu4e-context
            :name "yewscion"
            :enter-func (lambda ()
@@ -1815,20 +1888,22 @@ None; Inert Data.")
                                (mu4e-message-field msg :maildir))))
            :vars '( ( user-mail-address	     . "yewscion@gmail.com" )
                     ( user-full-name	     . "Christopher Rodriguez" )
-                    ( mu4e-compose-signature  .
+                    ( mu4e-compose-signature .
                       (concat
-                       "--\n\n"
-                       "Christopher Rodriguez\n"))))))
+                       "Christopher Rodriguez\n"
+                       "()  ascii ribbon campaign - against html e-mail\n"
+                       "/\\  www.asciiribbon.org   - against proprietary "
+                       "attachments"))))))
 
 (setq mu4e-compose-context-policy nil
       mu4e-context-policy 'pick-first
       mu4e-compose-keep-self-cc t)
-(add-hook 'mu4e-compose-mode-hook 'cdr:edit-email-as-org)
-(substitute-key-definition 'message-send-and-exit
-                           'cdr:message-send-and-exit
-                           mu4e-compose-mode-map)
+;(add-hook 'mu4e-compose-mode-hook 'cdr:edit-email-as-org)
+;; (substitute-key-definition 'message-send-and-exit
+;;                            'cdr:message-send-and-exit
+;;                            mu4e-compose-mode-map)
 (define-mail-user-agent 'mu4e-user-agent
-  'mu4e-compose-mail
+  'mu4e~compose-mail
   'message-send-and-exit
   'message-kill-buffer
   'message-send-hook)
