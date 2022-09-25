@@ -1,5 +1,5 @@
 (("Emacs" 0 T T :CLASS "Emacs" :INSTANCE "emacs")
- ("Default" 1 T T :CLASS "IceCat")
+ ("Default" 1 T T :CLASS "GNU IceCat")
  ("Default" 0 T T :CLASS "URxvt")
  ("Messaging" 0 T ("y" T) :CLASS "Slack" :INSTANCE "slack" :TITLE NIL :ROLE
   "browser-window")
