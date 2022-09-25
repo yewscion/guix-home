@@ -1903,7 +1903,11 @@ None; Inert Data.")
 ;;                            'cdr:message-send-and-exit
 ;;                            mu4e-compose-mode-map)
 (define-mail-user-agent 'mu4e-user-agent
+<<<<<<< HEAD
   'mu4e~compose-mail
+=======
+  'mu4e-compose-new
+>>>>>>> be6c0be7b9f13a470ef0a9989a60fc0b9ce75f44
   'message-send-and-exit
   'message-kill-buffer
   'message-send-hook)
