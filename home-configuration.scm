@@ -156,7 +156,7 @@
   "emacs-marginalia" "emacs-markdown-mode" "emacs-markdown-preview-mode"
   "emacs-mastodon" "emacs-memoize" "emacs-mpdel" "emacs-nasm-mode"
   "emacs-nginx-mode" "emacs-nhexl-mode" "emacs-nodejs-repl" "emacs-nov-el"
-  "emacs-npm-mode" "emacs-oauth2" "emacs-ob-async" "emacs-org"
+  "emacs-npm-mode" "emacs-oauth2" "emacs-ob-async" "emacs-ogham-input" "emacs-org"
   "emacs-org-contrib" "emacs-org-download" "emacs-org-drill"
   "emacs-org-drill-table" "emacs-org-emms" "emacs-org-journal"
   "emacs-org-mime" "emacs-org-msg" "emacs-org-noter"
