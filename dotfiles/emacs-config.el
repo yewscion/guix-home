@@ -2380,6 +2380,8 @@ C-style comments."
 (define-key subprocess-map (kbd "r") #'run-ruby)
 (define-key subprocess-map (kbd "e") #'eshell)
 (define-key subprocess-map (kbd "l") #'lsp)
+(define-key subprocess-map (kbd "a") #'gnu-apl)
+(define-key subprocess-map (kbd "b") #'run-bqn)
 
 ;;; Imperative Map <F3>
 (define-key imperative-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
