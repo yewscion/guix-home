@@ -72,7 +72,9 @@
 
       emms-playing-time-display-format "(%s) "
       emms-mode-line-format "[%s]"
-      emms-mode-line-mode-line-function #'cdr:emms-describe-track)
+      emms-mode-line-mode-line-function #'cdr:emms-describe-track
+      emms-mode-line-cycle-current-title-function
+      'cdr:emms-describe-track)
 
 ;;; Clojure Config
 (setq org-babel-clojure-backend 'cider)
@@ -89,7 +91,8 @@
       geiser-default-implementation 'guile
       python-shell-interpreter "python3"
       inf-janet-program "janet -s"
-      bqn-interpreter-path "bqn")
+      bqn-interpreter-path "bqn"
+      youtube-dl-program "yt-dlp")
 
 (setq-default geiser-scheme-implementation 'guile)
 
@@ -140,12 +143,867 @@
                ))
 
 ;;; Info
-
 (setq Info-additional-directory-list '("~/.local/share/info"))
 
 ;;; TeX
 (setq-default TeX-engine 'luatex)
 (setenv "TEXMFCACHE" "$HOME/.local/share/texmf-dist" t)
+
+;;; Deft
+(setq  deft-extensions '("txt" "org")
+       deft-new-file-format "%FT%T%z"
+       deft-org-mode-title-prefix nil
+       deft-time-format nil)
+
+;;; Describe Char
+(setq describe-char-unidata-list
+      '(name old-name general-category canonical-combining-class
+      bidi-class decomposition decimal-digit-value digit-value
+      numeric-value mirrored iso-10646-comment uppercase
+      lowercase titlecase))
+
+;;; GNU APL
+(setq gnu-apl-auto-function-editor-popup nil
+      gnu-apl-interactive-mode-map-prefix "H-"
+      gnu-apl-key-prefix 92
+      gnu-apl-mode-map-prefix "H-"
+      gnu-apl-program-extra-args '("--emacs")
+      gnu-apl-show-apl-welcome t
+      gnu-apl-show-tips-on-start nil)
+;;; Org Mode
+;;;; Ensure Packages are Loaded
+(require 'org-chef)
+(require 'org-ebib)
+
+;;;; Local Lisp
+(load "~/.emacs.d/lisp/ob-markdown.el")
+
+(add-hook 'org-mode-hook 'org-display-inline-images)
+
+;;;; Org Agenda
+(setq org-agenda-files
+      (file-expand-wildcards "~/Documents/org/*.org"))
+
+;;;; Customization
+(setq org-log-into-drawer t
+      org-return-follows-link t
+      org-startup-folded t
+      org-image-actual-width 590
+      org-pomodoro-audio-player "mpv"
+      org-adapt-indentation nil
+      org-capture-before-finalize-hook nil
+      org-contacts-files '("~/Documents/org/contacts.gpg")
+      org-export-backends '(ascii beamer html icalendar
+                                  latex man md odt org
+                                  texinfo deck rss s5)
+      org-refile-targets '((org-agenda-files :maxlevel . 3)
+                           (nil :maxlevel . 9)
+                           (org-buffer-list :maxlevel . 3))
+      org-time-stamp-custom-formats '("%F" . "%F %H:%MZ%z")
+;;;; Journal
+      org-journal-dir "~/Documents/org/journal/"
+      org-journal-encrypt-journal t
+;;;; TODO
+      org-todo-keywords
+      '((sequence "TODO(t!)" "CWIP(w!)" "|" "DONE(d@)" "|" "TRSH(T@)")
+        (sequence "RESEARCHING(r@)" "ONGOING(O!)"
+                  "BLOCKED(b@)" "|"
+                  "HANDED OFF(h@)" "CANCELED(C@)")))
+;;;; Capture
+(setq org-capture-templates
+      '(("r" "Recipes (using org-chef)")
+        ("ru" "Import Recipe from URL" entry
+         (file "~/Documents/org/recipes.org")
+         "%(org-chef-get-recipe-from-url)"
+         :empty-lines 1)
+        ("rm" "Import Recipe Manually" entry
+         (file "~/Documents/org/recipes.org")
+         (function my-org-capture:recipe-template))
+        ("n" "Notes, Links, and Contacts")
+        ("nn" "Note" entry
+         (file "~/Documents/org/inbox.org")
+         (function my-org-capture:note-template))
+        ("nc" "Contact" entry
+         (file "~/Documents/org/contacts.org")
+         (function my-org-capture:contacts-template))
+        ("nl" "Link from Clipboard" entry
+         (file+headline "~/Documents/org/bookmarks.org"
+                        "Inbox")
+         (function my-org-capture:link-template))
+        ("d" "Data Aggregation")
+        ("dh" "Daily Health Check In" table-line
+         (file+headline "~/Documents/org/metrics.org"
+                        "Health")
+         (function my-org-capture:health-template) :unnarrowed t)
+        ("dw" "Wishlist Item" entry
+         (file "~/Documents/org/wishlist.org")
+         (function my-org-capture:wishlist-template))
+        ("c" "Chores")
+        ("cg" "Grocery Shopping List" entry
+         (file+headline "~/Documents/org/chores.org"
+                        "Make Shopping List")
+         (function my-org-capture:grocery-template))))
+
+;;;; Babel
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((abc . t)
+   (C . t)
+   (clojure . t)
+   (browser . t)
+   (dot . t)
+   (elm . t)
+   (emacs-lisp . t)
+   (js . t)
+   (lilypond . t)
+   (lisp . t)
+   (lua . t)
+   (makefile . t)
+   (markdown . t)
+   (org . t)
+   (perl . t)
+   (prolog . t)
+   (python . t)
+   (raku . t)
+   (ruby . t)
+   (scheme . t)
+   (shell . t)
+   (shen . t)
+   (sql . t)
+   (sqlite . t)
+   ))
+(setq org-confirm-babel-evaluate nil
+      org-babel-raku-command "rakudo"
+      org-src-preserve-indentation t
+      org-pomodoro-audio-player "mpv")
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+(org-babel-lob-ingest "~/.emacs.d/library-of-babel.org")
+
+;;;; Drill
+(setq org-drill-hide-item-headings-p t)
+
+;;;; Bibliography
+(setq org-cite-global-bibliography
+      '("~/Documents/biblio/main.bib"))
+
+;;;; MIME export
+(setq org-mime-export-options '(:with-latex dvipng
+                                :section-numbers nil
+                                :with-author nil
+                                :with-toc nil)
+      org-mime-export-ascii 'utf-8)
+
+
+;;; LSP Mode
+
+(setq lsp-headerline-breadcrumb-enable-symbol-numbers t
+      lsp-headerline-breadcrumb-icons-enable nil
+      lsp-modeline-code-action-fallback-icon "⚕"
+      lsp-progress-function 'lsp-on-progress-legacy
+      lsp-progress-via-spinner nil
+      lsp-server-trace "verbose"
+      lsp-ui-doc-enable t
+      lsp-ui-doc-header nil
+      lsp-ui-doc-position 'at-point
+      lsp-ui-doc-show-with-cursor t
+      lsp-ui-doc-show-with-mouse nil
+      lsp-ui-doc-use-childframe t
+      lsp-ui-doc-use-webkit t)
+
+;;; Ebib/biblio/etc
+(require 'ebib)
+(require 'biblio)
+(require 'ebib-biblio)
+(defconst my-ebib-keywords '("ABSTRACTION"
+"AFRICA"
+"ALGORITHM design"
+"ALGORITHMIC information"
+"ALGORITHMS"
+"ALGORITHMS - search"
+"ALGORITHMS - sort - bubble"
+"ALGORITHMS - sort - quicksort"
+"ALGORITHMS - sort"
+"APPROPRIATE access"
+"ARAB spring uprisings"
+"ARTIFICIAL intelligence"
+"ASTROTURFING"
+"ATTRACTION"
+"AUTHORITARIAN regimes"
+"AUTHORITARIANISM"
+"AUTHORITY"
+"AUTOMATION"
+"AWARDS"
+"BALANCE of power"
+"BIOLOGICAL pathogens"
+"BOTS"
+"BUSINESS communication"
+"BUSINESS writing"
+"BUSINESS"
+"CACHE"
+"CANADA"
+"CASE study"
+"CHINA"
+"CHINESE people"
+"CIA triad"
+"CIVIL society"
+"CLUSTERING"
+"CODE quality"
+"COLLABORATION"
+"COLLECTIVE leadership"
+"COLLECTIVE migration"
+"COMMUNICATION"
+"COMMUNICATION - interprocess"
+"COMMUNICATION - mass"
+"COMMUNICATION - online"
+"COMMUNICATION - technical"
+"COMMUNICATIVE competence"
+"COMMUNIST parties"
+"COMMUNITIES - VIRTUAL"
+"COMPILATION"
+"COMPILERS"
+"COMPLEXITY - logical"
+"COMPUTER algorithms"
+"COMPUTER file format - pdf"
+"COMPUTER filesystems"
+"COMPUTER firmware"
+"COMPUTER hardware"
+"COMPUTER input-output equipment"
+"COMPUTER memory"
+"COMPUTER multitasking"
+"COMPUTER networks"
+"COMPUTER operating systems"
+"COMPUTER processors - multi-core"
+"COMPUTER science education"
+"COMPUTER science - artificial intelligence"
+"COMPUTER science - high performance"
+"COMPUTER science - language"
+"COMPUTER science - machine learning"
+"COMPUTER science - moore's law"
+"COMPUTER science - parallelism"
+"COMPUTER science - robotics"
+"COMPUTER scientists"
+"COMPUTER security"
+"COMPUTER software"
+"COMPUTER software - pgp"
+"COMPUTER storage"
+"COMPUTER storage - raid"
+"COMPUTER systems"
+"COMPUTER user interfaces"
+"COMPUTER-AIDED manufacturing"
+"COMPUTERS"
+"COMPUTERS - embedded"
+"CONSENSUS - social science"
+"CONTRACT management"
+"CORRESPONDENCE"
+"COVID-19"
+"CREATIVE ability"
+"CREATIVE writing"
+"CREDIBILITY"
+"CRIME"
+"CRISIS communication"
+"CRITICAL discourse analysis"
+"CULTURE"
+"CYBERSECURITY"
+"DATA analysis"
+"DATA security"
+"DATA"
+"DATABASES - relational"
+"DATAFICATION"
+"DEADLOCKS"
+"DEFINITIONS"
+"DEMOCRACY"
+"DEMOCRATIC socialism"
+"DEMOCRATIZATION"
+"DEVELOPMENT - economic"
+"DEVSECOPS"
+"DIGITAL communication"
+"DIGITAL media"
+"DIGITAL technology"
+"DISCOVERY - scientific"
+"DISINFORMATION"
+"ECONOMY"
+"EDUCATION - distance"
+"EDUCATION - mathematics"
+"EDUCATION - programming"
+"EFFECTIVENESS"
+"EFFICIENCY - energy"
+"ELECTIONS"
+"ELECTIONS - presidential"
+"ELECTRON"
+"ENCRYPTION - public-key"
+"ENTROPY"
+"ETHICS"
+"EXECUTIVE Ability"
+"EXECUTIVES"
+"FAKE news"
+"FICTION - science fiction"
+"FOCUS"
+"FOLLOWER-LEADER"
+"FREEDOM - speech"
+"FUN"
+"GAME - psychology"
+"GAME - theory"
+"GAMES - video games"
+"GATHERING points"
+"GENDER"
+"GENDER - equality"
+"GENERALITY"
+"GOVERNMENT forms - parliamentary democracy"
+"GRAMMAR"
+"GREAT Britain"
+"GUIDELINES"
+"HISTORY - artificial intelligence"
+"HISTORY - computer science"
+"HISTORY - laundry"
+"HISTORY - lisp programming language"
+"HISTORY - victorian england"
+"HOAXES"
+"HOPPER - grace"
+"HUMAN behavior"
+"HUMAN beings"
+"HUMAN multitasking"
+"HUMAN rights"
+"HUMANITIES - digital"
+"IMAN1"
+"IMMUNIZATION"
+"IMPROVEMENT - continuous"
+"INFLUENCE"
+"INFORMATION technology"
+"INSTITUTIONS"
+"INTEGRATED circuits"
+"INTERFACE - message-passing"
+"INTERNATIONAL courts"
+"INTERNATIONAL relations"
+"INTERNET - advertising"
+"INTERNET - culture"
+"INTERNET - protocol"
+"INTERNET - world wide web"
+"INVENTIONS"
+"JACQUARD loom"
+"LAISSEZ-FAIRE"
+"LANGUAGE"
+"LAW"
+"LEADER"
+"LEADERSHIP foundations"
+"LEADERSHIP model"
+"LEADERSHIP style"
+"LEADERSHIP"
+"LEARNING - informal"
+"LEARNING - machine"
+"LINUX distribution - debian"
+"LINUX distribution - slackware linux"
+"LISP machines"
+"LITERATURE - romanticism"
+"LOGIC - boolean"
+"LOGIC - symbolic"
+"LOVELACE - ada byron king"
+"MACHINERY - textile"
+"MANAGEMENT foundations"
+"MANAGEMENT model"
+"MANAGEMENT styles"
+"MANAGEMENT"
+"MANAGEMENT - industrial"
+"MANAGEMENT - information"
+"MANAGEMENT - knowledge"
+"MANAGEMENT - personnel"
+"MANAGEMENT - software"
+"MANAGEMENT - time"
+"MASS shootings"
+"MATHEMATICS - logic"
+"MEDIA - mass"
+"METAPHOR"
+"MICROTARGETING"
+"MIDDLE east"
+"MIS"
+"MOBILIZATION"
+"MODEL - discrete choice"
+"MODEL - domain-specific"
+"MORGAN - augustus de"
+"MULTITHREADING"
+"NARRATIVE"
+"NONLOCAL PDEs"
+"OPEN source firmware"
+"OPERATING system - android"
+"OPERATING system - apple ios"
+"OPERATING system - bsd"
+"OPERATING system - cisco ios"
+"OPERATING system - gnu/linux"
+"OPERATING system - junos"
+"OPERATING system - kernel"
+"OPERATING system - macos"
+"OPERATING system - microsoft dos"
+"OPERATING system - microsoft windows"
+"OPERATING system - os/2"
+"OPERATING system - unix"
+"OPERATING systems"
+"OPERATING systems - security"
+"ORGANIZATION"
+"ORGANIZATIONAL behavior"
+"ORGANIZATIONAL change"
+"ORGANIZATIONAL effectiveness"
+"ORGANIZATIONAL sociology"
+"PARALLELISM - linguistic"
+"PERFORMANCE"
+"PERSONALITY"
+"PERSUASION"
+"PHILOSOPHY of Mind"
+"PHILOSOPHY"
+"POETRY"
+"POLICY"
+"POLITICAL advertising"
+"POLITICAL campaigns"
+"POLITICAL communication"
+"POLITICAL community"
+"POLITICAL development"
+"POLITICAL engagement"
+"POLITICAL participation"
+"POLITICAL science"
+"POLITICAL socialization"
+"POLITICAL succession"
+"POLITICAL systems"
+"POLITICS"
+"POLITICS - elite"
+"POLITICS - global"
+"POLITICS - middle eastern"
+"POLITICS - national"
+"POPULAR culture"
+"POPULAR works"
+"POPULISM"
+"PORTS"
+"POWER sharing"
+"POWER"
+"PRESIDENT"
+"PROBABILITY"
+"PRODUCTIVITY"
+"PRODUCTIVITY - labor"
+"PROGRAMMING language family - lisp"
+"PROGRAMMING language - c++"
+"PROGRAMMING language - clojure"
+"PROGRAMMING language - common lisp"
+"PROGRAMMING language - emacs lisp"
+"PROGRAMMING language - java"
+"PROGRAMMING language - python"
+"PROGRAMMING language - rust"
+"PROGRAMMING language - scheme"
+"PROGRAMMING language - webassembly"
+"PROGRAMMING languages"
+"PROGRAMMING teams"
+"PROGRAMMING - parallelism"
+"PSEUDOCODE"
+"PSYCHOLOGY"
+"PSYCHOLOGY"
+"PSYCHOLOGY - cognitive"
+"PSYCHOLOGY - social"
+"PUBLIC relations"
+"PUBLICATIONS"
+"QUALIFICATIONS"
+"READING - engaged"
+"RELATIONSHIPS - professional"
+"RESEARCH"
+"RESEARCH - publishing"
+"SECURITY"
+"SECURITY - information"
+"SECURITY - software"
+"SELECTIVE exposure"
+"SELF evaluation"
+"SHIPS"
+"SOCIAL dominance"
+"SOCIAL media"
+"SOCIAL networks"
+"SOCIAL sciences"
+"SOCIOLOGY - industrial"
+"SOFTWARE analysis"
+"SOFTWARE collaboration"
+"SOFTWARE creation"
+"SOFTWARE defects"
+"SOFTWARE design"
+"SOFTWARE development - mobile application"
+"SOFTWARE engineering"
+"SOFTWARE shells"
+"SOFTWARE testing"
+"SOFTWARE"
+"SOFTWARE - debugging"
+"SOFTWARE - free - libre - and open source"
+"STATE - failed"
+"STATE - fragile"
+"STUDY - reproduction"
+"SUCCESS"
+"SUCCESSION"
+"SUPERCOMPUTER"
+"SWARMING"
+"SYNTAX"
+"SYSTEMS software"
+"TASK analysis"
+"TAXONOMY"
+"TECHNOLOGY"
+"TECHNOLOGY - sustainable"
+"TEXTBOOK"
+"TILING"
+"TRANSISTORS"
+"TWITTER"
+"UML"
+"UNITED nations"
+"UNITED states"
+"UNIVERSAL basic income (ubi)"
+"VIRTUAL MACHINES"
+"VIRTUALIZATION"
+"VULNERABILITY"
+"WRITING"
+"YEMENI civil war 2015"
+"YOUTUBE"
+"ZETTELKASTEN"
+)
+  "A list of Keywords I use in my biblatex databases.
+
+This is a DATUM.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+None.
+
+Impurities
+==========
+None; Inert Data.")
+(setq ebib-bibtex-dialect 'biblatex
+      ebib-preload-bib-files '("~/Documents/biblio/main.bib")
+      ebib-reading-list-file "~/Documents/org/data/reading-list.org"
+      ebib-file-associations '()
+      ebib-hidden-fields
+      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor"
+      "booksubtitle" "booktitleaddon" "commentator" "edition"
+      "editora" "editorb" "editorc" "eid" "eprint" "eprintclass"
+      "eprinttype" "eventdate" "eventtitle" "foreword" "holder"
+      "howpublished" "introduction" "isrn" "issuesubtitle"
+      "issuetitle" "issuetitleaddon" "journaltitleadddon"
+      "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon"
+      "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
+      "translator" "venue" "version" "volumes")
+      ebib-use-timestamp t
+      biblio-bibtex-use-autokey t
+      ebib-keywords my-ebib-keywords)
+
+;;;; SMTP/IMAP
+(setq send-mail-function 'sendmail-send-it
+      message-send-mail-function 'sendmail-send-it
+      sendmail-program "msmtp"
+      mail-specify-envelope-from t
+      message-sendmail-envelope-from 'header
+      mail-envelope-from 'header
+      mml-secure-openpgp-signers
+      '("F39CD46349A576F88EF924791102102EBE7C3AE4")
+      user-mail-address ""
+      mh-mml-method-default "pgp"
+      mml-default-encrypt-method "pgp"
+      mml-default-sign-method "pgp"
+      message-sendmail-extra-arguments '("--read-envelope-from"))
+(add-hook 'message-setup-hook 'mml-secure-message-sign)
+
+;;;; MU4E
+(require 'mu4e)
+(add-to-list 'mu4e-bookmarks
+             '( :name  "Non-Trashed"
+                :query "not maildir:/trash and not maildir:/sent"
+                :key   ?n))
+(add-to-list 'mu4e-bookmarks
+             '( :name  "Work"
+                :query "maildir:/rodnchr"
+                :key   ?a))
+(setq mu4e-contexts
+      `( ,(make-mu4e-context
+           :name "cdr255"
+           :enter-func (lambda () (mu4e-message "Entering 'cdr255' context"))
+           :leave-func (lambda () (mu4e-message "Leaving 'cdr255' context"))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/cdr255"
+                               (mu4e-message-field msg :maildir))))
+           :vars '( ( user-mail-address	    . "cdr255@gmail.com"  )
+                    ( user-full-name	    . "Christopher Rodriguez" )
+                    ( mu4e-compose-signature .
+                      (concat
+                       "Christopher Rodriguez\n"
+                       "()  ascii ribbon campaign - against html e-mail\n"
+                       "/\\  www.asciiribbon.org   - against proprietary "
+                       "attachments"))))
+         ,(make-mu4e-context
+           :name "work"
+           :enter-func (lambda () (mu4e-message "Entering 'work' context"))
+           :leave-func (lambda () (mu4e-message "Leaving 'work' context"))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/rodnchr"
+                               (mu4e-message-field msg :maildir))))
+           :vars '( ( user-mail-address	     . "rodnchr@amazon.com" )
+                    ( user-full-name	     . "Christopher Rodriguez" )
+                    ( mu4e-compose-signature  .
+                      (concat
+                       "--\n\n"
+                       "Christopher Rodriguez\n"))))
+         ,(make-mu4e-context
+           :name "school"
+           :enter-func (lambda () (mu4e-message "Entering 'school' context"))
+           :leave-func (lambda () (mu4e-message "Leaving 'school' context"))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/csuglobal"
+                               (mu4e-message-field msg :maildir))))
+           :vars '( ( user-mail-address	.
+                      "christopher.rodriguez@csuglobal.edu" )
+                    ( user-full-name . "Christopher Rodriguez" )
+                    ( mu4e-compose-signature .
+                      (concat
+                       "Christopher Rodriguez\n"
+                       "()  ascii ribbon campaign - against html e-mail\n"
+                       "/\\  www.asciiribbon.org   - against proprietary "
+                       "attachments"))))
+         ,(make-mu4e-context
+           :name "yewscion"
+           :enter-func (lambda ()
+                         (mu4e-message "Entering 'yewscion' context"))
+           :leave-func (lambda ()
+                         (mu4e-message "Leaving 'yewscion' context"))
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-match-p "^/yewscion"
+                               (mu4e-message-field msg :maildir))))
+           :vars '( ( user-mail-address	     . "yewscion@gmail.com" )
+                    ( user-full-name	     . "Christopher Rodriguez" )
+                    ( mu4e-compose-signature .
+                      (concat
+                       "Christopher Rodriguez\n"
+                       "()  ascii ribbon campaign - against html e-mail\n"
+                       "/\\  www.asciiribbon.org   - against proprietary "
+                       "attachments")))))
+      mu4e-compose-context-policy nil
+      mu4e-context-policy 'pick-first
+      mu4e-compose-keep-self-cc t)
+(define-mail-user-agent 'mu4e-user-agent
+  'mu4e-compose-new
+  'message-send-and-exit
+  'message-kill-buffer
+  'message-send-hook)
+
+;;; Projectile
+(require 'projectile)
+(setq cdr:my-assignment-configure-cmd
+      (concat "if [ -e content.tex ]; then echo \"Sorry, it looks like this "
+              "project has already been configured…\"; else echo "
+              "\"Configuring this project now…\"; genpro; emacsclient "
+              ".metadata; genpro -g; fi")
+      cdr:my-assignment-test-cmd
+      (concat "tmpdir=$(mktemp -d); find . -not -wholename './content.tex' "
+              "-not -name '.assignment' -not -name '.metadata' -not -name "
+              "'.projectile' -delete && mv -vt $tmpdir .assignment "
+              ".projectile .metadata content.tex && genpro && mv -vt . "
+              "$tmpdir/.metadata $tmpdir/.projectile $tmpdir/.assignment && "
+              "emacsclient .metadata && genpro -g && mv -vt . "
+              "$tmpdir/content.tex; echo \"Done.\"")
+      projectile-track-known-projects-automatically nil)
+(projectile-register-project-type 'genpro '(".metadata")
+                                  :project-file ".metadata"
+                                  :compile "genpro -p")
+(projectile-register-project-type 'assignment-paper '(".assignment")
+                                  :project-file ".assignment"
+                                  :compile "genpro -p"
+                                  :configure cdr:my-assignment-configure-cmd
+                                  :test cdr:my-assignment-test-cmd)
+(projectile-register-project-type 'java-ant '("build.xml")
+                                  :project-file "build.xml"
+                                  :compile "ant compile"
+                                  :package "ant dist"
+                                  :run "ant run")
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+
+;;; Set Up UI
+(require 'eterm-256color)
+(when (display-graphic-p)
+  (progn ;; Emoji Support
+    (setq use-default-font-for-symbols nil
+          emojify-display-style 'unicode
+          emojify-emoji-styles '(github unicode))
+    (defun my-emoji-fonts ()
+      (set-fontset-font t 'unicode
+                        (face-attribute 'default :family))
+      (set-fontset-font t '(#x2300 . #x27e7)
+                        (font-spec :family "Emoji One"))
+      (set-fontset-font t '(#x27F0 . #x1FAFF)
+                        (font-spec :family "Emoji One"))
+      (set-fontset-font t 'unicode
+                        "Unifont, Upper" nil 'append))
+    (my-emoji-fonts)))
+
+(set-face-attribute 'fixed-pitch nil :font "FreeMono")
+(setq inhibit-startup-screen t
+      large-file-warning-threshold 100000000
+      undo-limit 16000000
+      garbage-collection-messages t
+      initial-scratch-message nil
+      display-time-24hr-format t
+      nrepl-sync-request-timeout nil
+      mark-ring-max most-positive-fixnum
+      use-file-dialog nil
+      use-dialog-box nil
+      whitespace-line-column nil
+      shell-prompt-pattern "^\\[.*\\..*\\] {..\\:..} .*\\@.*\\:*\\/\\$"
+      tramp-shell-prompt-pattern "$ "
+      show-paren-mode t
+      term-buffer-maximum-size 16384
+      term-set-terminal-size t
+      titlecase-style 'apa
+      user-full-name "Christopher Rodriguez"
+      vterm-kill-buffer-on-exit nil
+      vterm-shell "bash -l"
+      comint-use-prompt-regexp nil
+      scroll-preserve-screen-position t)
+(setq-default fill-column 77
+              indent-tabs-mode nil
+              show-trailing-whitespace nil)
+(prefer-coding-system 'utf-8)
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+(column-number-mode 1)
+(display-time-mode 1)
+(guru-global-mode 1)
+(global-disable-mouse-mode)
+(display-battery-mode)
+(set-face-attribute 'default nil
+                    :family "FreeMono"
+                    :height 110
+                    :weight 'normal
+                    :width 'normal)
+(set-face-attribute 'fixed-pitch nil
+                    :family "FreeMono"
+                    :height 110
+                    :weight 'normal
+                    :width 'normal)
+(set-face-attribute 'header-line nil
+                    :background "#808080"
+                    :foreground "#333333"
+                    :family "unifont")
+(set-face-attribute 'mode-line nil
+                    :background "#212931"
+                    :foreground "#eeeeec"
+                    :family "unifont")
+(set-face-attribute 'org-mode-line-clock nil
+                    :inherit 'header-line)
+(set-face-attribute 'term-color-black nil
+                    :background "#2d3743"
+                    :foreground "#2d3743")
+(set-face-attribute 'term-color-blue nil
+                    :background "#34cae2"
+                    :foreground "#34cae2")
+(set-face-attribute 'term-color-cyan nil
+                    :background "#e67128"
+                    :foreground "#e67128")
+(set-face-attribute 'term-color-green nil
+                    :background "#338f86"
+                    :foreground "#338f86")
+(set-face-attribute 'term-color-magenta nil
+                    :background "#ee7ae7"
+                    :foreground "#ee7ae7")
+(set-face-attribute 'term-color-red nil
+                    :background "#ff4242"
+                    :foreground "#ff4242")
+(set-face-attribute 'term-color-white nil
+                    :background "#e1e1e0"
+                    :foreground "#e1e1e0")
+(set-face-attribute 'term-color-yellow nil
+                    :background "#ffad29"
+                    :foreground "#ffad29")
+
+;;;; Undo some defaults I don't need.
+;;;;; StumpWM takes care of this for me.
+(global-unset-key (kbd "C-z"))
+;;;;; I don't think I'll ever use this, and
+;;;;; keep getting asked about it.
+(global-unset-key (kbd "C-x C-n"))
+;;;;; Let me mark any variable as safe.
+(advice-add 'risky-local-variable-p :override #'ignore)
+;;;;; I only want warnings for errors unless I ask.
+(setq warning-minimum-level :error)
+
+(setq global-mode-string
+        '("♪"
+          emms-mode-line-string
+          emms-playing-time-string
+          " ✪ "
+          display-time-string
+          " ䷡"
+          battery-mode-line-string
+          " ✿"
+          org-mode-line-string)
+	display-time-default-load-average
+	nil
+	display-time-day-and-date
+	't
+	display-time-load-average-threshold
+	10000)
+;;; Zone Mode
+(require 'zone)
+(zone-when-idle 600)
+
+;;; Printing PDFs
+(setq pdf-misc-print-program-args
+      '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
+      pdf-misc-print-program-executable "/usr/bin/lpr")
+
+;;; Elfeed
+(setq elfeed-feeds
+      `(("https://anchor.fm/s/581d4eb4/podcast/rss"
+	 tech)
+	("http://retro-style.software-by-mabe.com/blog-atom-feed"
+         tech code lisp cl)
+        ("https://alhassy.github.io/rss.xml"
+         tech code lisp cl)
+        ("https://andysalerno.com/index.xml"
+         tech)
+        ("https://blog.tecosaur.com/tmio/rss.xml"
+         tech emacs org-mode)
+        ("https://freedom-to-tinker.com/feed/rss/"
+         tech policy)
+        ("https://guix.gnu.org/feeds/blog.atom"
+         tech gnu guix lisp scheme guile)
+        ("https://jany.st/rss.xml"
+         tech hardware)
+        ("https://p6steve.wordpress.com/rss"
+         tech raku)
+        ("https://planet.lisp.org/rss20.xml"
+         tech code lisp cl)
+        ("https://planet.scheme.org/atom.xml"
+         tech code lisp scheme)
+        ("https://somethingpositive.net/feed/"
+         comic nsfw)
+        ("https://www.gnu.org/software/guile/news/feed.xml"
+         tech code lisp scheme guile)
+        ("https://www.questionablecontent.net/QCRSS.xml"
+         comic nsfw)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+                  "the-prettiest-platypus/rss?title_no=463063")
+         comic trans)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+                  "serious-trans-vibes/rss?title_no=206579")
+         comic trans)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+           "friends-with-benefits/rss?title_no=412808")
+         comic trans)
+        (,(concat "https://www.webtoons.com/en/challenge/"
+                  "transincidental/rss?title_no=605328")
+         comic trans)
+        ("https://www.wingolog.org/feed/atom"
+         tech code lisp scheme guile)
+        ("https://xkcd.com/atom.xml"
+         comic)
+        ("https://yewscion.com/feed.xml"
+         personal tech code)))
 
 ;;; Load Local Custom
 (load "~/.emacs.d/custom.el")
@@ -1034,6 +1892,50 @@ fill column of the resulting string."
             (fill-paragraph justify)))))
       ;; Never return nil.
       t)))
+;;; This is here to patch org mode for recent geiser.
+(defun org-babel-scheme-execute-with-geiser (code output impl repl)
+  "Execute code in specified REPL.
+If the REPL doesn't exist, create it using the given scheme
+implementation.
+
+Returns the output of executing the code if the OUTPUT parameter
+is true; otherwise returns the last value."
+  (let ((result nil))
+    (with-temp-buffer
+      (insert (format ";; -*- geiser-scheme-implementation: %s -*-" impl))
+      (newline)
+      (insert code)
+      (geiser-mode)
+      (let ((geiser-repl-window-allow-split nil)
+            (geiser-repl-use-other-window nil))
+        (let ((repl-buffer (save-current-buffer
+                             (org-babel-scheme-get-repl impl repl))))
+          (when (not (eq impl (org-babel-scheme-get-buffer-impl
+                               (current-buffer))))
+            (message "Implementation mismatch: %s (%s) %s (%s)" impl
+                     (symbolp impl)
+                     (org-babel-scheme-get-buffer-impl (current-buffer))
+                     (symbolp (org-babel-scheme-get-buffer-impl
+                               (current-buffer)))))
+          (setq geiser-repl--repl repl-buffer)
+          (setq geiser-impl--implementation nil)
+          (let ((geiser-debug-jump-to-debug-p nil)
+                (geiser-debug-show-debug-p nil))
+            (let ((ret (funcall (if (fboundp 'geiser-eval-region/wait)
+                                    #'geiser-eval-region/wait
+                                  #'geiser-eval-region)
+                                (point-min) (point-max))))
+              (setq result (if output
+                               (or (geiser-eval--retort-output ret)
+                                   "Geiser Interpreter produced no output")
+                             (geiser-eval--retort-result-str ret "")))))
+          (when (not repl)
+            (save-current-buffer (set-buffer repl-buffer)
+                                 (geiser-repl-exit))
+            (set-process-query-on-exit-flag (get-buffer-process repl-buffer)
+                                            nil)
+            (kill-buffer repl-buffer)))))
+    result))
 (defun cdr:fill-sexp ()
   "Wrap the s-expression at point 3 characters shy of fill-column.
 
@@ -1209,48 +2111,7 @@ C-style comments."
   "    - " ?\n
   ?\n)
 
-;; Org Mode Config
-
-;;; Ensure Packages are Loaded
-(require 'org-chef)
-(require 'org-ebib)
-
-;;; Local Lisp
-(load "~/.emacs.d/lisp/ob-markdown.el")
-
-(add-hook 'org-mode-hook 'org-display-inline-images)
-
-;;; Org Agenda
-(setq org-agenda-files
-      (file-expand-wildcards "~/Documents/org/*.org"))
-
-;;; Customization
-(setq org-log-into-drawer t
-      org-return-follows-link t
-      org-startup-folded t
-      org-image-actual-width 590
-      org-pomodoro-audio-player "mpv"
-      org-adapt-indentation nil
-      org-capture-before-finalize-hook nil
-      org-contacts-files '("~/Documents/org/contacts.gpg")
-      org-export-backends '(ascii beamer html icalendar
-                                  latex man md odt org
-                                  texinfo deck rss s5)
-      org-refile-targets '((org-agenda-files :maxlevel . 3)
-                           (nil :maxlevel . 9)
-                           (org-buffer-list :maxlevel . 3))
-      org-time-stamp-custom-formats '("%F" . "%F %H:%MZ%z")
-;;;; Journal
-      org-journal-dir "~/Documents/org/journal/"
-      org-journal-encrypt-journal t
-;;; TODO
-      org-todo-keywords
-      '((sequence "TODO(t!)" "CWIP(w!)" "|" "DONE(d@)" "|" "TRSH(T@)")
-        (sequence "RESEARCHING(r@)" "ONGOING(O!)"
-                  "BLOCKED(b@)" "|"
-                  "HANDED OFF(h@)" "CANCELED(C@)")))
-
-;;; Capture
+;;; Org Capture
 (defun my-org-capture:contacts-template ()
   "Org Capture Template for Contact Creation." ; Needs Rewrite
   "* %^{Given Name}
@@ -1317,600 +2178,13 @@ C-style comments."
   "* %U %^{Short Description of Note|Desired Item} %^G
 %^{Location}p%^{Price}p%^{Category}p%^{Optional Description}
 %?")
-
-(setq org-capture-templates
-      '(("r" "Recipes (using org-chef)")
-        ("ru" "Import Recipe from URL" entry
-         (file "~/Documents/org/recipes.org")
-         "%(org-chef-get-recipe-from-url)"
-         :empty-lines 1)
-        ("rm" "Import Recipe Manually" entry
-         (file "~/Documents/org/recipes.org")
-         (function my-org-capture:recipe-template))
-        ("n" "Notes, Links, and Contacts")
-        ("nn" "Note" entry
-         (file "~/Documents/org/inbox.org")
-         (function my-org-capture:note-template))
-        ("nc" "Contact" entry
-         (file "~/Documents/org/contacts.org")
-         (function my-org-capture:contacts-template))
-        ("nl" "Link from Clipboard" entry
-         (file+headline "~/Documents/org/bookmarks.org"
-                        "Inbox")
-         (function my-org-capture:link-template))
-        ("d" "Data Aggregation")
-        ("dh" "Daily Health Check In" table-line
-         (file+headline "~/Documents/org/metrics.org"
-                        "Health")
-         (function my-org-capture:health-template) :unnarrowed t)
-        ("dw" "Wishlist Item" entry
-         (file "~/Documents/org/wishlist.org")
-         (function my-org-capture:wishlist-template))
-        ("c" "Chores")
-        ("cg" "Grocery Shopping List" entry
-         (file+headline "~/Documents/org/chores.org"
-                        "Make Shopping List")
-         (function my-org-capture:grocery-template))))
-
-;;; Babel
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((abc . t)
-   (C . t)
-   (clojure . t)
-   (browser . t)
-   (dot . t)
-   (elm . t)
-   (emacs-lisp . t)
-   (js . t)
-   (lilypond . t)
-   (lisp . t)
-   (lua . t)
-   (makefile . t)
-   (markdown . t)
-   (org . t)
-   (perl . t)
-   (prolog . t)
-   (python . t)
-   (raku . t)
-   (ruby . t)
-   (scheme . t)
-   (shell . t)
-   (shen . t)
-   (sql . t)
-   (sqlite . t)
-   ))
-(setq org-confirm-babel-evaluate nil)
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-
-;;;; Babel for Raku
-(setq org-babel-raku-command "rakudo")
-
-;;; Load the Library
-(org-babel-lob-ingest "~/.emacs.d/library-of-babel.org")
-
-;;; Make it so code blocks in Org Babel Behave Consistently.
-(setq org-src-preserve-indentation t)
-
-;;; Make Org Drill Hide Headings.
-(setq org-drill-hide-item-headings-p t)
-;;; LSP stuff
-
-(setq lsp-headerline-breadcrumb-enable-symbol-numbers t
-      lsp-headerline-breadcrumb-icons-enable nil
-      lsp-modeline-code-action-fallback-icon "⚕"
-      lsp-progress-function 'lsp-on-progress-legacy
-      lsp-progress-via-spinner nil
-      lsp-server-trace "verbose"
-      lsp-ui-doc-enable t
-      lsp-ui-doc-header nil
-      lsp-ui-doc-position 'at-point
-      lsp-ui-doc-show-with-cursor t
-      lsp-ui-doc-show-with-mouse nil
-      lsp-ui-doc-use-childframe t
-      lsp-ui-doc-use-webkit t)
-
-;;; Ebib/biblio/etc
-(require 'ebib)
-(require 'biblio)
-(require 'ebib-biblio)
-(defconst my-ebib-keywords '("ABSTRACTION"
-"AFRICA"
-"ALGORITHM design"
-"ALGORITHMIC information"
-"ALGORITHMS"
-"ALGORITHMS - search"
-"ALGORITHMS - sort - bubble"
-"ALGORITHMS - sort - quicksort"
-"ALGORITHMS - sort"
-"APPROPRIATE access"
-"ARAB spring uprisings"
-"ARTIFICIAL intelligence"
-"ASTROTURFING"
-"ATTRACTION"
-"AUTHORITARIAN regimes"
-"AUTHORITARIANISM"
-"AUTHORITY"
-"AUTOMATION"
-"AWARDS"
-"BALANCE of power"
-"BIOLOGICAL pathogens"
-"BOTS"
-"BUSINESS communication"
-"BUSINESS writing"
-"BUSINESS"
-"CACHE"
-"CANADA"
-"CASE study"
-"CHINA"
-"CHINESE people"
-"CIA triad"
-"CIVIL society"
-"CLUSTERING"
-"CODE quality"
-"COLLABORATION"
-"COLLECTIVE leadership"
-"COLLECTIVE migration"
-"COMMUNICATION"
-"COMMUNICATION - interprocess"
-"COMMUNICATION - mass"
-"COMMUNICATION - online"
-"COMMUNICATION - technical"
-"COMMUNICATIVE competence"
-"COMMUNIST parties"
-"COMMUNITIES - VIRTUAL"
-"COMPILATION"
-"COMPILERS"
-"COMPLEXITY - logical"
-"COMPUTER algorithms"
-"COMPUTER file format - pdf"
-"COMPUTER filesystems"
-"COMPUTER firmware"
-"COMPUTER hardware"
-"COMPUTER input-output equipment"
-"COMPUTER memory"
-"COMPUTER multitasking"
-"COMPUTER networks"
-"COMPUTER operating systems"
-"COMPUTER processors - multi-core"
-"COMPUTER science education"
-"COMPUTER science - artificial intelligence"
-"COMPUTER science - high performance"
-"COMPUTER science - language"
-"COMPUTER science - machine learning"
-"COMPUTER science - moore's law"
-"COMPUTER science - parallelism"
-"COMPUTER science - robotics"
-"COMPUTER scientists"
-"COMPUTER security"
-"COMPUTER software"
-"COMPUTER software - pgp"
-"COMPUTER storage"
-"COMPUTER storage - raid"
-"COMPUTER systems"
-"COMPUTER user interfaces"
-"COMPUTER-AIDED manufacturing"
-"COMPUTERS"
-"COMPUTERS - embedded"
-"CONSENSUS - social science"
-"CONTRACT management"
-"CORRESPONDENCE"
-"COVID-19"
-"CREATIVE ability"
-"CREATIVE writing"
-"CREDIBILITY"
-"CRIME"
-"CRISIS communication"
-"CRITICAL discourse analysis"
-"CULTURE"
-"CYBERSECURITY"
-"DATA analysis"
-"DATA security"
-"DATA"
-"DATABASES - relational"
-"DATAFICATION"
-"DEADLOCKS"
-"DEFINITIONS"
-"DEMOCRACY"
-"DEMOCRATIC socialism"
-"DEMOCRATIZATION"
-"DEVELOPMENT - economic"
-"DEVSECOPS"
-"DIGITAL communication"
-"DIGITAL media"
-"DIGITAL technology"
-"DISCOVERY - scientific"
-"DISINFORMATION"
-"ECONOMY"
-"EDUCATION - distance"
-"EDUCATION - mathematics"
-"EDUCATION - programming"
-"EFFECTIVENESS"
-"EFFICIENCY - energy"
-"ELECTIONS"
-"ELECTIONS - presidential"
-"ELECTRON"
-"ENCRYPTION - public-key"
-"ENTROPY"
-"ETHICS"
-"EXECUTIVE Ability"
-"EXECUTIVES"
-"FAKE news"
-"FICTION - science fiction"
-"FOCUS"
-"FOLLOWER-LEADER"
-"FREEDOM - speech"
-"FUN"
-"GAME - psychology"
-"GAME - theory"
-"GAMES - video games"
-"GATHERING points"
-"GENDER"
-"GENDER - equality"
-"GENERALITY"
-"GOVERNMENT forms - parliamentary democracy"
-"GRAMMAR"
-"GREAT Britain"
-"GUIDELINES"
-"HISTORY - artificial intelligence"
-"HISTORY - computer science"
-"HISTORY - laundry"
-"HISTORY - lisp programming language"
-"HISTORY - victorian england"
-"HOAXES"
-"HOPPER - grace"
-"HUMAN behavior"
-"HUMAN beings"
-"HUMAN multitasking"
-"HUMAN rights"
-"HUMANITIES - digital"
-"IMAN1"
-"IMMUNIZATION"
-"IMPROVEMENT - continuous"
-"INFLUENCE"
-"INFORMATION technology"
-"INSTITUTIONS"
-"INTEGRATED circuits"
-"INTERFACE - message-passing"
-"INTERNATIONAL courts"
-"INTERNATIONAL relations"
-"INTERNET - advertising"
-"INTERNET - culture"
-"INTERNET - protocol"
-"INTERNET - world wide web"
-"INVENTIONS"
-"JACQUARD loom"
-"LAISSEZ-FAIRE"
-"LANGUAGE"
-"LAW"
-"LEADER"
-"LEADERSHIP foundations"
-"LEADERSHIP model"
-"LEADERSHIP style"
-"LEADERSHIP"
-"LEARNING - informal"
-"LEARNING - machine"
-"LINUX distribution - debian"
-"LINUX distribution - slackware linux"
-"LISP machines"
-"LITERATURE - romanticism"
-"LOGIC - boolean"
-"LOGIC - symbolic"
-"LOVELACE - ada byron king"
-"MACHINERY - textile"
-"MANAGEMENT foundations"
-"MANAGEMENT model"
-"MANAGEMENT styles"
-"MANAGEMENT"
-"MANAGEMENT - industrial"
-"MANAGEMENT - information"
-"MANAGEMENT - knowledge"
-"MANAGEMENT - personnel"
-"MANAGEMENT - software"
-"MANAGEMENT - time"
-"MASS shootings"
-"MATHEMATICS - logic"
-"MEDIA - mass"
-"METAPHOR"
-"MICROTARGETING"
-"MIDDLE east"
-"MIS"
-"MOBILIZATION"
-"MODEL - discrete choice"
-"MODEL - domain-specific"
-"MORGAN - augustus de"
-"MULTITHREADING"
-"NARRATIVE"
-"NONLOCAL PDEs"
-"OPEN source firmware"
-"OPERATING system - android"
-"OPERATING system - apple ios"
-"OPERATING system - bsd"
-"OPERATING system - cisco ios"
-"OPERATING system - gnu/linux"
-"OPERATING system - junos"
-"OPERATING system - kernel"
-"OPERATING system - macos"
-"OPERATING system - microsoft dos"
-"OPERATING system - microsoft windows"
-"OPERATING system - os/2"
-"OPERATING system - unix"
-"OPERATING systems"
-"OPERATING systems - security"
-"ORGANIZATION"
-"ORGANIZATIONAL behavior"
-"ORGANIZATIONAL change"
-"ORGANIZATIONAL effectiveness"
-"ORGANIZATIONAL sociology"
-"PARALLELISM - linguistic"
-"PERFORMANCE"
-"PERSONALITY"
-"PERSUASION"
-"PHILOSOPHY of Mind"
-"PHILOSOPHY"
-"POETRY"
-"POLICY"
-"POLITICAL advertising"
-"POLITICAL campaigns"
-"POLITICAL communication"
-"POLITICAL community"
-"POLITICAL development"
-"POLITICAL engagement"
-"POLITICAL participation"
-"POLITICAL science"
-"POLITICAL socialization"
-"POLITICAL succession"
-"POLITICAL systems"
-"POLITICS"
-"POLITICS - elite"
-"POLITICS - global"
-"POLITICS - middle eastern"
-"POLITICS - national"
-"POPULAR culture"
-"POPULAR works"
-"POPULISM"
-"PORTS"
-"POWER sharing"
-"POWER"
-"PRESIDENT"
-"PROBABILITY"
-"PRODUCTIVITY"
-"PRODUCTIVITY - labor"
-"PROGRAMMING language family - lisp"
-"PROGRAMMING language - c++"
-"PROGRAMMING language - clojure"
-"PROGRAMMING language - common lisp"
-"PROGRAMMING language - emacs lisp"
-"PROGRAMMING language - java"
-"PROGRAMMING language - python"
-"PROGRAMMING language - rust"
-"PROGRAMMING language - scheme"
-"PROGRAMMING language - webassembly"
-"PROGRAMMING languages"
-"PROGRAMMING teams"
-"PROGRAMMING - parallelism"
-"PSEUDOCODE"
-"PSYCHOLOGY"
-"PSYCHOLOGY"
-"PSYCHOLOGY - cognitive"
-"PSYCHOLOGY - social"
-"PUBLIC relations"
-"PUBLICATIONS"
-"QUALIFICATIONS"
-"READING - engaged"
-"RELATIONSHIPS - professional"
-"RESEARCH"
-"RESEARCH - publishing"
-"SECURITY"
-"SECURITY - information"
-"SECURITY - software"
-"SELECTIVE exposure"
-"SELF evaluation"
-"SHIPS"
-"SOCIAL dominance"
-"SOCIAL media"
-"SOCIAL networks"
-"SOCIAL sciences"
-"SOCIOLOGY - industrial"
-"SOFTWARE analysis"
-"SOFTWARE collaboration"
-"SOFTWARE creation"
-"SOFTWARE defects"
-"SOFTWARE design"
-"SOFTWARE development - mobile application"
-"SOFTWARE engineering"
-"SOFTWARE shells"
-"SOFTWARE testing"
-"SOFTWARE"
-"SOFTWARE - debugging"
-"SOFTWARE - free - libre - and open source"
-"STATE - failed"
-"STATE - fragile"
-"STUDY - reproduction"
-"SUCCESS"
-"SUCCESSION"
-"SUPERCOMPUTER"
-"SWARMING"
-"SYNTAX"
-"SYSTEMS software"
-"TASK analysis"
-"TAXONOMY"
-"TECHNOLOGY"
-"TECHNOLOGY - sustainable"
-"TEXTBOOK"
-"TILING"
-"TRANSISTORS"
-"TWITTER"
-"UML"
-"UNITED nations"
-"UNITED states"
-"UNIVERSAL basic income (ubi)"
-"VIRTUAL MACHINES"
-"VIRTUALIZATION"
-"VULNERABILITY"
-"WRITING"
-"YEMENI civil war 2015"
-"YOUTUBE"
-"ZETTELKASTEN"
-)
-  "A list of Keywords I use in my biblatex databases.
-
-This is a DATUM.
-
-Arguments
-=========
-None.
-
-Returns
-=======
-None.
-
-Impurities
-==========
-None; Inert Data.")
-(setq ebib-bibtex-dialect 'biblatex
-      ebib-preload-bib-files '("~/Documents/biblio/main.bib")
-      ebib-reading-list-file "~/Documents/org/data/reading-list.org"
-      ebib-file-associations '()
-      ebib-hidden-fields
-      '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor"
-      "booksubtitle" "booktitleaddon" "commentator" "edition"
-      "editora" "editorb" "editorc" "eid" "eprint" "eprintclass"
-      "eprinttype" "eventdate" "eventtitle" "foreword" "holder"
-      "howpublished" "introduction" "isrn" "issuesubtitle"
-      "issuetitle" "issuetitleaddon" "journaltitleadddon"
-      "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon"
-      "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
-      "translator" "venue" "version" "volumes")
-      ebib-use-timestamp t
-      biblio-bibtex-use-autokey t
-      ebib-keywords my-ebib-keywords)
-
-(setq org-cite-global-bibliography
-      '("~/Documents/biblio/main.bib"))
-
-(setq org-mime-export-options '(:with-latex dvipng
-                                            :section-numbers nil
-                                            :with-author nil
-                                            :with-toc nil)
-      org-mime-export-ascii 'utf-8)
-
 (defun offlineimap-get-password (host port)
   (let* ((authinfo (netrc-parse (expand-file-name "~/.authinfo.gpg")))
          (hostentry (netrc-machine authinfo host port port)))
     (when hostentry (netrc-get hostentry "password"))))
+(defun replace-in-string (what with in)
+  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
 
-(setq send-mail-function 'sendmail-send-it
-      message-send-mail-function 'sendmail-send-it
-      sendmail-program "msmtp"
-      mail-specify-envelope-from t
-      message-sendmail-envelope-from 'header
-      mail-envelope-from 'header
-      mml-secure-openpgp-signers
-      '("F39CD46349A576F88EF924791102102EBE7C3AE4")
-      user-mail-address ""
-      mh-mml-method-default "pgp"
-      mml-default-encrypt-method "pgp"
-      mml-default-sign-method "pgp"
-      message-sendmail-extra-arguments '("--read-envelope-from"))
-(add-hook 'message-setup-hook 'mml-secure-message-sign)
-
-(require 'mu4e)
-(add-to-list 'mu4e-bookmarks
-             '( :name  "Non-Trashed"
-                :query "not maildir:/trash and not maildir:/sent"
-                :key   ?n))
-(add-to-list 'mu4e-bookmarks
-             '( :name  "Work"
-                :query "maildir:/rodnchr/"
-                :key   ?a))
-(setq mu4e-contexts
-      `( ,(make-mu4e-context
-           :name "cdr255"
-           :enter-func (lambda () (mu4e-message "Entering 'cdr255' context"))
-           :leave-func (lambda () (mu4e-message "Leaving 'cdr255' context"))
-           :match-func
-           (lambda (msg)
-             (when msg
-               (string-match-p "^/cdr255"
-                               (mu4e-message-field msg :maildir))))
-           :vars '( ( user-mail-address	    . "cdr255@gmail.com"  )
-                    ( user-full-name	    . "Christopher Rodriguez" )
-                    ( mu4e-compose-signature .
-                      (concat
-                       "Christopher Rodriguez\n"
-                       "()  ascii ribbon campaign - against html e-mail\n"
-                       "/\\  www.asciiribbon.org   - against proprietary "
-                       "attachments"))))
-         ,(make-mu4e-context
-           :name "work"
-           :enter-func (lambda () (mu4e-message "Entering 'work' context"))
-           :leave-func (lambda () (mu4e-message "Leaving 'work' context"))
-           :match-func
-           (lambda (msg)
-             (when msg
-               (string-match-p "^/rodnchr"
-                               (mu4e-message-field msg :maildir))))
-           :vars '( ( user-mail-address	     . "rodnchr@amazon.com" )
-                    ( user-full-name	     . "Christopher Rodriguez" )
-                    ( mu4e-compose-signature  .
-                      (concat
-                       "--\n\n"
-                       "Christopher Rodriguez\n"))))
-         ,(make-mu4e-context
-           :name "school"
-           :enter-func (lambda () (mu4e-message "Entering 'school' context"))
-           :leave-func (lambda () (mu4e-message "Leaving 'school' context"))
-           :match-func
-           (lambda (msg)
-             (when msg
-               (string-match-p "^/csuglobal"
-                               (mu4e-message-field msg :maildir))))
-           :vars '( ( user-mail-address	.
-                      "christopher.rodriguez@csuglobal.edu" )
-                    ( user-full-name . "Christopher Rodriguez" )
-                    ( mu4e-compose-signature .
-                      (concat
-                       "Christopher Rodriguez\n"
-                       "()  ascii ribbon campaign - against html e-mail\n"
-                       "/\\  www.asciiribbon.org   - against proprietary "
-                       "attachments"))))
-         ,(make-mu4e-context
-           :name "yewscion"
-           :enter-func (lambda ()
-                         (mu4e-message "Entering 'yewscion' context"))
-           :leave-func (lambda ()
-                         (mu4e-message "Leaving 'yewscion' context"))
-           :match-func
-           (lambda (msg)
-             (when msg
-               (string-match-p "^/yewscion"
-                               (mu4e-message-field msg :maildir))))
-           :vars '( ( user-mail-address	     . "yewscion@gmail.com" )
-                    ( user-full-name	     . "Christopher Rodriguez" )
-                    ( mu4e-compose-signature .
-                      (concat
-                       "Christopher Rodriguez\n"
-                       "()  ascii ribbon campaign - against html e-mail\n"
-                       "/\\  www.asciiribbon.org   - against proprietary "
-                       "attachments"))))))
-
-(setq mu4e-compose-context-policy nil
-      mu4e-context-policy 'pick-first
-      mu4e-compose-keep-self-cc t)
-;(add-hook 'mu4e-compose-mode-hook 'cdr:edit-email-as-org)
-;; (substitute-key-definition 'message-send-and-exit
-;;                            'cdr:message-send-and-exit
-;;                            mu4e-compose-mode-map)
-(define-mail-user-agent 'mu4e-user-agent
-<<<<<<< HEAD
-  'mu4e~compose-mail
-=======
-  'mu4e-compose-new
->>>>>>> be6c0be7b9f13a470ef0a9989a60fc0b9ce75f44
-  'message-send-and-exit
-  'message-kill-buffer
-  'message-send-hook)
 ;; Without this `mail-user-agent' cannot be set to `mu4e-user-agent'
 ;; through customize, as the custom type expects a function.  Not
 ;; sure whether this function is actually ever used; if it is then
@@ -1919,132 +2193,147 @@ None; Inert Data.")
 (defun mu4e-user-agent ()
   "Return the `mu4e-user-agent' symbol."
   'mu4e-user-agent)
-
 (setq mail-user-agent (mu4e-user-agent))
+(defun cdr:set-glyphs-for-bqn ()
+  (interactive)
+  (let ((bqn-glyphs
+	 '(?× ?÷ ?⋆ ?√ ?⌊ ?⌈ ?¬ ?∧ ?∨ ?≠ ?≤ ?≥ ?≡ ?≢ ?⊣ ?⊢ ?⥊ ?∾ ?≍
+           ?⋈ ?↑ ?↓ ?↕ ?« ?» ?⌽ ?⍉ ?⍋ ?⍒ ?⊏ ?⊑ ?⊐ ?⊒ ?∊ ?⍷ ?⊔ ?˙ ?˜ ?˘ ?¨
+           ?⌜ ?⁼ ?´ ?˝ ?∘ ?○ ?⊸ ?⟜ ?⌾ ?⊘ ?◶ ?⎉ ?⚇ ?⍟ ?⎊ ?𝕨 ?𝕩 ?𝕗 ?𝕘
+           ?𝕤 ?𝕣 ?𝕎 ?𝕏 ?𝔽 ?𝔾 ?𝕊 ?𝕣 ?← ?⇐ ?↩ ?⟨ ?⟩ ?‿ ?· ?⋄)))
+    (mapc (lambda (x)
+            "Set Font of Character to BQN386 Unicode."
+            (set-fontset-font t x (font-spec :family "BQN386 Unicode")))
+	  bqn-glyphs)))
 
-;;; Theming and UI
-(require 'eterm-256color)
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-(column-number-mode 1)
-(display-time-mode 1)
-(guru-global-mode 1)
-(global-disable-mouse-mode)
-(display-battery-mode)
-(set-face-attribute 'default nil
-                    :family "FreeMono"
-                    :height 110
-                    :weight 'normal
-                    :width 'normal)
-(set-face-attribute 'fixed-pitch nil
-                    :family "FreeMono"
-                    :height 110
-                    :weight 'normal
-                    :width 'normal)
-(set-face-attribute 'header-line nil
-                    :background "#808080"
-                    :foreground "#333333"
-                    :family "unifont")
-(set-face-attribute 'mode-line nil
-                    :background "#212931"
-                    :foreground "#eeeeec"
-                    :family "unifont")
-(set-face-attribute 'org-mode-line-clock nil
-                    :inherit 'header-line)
-(set-face-attribute 'term-color-black nil
-                    :background "#2d3743"
-                    :foreground "#2d3743")
-(set-face-attribute 'term-color-blue nil
-                    :background "#34cae2"
-                    :foreground "#34cae2")
-(set-face-attribute 'term-color-cyan nil
-                    :background "#e67128"
-                    :foreground "#e67128")
-(set-face-attribute 'term-color-green nil
-                    :background "#338f86"
-                    :foreground "#338f86")
-(set-face-attribute 'term-color-magenta nil
-                    :background "#ee7ae7"
-                    :foreground "#ee7ae7")
-(set-face-attribute 'term-color-red nil
-                    :background "#ff4242"
-                    :foreground "#ff4242")
-(set-face-attribute 'term-color-white nil
-                    :background "#e1e1e0"
-                    :foreground "#e1e1e0")
-(set-face-attribute 'term-color-yellow nil
-                    :background "#ffad29"
-                    :foreground "#ffad29")
-(require 'projectile)
-;;; Projectile
-(setq cdr:my-assignment-configure-cmd
-      (concat "if [ -e content.tex ]; then echo \"Sorry, it looks like this "
-              "project has already been configured…\"; else echo "
-              "\"Configuring this project now…\"; genpro; emacsclient "
-              ".metadata; genpro -g; fi"))
-(setq cdr:my-assignment-test-cmd
-      (concat "tmpdir=$(mktemp -d); find . -not -wholename './content.tex' "
-              "-not -name '.assignment' -not -name '.metadata' -not -name "
-              "'.projectile' -delete && mv -vt $tmpdir .assignment "
-              ".projectile .metadata content.tex && genpro && mv -vt . "
-              "$tmpdir/.metadata $tmpdir/.projectile $tmpdir/.assignment && "
-              "emacsclient .metadata && genpro -g && mv -vt . "
-              "$tmpdir/content.tex; echo \"Done.\""))
+;;; Patching BQN mode
+(require 'bqn-mode)
+(defun bqn-process-execute-region (start end &optional dont-follow return-output)
+  (interactive "r")
+  (let ((region (buffer-substring-no-properties start end))
+        (session (bqn-process-ensure-session))
+        (buffer (current-buffer)))
+    (bqn-process-execute-region-setup start end session region)
+    (bqn-process-execute-region-execute buffer)))
+(defun bqn-process-execute-region-setup (start end session region)
+  (when (= start end) (error (concat "Attempt to send empty region to "
+                                     *bqn-process-buffer-name*)))
+  (when bqn-flash-on-send (bqn--flash-region start end))
+  (pop-to-buffer (process-buffer session))
+  (goto-char (point-max))
+  (insert (bqn-format-for-comint region return-output)))
 
-(projectile-register-project-type 'genpro '(".metadata")
-                                  :project-file ".metadata"
-                                  :compile "genpro -p")
-(projectile-register-project-type 'assignment-paper '(".assignment")
-                                  :project-file ".assignment"
-                                  :compile "genpro -p"
-                                  :configure cdr:my-assignment-configure-cmd
-                                  :test cdr:my-assignment-test-cmd)
-(projectile-register-project-type 'java-ant '("build.xml")
-                                  :project-file "build.xml"
-                                  :compile "ant compile"
-                                  :package "ant dist"
-                                  :run "ant run")
+(defun bqn-process-execute-region-execute (buffer)
+  (let ((start-of-output (+ (point) 1)))
+    (comint-send-input)
+    (let ((result (buffer-substring-no-properties start-of-output (point-max))))
+      (when (or dont-follow nil)
+        (pop-to-buffer buffer))
+      result)))
+(defun bqn-format-for-comint (code return-output)
+  (let ((prefix (if return-output ")escaped \")r " ")escaped \""))
+        (suffix "\""))
+    (string-join (list prefix
+                       (bqn-escape-for-comint code)
+                       suffix))))
+(defun bqn-escape-for-comint (code)
+  (replace-in-string "\n" "\\n"
+                     (replace-in-string "\"" "\\\""
+                                        (replace-in-string "\\" "\\\\" code))))
+(define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
+(define-key bqn--mode-map (kbd "C-c C-x C-b") #'bqn-process-execute-buffer)
+(define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
 
-(setq projectile-track-known-projects-automatically nil)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(setq bqn-glyphs
+      "
+┌───────┬──────────────────┬──────────────────────────┬───────┬──────────────────┬─────────────────────┐
+│ Glyph │ Monadic          │ Dyadic                   │ Glyph │ Monadic          │ Dyadic              │
+├───────┼──────────────────┼──────────────────────────┼───────┼──────────────────┼─────────────────────┤
+│ +     │ Conjugate        │ Add                      │ ⥊     │ Deshape          │ Reshape             │
+│ ─     │ Negate           │ Subtract                 │ ∾     │ Join             │ Join to             │
+│ ×     │ Sign             │ Multiply                 │ ≍     │ Solo             │ Couple              │
+│ ÷     │ Reciprocal       │ Divide                   │ ⋈     │ Enlist           │ Pair                │
+│ ⋆     │ Exponential      │ Power                    │ ↑     │ Prefixes         │ Take                │
+│ √     │ Square Root      │ Root                     │ ↓     │ Suffixes         │ Drop                │
+│ ⌊     │ Floor            │ Minimum                  │ ↕     │ Range            │ Windows             │
+│ ⌈     │ Ceiling          │ Maximum                  │ »     │ Nudge            │ Shift Before        │
+│ ∧     │ Sort Up          │ And                      │ «     │ Nudge Back       │ Shift After         │
+│ ∨     │ Sort Down        │ Or                       │ ⌽     │ Reverse          │ Rotate              │
+│ ¬     │ Not              │ Span                     │ ⍉     │ Transpose        │ Reorder Axes        │
+│ │     │ Absolute Value   │ Modulus                  │ /     │ Indices          │ Replicate           │
+│ ≤     │                  │ Less Than or Equal to    │ ⍋     │ Grade Up         │ Bins Up             │
+│ <     │ Enclose          │ Less Than                │ ⍒     │ Grade Down       │ Bins Down           │
+│ >     │ Merge            │ Greater Than             │ ⊏     │ First Cell       │ Select              │
+│ ≥     │                  │ Greater Than or Equal to │ ⊑     │ First            │ Pick                │
+│ =     │ Rank             │ Equals                   │ ⊐     │ Classify         │ Index of            │
+│ ≠     │ Length           │ Not Equals               │ ⊒     │ Occurrence Count │ Progressive Index of│
+│ ≡     │ Depth            │ Match                    │ ∊     │ Mark Firsts      │ Member of           │
+│ ≢     │ Shape            │ Not Match                │ ⍷     │ Deduplicate      │ Find                │
+│ ⊣     │ Identity         │ Left                     │ ⊔     │ Group Indices    │ Group               │
+│ ⊢     │ Identity         │ Right                    │ !     │ Assert           │ Assert with Message │
+└───────┴──────────────────┴──────────────────────────┴───────┴──────────────────┴─────────────────────┘")
 
-;;; Set Up UI
-(when (display-graphic-p)
-  (progn ;; Emoji Support
-    (setq use-default-font-for-symbols nil
-          emojify-display-style 'unicode
-          emojify-emoji-styles '(github unicode))
-    (defun my-emoji-fonts ()
-      (set-fontset-font t 'unicode
-                        (face-attribute 'default :family))
-      (set-fontset-font t '(#x2300 . #x27e7)
-                        (font-spec :family "Emoji One"))
-      (set-fontset-font t '(#x27F0 . #x1FAFF)
-                        (font-spec :family "Emoji One"))
-      (set-fontset-font t 'unicode
-                        "Unifont, Upper" nil 'append))
-    (my-emoji-fonts)))
+(defvar *bqn-glyphs-buffer-name* "*BQN Glyphs*")
 
-(setq inhibit-startup-screen t
-      large-file-warning-threshold 100000000
-      undo-limit 16000000
-      garbage-collection-messages t
-      initial-scratch-message nil
-      display-time-24hr-format t
-      nrepl-sync-request-timeout nil
-      mark-ring-max most-positive-fixnum
-      use-file-dialog nil
-      use-dialog-box nil
-      whitespace-line-column nil
-      shell-prompt-pattern "^\\[.*\\..*\\] {..\\:..} .*\\@.*\\:*\\/\\$"
-      tramp-shell-prompt-pattern "$ ")
-(setq-default fill-column 77
-              indent-tabs-mode nil
-              show-trailing-whitespace nil)
+(defun bqn-glyph-mode-kill-buffer ()
+  "Close the buffer displaying the keymap."
+  (interactive)
+  (let ((buffer (get-buffer *bqn-glyphs-buffer-name*)))
+    (when buffer
+      (delete-windows-on buffer)
+      (kill-buffer buffer))))
 
-(set-face-attribute 'fixed-pitch nil :font "FreeMono")
-(prefer-coding-system 'utf-8)
+(defvar bqn-glyph-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "q") 'bqn-glyph-mode-kill-buffer)
+    map)
+  "Keymap for keymap mode buffers.")
+
+(define-derived-mode bqn-glyph-mode fundamental-mode "BQN-Glyphs"
+  "Major mode for displaying the BQN Glyph help."
+  (use-local-map bqn-glyph-mode-map)
+  (read-only-mode 1)
+  (setq truncate-lines t))
+
+(defun bqn-show-glyphs ()
+  "Display a table of BQN glyphs."
+  (interactive)
+  (let ((glyph-buffer (get-buffer *bqn-glyphs-buffer-name*)))
+    (unless (and glyph-buffer (get-buffer-window glyph-buffer))
+      ;; The buffer is not displayed.
+      (let* ((buffer (get-buffer-create *bqn-glyphs-buffer-name*))
+             (window (split-window nil)))
+        (with-current-buffer buffer
+          (insert bqn-glyphs)
+          (goto-char (point-min))
+          (bqn-glyph-mode))
+        (set-window-buffer window buffer)
+        (fit-window-to-buffer window)))))
+;; Use monospaced font faces in current buffer
+(defun my-buffer-face-mode-fixed ()
+  "Sets a fixed width (monospace) font in current buffer"
+  (interactive)
+  (setq buffer-face-mode-face '(:family "unifont" :spacing 100))
+  (buffer-face-mode))
+
+(defvar bqn-keyboard-map
+  "
+┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬─────────┐
+│~ ¬ │! ⎉ │@ ⚇ │# ⍟ │$ ◶ │% ⊘ │^ ⎊ │& ⍎ │* ⍕ │( ⟨ │) ⟩ │_ √ │+ ⋆ │Backspace│
+│` ˜ │1 ˘ │2 ¨ │3 ⁼ │4 ⌜ │5 ´ │6 ˝ │7   │8 ∞ │9 ¯ │0 • │- ÷ │= × │         │
+├────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬──────┤
+│Tab    │Q ↙ │W 𝕎 │E ⍷ │R 𝕣 │T ⍋ │Y   │U   │I ⊑ │O ⊒ │P ⍳ │{ ⊣ │} ⊢ │|     │
+│       │q ⌽ │w 𝕨 │e ∊ │r ↑ │t ∧ │y   │u ⊔ │i ⊏ │o ⊐ │p π │[ ← │] → │\\     │
+├───────┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴─┬──┴──────┤
+│Caps    │A ↖ │S 𝕊 │D   │F 𝔽 │G 𝔾 │H « │J   │K ⌾ │L » │: · │\" ˙  │Enter    │
+│Lock    │a ⍉ │s 𝕤 │d ↕ │f 𝕗 │g 𝕘 │h ⊸ │j ∘ │k ○ │l ⟜ │; ⋄ │' ↩  │         │
+├────────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬──┴─────────┤
+│Shift      │Z ⋈ │X 𝕏 │C   │V ⍒ │B ⌈ │N   │M ≢ │< ≤ │> ≥ │? ⇐ │Shift       │
+│           │z ⥊ │x 𝕩 │c ↓ │v ∨ │b ⌊ │n   │m ≡ │, ∾ │. ≍ │/ ≠ │            │
+└───────────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────────────┘
+                             Space: ‿
+"
+  "Keyboard map for BQN.")
 
 ;;; Enabled Commands
 (put 'downcase-region 'disabled nil)
@@ -2052,105 +2341,8 @@ None; Inert Data.")
 (put 'capitalize-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
-;;; Header Line and Mode Line
-(add-hook 'buffer-list-update-hook
-          'cdr:display-header-line)
-(add-hook 'buffer-list-update-hook
-          'cdr:display-mode-line)
-
-(setq global-mode-string
-        '("♪"
-          emms-mode-line-string
-          emms-playing-time-string
-          " ✪ "
-          display-time-string
-          " ䷡"
-          battery-mode-line-string
-          " ✿"
-          org-mode-line-string)
- display-time-default-load-average
- nil
- display-time-day-and-date
- 't
- display-time-load-average-threshold
- 10000)
-
-;;; Header Line Format
-
-(setq emms-mode-line-cycle-current-title-function
-      'cdr:emms-describe-track)
-
+;;; Start Pinentry
 (pinentry-start)
-
-(setq show-paren-mode t
-      term-buffer-maximum-size 16384
-      term-set-terminal-size t
-      titlecase-style 'apa
-      user-full-name "Christopher Rodriguez"
-      vterm-kill-buffer-on-exit nil
-      vterm-shell "bash -l"
-      comint-use-prompt-regexp nil
-      scroll-preserve-screen-position t)
-
-;;; Zone Mode - Screensaverlike
-(require 'zone)
-(zone-when-idle 600)
-
-
-;;; Printing PDFs
-
-(setq pdf-misc-print-program-args
-      '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
-      pdf-misc-print-program-executable "/usr/bin/lpr")
-
-;;; Elfeed
-
-(setq elfeed-feeds
-      `(("http://retro-style.software-by-mabe.com/blog-atom-feed"
-         tech code lisp cl)
-        ("https://alhassy.github.io/rss.xml"
-         tech code lisp cl)
-        ("https://andysalerno.com/index.xml"
-         tech)
-        ("https://blog.tecosaur.com/tmio/rss.xml"
-         tech emacs org-mode)
-        ("https://freedom-to-tinker.com/feed/rss/"
-         tech policy)
-        ("https://guix.gnu.org/feeds/blog.atom"
-         tech gnu guix lisp scheme guile)
-        ("https://jany.st/rss.xml"
-         tech hardware)
-        ("https://p6steve.wordpress.com/rss"
-         tech raku)
-        ("https://planet.lisp.org/rss20.xml"
-         tech code lisp cl)
-        ("https://planet.scheme.org/atom.xml"
-         tech code lisp scheme)
-        ("https://somethingpositive.net/feed/"
-         comic nsfw)
-        ("https://www.gnu.org/software/guile/news/feed.xml"
-         tech code lisp scheme guile)
-        ("https://www.questionablecontent.net/QCRSS.xml"
-         comic nsfw)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "the-prettiest-platypus/rss?title_no=463063")
-         comic trans)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "serious-trans-vibes/rss?title_no=206579")
-         comic trans)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-           "friends-with-benefits/rss?title_no=412808")
-         comic trans)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "transincidental/rss?title_no=605328")
-         comic trans)
-        ("https://www.wingolog.org/feed/atom"
-         tech code lisp scheme guile)
-        ("https://xkcd.com/atom.xml"
-         comic)
-        ("https://yewscion.com/feed.xml"
-         personal tech code)))
-
 
 ;; Maps
 
@@ -2204,6 +2396,7 @@ None; Inert Data.")
 ;;; Transform Map <F2>
 (define-key transform-map (kbd "C-r") #'replace-regexp)
 (define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
+(define-key transform-map (kbd "C-u") #'unfill-toggle)
 (define-key transform-map (kbd "d") #'downcase-dwim)
 (define-key transform-map (kbd "f") #'cdr:fill-sexp)
 (define-key transform-map (kbd "i") #'edit-indirect-region)
@@ -2224,7 +2417,7 @@ None; Inert Data.")
 ;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
-(global-set-key (kbd "<f7>") 'ispell)
+(global-set-key (kbd "<f7>") 'deft)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
 ; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
@@ -2312,51 +2505,6 @@ None; Inert Data.")
 (cdr:set-variable-from-shell "PATH")
 (cdr:set-variable-from-shell "CLASSPATH")
 (setq exec-path (split-string (getenv "PATH") path-separator))
-
-;;; This is here to patch org mode for recent geiser.
-(defun org-babel-scheme-execute-with-geiser (code output impl repl)
-  "Execute code in specified REPL.
-If the REPL doesn't exist, create it using the given scheme
-implementation.
-
-Returns the output of executing the code if the OUTPUT parameter
-is true; otherwise returns the last value."
-  (let ((result nil))
-    (with-temp-buffer
-      (insert (format ";; -*- geiser-scheme-implementation: %s -*-" impl))
-      (newline)
-      (insert code)
-      (geiser-mode)
-      (let ((geiser-repl-window-allow-split nil)
-            (geiser-repl-use-other-window nil))
-        (let ((repl-buffer (save-current-buffer
-                             (org-babel-scheme-get-repl impl repl))))
-          (when (not (eq impl (org-babel-scheme-get-buffer-impl
-                               (current-buffer))))
-            (message "Implementation mismatch: %s (%s) %s (%s)" impl
-                     (symbolp impl)
-                     (org-babel-scheme-get-buffer-impl (current-buffer))
-                     (symbolp (org-babel-scheme-get-buffer-impl
-                               (current-buffer)))))
-          (setq geiser-repl--repl repl-buffer)
-          (setq geiser-impl--implementation nil)
-          (let ((geiser-debug-jump-to-debug-p nil)
-                (geiser-debug-show-debug-p nil))
-            (let ((ret (funcall (if (fboundp 'geiser-eval-region/wait)
-                                    #'geiser-eval-region/wait
-                                  #'geiser-eval-region)
-                                (point-min) (point-max))))
-              (setq result (if output
-                               (or (geiser-eval--retort-output ret)
-                                   "Geiser Interpreter produced no output")
-                             (geiser-eval--retort-result-str ret "")))))
-          (when (not repl)
-            (save-current-buffer (set-buffer repl-buffer)
-                                 (geiser-repl-exit))
-            (set-process-query-on-exit-flag (get-buffer-process repl-buffer)
-                                            nil)
-            (kill-buffer repl-buffer)))))
-    result))
 
 (pdf-loader-install)
 (add-hook 'TeX-after-compilation-finished-functions
@@ -2461,163 +2609,14 @@ is true; otherwise returns the last value."
   "A mode for editing a somewhat-standard version of pseudocode.")
 ;;; End Pseudocode Mode
 
-(defun replace-in-string (what with in)
-  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
-
-(require 'bqn-mode)
-(defun bqn-process-execute-region (start end &optional dont-follow return-output)
-  (interactive "r")
-  (let ((region (buffer-substring-no-properties start end))
-        (session (bqn-process-ensure-session))
-        (buffer (current-buffer)))
-    (bqn-process-execute-region-setup start end session region)
-    (bqn-process-execute-region-execute buffer)))
-(defun bqn-process-execute-region-setup (start end session region)
-  (when (= start end) (error (concat "Attempt to send empty region to "
-                                     *bqn-process-buffer-name*)))
-  (when bqn-flash-on-send (bqn--flash-region start end))
-  (pop-to-buffer (process-buffer session))
-  (goto-char (point-max))
-  (insert (bqn-format-for-comint region return-output)))
-
-(defun bqn-process-execute-region-execute (buffer)
-  (let ((start-of-output (+ (point) 1)))
-    (comint-send-input)
-    (let ((result (buffer-substring-no-properties start-of-output (point-max))))
-      (when (or dont-follow nil)
-        (pop-to-buffer buffer))
-      result)))
-(defun bqn-format-for-comint (code return-output)
-  (let ((prefix (if return-output ")escaped \")r " ")escaped \""))
-        (suffix "\""))
-    (string-join (list prefix
-                       (bqn-escape-for-comint code)
-                       suffix))))
-(defun bqn-escape-for-comint (code)
-  (replace-in-string "\n" "\\n"
-                     (replace-in-string "\"" "\\\""
-                                        (replace-in-string "\\" "\\\\" code))))
-(define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
-(define-key bqn--mode-map (kbd "C-c C-x C-b") #'bqn-process-execute-buffer)
-(define-key bqn--mode-map (kbd "C-c C-x C-e") #'bqn-process-execute-line)
-
-(setq bqn-glyphs
-      "
-┌───────┬──────────────────┬──────────────────────────┬───────┬──────────────────┬─────────────────────┐
-│ Glyph │ Monadic          │ Dyadic                   │ Glyph │ Monadic          │ Dyadic              │
-├───────┼──────────────────┼──────────────────────────┼───────┼──────────────────┼─────────────────────┤
-│ +     │ Conjugate        │ Add                      │ ⥊     │ Deshape          │ Reshape             │
-│ ─     │ Negate           │ Subtract                 │ ∾     │ Join             │ Join to             │
-│ ×     │ Sign             │ Multiply                 │ ≍     │ Solo             │ Couple              │
-│ ÷     │ Reciprocal       │ Divide                   │ ⋈     │ Enlist           │ Pair                │
-│ ⋆     │ Exponential      │ Power                    │ ↑     │ Prefixes         │ Take                │
-│ √     │ Square Root      │ Root                     │ ↓     │ Suffixes         │ Drop                │
-│ ⌊     │ Floor            │ Minimum                  │ ↕     │ Range            │ Windows             │
-│ ⌈     │ Ceiling          │ Maximum                  │ »     │ Nudge            │ Shift Before        │
-│ ∧     │ Sort Up          │ And                      │ «     │ Nudge Back       │ Shift After         │
-│ ∨     │ Sort Down        │ Or                       │ ⌽     │ Reverse          │ Rotate              │
-│ ¬     │ Not              │ Span                     │ ⍉     │ Transpose        │ Reorder Axes        │
-│ │     │ Absolute Value   │ Modulus                  │ /     │ Indices          │ Replicate           │
-│ ≤     │                  │ Less Than or Equal to    │ ⍋     │ Grade Up         │ Bins Up             │
-│ <     │ Enclose          │ Less Than                │ ⍒     │ Grade Down       │ Bins Down           │
-│ >     │ Merge            │ Greater Than             │ ⊏     │ First Cell       │ Select              │
-│ ≥     │                  │ Greater Than or Equal to │ ⊑     │ First            │ Pick                │
-│ =     │ Rank             │ Equals                   │ ⊐     │ Classify         │ Index of            │
-│ ≠     │ Length           │ Not Equals               │ ⊒     │ Occurrence Count │ Progressive Index of│
-│ ≡     │ Depth            │ Match                    │ ∊     │ Mark Firsts      │ Member of           │
-│ ≢     │ Shape            │ Not Match                │ ⍷     │ Deduplicate      │ Find                │
-│ ⊣     │ Identity         │ Left                     │ ⊔     │ Group Indices    │ Group               │
-│ ⊢     │ Identity         │ Right                    │ !     │ Assert           │ Assert with Message │
-└───────┴──────────────────┴──────────────────────────┴───────┴──────────────────┴─────────────────────┘")
-
-(defvar *bqn-glyphs-buffer-name* "*BQN Glyphs*")
-
-(defun bqn-glyph-mode-kill-buffer ()
-  "Close the buffer displaying the keymap."
-  (interactive)
-  (let ((buffer (get-buffer *bqn-glyphs-buffer-name*)))
-    (when buffer
-      (delete-windows-on buffer)
-      (kill-buffer buffer))))
-
-(defvar bqn-glyph-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "q") 'bqn-glyph-mode-kill-buffer)
-    map)
-  "Keymap for keymap mode buffers.")
-
-(define-derived-mode bqn-glyph-mode fundamental-mode "BQN-Glyphs"
-  "Major mode for displaying the BQN Glyph help."
-  (use-local-map bqn-glyph-mode-map)
-  (read-only-mode 1)
-  (setq truncate-lines t))
-
-(defun bqn-show-glyphs ()
-  "Display a table of BQN glyphs."
-  (interactive)
-  (let ((glyph-buffer (get-buffer *bqn-glyphs-buffer-name*)))
-    (unless (and glyph-buffer (get-buffer-window glyph-buffer))
-      ;; The buffer is not displayed.
-      (let* ((buffer (get-buffer-create *bqn-glyphs-buffer-name*))
-             (window (split-window nil)))
-        (with-current-buffer buffer
-          (insert bqn-glyphs)
-          (goto-char (point-min))
-          (bqn-glyph-mode))
-        (set-window-buffer window buffer)
-        (fit-window-to-buffer window)))))
-(setq bqn-glyphs
-      '(?× ?÷ ?⋆ ?√ ?⌊ ?⌈ ?¬ ?∧ ?∨ ?≠ ?≤ ?≥ ?≡ ?≢ ?⊣ ?⊢ ?⥊ ?∾ ?≍
-           ?⋈ ?↑ ?↓ ?↕ ?« ?» ?⌽ ?⍉ ?⍋ ?⍒ ?⊏ ?⊑ ?⊐ ?⊒ ?∊ ?⍷ ?⊔ ?˙ ?˜ ?˘ ?¨
-           ?⌜ ?⁼ ?´ ?˝ ?∘ ?○ ?⊸ ?⟜ ?⌾ ?⊘ ?◶ ?⎉ ?⚇ ?⍟ ?⎊ ?𝕨 ?𝕩 ?𝕗 ?𝕘
-           ?𝕤 ?𝕣 ?𝕎 ?𝕏 ?𝔽 ?𝔾 ?𝕊 ?𝕣 ?← ?⇐ ?↩ ?⟨ ?⟩ ?‿ ?· ?⋄))
-
-(mapc (lambda (x)
-        "Set Font of Character to BQN386 Unicode."
-        (set-fontset-font t x (font-spec :family "BQN386 Unicode")))
-      bqn-glyphs)
-
-;; Use monospaced font faces in current buffer
-(defun my-buffer-face-mode-fixed ()
-  "Sets a fixed width (monospace) font in current buffer"
-  (interactive)
-  (setq buffer-face-mode-face '(:family "unifont" :spacing 100))
-  (buffer-face-mode))
-
-(defvar bqn-keyboard-map
-  "
-┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬─────────┐
-│~ ¬ │! ⎉ │@ ⚇ │# ⍟ │$ ◶ │% ⊘ │^ ⎊ │& ⍎ │* ⍕ │( ⟨ │) ⟩ │_ √ │+ ⋆ │Backspace│
-│` ˜ │1 ˘ │2 ¨ │3 ⁼ │4 ⌜ │5 ´ │6 ˝ │7   │8 ∞ │9 ¯ │0 • │- ÷ │= × │         │
-├────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬──────┤
-│Tab    │Q ↙ │W 𝕎 │E ⍷ │R 𝕣 │T ⍋ │Y   │U   │I ⊑ │O ⊒ │P ⍳ │{ ⊣ │} ⊢ │|     │
-│       │q ⌽ │w 𝕨 │e ∊ │r ↑ │t ∧ │y   │u ⊔ │i ⊏ │o ⊐ │p π │[ ← │] → │\\     │
-├───────┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴─┬──┴──────┤
-│Caps    │A ↖ │S 𝕊 │D   │F 𝔽 │G 𝔾 │H « │J   │K ⌾ │L » │: · │\" ˙  │Enter    │
-│Lock    │a ⍉ │s 𝕤 │d ↕ │f 𝕗 │g 𝕘 │h ⊸ │j ∘ │k ○ │l ⟜ │; ⋄ │' ↩  │         │
-├────────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬──┴─────────┤
-│Shift      │Z ⋈ │X 𝕏 │C   │V ⍒ │B ⌈ │N   │M ≢ │< ≤ │> ≥ │? ⇐ │Shift       │
-│           │z ⥊ │x 𝕩 │c ↓ │v ∨ │b ⌊ │n   │m ≡ │, ∾ │. ≍ │/ ≠ │            │
-└───────────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────────────┘
-                             Space: ‿
-"
-  "Keyboard map for BQN.")
-
-
-;; Undo some defaults I don't need.
-;;; StumpWM takes care of this for me.
-(global-unset-key (kbd "C-z"))
-;;; I don't think I'll ever use this, and
-;;; keep getting asked about it.
-(global-unset-key (kbd "C-x C-n"))
-;;; Let me mark any variable as safe.
-(advice-add 'risky-local-variable-p :override #'ignore)
-;;; I only want warnings for errors unless I ask.
-(setq warning-minimum-level :error)
-
-
-;;; Load Initial File.
-(find-file "~/Documents/org/main.org")
+;;; Last Minute Settings
+;;;; BQN glyphs
+(cdr:set-glyphs-for-bqn)
+;;;; Header Line and Mode Line
+(add-hook 'buffer-list-update-hook
+          'cdr:display-header-line)
+(add-hook 'buffer-list-update-hook
+          'cdr:display-mode-line)
 
 ;; Local Variables:
 ;; mode: emacs-lisp
