@@ -4,8 +4,9 @@
  *
  * <p>This is an <strong>ACTION</strong>.
  *
+ * <p><strong>Impurities:</strong> None.</p>
+ *
  * @param item Used in the <code>Code</code> below.
  * @return What does this method return?
  *
- * <p><strong>Impurities:</strong> None.</p>
  */
