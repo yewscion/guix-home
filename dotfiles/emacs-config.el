@@ -2366,6 +2366,7 @@ C-style comments."
   #'cdr:templates-insert-latex-figure-list)
 (define-key template-map (kbd "g") #'cdr:templates-insert-guix-package)
 (define-key template-map (kbd "C-d") #'cdr:templates-insert-dir-locals)
+(define-key template-map (kbd "j") #'cdr:templates-insert-java-docstring)
 
 ;;; Subprocess Map <F4>
 
@@ -2390,7 +2391,6 @@ C-style comments."
 (define-key imperative-map (kbd "w") #'whitespace-report)
 (define-key imperative-map (kbd "p") #'cdr:prep-latex-for-copy)
 (define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
-(define-key imperative-map (kbd "i") #'cdr:i-ching-pull)
 (define-key imperative-map (kbd "f") #'fill-buffer)
 (define-key imperative-map (kbd "v") #'add-file-local-variable)
 (define-key imperative-map (kbd "d") #'make-directory)
