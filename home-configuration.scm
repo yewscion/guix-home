@@ -73,6 +73,12 @@
   "nm-switch \\\"Codys Corner\\\"")
 (define my-guix-home-reconfigure
   "guix home reconfigure \\$HOME/Documents/guix-home/home-configuration.scm")
+(define my-guix-build-local
+  "guix build -L \\$HOME/Documents/yewscion-guix-channel/ -v4 -K")
+(define my-guix-build-for-aarch64
+  "guix build -v4 -K --target=aarch64-linux-gnu")
+(define my-guix-fetch-sources
+  "guix build -v4 --source --no-substitutes")
 (define my-function-log-guix-state
   (string-append "log-guix-state() {\n"
                  "    guix describe -f human \| sed -n \"1p\"\n"
@@ -116,7 +122,7 @@
 
 
 (define my-packages
-  '("adlmidi" "alsa-plugins" "alsa-plugins:pulseaudio" "anki" "ant"
+  '("adlmidi" "agda" "alsa-plugins" "alsa-plugins:pulseaudio" "anki" "ant"
   "ant-junit" "gnu-apl" "apl-primer" "autoconf" "automake" "b3sum" "bash"
   "beets" "biber" "bison" "borg" "brightnessctl" "bsd-games" "btrfs-progs"
   "carp" "cbqn" "clang-toolchain" "cl-asdf" "clisp" "clojure"
@@ -186,7 +192,7 @@
   "emacs-which-key" "emacs-wisp-mode" "emacs-with-editor" "emacs-wordgen"
   "emacs-writegood-mode" "emacs-writeroom" "emacs-xmlgen" "emacs-xpm"
   "emacs-xterm-color" "emacs-yaml" "emacs-yaml-mode" "emacs-yasnippet"
-  "endless-sky" "erofs-utils" "esbuild" "espeak-ng" "exa" ; "emacspeak"
+  "endless-sky" "erofs-utils" "esbuild" "espeak-ng" "exa" ;"emacspeak"
   "exempi" "exfat-utils" "exfatprogs" "expect" "extundelete" "fennel"
   "file" "flex" "fluid-3" "fluidsynth" "font-3270" "font-bqn386" ;"fnlfmt"
   "font-gnu-freefont" "font-gnu-unifont" "font-gnu-unifont:pcf"
@@ -194,15 +200,14 @@
   "font-tex-gyre" "gambit-c" "gash" "gauche" "gcc-toolchain" "genpro"
   "gerbil" "gfortran-toolchain" "ghc" "ghc-alex" "ghc-bnfc" "ghc-happy"
   "ghostscript" "gifsicle" "gimp" "git" "git:send-email" "git-filter-repo"
-  "glibc-locales" "gnupg" "gnurobots" "gparted" "graphviz" "grep"
+  "glibc-locales" "gnupg" "gnurobots" "gparted" "graphviz" "grep" "groovy"
   "guildhall" "guile" "guile-bash" "guile-cdr255" "guile-chickadee"
   "guile-colorized" "guile-git" "guile-goblins" "guile-hall"
   "guile-ncurses" "guile-readline" "guile-sqlite3" "guile-ssh" "gv" "gwl"
   "haunt" "httrack" "icecat" "inkscape" "innoextract" "ispell" "janet"
   "java-bsh" "java-guice" "java-junit" "java-log4j-core" "jpegoptim" "kawa"
   "knock" "le-certs" "libreoffice" "libvirt" "links" "lxc" "make" "mc"
-  "milkytracker" ;"maven"
-  "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu"
+  "milkytracker" "maven" "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu"
   "ncurses" "netcat" "nethack" "newlisp" "newt" "nmap" "node" "nomad"
   "nss-certs" "offlineimap3" "openjdk:doc" "openjdk:jdk" "optipng"
   "orca-music" "owl-lisp" "pagr" "pamixer" "password-store" "patchelf"
@@ -319,7 +324,10 @@
              ("nm-asin324" . ,my-nm-asin324)
              ("nm-cdr255" . ,my-nm-cdr255)
              ("nm-codys-corner" . ,my-nm-codys-corner)
-             ("ghr" . ,my-guix-home-reconfigure)))
+             ("ghr" . ,my-guix-home-reconfigure)
+             ("gbl" . ,my-guix-build-local)
+             ("gbfa" . ,my-guix-build-for-aarch64)
+             ("gfs" . ,my-guix-fetch-sources)))
           (bash-profile
            (list (plain-file "bash-profile"
                              my-bash-profile)))

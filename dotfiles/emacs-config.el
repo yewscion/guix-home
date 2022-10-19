@@ -958,7 +958,9 @@ None; Inert Data.")
 
 ;;; Elfeed
 (setq elfeed-feeds
-      `(("https://anchor.fm/s/581d4eb4/podcast/rss"
+      `(("https://www.elbeno.com/blog/?feed=rss2"
+         tech programming)
+        ("https://anchor.fm/s/581d4eb4/podcast/rss"
 	 tech)
 	("http://retro-style.software-by-mabe.com/blog-atom-feed"
          tech code lisp cl)
@@ -1337,7 +1339,58 @@ lists."
     (setq header-line-format
           '("%e" mode-line-misc-info))))
 
-;;; Mode Line Formate Function
+(defvar cdr:mode-line-paragraph-number
+  "¶0"
+  "The current paragraph number, for display in the modeline")
+(make-variable-buffer-local 'cdr:mode-line-paragraph-number)
+
+(defun cdr:get-paragraph-number ()
+"Get the paragraph number at point.
+
+This is an action.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+A <number> representing the number of times '\n\n' appears above the
+point, plus 1. This /should/ equal the paragraph number.
+
+Impurities
+==========
+Relies on state of buffer (specifically, the point position."
+  (interactive)
+  (1+ (count-matches "
+
+" (point-min) (point))))
+(defun cdr:update-mode-line-paragraph-number ()
+"Update the buffer-local variable for paragraph number in the mode-line.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Unspecified.
+
+Impurities
+==========
+Sets a buffer-local variable using current buffer state."
+  (while-no-input (redisplay)
+                  (unless (window-minibuffer-p)
+                    (setq cdr:mode-line-paragraph-number
+                          (concat
+                           "¶"
+                           (number-to-string
+                            (cdr:get-paragraph-number)))))))
+
+
+;;; Mode Line Format Function
 (defun cdr:display-mode-line ()
   (unless (string-equal (substring (symbol-name major-mode) 0 4) "ebib")
     (setq mode-line-format '("%e" mode-line-front-space
@@ -1349,12 +1402,15 @@ lists."
                              mode-line-buffer-identification
                              "   "
                              mode-line-position
+                             cdr:mode-line-paragraph-number
+                             " "
                              (vc-mode
                               vc-mode)
                              " "
                              mode-line-modes
-                             mode-line-end-spaces))))
-
+                             mode-line-end-spaces
+                             ))))
+(add-hook 'post-command-hook #'cdr:update-mode-line-paragraph-number)
 (defun random-thing-from-a-file (f)
   (interactive "Load Thing from: ")
   (random t)
@@ -2184,6 +2240,82 @@ C-style comments."
     (when hostentry (netrc-get hostentry "password"))))
 (defun replace-in-string (what with in)
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+(defun cdr:insert-guix-hash (&optional repo)
+  "Insert the guix hash for the most recent commit in REPO at point.
+
+This is an ACTION.
+
+Arguments
+=========
+REPO<string>: The path/url to the repo in question. Will prompt user if
+missing.
+
+Returns
+=======
+A <string> representing the hash of REPO.
+
+Impurities
+==========
+I/O, Depends on Filesystem and two commands (guix and git)."
+  (interactive)
+  (let ((tempdir (make-temp-file "cdr-emacs-guix" t))
+        (olddir  (cdr:get-pwd))
+        (repo   (if (not repo)
+                    (read-from-minibuffer "Which Repo? ")
+                  repo)))
+    (unwind-protect
+        (progn
+          (cd tempdir)
+          (shell-command
+           (cdr:generate-shell-command-git-clone-pwd repo))
+          (insert
+           (string-trim-right
+            (shell-command-to-string
+             "guix hash -rx ."))))
+      (progn
+        (delete-directory tempdir t)
+        (cd olddir)))))
+
+(defun cdr:generate-shell-command-git-clone-pwd (repo)
+"Generate a command to clone REPO into the current (assumed empty) directory.
+
+This is a CALCULATION.
+
+Arguments
+=========
+REPO<string>: The path/url to the repo in question.
+
+Returns
+=======
+A <string> representing the command to run to clone REPO into the current
+directory.
+
+Impurities
+==========
+None."
+  (concat
+   "git clone --quiet "
+   repo
+   " ."))
+
+(defun cdr:get-pwd ()
+"Returns the canonicalized default directory for the current buffer.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+A <string> representing the current directory for the current buffer.
+
+Impurities
+==========
+Relies on system state."
+  (expand-file-name
+   default-directory))
 
 ;; Without this `mail-user-agent' cannot be set to `mu4e-user-agent'
 ;; through customize, as the custom type expects a function.  Not
@@ -2309,12 +2441,6 @@ C-style comments."
           (bqn-glyph-mode))
         (set-window-buffer window buffer)
         (fit-window-to-buffer window)))))
-;; Use monospaced font faces in current buffer
-(defun my-buffer-face-mode-fixed ()
-  "Sets a fixed width (monospace) font in current buffer"
-  (interactive)
-  (setq buffer-face-mode-face '(:family "unifont" :spacing 100))
-  (buffer-face-mode))
 
 (defvar bqn-keyboard-map
   "
@@ -2619,6 +2745,83 @@ C-style comments."
           'cdr:display-header-line)
 (add-hook 'buffer-list-update-hook
           'cdr:display-mode-line)
+;;; Staging
+;; Use monospaced font faces in current buffer
+(defun cdr:switch-to-unifont ()
+  "Sets a fixed width (monospace) font in current buffer"
+  (interactive)
+  (setq buffer-face-mode-face '(:family "unifont"))
+  (buffer-face-mode))
+
+(defun cdr:set-buffer-local-family (font-family)
+  "Sets font in current buffer"
+  (interactive "sFont Family: ")
+  (defface tmp-buffer-local-face 
+    '((t :family font-family))
+    "Temporary buffer-local face")
+  (buffer-face-set 'tmp-buffer-local-face))
+(defun cdr:toggle-cursor ()
+  (interactive)
+  (cond ((eq (cdr:car-or-value cursor-type) 'box)
+         (cdr:update-cursor-type 'hollow))
+        ((eq (cdr:car-or-value cursor-type) 'hollow)
+         (cdr:update-cursor-type 'bar))
+        ((eq (cdr:car-or-value cursor-type) 'bar)
+         (cdr:update-cursor-type 'hbar))
+        ((eq (cdr:car-or-value cursor-type) 'hbar)
+         (cdr:update-cursor-type 'box))
+        (t
+         (cdr:update-cursor-type 'box)))
+  (message (concat "Cursor is now "
+                   (format "%s" cursor-type)
+                   "!")))
+(defun cdr:update-cursor-type (new-symbol)
+  (setq-default cursor-type
+                (if (listp cursor-type)
+                    (cons new-symbol
+                          (cdr cursor-type))
+                  new-symbol)))
+(defun cdr:car-or-value (item)
+  (if (listp item)
+      (car item)
+    item))
+
+(defface unifont-fallback-face
+  '((t :family "unifont"))
+  "Fallback Face Using GNU Unifont.")
+
+(defface cjk-face
+  '((t :family "unifont"))
+  "Fallback Face Using GNU Unifont.")
+
+(setq cdr:fonts-freemono (font-spec
+ :family "FreeMono"
+ :weight 'normal
+ :slant 'normal
+ :width 'normal
+ :foundry "GNU" ; symbol or string representing foundry, 'misc'
+ :adstyle "mono" ; additional style information, 'sans'
+ :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
+ :size 10 ; integers are pixels, floats are points.
+ :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
+ :name "FreeMono" ; fontconfig-style name
+ :script 'latin ; look in script-representative-chars
+ :lang  'en ; ISO639 codes, 'ja' or 'en'
+ ))
+(setq cdr:fonts-unifont (font-spec
+ :family "Unifont"
+ :weight 'normal
+ :slant 'normal
+ :width 'normal
+ :foundry "GNU" ; symbol or string representing foundry, 'misc'
+ :adstyle "mono" ; additional style information, 'sans'
+ :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
+ :size 9 ; integers are pixels, floats are points.
+ :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
+ :name "Unifont" ; fontconfig-style name
+ :script 'unicode ; look in script-representative-chars
+ :lang  'en ; ISO639 codes, 'ja' or 'en'
+ ))
 
 ;; Local Variables:
 ;; mode: emacs-lisp
