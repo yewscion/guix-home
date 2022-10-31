@@ -1,4 +1,4 @@
-# -*- mode:org; epa-file-encrypt-to: ("1102102EBE7C3AE4" "929E9F75D4928BCF") -*-
+# -*- mode:org; epa-file-encrypt-to: ("1102102EBE7C3AE4") -*-
 #+title: Title
 #+subtitle: Subtitle
 #+date: <2022-01-02 Sun 13:01>
