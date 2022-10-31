@@ -122,7 +122,7 @@
 
 
 (define my-packages
-  '("adlmidi" "agda" "alsa-plugins" "alsa-plugins:pulseaudio" "anki" "ant"
+  '("libadlmidi" "agda" "alsa-plugins" "alsa-plugins:pulseaudio" "anki" "ant"
   "ant-junit" "gnu-apl" "apl-primer" "autoconf" "automake" "b3sum" "bash"
   "beets" "biber" "bison" "borg" "brightnessctl" "bsd-games" "btrfs-progs"
   "carp" "cbqn" "clang-toolchain" "cl-asdf" "clisp" "clojure"
@@ -136,7 +136,7 @@
   "emacs-datetime" "emacs-debbugs" "emacs-deft" "emacs-dictionary"
   "emacs-diff-hl" "emacs-disable-mouse" "emacs-docker"
   "emacs-docker-compose-mode" "emacs-docker-tramp" "emacs-dockerfile-mode"
-  "emacs-download-region" "emacs-ebib" "emacs-ediprolog"
+  "emacs-download-region" "emacs-ebib" ;"emacs-ediprolog"
   "emacs-edit-indirect" "emacs-edn" "emacs-eldoc" "emacs-elf-mode"
   "emacs-elfeed" "emacs-elfeed-protocol" "emacs-elisp-docstring-mode"
   "emacs-elisp-refs" "emacs-elisp-slime-nav" "emacs-elm-mode"
