@@ -158,9 +158,9 @@
 ;;; Describe Char
 (setq describe-char-unidata-list
       '(name old-name general-category canonical-combining-class
-      bidi-class decomposition decimal-digit-value digit-value
-      numeric-value mirrored iso-10646-comment uppercase
-      lowercase titlecase))
+             bidi-class decomposition decimal-digit-value digit-value
+             numeric-value mirrored iso-10646-comment uppercase
+             lowercase titlecase))
 
 ;;; GNU APL
 (setq gnu-apl-auto-function-editor-popup nil
@@ -288,9 +288,9 @@
 
 ;;;; MIME export
 (setq org-mime-export-options '(:with-latex dvipng
-                                :section-numbers nil
-                                :with-author nil
-                                :with-toc nil)
+                                            :section-numbers nil
+                                            :with-author nil
+                                            :with-toc nil)
       org-mime-export-ascii 'utf-8)
 
 
@@ -315,344 +315,344 @@
 (require 'biblio)
 (require 'ebib-biblio)
 (defconst my-ebib-keywords '("ABSTRACTION"
-"AFRICA"
-"ALGORITHM design"
-"ALGORITHMIC information"
-"ALGORITHMS"
-"ALGORITHMS - search"
-"ALGORITHMS - sort - bubble"
-"ALGORITHMS - sort - quicksort"
-"ALGORITHMS - sort"
-"APPROPRIATE access"
-"ARAB spring uprisings"
-"ARTIFICIAL intelligence"
-"ASTROTURFING"
-"ATTRACTION"
-"AUTHORITARIAN regimes"
-"AUTHORITARIANISM"
-"AUTHORITY"
-"AUTOMATION"
-"AWARDS"
-"BALANCE of power"
-"BIOLOGICAL pathogens"
-"BOTS"
-"BUSINESS communication"
-"BUSINESS writing"
-"BUSINESS"
-"CACHE"
-"CANADA"
-"CASE study"
-"CHINA"
-"CHINESE people"
-"CIA triad"
-"CIVIL society"
-"CLUSTERING"
-"CODE quality"
-"COLLABORATION"
-"COLLECTIVE leadership"
-"COLLECTIVE migration"
-"COMMUNICATION"
-"COMMUNICATION - interprocess"
-"COMMUNICATION - mass"
-"COMMUNICATION - online"
-"COMMUNICATION - technical"
-"COMMUNICATIVE competence"
-"COMMUNIST parties"
-"COMMUNITIES - VIRTUAL"
-"COMPILATION"
-"COMPILERS"
-"COMPLEXITY - logical"
-"COMPUTER algorithms"
-"COMPUTER file format - pdf"
-"COMPUTER filesystems"
-"COMPUTER firmware"
-"COMPUTER hardware"
-"COMPUTER input-output equipment"
-"COMPUTER memory"
-"COMPUTER multitasking"
-"COMPUTER networks"
-"COMPUTER operating systems"
-"COMPUTER processors - multi-core"
-"COMPUTER science education"
-"COMPUTER science - artificial intelligence"
-"COMPUTER science - high performance"
-"COMPUTER science - language"
-"COMPUTER science - machine learning"
-"COMPUTER science - moore's law"
-"COMPUTER science - parallelism"
-"COMPUTER science - robotics"
-"COMPUTER scientists"
-"COMPUTER security"
-"COMPUTER software"
-"COMPUTER software - pgp"
-"COMPUTER storage"
-"COMPUTER storage - raid"
-"COMPUTER systems"
-"COMPUTER user interfaces"
-"COMPUTER-AIDED manufacturing"
-"COMPUTERS"
-"COMPUTERS - embedded"
-"CONSENSUS - social science"
-"CONTRACT management"
-"CORRESPONDENCE"
-"COVID-19"
-"CREATIVE ability"
-"CREATIVE writing"
-"CREDIBILITY"
-"CRIME"
-"CRISIS communication"
-"CRITICAL discourse analysis"
-"CULTURE"
-"CYBERSECURITY"
-"DATA analysis"
-"DATA security"
-"DATA"
-"DATABASES - relational"
-"DATAFICATION"
-"DEADLOCKS"
-"DEFINITIONS"
-"DEMOCRACY"
-"DEMOCRATIC socialism"
-"DEMOCRATIZATION"
-"DEVELOPMENT - economic"
-"DEVSECOPS"
-"DIGITAL communication"
-"DIGITAL media"
-"DIGITAL technology"
-"DISCOVERY - scientific"
-"DISINFORMATION"
-"ECONOMY"
-"EDUCATION - distance"
-"EDUCATION - mathematics"
-"EDUCATION - programming"
-"EFFECTIVENESS"
-"EFFICIENCY - energy"
-"ELECTIONS"
-"ELECTIONS - presidential"
-"ELECTRON"
-"ENCRYPTION - public-key"
-"ENTROPY"
-"ETHICS"
-"EXECUTIVE Ability"
-"EXECUTIVES"
-"FAKE news"
-"FICTION - science fiction"
-"FOCUS"
-"FOLLOWER-LEADER"
-"FREEDOM - speech"
-"FUN"
-"GAME - psychology"
-"GAME - theory"
-"GAMES - video games"
-"GATHERING points"
-"GENDER"
-"GENDER - equality"
-"GENERALITY"
-"GOVERNMENT forms - parliamentary democracy"
-"GRAMMAR"
-"GREAT Britain"
-"GUIDELINES"
-"HISTORY - artificial intelligence"
-"HISTORY - computer science"
-"HISTORY - laundry"
-"HISTORY - lisp programming language"
-"HISTORY - victorian england"
-"HOAXES"
-"HOPPER - grace"
-"HUMAN behavior"
-"HUMAN beings"
-"HUMAN multitasking"
-"HUMAN rights"
-"HUMANITIES - digital"
-"IMAN1"
-"IMMUNIZATION"
-"IMPROVEMENT - continuous"
-"INFLUENCE"
-"INFORMATION technology"
-"INSTITUTIONS"
-"INTEGRATED circuits"
-"INTERFACE - message-passing"
-"INTERNATIONAL courts"
-"INTERNATIONAL relations"
-"INTERNET - advertising"
-"INTERNET - culture"
-"INTERNET - protocol"
-"INTERNET - world wide web"
-"INVENTIONS"
-"JACQUARD loom"
-"LAISSEZ-FAIRE"
-"LANGUAGE"
-"LAW"
-"LEADER"
-"LEADERSHIP foundations"
-"LEADERSHIP model"
-"LEADERSHIP style"
-"LEADERSHIP"
-"LEARNING - informal"
-"LEARNING - machine"
-"LINUX distribution - debian"
-"LINUX distribution - slackware linux"
-"LISP machines"
-"LITERATURE - romanticism"
-"LOGIC - boolean"
-"LOGIC - symbolic"
-"LOVELACE - ada byron king"
-"MACHINERY - textile"
-"MANAGEMENT foundations"
-"MANAGEMENT model"
-"MANAGEMENT styles"
-"MANAGEMENT"
-"MANAGEMENT - industrial"
-"MANAGEMENT - information"
-"MANAGEMENT - knowledge"
-"MANAGEMENT - personnel"
-"MANAGEMENT - software"
-"MANAGEMENT - time"
-"MASS shootings"
-"MATHEMATICS - logic"
-"MEDIA - mass"
-"METAPHOR"
-"MICROTARGETING"
-"MIDDLE east"
-"MIS"
-"MOBILIZATION"
-"MODEL - discrete choice"
-"MODEL - domain-specific"
-"MORGAN - augustus de"
-"MULTITHREADING"
-"NARRATIVE"
-"NONLOCAL PDEs"
-"OPEN source firmware"
-"OPERATING system - android"
-"OPERATING system - apple ios"
-"OPERATING system - bsd"
-"OPERATING system - cisco ios"
-"OPERATING system - gnu/linux"
-"OPERATING system - junos"
-"OPERATING system - kernel"
-"OPERATING system - macos"
-"OPERATING system - microsoft dos"
-"OPERATING system - microsoft windows"
-"OPERATING system - os/2"
-"OPERATING system - unix"
-"OPERATING systems"
-"OPERATING systems - security"
-"ORGANIZATION"
-"ORGANIZATIONAL behavior"
-"ORGANIZATIONAL change"
-"ORGANIZATIONAL effectiveness"
-"ORGANIZATIONAL sociology"
-"PARALLELISM - linguistic"
-"PERFORMANCE"
-"PERSONALITY"
-"PERSUASION"
-"PHILOSOPHY of Mind"
-"PHILOSOPHY"
-"POETRY"
-"POLICY"
-"POLITICAL advertising"
-"POLITICAL campaigns"
-"POLITICAL communication"
-"POLITICAL community"
-"POLITICAL development"
-"POLITICAL engagement"
-"POLITICAL participation"
-"POLITICAL science"
-"POLITICAL socialization"
-"POLITICAL succession"
-"POLITICAL systems"
-"POLITICS"
-"POLITICS - elite"
-"POLITICS - global"
-"POLITICS - middle eastern"
-"POLITICS - national"
-"POPULAR culture"
-"POPULAR works"
-"POPULISM"
-"PORTS"
-"POWER sharing"
-"POWER"
-"PRESIDENT"
-"PROBABILITY"
-"PRODUCTIVITY"
-"PRODUCTIVITY - labor"
-"PROGRAMMING language family - lisp"
-"PROGRAMMING language - c++"
-"PROGRAMMING language - clojure"
-"PROGRAMMING language - common lisp"
-"PROGRAMMING language - emacs lisp"
-"PROGRAMMING language - java"
-"PROGRAMMING language - python"
-"PROGRAMMING language - rust"
-"PROGRAMMING language - scheme"
-"PROGRAMMING language - webassembly"
-"PROGRAMMING languages"
-"PROGRAMMING teams"
-"PROGRAMMING - parallelism"
-"PSEUDOCODE"
-"PSYCHOLOGY"
-"PSYCHOLOGY"
-"PSYCHOLOGY - cognitive"
-"PSYCHOLOGY - social"
-"PUBLIC relations"
-"PUBLICATIONS"
-"QUALIFICATIONS"
-"READING - engaged"
-"RELATIONSHIPS - professional"
-"RESEARCH"
-"RESEARCH - publishing"
-"SECURITY"
-"SECURITY - information"
-"SECURITY - software"
-"SELECTIVE exposure"
-"SELF evaluation"
-"SHIPS"
-"SOCIAL dominance"
-"SOCIAL media"
-"SOCIAL networks"
-"SOCIAL sciences"
-"SOCIOLOGY - industrial"
-"SOFTWARE analysis"
-"SOFTWARE collaboration"
-"SOFTWARE creation"
-"SOFTWARE defects"
-"SOFTWARE design"
-"SOFTWARE development - mobile application"
-"SOFTWARE engineering"
-"SOFTWARE shells"
-"SOFTWARE testing"
-"SOFTWARE"
-"SOFTWARE - debugging"
-"SOFTWARE - free - libre - and open source"
-"STATE - failed"
-"STATE - fragile"
-"STUDY - reproduction"
-"SUCCESS"
-"SUCCESSION"
-"SUPERCOMPUTER"
-"SWARMING"
-"SYNTAX"
-"SYSTEMS software"
-"TASK analysis"
-"TAXONOMY"
-"TECHNOLOGY"
-"TECHNOLOGY - sustainable"
-"TEXTBOOK"
-"TILING"
-"TRANSISTORS"
-"TWITTER"
-"UML"
-"UNITED nations"
-"UNITED states"
-"UNIVERSAL basic income (ubi)"
-"VIRTUAL MACHINES"
-"VIRTUALIZATION"
-"VULNERABILITY"
-"WRITING"
-"YEMENI civil war 2015"
-"YOUTUBE"
-"ZETTELKASTEN"
-)
+                             "AFRICA"
+                             "ALGORITHM design"
+                             "ALGORITHMIC information"
+                             "ALGORITHMS"
+                             "ALGORITHMS - search"
+                             "ALGORITHMS - sort - bubble"
+                             "ALGORITHMS - sort - quicksort"
+                             "ALGORITHMS - sort"
+                             "APPROPRIATE access"
+                             "ARAB spring uprisings"
+                             "ARTIFICIAL intelligence"
+                             "ASTROTURFING"
+                             "ATTRACTION"
+                             "AUTHORITARIAN regimes"
+                             "AUTHORITARIANISM"
+                             "AUTHORITY"
+                             "AUTOMATION"
+                             "AWARDS"
+                             "BALANCE of power"
+                             "BIOLOGICAL pathogens"
+                             "BOTS"
+                             "BUSINESS communication"
+                             "BUSINESS writing"
+                             "BUSINESS"
+                             "CACHE"
+                             "CANADA"
+                             "CASE study"
+                             "CHINA"
+                             "CHINESE people"
+                             "CIA triad"
+                             "CIVIL society"
+                             "CLUSTERING"
+                             "CODE quality"
+                             "COLLABORATION"
+                             "COLLECTIVE leadership"
+                             "COLLECTIVE migration"
+                             "COMMUNICATION"
+                             "COMMUNICATION - interprocess"
+                             "COMMUNICATION - mass"
+                             "COMMUNICATION - online"
+                             "COMMUNICATION - technical"
+                             "COMMUNICATIVE competence"
+                             "COMMUNIST parties"
+                             "COMMUNITIES - VIRTUAL"
+                             "COMPILATION"
+                             "COMPILERS"
+                             "COMPLEXITY - logical"
+                             "COMPUTER algorithms"
+                             "COMPUTER file format - pdf"
+                             "COMPUTER filesystems"
+                             "COMPUTER firmware"
+                             "COMPUTER hardware"
+                             "COMPUTER input-output equipment"
+                             "COMPUTER memory"
+                             "COMPUTER multitasking"
+                             "COMPUTER networks"
+                             "COMPUTER operating systems"
+                             "COMPUTER processors - multi-core"
+                             "COMPUTER science education"
+                             "COMPUTER science - artificial intelligence"
+                             "COMPUTER science - high performance"
+                             "COMPUTER science - language"
+                             "COMPUTER science - machine learning"
+                             "COMPUTER science - moore's law"
+                             "COMPUTER science - parallelism"
+                             "COMPUTER science - robotics"
+                             "COMPUTER scientists"
+                             "COMPUTER security"
+                             "COMPUTER software"
+                             "COMPUTER software - pgp"
+                             "COMPUTER storage"
+                             "COMPUTER storage - raid"
+                             "COMPUTER systems"
+                             "COMPUTER user interfaces"
+                             "COMPUTER-AIDED manufacturing"
+                             "COMPUTERS"
+                             "COMPUTERS - embedded"
+                             "CONSENSUS - social science"
+                             "CONTRACT management"
+                             "CORRESPONDENCE"
+                             "COVID-19"
+                             "CREATIVE ability"
+                             "CREATIVE writing"
+                             "CREDIBILITY"
+                             "CRIME"
+                             "CRISIS communication"
+                             "CRITICAL discourse analysis"
+                             "CULTURE"
+                             "CYBERSECURITY"
+                             "DATA analysis"
+                             "DATA security"
+                             "DATA"
+                             "DATABASES - relational"
+                             "DATAFICATION"
+                             "DEADLOCKS"
+                             "DEFINITIONS"
+                             "DEMOCRACY"
+                             "DEMOCRATIC socialism"
+                             "DEMOCRATIZATION"
+                             "DEVELOPMENT - economic"
+                             "DEVSECOPS"
+                             "DIGITAL communication"
+                             "DIGITAL media"
+                             "DIGITAL technology"
+                             "DISCOVERY - scientific"
+                             "DISINFORMATION"
+                             "ECONOMY"
+                             "EDUCATION - distance"
+                             "EDUCATION - mathematics"
+                             "EDUCATION - programming"
+                             "EFFECTIVENESS"
+                             "EFFICIENCY - energy"
+                             "ELECTIONS"
+                             "ELECTIONS - presidential"
+                             "ELECTRON"
+                             "ENCRYPTION - public-key"
+                             "ENTROPY"
+                             "ETHICS"
+                             "EXECUTIVE Ability"
+                             "EXECUTIVES"
+                             "FAKE news"
+                             "FICTION - science fiction"
+                             "FOCUS"
+                             "FOLLOWER-LEADER"
+                             "FREEDOM - speech"
+                             "FUN"
+                             "GAME - psychology"
+                             "GAME - theory"
+                             "GAMES - video games"
+                             "GATHERING points"
+                             "GENDER"
+                             "GENDER - equality"
+                             "GENERALITY"
+                             "GOVERNMENT forms - parliamentary democracy"
+                             "GRAMMAR"
+                             "GREAT Britain"
+                             "GUIDELINES"
+                             "HISTORY - artificial intelligence"
+                             "HISTORY - computer science"
+                             "HISTORY - laundry"
+                             "HISTORY - lisp programming language"
+                             "HISTORY - victorian england"
+                             "HOAXES"
+                             "HOPPER - grace"
+                             "HUMAN behavior"
+                             "HUMAN beings"
+                             "HUMAN multitasking"
+                             "HUMAN rights"
+                             "HUMANITIES - digital"
+                             "IMAN1"
+                             "IMMUNIZATION"
+                             "IMPROVEMENT - continuous"
+                             "INFLUENCE"
+                             "INFORMATION technology"
+                             "INSTITUTIONS"
+                             "INTEGRATED circuits"
+                             "INTERFACE - message-passing"
+                             "INTERNATIONAL courts"
+                             "INTERNATIONAL relations"
+                             "INTERNET - advertising"
+                             "INTERNET - culture"
+                             "INTERNET - protocol"
+                             "INTERNET - world wide web"
+                             "INVENTIONS"
+                             "JACQUARD loom"
+                             "LAISSEZ-FAIRE"
+                             "LANGUAGE"
+                             "LAW"
+                             "LEADER"
+                             "LEADERSHIP foundations"
+                             "LEADERSHIP model"
+                             "LEADERSHIP style"
+                             "LEADERSHIP"
+                             "LEARNING - informal"
+                             "LEARNING - machine"
+                             "LINUX distribution - debian"
+                             "LINUX distribution - slackware linux"
+                             "LISP machines"
+                             "LITERATURE - romanticism"
+                             "LOGIC - boolean"
+                             "LOGIC - symbolic"
+                             "LOVELACE - ada byron king"
+                             "MACHINERY - textile"
+                             "MANAGEMENT foundations"
+                             "MANAGEMENT model"
+                             "MANAGEMENT styles"
+                             "MANAGEMENT"
+                             "MANAGEMENT - industrial"
+                             "MANAGEMENT - information"
+                             "MANAGEMENT - knowledge"
+                             "MANAGEMENT - personnel"
+                             "MANAGEMENT - software"
+                             "MANAGEMENT - time"
+                             "MASS shootings"
+                             "MATHEMATICS - logic"
+                             "MEDIA - mass"
+                             "METAPHOR"
+                             "MICROTARGETING"
+                             "MIDDLE east"
+                             "MIS"
+                             "MOBILIZATION"
+                             "MODEL - discrete choice"
+                             "MODEL - domain-specific"
+                             "MORGAN - augustus de"
+                             "MULTITHREADING"
+                             "NARRATIVE"
+                             "NONLOCAL PDEs"
+                             "OPEN source firmware"
+                             "OPERATING system - android"
+                             "OPERATING system - apple ios"
+                             "OPERATING system - bsd"
+                             "OPERATING system - cisco ios"
+                             "OPERATING system - gnu/linux"
+                             "OPERATING system - junos"
+                             "OPERATING system - kernel"
+                             "OPERATING system - macos"
+                             "OPERATING system - microsoft dos"
+                             "OPERATING system - microsoft windows"
+                             "OPERATING system - os/2"
+                             "OPERATING system - unix"
+                             "OPERATING systems"
+                             "OPERATING systems - security"
+                             "ORGANIZATION"
+                             "ORGANIZATIONAL behavior"
+                             "ORGANIZATIONAL change"
+                             "ORGANIZATIONAL effectiveness"
+                             "ORGANIZATIONAL sociology"
+                             "PARALLELISM - linguistic"
+                             "PERFORMANCE"
+                             "PERSONALITY"
+                             "PERSUASION"
+                             "PHILOSOPHY of Mind"
+                             "PHILOSOPHY"
+                             "POETRY"
+                             "POLICY"
+                             "POLITICAL advertising"
+                             "POLITICAL campaigns"
+                             "POLITICAL communication"
+                             "POLITICAL community"
+                             "POLITICAL development"
+                             "POLITICAL engagement"
+                             "POLITICAL participation"
+                             "POLITICAL science"
+                             "POLITICAL socialization"
+                             "POLITICAL succession"
+                             "POLITICAL systems"
+                             "POLITICS"
+                             "POLITICS - elite"
+                             "POLITICS - global"
+                             "POLITICS - middle eastern"
+                             "POLITICS - national"
+                             "POPULAR culture"
+                             "POPULAR works"
+                             "POPULISM"
+                             "PORTS"
+                             "POWER sharing"
+                             "POWER"
+                             "PRESIDENT"
+                             "PROBABILITY"
+                             "PRODUCTIVITY"
+                             "PRODUCTIVITY - labor"
+                             "PROGRAMMING language family - lisp"
+                             "PROGRAMMING language - c++"
+                             "PROGRAMMING language - clojure"
+                             "PROGRAMMING language - common lisp"
+                             "PROGRAMMING language - emacs lisp"
+                             "PROGRAMMING language - java"
+                             "PROGRAMMING language - python"
+                             "PROGRAMMING language - rust"
+                             "PROGRAMMING language - scheme"
+                             "PROGRAMMING language - webassembly"
+                             "PROGRAMMING languages"
+                             "PROGRAMMING teams"
+                             "PROGRAMMING - parallelism"
+                             "PSEUDOCODE"
+                             "PSYCHOLOGY"
+                             "PSYCHOLOGY"
+                             "PSYCHOLOGY - cognitive"
+                             "PSYCHOLOGY - social"
+                             "PUBLIC relations"
+                             "PUBLICATIONS"
+                             "QUALIFICATIONS"
+                             "READING - engaged"
+                             "RELATIONSHIPS - professional"
+                             "RESEARCH"
+                             "RESEARCH - publishing"
+                             "SECURITY"
+                             "SECURITY - information"
+                             "SECURITY - software"
+                             "SELECTIVE exposure"
+                             "SELF evaluation"
+                             "SHIPS"
+                             "SOCIAL dominance"
+                             "SOCIAL media"
+                             "SOCIAL networks"
+                             "SOCIAL sciences"
+                             "SOCIOLOGY - industrial"
+                             "SOFTWARE analysis"
+                             "SOFTWARE collaboration"
+                             "SOFTWARE creation"
+                             "SOFTWARE defects"
+                             "SOFTWARE design"
+                             "SOFTWARE development - mobile application"
+                             "SOFTWARE engineering"
+                             "SOFTWARE shells"
+                             "SOFTWARE testing"
+                             "SOFTWARE"
+                             "SOFTWARE - debugging"
+                             "SOFTWARE - free - libre - and open source"
+                             "STATE - failed"
+                             "STATE - fragile"
+                             "STUDY - reproduction"
+                             "SUCCESS"
+                             "SUCCESSION"
+                             "SUPERCOMPUTER"
+                             "SWARMING"
+                             "SYNTAX"
+                             "SYSTEMS software"
+                             "TASK analysis"
+                             "TAXONOMY"
+                             "TECHNOLOGY"
+                             "TECHNOLOGY - sustainable"
+                             "TEXTBOOK"
+                             "TILING"
+                             "TRANSISTORS"
+                             "TWITTER"
+                             "UML"
+                             "UNITED nations"
+                             "UNITED states"
+                             "UNIVERSAL basic income (ubi)"
+                             "VIRTUAL MACHINES"
+                             "VIRTUALIZATION"
+                             "VULNERABILITY"
+                             "WRITING"
+                             "YEMENI civil war 2015"
+                             "YOUTUBE"
+                             "ZETTELKASTEN"
+                             )
   "A list of Keywords I use in my biblatex databases.
 
 This is a DATUM.
@@ -674,17 +674,49 @@ None; Inert Data.")
       ebib-file-associations '()
       ebib-hidden-fields
       '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor"
-      "booksubtitle" "booktitleaddon" "commentator" "edition"
-      "editora" "editorb" "editorc" "eid" "eprint" "eprintclass"
-      "eprinttype" "eventdate" "eventtitle" "foreword" "holder"
-      "howpublished" "introduction" "isrn" "issuesubtitle"
-      "issuetitle" "issuetitleaddon" "journaltitleadddon"
-      "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon"
-      "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
-      "translator" "venue" "version" "volumes")
+        "booksubtitle" "booktitleaddon" "commentator" "edition"
+        "editora" "editorb" "editorc" "eid" "eprint" "eprintclass"
+        "eprinttype" "eventdate" "eventtitle" "foreword" "holder"
+        "howpublished" "introduction" "isrn" "issuesubtitle"
+        "issuetitle" "issuetitleaddon" "journaltitleadddon"
+        "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon"
+        "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
+        "translator" "venue" "version" "volumes")
       ebib-use-timestamp t
       biblio-bibtex-use-autokey t
-      ebib-keywords my-ebib-keywords)
+      ebib-keywords my-ebib-keywords
+      ebib-citation-commands
+      '((latex-mode
+         (("cite" "\\cite%<[%A]%>[%A]{%(%K%,)}")
+          ("nocite" "\\nocite{%(%K%,)}")
+          ("paren" "\\parencite%<[%A]%>[%A]{%(%K%,)}")
+          ("foot" "\\footcite%<[%A]%>[%A]{%(%K%,)}")
+          ("text" "\\textcite%<[%A]%>[%A]{%(%K%,)}")
+          ("smart" "\\smartcite%<[%A]%>[%A]{%(%K%,)}")
+          ("super" "\\supercite{%K}")
+          ("auto" "\\autocite%<[%A]%>[%A]{%(%K%,)}")
+          ("cites" "\\cites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("parens" "\\parencites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("foots" "\\footcites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("texts" "\\textcites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("smarts" "\\smartcites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("supers" "\\supercites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("autos" "\\autoscites%<(%A)%>(%A)%(%<[%A]%>[%A]{%K}%)")
+          ("author" "\\citeauthor%<[%A]%>[%A]{%(%K%,)}")
+          ("title" "\\citetitle%<[%A]%>[%A]{%(%K%,)}")
+          ("year" "\\citeyear%<[%A]%>[%A][%A]{%K}")
+          ("date" "\\citedate%<[%A]%>[%A]{%(%K%,)}")
+          ("full" "\\fullcite%<[%A]%>[%A]{%(%K%,)}")))
+        (org-mode
+         (("ebib" "[[ebib:%K][%D]]")))
+        (markdown-mode
+         (("text" "@%K%< [%A]%>")
+          ("paren" "[%(%<%A %>@%K%<, %A%>%; )]")
+          ("year" "[-@%K%< %A%>]")))
+        (text-mode
+         (("deft-page-citation" "%K%<, p.%A%>")
+          ("deft-timecode-citation" "%K%<, %A%>")
+          ("deft-para-citation" "%K%< \"%A\", para. %A%>")))))
 
 ;;;; SMTP/IMAP
 (setq send-mail-function 'sendmail-send-it
@@ -932,21 +964,21 @@ None; Inert Data.")
 (setq warning-minimum-level :error)
 
 (setq global-mode-string
-        '("♪"
-          emms-mode-line-string
-          emms-playing-time-string
-          " ✪ "
-          display-time-string
-          " ䷡"
-          battery-mode-line-string
-          " ✿"
-          org-mode-line-string)
-	display-time-default-load-average
-	nil
-	display-time-day-and-date
-	't
-	display-time-load-average-threshold
-	10000)
+      '("♪"
+        emms-mode-line-string
+        emms-playing-time-string
+        " ✪ "
+        display-time-string
+        " ䷡"
+        battery-mode-line-string
+        " ✿"
+        org-mode-line-string)
+      display-time-default-load-average
+      nil
+      display-time-day-and-date
+      't
+      display-time-load-average-threshold
+      10000)
 ;;; Zone Mode
 (require 'zone)
 (zone-when-idle 600)
@@ -995,7 +1027,7 @@ None; Inert Data.")
                   "serious-trans-vibes/rss?title_no=206579")
          comic trans)
         (,(concat "https://www.webtoons.com/en/challenge/"
-           "friends-with-benefits/rss?title_no=412808")
+                  "friends-with-benefits/rss?title_no=412808")
          comic trans)
         (,(concat "https://www.webtoons.com/en/challenge/"
                   "transincidental/rss?title_no=605328")
@@ -1256,6 +1288,12 @@ lists."
                                  ?- ?o ?v ?e ?r ?v ?i ?e ?w
                                  return]
                           0 "%d"))
+(fset 'cdr:copy-deft-note-as-comment
+   (kmacro-lambda-form [?\C-x ?h ?\M-w ?\C-x ?o ?\C-m ?- ?- ?- ?-
+   ?- ?- ?- ?- ?- ?- ?- ?- ?- ?\C-m ?\C-p ?\C-m ?\C-u ?\C-y ?- ?-
+   ?- ?- ?- ?- ?- ?- ?- ?- ?- ?- ?- ?\C-m ?\C-p ?\C-a ?\C- ?\C-s
+   ?- ?- ?- ?- ?- ?- ?- ?- ?- ?- ?- ?- ?- ?\C-s ?\C-x ?\C-\;
+   ?\C-x ?o] 0 "%d"))
 
 (defun cdr:hog-it ()
   "Populate a HOG report in my workdesk.org file."
@@ -1345,7 +1383,7 @@ lists."
 (make-variable-buffer-local 'cdr:mode-line-paragraph-number)
 
 (defun cdr:get-paragraph-number ()
-"Get the paragraph number at point.
+  "Get the paragraph number at point.
 
 This is an action.
 
@@ -1366,7 +1404,7 @@ Relies on state of buffer (specifically, the point position."
 
 " (point-min) (point))))
 (defun cdr:update-mode-line-paragraph-number ()
-"Update the buffer-local variable for paragraph number in the mode-line.
+  "Update the buffer-local variable for paragraph number in the mode-line.
 
 This is an ACTION.
 
@@ -1506,7 +1544,7 @@ even beep.)"
   (interactive)
   (save-mark-and-excursion
     (beginning-of-line)
-  (insert-file-contents "~/.emacs.d/templates/scheme-docstring")))
+    (insert-file-contents "~/.emacs.d/templates/scheme-docstring")))
 (defun cdr:templates-insert-apl-docstring ()
   "Inserts an APL docstring comment at the current position."
   (interactive)
@@ -1716,34 +1754,34 @@ value."
 (defun cdr:readme-guix-instructions (project)
   "Templating function for the 'Guix' section of my README.md files."
   (interactive)
-   (concat
-    "*** GNU Guix\n\n"
-    "If You use [[https://guix.gnu.org/][GNU Guix]], this package \n"
-    "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]."
-    "\n\n"
-    "Once You have it "
-    "set up, You can just run:\n\n"
-    "#+begin_src bash\n"
-    "guix pull\n"
-    "guix install "
-    project
-    "\n"
-    "#+end_src\n\n"
-    "If You just want to try it out, You can use Guix Shell instead:\n\n"
-    "#+begin_src bash\n"
-    "guix shell "
-    project
-    " bash --pure\n"
-    "#+end_src\n\n"
-    "And if You'd rather just try it out "
-    "without my channel, You can clone this\nrepo and then do:\n"
-    "#+begin_src bash\n"
-    "cd "
-    project
-    "\nguix shell -f guix.scm bash --pure\n"
-    "#+end_src\n\n"
-    "This'll create a profile with *just* this project in it, "
-    "to mess around with.\n\n"))
+  (concat
+   "*** GNU Guix\n\n"
+   "If You use [[https://guix.gnu.org/][GNU Guix]], this package \n"
+   "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]."
+   "\n\n"
+   "Once You have it "
+   "set up, You can just run:\n\n"
+   "#+begin_src bash\n"
+   "guix pull\n"
+   "guix install "
+   project
+   "\n"
+   "#+end_src\n\n"
+   "If You just want to try it out, You can use Guix Shell instead:\n\n"
+   "#+begin_src bash\n"
+   "guix shell "
+   project
+   " bash --pure\n"
+   "#+end_src\n\n"
+   "And if You'd rather just try it out "
+   "without my channel, You can clone this\nrepo and then do:\n"
+   "#+begin_src bash\n"
+   "cd "
+   project
+   "\nguix shell -f guix.scm bash --pure\n"
+   "#+end_src\n\n"
+   "This'll create a profile with *just* this project in it, "
+   "to mess around with.\n\n"))
 (defun cdr:readme-src-instructions (project &optional type)
   "Templating function for the 'Source' section of my README.md files."
   (interactive)
@@ -1789,14 +1827,14 @@ value."
           "of the source.\n\n"
           "The needed dependencies are tracked in the =DEPENDENCIES.txt= file\n"
           "to support this use case.\n\n"))))
-         
+
 (defun cdr:readme-install-instructions (project &optional type)
   "Templating function for the 'Install' section of my README.md files."
   (interactive)
   (concat
    "** Installation\n"
-  (cdr:readme-guix-instructions project)
-  (cdr:readme-src-instructions project type)))
+   (cdr:readme-guix-instructions project)
+   (cdr:readme-src-instructions project type)))
 (defun cdr:readme-contrib-instructions (project)
   "Templating function for the 'Contributing' section of my README.md files."
   (interactive)
@@ -1925,29 +1963,29 @@ fill column of the resulting string."
                            fill-column)))
         (save-restriction
           (save-excursion
-          (let ((ppss (syntax-ppss))
-                (start (point)))
+            (let ((ppss (syntax-ppss))
+                  (start (point)))
 
-            ;; If we're in a string, then narrow (roughly) to that
-            ;; string before filling.  This avoids filling Lisp
-            ;; statements that follow the string.
-            (when (ppss-string-terminator ppss)
-              ;; (goto-char (ppss-comment-or-string-start ppss))
-              ;; (beginning-of-line)
-              ;; (let (current-position (point))
-              ;; ;; The string may be unterminated -- in that case, don't
-              ;; ;; narrow.
-              ;; (when (ignore-errors
-              ;;         (progn
-              ;;           (forward-sexp 1)
-              ;;           t))
-              ;;   (narrow-to-region (ppss-comment-or-string-start ppss)
-              ;;                     (point))))
-            ;; Move back to where we were.
-            (goto-char start)
-            (fill-paragraph justify)))))
-      ;; Never return nil.
-      t)))
+              ;; If we're in a string, then narrow (roughly) to that
+              ;; string before filling.  This avoids filling Lisp
+              ;; statements that follow the string.
+              (when (ppss-string-terminator ppss)
+                ;; (goto-char (ppss-comment-or-string-start ppss))
+                ;; (beginning-of-line)
+                ;; (let (current-position (point))
+                ;; ;; The string may be unterminated -- in that case, don't
+                ;; ;; narrow.
+                ;; (when (ignore-errors
+                ;;         (progn
+                ;;           (forward-sexp 1)
+                ;;           t))
+                ;;   (narrow-to-region (ppss-comment-or-string-start ppss)
+                ;;                     (point))))
+                ;; Move back to where we were.
+                (goto-char start)
+                (fill-paragraph justify)))))
+        ;; Never return nil.
+        t)))
 ;;; This is here to patch org mode for recent geiser.
 (defun org-babel-scheme-execute-with-geiser (code output impl repl)
   "Execute code in specified REPL.
@@ -2277,7 +2315,7 @@ I/O, Depends on Filesystem and two commands (guix and git)."
         (cd olddir)))))
 
 (defun cdr:generate-shell-command-git-clone-pwd (repo)
-"Generate a command to clone REPO into the current (assumed empty) directory.
+  "Generate a command to clone REPO into the current (assumed empty) directory.
 
 This is a CALCULATION.
 
@@ -2299,7 +2337,7 @@ None."
    " ."))
 
 (defun cdr:get-pwd ()
-"Returns the canonicalized default directory for the current buffer.
+  "Returns the canonicalized default directory for the current buffer.
 
 This is an ACTION.
 
@@ -2330,9 +2368,9 @@ Relies on system state."
   (interactive)
   (let ((bqn-glyphs
 	 '(?× ?÷ ?⋆ ?√ ?⌊ ?⌈ ?¬ ?∧ ?∨ ?≠ ?≤ ?≥ ?≡ ?≢ ?⊣ ?⊢ ?⥊ ?∾ ?≍
-           ?⋈ ?↑ ?↓ ?↕ ?« ?» ?⌽ ?⍉ ?⍋ ?⍒ ?⊏ ?⊑ ?⊐ ?⊒ ?∊ ?⍷ ?⊔ ?˙ ?˜ ?˘ ?¨
-           ?⌜ ?⁼ ?´ ?˝ ?∘ ?○ ?⊸ ?⟜ ?⌾ ?⊘ ?◶ ?⎉ ?⚇ ?⍟ ?⎊ ?𝕨 ?𝕩 ?𝕗 ?𝕘
-           ?𝕤 ?𝕣 ?𝕎 ?𝕏 ?𝔽 ?𝔾 ?𝕊 ?𝕣 ?← ?⇐ ?↩ ?⟨ ?⟩ ?‿ ?· ?⋄)))
+              ?⋈ ?↑ ?↓ ?↕ ?« ?» ?⌽ ?⍉ ?⍋ ?⍒ ?⊏ ?⊑ ?⊐ ?⊒ ?∊ ?⍷ ?⊔ ?˙ ?˜ ?˘ ?¨
+              ?⌜ ?⁼ ?´ ?˝ ?∘ ?○ ?⊸ ?⟜ ?⌾ ?⊘ ?◶ ?⎉ ?⚇ ?⍟ ?⎊ ?𝕨 ?𝕩 ?𝕗 ?𝕘
+              ?𝕤 ?𝕣 ?𝕎 ?𝕏 ?𝔽 ?𝔾 ?𝕊 ?𝕣 ?← ?⇐ ?↩ ?⟨ ?⟩ ?‿ ?· ?⋄)))
     (mapc (lambda (x)
             "Set Font of Character to BQN386 Unicode."
             (set-fontset-font t x (font-spec :family "BQN386 Unicode")))
@@ -2515,6 +2553,7 @@ Relies on system state."
 (define-key imperative-map (kbd "C-n") #'orgy-cm-step-next)
 (define-key imperative-map (kbd "c") #'whitespace-cleanup)
 (define-key imperative-map (kbd "w") #'whitespace-report)
+(define-key imperative-map (kbd "C-w") #'cdr:copy-deft-note-as-comment)
 (define-key imperative-map (kbd "p") #'cdr:prep-latex-for-copy)
 (define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
 (define-key imperative-map (kbd "f") #'fill-buffer)
@@ -2539,17 +2578,17 @@ Relies on system state."
 
 ;;; Function (Major Modes)
 
-;(global-set-key (kbd "<f1>") nil) ; Help prefix
-;(global-set-key (kbd "<f2>") nil) ; 2 Column prefix
-;(global-set-key (kbd "<f3>") nil) ; Define Macros
-;(global-set-key (kbd "<f4>") nil) ; Run Macro
+                                        ;(global-set-key (kbd "<f1>") nil) ; Help prefix
+                                        ;(global-set-key (kbd "<f2>") nil) ; 2 Column prefix
+                                        ;(global-set-key (kbd "<f3>") nil) ; Define Macros
+                                        ;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
 (global-set-key (kbd "<f7>") 'deft)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
-; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
-; (global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
+                                        ; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
+                                        ; (global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
 (global-set-key (kbd "<f12>") 'mu4e)
 
 ;;; Ctrl Function (Maps)
@@ -2600,14 +2639,14 @@ Relies on system state."
 (global-set-key (kbd "s-f") 'display-fill-column-indicator-mode)
 (global-set-key (kbd "s-g") 'cdr:run-genpro-and-update)
 ;; (global-set-key (kbd "s-h") nil) ; GNOME ?
- (global-set-key (kbd "s-j") nil)
- (global-set-key (kbd "s-k") nil)
+(global-set-key (kbd "s-j") nil)
+(global-set-key (kbd "s-k") nil)
 ;; (global-set-key (kbd "s-l") nil) ; GNOME Lock Screen
- (global-set-key (kbd "s-z") nil)
- (global-set-key (kbd "s-x") nil)
+(global-set-key (kbd "s-z") nil)
+(global-set-key (kbd "s-x") nil)
 (global-set-key (kbd "s-c") 'copy-unfilled-subtree)
 ;; (global-set-key (kbd "s-v") nil) ; GNOME Show Notifications
- (global-set-key (kbd "s-b") nil)
+(global-set-key (kbd "s-b") nil)
 ;; (global-set-key (kbd "s-n") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-m") nil) ; GNOME ?
 (global-set-key (kbd "s-;") 'projectile-mode)
@@ -2638,18 +2677,18 @@ Relies on system state."
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
 
-;;; Pseudocode Mode
-(setq cdr:pseudocode-function-name-regexp
+;;; Pseudotaxus Mode
+(setq cdr:pseudotaxus-function-name-regexp
       "\\[.*\\S .*\\]")
-(setq cdr:pseudocode-variable-name-regexp
+(setq cdr:pseudotaxus-variable-name-regexp
       "\\([[:upper:]]\\w*\\)\\([[:punct:]]\\|[[:space:]]\\|$\\)")
-(setq cdr:pseudocode-preprocessor-regexp
+(setq cdr:pseudotaxus-preprocessor-regexp
       "`.+`")
-(setq cdr:pseudocode-constants-regexp
+(setq cdr:pseudotaxus-constants-regexp
       (concat "\\(true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|"
               "success\\|failure\\|succeeds\\|fails\\|found\\|newline\\|"
               "beep\\|indent\\|user\\|screen\\|system\\)"))
-(setq cdr:pseudocode-types-regexp
+(setq cdr:pseudotaxus-types-regexp
       (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|"
               "list\\|array\\|sequence\\|every\\|each\\|member\\|index\\|"
               "nothing\\|maybe\\|"
@@ -2659,43 +2698,43 @@ Relies on system state."
               "difference\\|product\\|quotient\\|remainder\\|value\\|name\\|"
               "result\\|message\\|field\\|an?\\|the\\)"
               "\\(ish\\|-like\\|esque\\|s\\)?"))
-(setq cdr:pseudocode-operators-regexp
+(setq cdr:pseudotaxus-operators-regexp
       (regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯"
-                     "≮" "≥" "≤" "≠" "less than" "more than" "greater than"
-                     "equal to" "different than" "different from" "¬" "⊻"
-                     "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive"
-                     "->" "<-" "→" "←" "fed" "right" "left"
-                     "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times"
-                     "divided by" "modulo" "add" "subtract" "multiply"
-                     "divide" "take the remainder of" "raised to the"
-                     "power" "squared" "cubed" "root" "square" "cube")
+                    "≮" "≥" "≤" "≠" "less than" "more than" "greater than"
+                    "equal to" "different than" "different from" "¬" "⊻"
+                    "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive"
+                    "->" "<-" "→" "←" "fed" "right" "left"
+                    "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times"
+                    "divided by" "modulo" "add" "subtract" "multiply"
+                    "divide" "take the remainder of" "raised to the"
+                    "power" "squared" "cubed" "root" "square" "cube")
                   'symbols))
-(setq cdr:pseudocode-keywords-regexp
+(setq cdr:pseudotaxus-keywords-regexp
       (regexp-opt
        '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy" "print"
-      "display" "show" "save" "return" "compute" "calculate" "determine"
-      "append" "over" "set" "initialize" "init" "let" "is" "has" "contains"
-      "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "when"
-      "unless" "while" "done" "endwhile" "do" "case" "of" "others" "endcase"
-      "repeat" "until" "for" "endfor" "call" "exception" "as" "recurse" "this"
-      "that" "except" "in" "at" "including" "convert" "wrap" "ensure" "cast"
-      "expecting" "expect")
-                  'symbols))
-(setq cdr:pseudocode-algorithms-regexp
+         "display" "show" "save" "return" "compute" "calculate" "determine"
+         "append" "over" "set" "initialize" "init" "let" "is" "has" "contains"
+         "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "when"
+         "unless" "while" "done" "endwhile" "do" "case" "of" "others" "endcase"
+         "repeat" "until" "for" "endfor" "call" "exception" "as" "recurse" "this"
+         "that" "except" "in" "at" "including" "convert" "wrap" "ensure" "cast"
+         "expecting" "expect")
+       'symbols))
+(setq cdr:pseudotaxus-algorithms-regexp
       (regexp-opt
-      '("sum" "difference" "product" "quotient" "remainder" "modulus" "sign"
-      "reciprocal" "magnitude" "logarithm" "average" "mean" "median" "mode"
-      "range" "max" "maximum" "min" "minimum" "maxima" "minima" "ceiling"
-      "floor" "sort" "reverse" "search" "find" "filter in" "filter out"
-      "grade up" "grade down" "scan" "map" "reduce" "expand" "replicate")
-                  'symbols))
-(setq cdr:pseudocode-string-regexp
+       '("sum" "difference" "product" "quotient" "remainder" "modulus" "sign"
+         "reciprocal" "magnitude" "logarithm" "average" "mean" "median" "mode"
+         "range" "max" "maximum" "min" "minimum" "maxima" "minima" "ceiling"
+         "floor" "sort" "reverse" "search" "find" "filter in" "filter out"
+         "grade up" "grade down" "scan" "map" "reduce" "expand" "replicate")
+       'symbols))
+(setq cdr:pseudotaxus-string-regexp
       "\\('.*'\\|\\\".*\\\"\\)")
-(setq cdr:pseudocode-special-types-regexp
+(setq cdr:pseudotaxus-special-types-regexp
       (regexp-opt '("truthy" "falsey") 'symbols))
-(setq cdr:pseudocode-special-operator-regexp
+(setq cdr:pseudotaxus-special-operator-regexp
       "!=\\|!<\\|!>\\|\\^\\|\\*\\|take the remainder of\\|raised to\\|resulting in")
-(setq cdr:pseudocode-numeric-ordinals-regexp
+(setq cdr:pseudotaxus-numeric-ordinals-regexp
       (concat
        "first\\|second\\|third\\|fourth\\|fifth\\|sixth\\|seventh\\|eighth\\|"
        "ninth\\|tenth\\|eleventh\\|twelfth\\|thirteenth\\|fourteenth\\|"
@@ -2705,7 +2744,7 @@ Relies on system state."
        "millionth\\|billionth\\|trillionth\\|quadrillionth\\|"
        "quintillionth\\|sextillionth\\|septillionth\\|octillionth\\|"
        "nonillionth\\|decillionth\\|undecillionth\\|duodecillionth"))
-(setq cdr:pseudocode-numeric-words-regexp
+(setq cdr:pseudotaxus-numeric-words-regexp
       (concat
        "one\\|two\\|three\\|four\\|five\\|six\\|seven\\|eight\\|nine\\|ten\\|eleven\\|"
        "twelve\\|thirteen\\|fourteen\\|fifteen\\|sixteen\\|seventeen\\|"
@@ -2714,28 +2753,28 @@ Relies on system state."
        "quadrillion\\|quintillion\\|sextillion\\|septillion\\|octillion\\|"
        "nonillion\\|decillion\\|undecillion\\|duodecillion\\|googol\\|centillion"))      
 (define-generic-mode
-    'pseudocode-mode
+    'pseudotaxus-mode
                                         ; Comments
   '(";" "#" "//" ("/*" . "*/"))
                                         ; Keywords
   '()
-  `((,cdr:pseudocode-string-regexp . 'font-lock-string-face)
-    (,cdr:pseudocode-function-name-regexp . 'font-lock-function-name-face)
-    (,cdr:pseudocode-variable-name-regexp . 'font-lock-variable-name-face)
-    (,cdr:pseudocode-preprocessor-regexp . 'font-lock-preprocessor-face)
-    (,cdr:pseudocode-special-types-regexp . 'font-lock-type-face)
-    (,cdr:pseudocode-special-operator-regexp . 'font-lock-builtin-face)
-    (,cdr:pseudocode-algorithms-regexp . 'font-lock-function-name-face)
-    (,cdr:pseudocode-constants-regexp . 'font-lock-constant-face)
-    (,cdr:pseudocode-operators-regexp . 'font-lock-builtin-face)
-    (,cdr:pseudocode-keywords-regexp . 'font-lock-keyword-face)
-    (,cdr:pseudocode-types-regexp . 'font-lock-type-face)
-    (,cdr:pseudocode-numeric-words-regexp . 'font-lock-number-face)
-    (,cdr:pseudocode-numeric-ordinals-regexp . 'font-lock-number-face))
-  '("\\.pseudo$")
+  `((,cdr:pseudotaxus-string-regexp . 'font-lock-string-face)
+    (,cdr:pseudotaxus-function-name-regexp . 'font-lock-function-name-face)
+    (,cdr:pseudotaxus-variable-name-regexp . 'font-lock-variable-name-face)
+    (,cdr:pseudotaxus-preprocessor-regexp . 'font-lock-preprocessor-face)
+    (,cdr:pseudotaxus-special-types-regexp . 'font-lock-type-face)
+    (,cdr:pseudotaxus-special-operator-regexp . 'font-lock-builtin-face)
+    (,cdr:pseudotaxus-algorithms-regexp . 'font-lock-function-name-face)
+    (,cdr:pseudotaxus-constants-regexp . 'font-lock-constant-face)
+    (,cdr:pseudotaxus-operators-regexp . 'font-lock-builtin-face)
+    (,cdr:pseudotaxus-keywords-regexp . 'font-lock-keyword-face)
+    (,cdr:pseudotaxus-types-regexp . 'font-lock-type-face)
+    (,cdr:pseudotaxus-numeric-words-regexp . 'font-lock-number-face)
+    (,cdr:pseudotaxus-numeric-ordinals-regexp . 'font-lock-number-face))
+  '("\\.pseudo$" "\\.taxus$")
   nil
-  "A mode for editing a somewhat-standard version of pseudocode.")
-;;; End Pseudocode Mode
+  "A mode for editing Pseudotaxus files.")
+;;; End Pseudotaxus Mode
 
 ;;; Last Minute Settings
 ;;;; BQN glyphs
@@ -2795,33 +2834,33 @@ Relies on system state."
   "Fallback Face Using GNU Unifont.")
 
 (setq cdr:fonts-freemono (font-spec
- :family "FreeMono"
- :weight 'normal
- :slant 'normal
- :width 'normal
- :foundry "GNU" ; symbol or string representing foundry, 'misc'
- :adstyle "mono" ; additional style information, 'sans'
- :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
- :size 10 ; integers are pixels, floats are points.
- :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
- :name "FreeMono" ; fontconfig-style name
- :script 'latin ; look in script-representative-chars
- :lang  'en ; ISO639 codes, 'ja' or 'en'
- ))
+                          :family "FreeMono"
+                          :weight 'normal
+                          :slant 'normal
+                          :width 'normal
+                          :foundry "GNU" ; symbol or string representing foundry, 'misc'
+                          :adstyle "mono" ; additional style information, 'sans'
+                          :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
+                          :size 10 ; integers are pixels, floats are points.
+                          :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
+                          :name "FreeMono" ; fontconfig-style name
+                          :script 'latin ; look in script-representative-chars
+                          :lang  'en ; ISO639 codes, 'ja' or 'en'
+                          ))
 (setq cdr:fonts-unifont (font-spec
- :family "Unifont"
- :weight 'normal
- :slant 'normal
- :width 'normal
- :foundry "GNU" ; symbol or string representing foundry, 'misc'
- :adstyle "mono" ; additional style information, 'sans'
- :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
- :size 9 ; integers are pixels, floats are points.
- :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
- :name "Unifont" ; fontconfig-style name
- :script 'unicode ; look in script-representative-chars
- :lang  'en ; ISO639 codes, 'ja' or 'en'
- ))
+                         :family "Unifont"
+                         :weight 'normal
+                         :slant 'normal
+                         :width 'normal
+                         :foundry "GNU" ; symbol or string representing foundry, 'misc'
+                         :adstyle "mono" ; additional style information, 'sans'
+                         :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
+                         :size 9 ; integers are pixels, floats are points.
+                         :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
+                         :name "Unifont" ; fontconfig-style name
+                         :script 'unicode ; look in script-representative-chars
+                         :lang  'en ; ISO639 codes, 'ja' or 'en'
+                         ))
 
 ;; Local Variables:
 ;; mode: emacs-lisp
