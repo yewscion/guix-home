@@ -82,8 +82,12 @@
     (simple-service 'my-cron-jobs
                     mcron-service-type
                     (list updatedb-job))
-    (extra-special-file "/etc/test"
-                        (local-file "/etc/config.scm"))
+    (extra-special-file "/etc/clamd.conf"
+                        (local-file "dotfiles/clamav-clamd.conf"))
+    (extra-special-file "/etc/freshclam.conf"
+                        (local-file "dotfiles/clamav-freshclam.conf"))
+    (extra-special-file "/etc/clamav-milter.conf"
+                        (local-file "dotfiles/clamav-clamav-milter.conf"))
     (set-xorg-configuration
      (xorg-configuration
       (keyboard-layout %my-keyboard-layout)))
@@ -113,6 +117,7 @@
         "borg"
         "brightnessctl"
         "btrfs-progs"
+        "clamav"
         "coreutils"
         "curl"
         "dfc"
@@ -222,9 +227,18 @@
                  (home-directory "/home/git")
                  (comment "For Use With Git")
                  (system? #t))
+                (user-account
+                 (name "clamav")
+                 (group "clamav")
+                 (home-directory "/home/clamav")
+                 (comment "For Use With ClamAV")
+                 (system? #t))
                 %base-user-accounts))
   (groups (cons* (user-group
                   (name "git")
+                  (system? #t))
+                 (user-group
+                  (name "clamav")
                   (system? #t))
                  %base-groups))
   (packages
