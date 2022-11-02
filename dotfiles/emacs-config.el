@@ -2761,6 +2761,7 @@ current datetime."
 (cdr:set-variable-from-shell "HOME")
 (cdr:set-variable-from-shell "PATH")
 (cdr:set-variable-from-shell "CLASSPATH")
+(cdr:set-variable-from-shell "PYTHONPYCACHEPREFIX")
 (setq exec-path (split-string (getenv "PATH") path-separator))
 
 (pdf-loader-install)

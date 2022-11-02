@@ -348,7 +348,8 @@
 	     ("CLASSPATH" . "$GUIX_PROFILE/share/java")
              ("NVM_DIR" . "$HOME/.config/nvm")
              ("CARP_DIR" . "$GUIX_PROFILE/share/carp")
-             ("APL_LIB_ROOT" . "$HOME/Documents/apl-libs")))
+             ("APL_LIB_ROOT" . "$HOME/Documents/apl-libs")
+             ("PYTHONPYCACHEPREFIX" . "/tmp")))
           (guix-defaults? #t)
           (package bash)))
         (simple-service 'my-extensions
