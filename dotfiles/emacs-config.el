@@ -948,24 +948,42 @@ None; Inert Data.")
 (guru-global-mode 1)
 (global-disable-mouse-mode)
 (display-battery-mode)
+(setq cdr:fonts-freemono (font-spec
+                          :family "FreeMono"
+                          :weight 'normal
+                          :slant 'normal
+                          :width 'normal
+                          :foundry "GNU" ; symbol or string representing foundry, 'misc'
+                          :size 13 ; integers are pixels, floats are points.
+                          :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
+                          :name "FreeMono" ; fontconfig-style name
+                          :script 'latin ; look in script-representative-chars
+                          :lang  'en ; ISO639 codes, 'ja' or 'en'
+                          ))
+(setq cdr:fonts-unifont (font-spec
+                         :family "Unifont"
+                         :weight 'normal
+                         :slant 'normal
+                         :width 'normal
+                         :foundry "GNU" ; symbol or string representing foundry, 'misc'
+                         :size 12.0 ; integers are pixels, floats are points.
+                         :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
+                         :name "Unifont" ; fontconfig-style name
+                         :script 'unicode ; look in script-representative-chars
+                         :lang  'en ; ISO639 codes, 'ja' or 'en'
+                         ))
 (set-face-attribute 'default nil
-                    :family "FreeMono"
-                    :height 110
-                    :weight 'normal
-                    :width 'normal)
+                    :font cdr:fonts-freemono)
 (set-face-attribute 'fixed-pitch nil
-                    :family "FreeMono"
-                    :height 110
-                    :weight 'normal
-                    :width 'normal)
+                    :font cdr:fonts-freemono)
 (set-face-attribute 'header-line nil
                     :background "#808080"
                     :foreground "#333333"
-                    :family "unifont")
+                    :font cdr:fonts-unifont)
 (set-face-attribute 'mode-line nil
                     :background "#212931"
                     :foreground "#eeeeec"
-                    :family "unifont")
+                    :font cdr:fonts-unifont)
 (set-face-attribute 'org-mode-line-clock nil
                     :inherit 'header-line)
 (set-face-attribute 'term-color-black nil
