@@ -45,17 +45,21 @@
                 ".stm" ".stx" ".ult" ".apun" ".xm" ".mod" ".MOD"))
   "xmp" "-q")
 (define-emms-simple-player adlmidi '(file)
-  (regexp-opt '(".mid"))
-  "adlmidi-wrapper" "-nl")
+  (regexp-opt '(".mid"
+                ".midi"))
+  "adlmidi-wrapper" "-t" "-v" "-fp" "-frb" "-nl" "-vm 5" "--emu-dosbox" "65")
 (setq emms-source-file-default-directory
       "~/Music/"
-
+      ;; emms-player-list
+      ;; '(emms-player-mpv
+      ;;   emms-player-mikmod
+      ;;   emms-player-xmp
+      ;;   emms-player-adlmidi
+      ;;   emms-player-timidity) ; Reverse Order of Precedence
       emms-player-list
-      '(emms-player-mpv
+      '(emms-player-adlmidi
         emms-player-mikmod
-        emms-player-adlmidi
-        emms-player-xmp
-        emms-player-timidity) ; Reverse Order of Precedence
+        emms-player-mpv) ; Order of Precedence
 
       emms-player-timidity-command-name
       "timidity"
@@ -2656,6 +2660,9 @@ Relies on system state."
 (global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
 (global-set-key (kbd "<XF86AudioNext>") 'emms-next)
 (global-set-key (kbd "<XF86AudioPlay>") 'emms-pause)
+
+(global-set-key (kbd "C-<XF86AudioPlay>") 'emms-stop)
+
 (global-set-key (kbd "M-<XF86AudioPlay>") 'emms-shuffle)
 (global-set-key (kbd "M-s-<XF86AudioPlay>") (lambda () (interactive)
                                               (emms-play-directory
