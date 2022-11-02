@@ -82,11 +82,11 @@
     (simple-service 'my-cron-jobs
                     mcron-service-type
                     (list updatedb-job))
-    (extra-special-file "/etc/clamd.conf"
+    (extra-special-file "/etc/clamav/clamd.conf"
                         (local-file "dotfiles/clamav-clamd.conf"))
-    (extra-special-file "/etc/freshclam.conf"
+    (extra-special-file "/etc/clamav/freshclam.conf"
                         (local-file "dotfiles/clamav-freshclam.conf"))
-    (extra-special-file "/etc/clamav-milter.conf"
+    (extra-special-file "/etc/clamav/clamav-milter.conf"
                         (local-file "dotfiles/clamav-clamav-milter.conf"))
     (set-xorg-configuration
      (xorg-configuration
