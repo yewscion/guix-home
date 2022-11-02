@@ -22,7 +22,6 @@
   (help format "info")
   (pull ff "true")
   (push followTags "true")
-  (push negotiate "true")
   (rebase stat "true")
   (status short "true")
   (status branch "true")
@@ -31,5 +30,4 @@
   (tag forceSignAnnotated "true")
   (web browser "icecat")
   (tag gpgSign "true")
-  (remotes primary "gorse sourcehut")
   (sendemail from "Christopher Rodriguez <yewscion@gmail.com>"))
