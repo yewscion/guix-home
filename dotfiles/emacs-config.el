@@ -720,7 +720,44 @@ None; Inert Data.")
         (text-mode
          (("deft-page-citation" "%K%<, p.%A%>")
           ("deft-timecode-citation" "%K%<, %A%>")
-          ("deft-para-citation" "%K%< \"%A\", para. %A%>")))))
+          ("deft-para-citation" "%K%< \"%A\", para. %A%>"))))
+      font-latex-user-keyword-classes
+      '(("cdr:minted"
+         (("mintinline" "{{")
+          ("inputminted" "[{{"))
+         font-lock-type-face command)
+        ("cdr:enquote"
+         (("enquote" "{"))
+         font-lock-doc-face command)
+        ("cdr:cref"
+         (("cref" "*{")
+          ("Cref" "*{")
+          ("crefrange" "*{{")
+          ("Crefrange" "*{{")
+          ("cpageref" "{")
+          ("Cpageref" "{")
+          ("cpagerefrange" "{{")
+          ("Cpagerefrange" "{{")
+          ("namecref" "{")
+          ("nameCref" "{")
+          ("lcnamecref" "{")
+          ("namecrefs" "{")
+          ("nameCrefs" "{")
+          ("lcnamecrefs" "{")
+          ("labelcref" "{")
+          ("labelcpageref" "{"))
+         font-lock-constant-face command)
+        ("cdr:dots"
+         ("dots")
+         font-latex-sedate-face noarg)
+        ("cdr:hyperref-stuff"
+         (("hlabel" "{")
+          ("href" "{{")
+          ("url" "{"))
+         font-lock-constant-face command)
+        ("cdr:spacing"
+         ("singlespacing" "doublespacing" "one-half-spacing")
+         font-lock-warning-face noarg)))
 
 ;;;; SMTP/IMAP
 (setq send-mail-function 'sendmail-send-it
