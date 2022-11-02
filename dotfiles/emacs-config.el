@@ -2869,43 +2869,6 @@ Relies on system state."
       (car item)
     item))
 
-(defface unifont-fallback-face
-  '((t :family "unifont"))
-  "Fallback Face Using GNU Unifont.")
-
-(defface cjk-face
-  '((t :family "unifont"))
-  "Fallback Face Using GNU Unifont.")
-
-(setq cdr:fonts-freemono (font-spec
-                          :family "FreeMono"
-                          :weight 'normal
-                          :slant 'normal
-                          :width 'normal
-                          :foundry "GNU" ; symbol or string representing foundry, 'misc'
-                          :adstyle "mono" ; additional style information, 'sans'
-                          :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
-                          :size 10 ; integers are pixels, floats are points.
-                          :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
-                          :name "FreeMono" ; fontconfig-style name
-                          :script 'latin ; look in script-representative-chars
-                          :lang  'en ; ISO639 codes, 'ja' or 'en'
-                          ))
-(setq cdr:fonts-unifont (font-spec
-                         :family "Unifont"
-                         :weight 'normal
-                         :slant 'normal
-                         :width 'normal
-                         :foundry "GNU" ; symbol or string representing foundry, 'misc'
-                         :adstyle "mono" ; additional style information, 'sans'
-                         :registry "fontset-cdr fontset" ; charset registry and encoding, 'iso8859-1'
-                         :size 9 ; integers are pixels, floats are points.
-                         :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
-                         :name "Unifont" ; fontconfig-style name
-                         :script 'unicode ; look in script-representative-chars
-                         :lang  'en ; ISO639 codes, 'ja' or 'en'
-                         ))
-
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
