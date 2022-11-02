@@ -2413,6 +2413,33 @@ Impurities
 Relies on system state."
   (expand-file-name
    default-directory))
+(defun cdr:make-daily-journal-entry ()
+"Create a new daily entry in my org-journal, with the current
+template inserted and default encryption set up for my GPG key.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+A <string> representing the resulting contents of the day's
+journal file.
+
+Impurities
+==========
+Creates/Opens a buffer, inserts contents of file on disk, uses
+current datetime."
+  (interactive)
+  (org-journal-new-entry nil)
+  (setq-local epa-file-encrypt-to '("1102102EBE7C3AE4"))
+  (insert "\n")
+  (insert-file-contents (concat (getenv "HOME")
+                                "/.emacs.d/templates/journal-entry.org"))
+  (buffer-substring-no-properties (point-min) (point-max)))
+
 
 ;; Without this `mail-user-agent' cannot be set to `mu4e-user-agent'
 ;; through customize, as the custom type expects a function.  Not
@@ -2618,6 +2645,7 @@ Relies on system state."
 (define-key imperative-map (kbd "f") #'fill-buffer)
 (define-key imperative-map (kbd "v") #'add-file-local-variable)
 (define-key imperative-map (kbd "d") #'make-directory)
+(define-key imperative-map (kbd "j") #'cdr:make-daily-journal-entry)
 
 ;;; Transform Map <F2>
 (define-key transform-map (kbd "C-r") #'replace-regexp)
