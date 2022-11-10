@@ -47,7 +47,7 @@
 (define-emms-simple-player adlmidi '(file)
   (regexp-opt '(".mid"
                 ".midi"))
-  "adlmidi-wrapper" "-t" "-v" "-fp" "-frb" "-nl" "-vm 5" "--emu-dosbox" "65")
+  "adlmidi-wrapper" "--" "-t" "-v" "-fp" "-frb" "-nl" "-vm 5" "--emu-dosbox" "65")
 (setq emms-source-file-default-directory
       "~/Music/"
       ;; emms-player-list
