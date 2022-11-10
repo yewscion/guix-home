@@ -4,6 +4,7 @@
 (require :battery-portable)
 (require :screenshot)
 (require :uiop)
+
 ;; These are lifted right from the example.
 ;;;
 ;;; Set our prefix key.
@@ -154,6 +155,7 @@ otherwise."
 
 ;;; Starup Common Programs
 (stumpwm:run-commands
+ "exec --no-startup-id fcitx5 -d"
  "exec pulseaudio --start"
  "exec icecat"
  "exec urxvt"
