@@ -14,13 +14,10 @@
              (guix modules)
              (cdr255 kernel)
              (gnu packages linux))
-
-(use-service-modules admin avahi base databases desktop docker games mail mcron
-                     networking sddm ssh virtualization web xorg)
-
-(use-package-modules admin certs databases emacs games package-management ssh
-                     tls version-control xdisorg )
-
+(use-service-modules admin avahi base databases desktop docker games mail
+                     mcron networking sddm ssh virtualization web xorg)
+(use-package-modules admin certs databases emacs games package-management
+                     ssh tls version-control xdisorg )
 (define %ming-pubkey
   (plain-file "ming_id.pub"
               (string-append "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDvbir"
@@ -66,7 +63,6 @@
 (define %my-service-addons
   (append
    (list
-    ;(service gnome-desktop-service-type)
     (service openssh-service-type
              (openssh-configuration
               (password-authentication? #f)
@@ -117,162 +113,97 @@
        (append (list (local-file "/etc/cdr255/frostpine.pub"))
                %default-authorized-guix-keys))))))
 (define %my-packages
-  (list "b3sum"
-        "bash"
-        "borg"
-        "brightnessctl"
-        "btrfs-progs"
-        "clamav"
-        "coreutils"
-        "curl"
-        "dfc"
-        "dmidecode"
-        "docker"
-        "dosfstools"
-        "efibootmgr"
-        "emacs"
-        "erofs-utils"
-        "espeak-ng"
-        "exa"
-        "exfat-utils"
-        "exfatprogs"
-        "expect"
-        "extundelete"
-        "file"
-        "font-gnu-freefont"
-        "font-gnu-unifont"
-        "font-tex-gyre"
-        "gash"
-        "ghostscript"
-        "git"
-        "glibc-locales"
-        "gnupg"
-        "gparted"
-        "grep"
-        "guile"
-        "gv"
-        "icecat"
-        "le-certs"
-        "libvirt"
-        "links"
-        "lxc"
-        "mc"
-        "msmtp"
-        "mu"
-        "ncdu"
-        "ncurses"
-        "netcat"
-        "nmap"
-        "nss-certs"
-        "openjdk"
-        "openssh"
-        "openssl"
-        "pinentry-emacs"
-        "postgresql"
-        "qemu"
-        "ripgrep"
-        "rsync"
-        "rxvt-unicode"
-        "sbcl-stumpwm-battery-portable"
-        "sbcl-stumpwm-screenshot"
-        "sbcl-zpng"
-        "sed"
-        "sedsed"
-        "setxkbmap"
-        "shepherd"
-        "sshfs"
-        "sshpass"
-        "stumpwm"
-        "stumpwm:lib"
-        "telescope"
-        "texinfo"
-        "the-silver-searcher"
-        "transmission"
-        "tree"
-        "unzip"
-        "which"
-        "wordnet"
-        "xapian"
-        "xdg-utils"
-        "xdotool"
-        "xdpyprobe"
-        "xkeyboard-config@2.36"
-        "xorg-server-xwayland"
-        "xrdb"
-        "zenity"
-        "zutils"))
+  (list "b3sum" "bash" "borg" "brightnessctl" "btrfs-progs" "clamav"
+  "coreutils" "curl" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr"
+  "emacs" "erofs-utils" "espeak-ng" "exa" "exfat-utils" "exfatprogs"
+  "expect" "extundelete" "fcitx5" "fcitx5-anthy" "fcitx5-chinese-addons"
+  "fcitx5-configtool" "fcitx5-gtk" "fcitx5-gtk:gtk2" "fcitx5-gtk:gtk3"
+  "fcitx5-gtk4" "fcitx5-lua" "fcitx5-material-color-theme" "fcitx5-qt"
+  "fcitx5-rime" "file" "font-gnu-freefont" "font-gnu-unifont"
+  "font-tex-gyre" "gash" "ghostscript" "git" "glibc-locales" "gnupg"
+  "gparted" "grep" "guile" "gv" "icecat" "le-certs" "libvirt" "links" "lxc"
+  "mc" "msmtp" "mu" "ncdu" "ncurses" "netcat" "nmap" "nss-certs" "openjdk"
+  "openssh" "openssl" "pinentry-emacs" "postgresql" "qemu" "ripgrep"
+  "rsync" "rxvt-unicode" "sbcl" "sbcl-deploy" "sbcl-esrap" "sbcl-ironclad"
+  "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
+  "sbcl-stumpwm-screenshot" "sbcl-zpng" "sed" "sedsed" "setxkbmap"
+  "shepherd" "sshfs" "sshpass" "stumpish" "stumpwm" "stumpwm:lib"
+  "telescope" "texinfo" "the-silver-searcher" "transmission" "tree" "unzip"
+  "which" "wordnet" "xapian" "xdg-utils" "xdotool" "xdpyprobe"
+  "xkeyboard-config@2.36" "xorg-server-xwayland" "xrdb" "zenity"
+  "zutils"))
 (define %my-firmware
   (list "ath9k-htc-firmware"))
 (define %my-kernel-modules
   (list librem-ec-acpi-linux-module))
 (define %my-kernel-arguments
-  (append (list
-           "panic=30"
-           "splash")
+  (append (list "panic=30"
+                "splash")
           %default-kernel-arguments))
 (operating-system
-  (kernel linux-libre-jory)
-  (firmware %my-firmware)
-  (kernel-loadable-modules %my-kernel-modules)
-  (kernel-arguments %my-kernel-arguments)
-  (locale "en_US.utf8")
-  (timezone "America/New_York")
-  (keyboard-layout %my-keyboard-layout)
-  (host-name "jory")
-  (users (cons* (user-account
-                 (name "ming")
-                 (comment "Christopher Rodriguez")
-                 (group "users")
-                 (home-directory "/home/ming")
-                 (supplementary-groups
-                  '("wheel" "netdev" "audio" "video" "docker" "libvirt" "kvm")))
-                (user-account
+ (kernel linux-libre-jory)
+ (firmware %my-firmware)
+ (kernel-loadable-modules %my-kernel-modules)
+ (kernel-arguments %my-kernel-arguments)
+ (locale "en_US.utf8")
+ (timezone "America/New_York")
+ (keyboard-layout %my-keyboard-layout)
+ (host-name "jory")
+ (users (cons* (user-account
+                (name "ming")
+                (comment "Christopher Rodriguez")
+                (group "users")
+                (home-directory "/home/ming")
+                (supplementary-groups
+                 '("wheel" "netdev" "audio" "video"
+                   "docker" "libvirt" "kvm")))
+               (user-account
+                (name "git")
+                (group "git")
+                (home-directory "/home/git")
+                (comment "For Use With Git")
+                (system? #t))
+               (user-account
+                (name "clamav")
+                (group "clamav")
+                (home-directory "/home/clamav")
+                (comment "For Use With ClamAV")
+                (system? #t))
+               %base-user-accounts))
+ (groups (cons* (user-group
                  (name "git")
-                 (group "git")
-                 (home-directory "/home/git")
-                 (comment "For Use With Git")
                  (system? #t))
-                (user-account
+                (user-group
                  (name "clamav")
-                 (group "clamav")
-                 (home-directory "/home/clamav")
-                 (comment "For Use With ClamAV")
                  (system? #t))
-                %base-user-accounts))
-  (groups (cons* (user-group
-                  (name "git")
-                  (system? #t))
-                 (user-group
-                  (name "clamav")
-                  (system? #t))
-                 %base-groups))
-  (packages
-   (append
-    (map (compose list specification->package+output)
-         %my-packages)
-    %base-packages))
-  (services
-   %my-services)
-  (bootloader
-   (bootloader-configuration
-    (bootloader grub-bootloader)
-    (targets (list "/dev/nvme0n1"))
-    (keyboard-layout keyboard-layout)))
-  (swap-devices
-   (list (swap-space
-          (target
-           (uuid "0fd9015c-34ca-4d05-843b-584fa94796d3")))))
-  (file-systems
-   (cons* (file-system
-            (mount-point "/")
-            (device
-             (uuid "ada80f5c-de9b-4a3b-b25d-cd4518d2a8f7"
-                   'ext4))
-            (type "ext4"))
-          (file-system
-            (mount-point "/home")
-            (device
-             (uuid "0ee6f458-e0d7-4bc3-b449-b368901c70fd"
-                   'ext4))
-            (type "ext4"))
-          %base-file-systems)))
+                %base-groups))
+ (packages
+  (append
+   (map (compose list specification->package+output)
+        %my-packages)
+   %base-packages))
+ (services
+  %my-services)
+ (bootloader
+  (bootloader-configuration
+   (bootloader grub-bootloader)
+   (targets (list "/dev/nvme0n1"))
+   (keyboard-layout keyboard-layout)))
+ (swap-devices
+  (list (swap-space
+         (target
+          (uuid "0fd9015c-34ca-4d05-843b-584fa94796d3")))))
+ (file-systems
+  (cons* (file-system
+          (mount-point "/")
+          (device
+           (uuid "ada80f5c-de9b-4a3b-b25d-cd4518d2a8f7"
+                 'ext4))
+          (type "ext4"))
+         (file-system
+          (mount-point "/home")
+          (device
+           (uuid "0ee6f458-e0d7-4bc3-b449-b368901c70fd"
+                 'ext4))
+          (type "ext4"))
+         %base-file-systems)))
