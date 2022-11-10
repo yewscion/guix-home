@@ -48,13 +48,18 @@
          (lambda ()
            (execl (string-append #$findutils "/bin/updatedb")
                   "updatedb"
-                  "--prunepaths=/tmp /var/tmp /gnu/store"))))
-
+                  "--prunepaths=/tmp /var/tmp"))))
 (define %my-keyboard-layout
   (keyboard-layout "us,apl" #:options
                    '("ctrl:swapcaps_hyper" "compose:rctrl"
                      "grp:toggle")))
-
+(define %system-wide-environment-variables
+  '(("GTK_IM_MODULE" . "fcitx")
+    ("QT_IM_MODULE" . "fcitx")
+    ("XMODIFIERS" . "@im=fcitx")
+    ("SDL_IM_MODULE" . "fcitx")
+    ("GLFW_IM_MODULE" . "ibus")
+    ("PYTHONPYCACHEPREFIX" . "/tmp")))
 (define %my-desktop-services
   (modify-services %desktop-services
                    (delete elogind-service-type)))
