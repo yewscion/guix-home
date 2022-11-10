@@ -83,6 +83,9 @@
     (simple-service 'my-cron-jobs
                     mcron-service-type
                     (list updatedb-job))
+    (simple-service 'my-system-wide-variables
+                    session-environment-service-type
+                    %system-wide-environment-variables)
     (extra-special-file "/etc/clamav/clamd.conf"
                         (local-file "dotfiles/clamav-clamd.conf"))
     (extra-special-file "/etc/clamav/freshclam.conf"
