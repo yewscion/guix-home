@@ -1,0 +1,12 @@
+This program is a part of @PACKAGE_STRING@.
+
+@LICENSE@
+
+You are welcome to change this software in any way You see fit. Some helpful
+information should You choose to do so:
+
+Bug Reports: @PACKAGE_BUGREPORT@
+Homepage: @PACKAGE_URL@
+Documentation: @PACKAGE_DOCS_COMMAND@ @PACKAGE_NAME@
+
+Happy Hacking!
