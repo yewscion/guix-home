@@ -390,7 +390,22 @@
              ("NVM_DIR" . "$HOME/.config/nvm")
              ("CARP_DIR" . "$GUIX_PROFILE/share/carp")
              ("APL_LIB_ROOT" . "$HOME/Documents/apl-libs")
-             ("PYTHONPYCACHEPREFIX" . "/tmp")))
+             ("PYTHONPYCACHEPREFIX" . "/tmp")
+             ("GTK_IM_MODULE" . "fcitx")
+             ("QT_IM_MODULE" . "fcitx")
+             ("XMODIFIERS" . "@im=fcitx")
+             ("SDL_IM_MODULE" . "fcitx")
+             ("GLFW_IM_MODULE" . "ibus")
+             ("GUIX_GTK3_IM_MODULE_FILE" .
+              ,(generate-gtk-immodule-cache
+                gtk+
+                "3.0.0"
+                #~(begin #$fcitx5-gtk:gtk3)))
+             ("GUIX_GTK2_IM_MODULE_FILE" .
+              ,(generate-gtk-immodule-cache
+                gtk+
+                "2.0.0"
+                #~(begin #$fcitx5-gtk:gtk2)))))
           (guix-defaults? #t)
           (package bash)))
         (simple-service 'my-extensions
