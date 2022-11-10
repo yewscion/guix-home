@@ -284,7 +284,12 @@
 (org-babel-lob-ingest "~/.emacs.d/library-of-babel.org")
 
 ;;;; Drill
-(setq org-drill-hide-item-headings-p t)
+(require 'org-drill)
+(setq org-drill-hide-item-headings-p t
+      org-drill-learn-fraction 0.4
+      org-drill-add-random-noise-to-intervals-p t
+      org-drill-leech-method 'warn)
+
 
 ;;;; Bibliography
 (setq org-cite-global-bibliography
