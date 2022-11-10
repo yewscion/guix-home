@@ -118,14 +118,11 @@
                  "\"\n"
                  "        ;;\n"
                  "esac\n"))
-;;; Grouping Packages By Type
-
-
 (define my-packages
-  '("libadlmidi" "agda" "alsa-plugins" "alsa-plugins:pulseaudio" "anki" "ant"
-  "ant-junit" "gnu-apl" "apl-primer" "autoconf" "automake" "b3sum" "bash"
-  "beets" "biber" "bison" "borg" "brightnessctl" "bsd-games" "btrfs-progs"
-  "carp" "cbqn" "clang-toolchain" "cl-asdf" "clisp" "clojure"
+  '("libadlmidi" "agda" "alsa-plugins" "alsa-plugins:pulseaudio" "anki"
+  "ant" "ant-junit" "gnu-apl" "apl-primer" "autoconf" "automake" "b3sum"
+  "bash" "beets" "biber" "bison" "borg" "brightnessctl" "bsd-games"
+  "btrfs-progs" "carp" "cbqn" "clang-toolchain" "cl-asdf" "clisp" "clojure"
   "codechallenge-solutions" "coreutils" "curl" "dbqn" "dfc" "dmidecode"
   "docker" "dosfstools" "efibootmgr" "elm" "emacs" "emacs-alert"
   "emacs-anaphora" "emacs-anki-editor" "emacs-async" "emacs-auctex"
@@ -255,18 +252,16 @@
   "transmission" "tree" "universal-ctags" "unzip" "uxn" "virt-manager"
   "virt-viewer" "vlang" "wesnoth" "which" "wine64-staging" "wordnet"
   "xapian" "xboard" "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel"
-  "xkeyboard-config" "xmp" "xrdb" "yewscion-scripts" "yt-dlp" "zenity"
-  "zutils"))
+  "xkeyboard-config" "xmp" "xprop" "xrdb" "yewscion-scripts" "yt-dlp"
+  "zenity" "zutils"))
 (define
  
  my-no-test-packages
   '(;curl
-                                       
-                                       ;emacs-parsebib
-                                        ;emacs-ebib
-     
-                                       ;emacs-citar
-                                        ;emacs-org-ref
+    ;emacs-parsebib
+    ;emacs-ebib
+    ;emacs-citar
+    ;emacs-org-ref
     ))
 (define my-transformation
   (options->transformation
