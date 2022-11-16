@@ -1,11 +1,9 @@
 (define-public template
-  (let* ((tag "")
-         (revision "")
-         (commit "")
-         (version (git-version tag revision commit)))
+  (let* ((revision "")
+         (commit ""))
     (package
       (name "template")
-      (version version)
+      (version (git-version "0.0.0" revision commit))
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
@@ -15,12 +13,11 @@
                 (sha256
                  (base32
                   ""))))
-      
       (outputs '("out"))
       (build-system gnu-build-system)
       (arguments
        (list
-        #:tests? #t
+        ;; #:tests? #f
         ;; #:phases #~(modify-phases
         ;;             %standard-phases
         ;;             )

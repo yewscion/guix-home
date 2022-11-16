@@ -49,22 +49,41 @@ ACLOCAL_AMFLAGS = -I m4
 info_TEXINFOS = doc/project-name.texi
 
 ## Extra Files for Distribution
-EXTRA_DIST =  Changelog.md \
-              LICENSE \
-              COPYING \
-              NEWS \
-              AUTHORS \
-              README.org \
-              README.md \
-              Changelog.md \
-              ChangeLog \
-              COPYING \
-              m4/tar-edited.m4 \
-              guix.scm \
-              pre-inst-env.in \
-              doc/version.texi.in \
-              doc/fdl-1.3.texi \
-              doc/procedure-types.texi
+EXTRA_DIST =	Changelog.md \
+		LICENSE \
+		COPYING \
+		NEWS \
+		AUTHORS \
+		README.org \
+		README.md \
+		Changelog.md \
+		ChangeLog \
+		COPYING \
+		guix.scm \
+		pre-inst-env.in \
+		tests/maintests.scm \
+		build-aux/test-driver.scm \
+		doc/version.texi.in \
+		doc/fdl-1.3.texi \
+		doc/procedure-types.texi \
+		m4/tar-edited.m4 \
+		m4/m4_ax_check_class.m4 \
+		m4/m4_ax_check_classpath.m4 \
+		m4/m4_ax_check_java_home.m4 \
+		m4/m4_ax_check_java_plugin.m4 \
+		m4/m4_ax_check_junit.m4 \
+		m4/m4_ax_java_check_class.m4 \
+		m4/m4_ax_java_options.m4 \
+		m4/m4_ax_prog_jar.m4 \
+		m4/m4_ax_prog_java_cc.m4 \
+		m4/m4_ax_prog_javac.m4 \
+		m4/m4_ax_prog_javac_works.m4 \
+		m4/m4_ax_prog_javadoc.m4 \
+		m4/m4_ax_prog_javah.m4 \
+		m4/m4_ax_prog_java.m4 \
+		m4/m4_ax_prog_java_works.m4 \
+		m4/m4_ax_try_compile_java.m4 \
+		m4/m4_ax_try_run_java.m4
 
 ## Cleaning Up
 
@@ -95,7 +114,7 @@ nodist_noinst_SCRIPTS = pre-inst-env
 # Define Outputs
 
 ## Scripts that are not compiled
-bin_SCRIPTS = $(builddir)/bin/project-name-info \
+bin_SCRIPTS = $(builddir)/bin/project-name-info
 
 # ## Jarfiles and Classes
 # java_DATA = project-name.jar
@@ -136,19 +155,16 @@ $(MYJAVAPKGDIR)/project-name.class: $(JAVAFILEONE)
 	$(JAVAC) $(JAVAC_OPTS) -d $(MYJAVADIR) $(JAVAFILEONE)
 ################################################################################
 
-# # Tests (Not Working Right Now, as \$\(srcdir\) is not allowed.).
-# TESTS = tests/tests.scm
+# Tests
+TEST_EXTENSIONS = .scm
+TESTS = tests/maintests.scm
+AM_TESTS_ENVIRONMENT = abs_top_srcdir="$(abs_top_srcdir)" GUILE_AUTO_COMPILE=0
 
-# TEST_EXTENSIONS = .scm
-# SCM_LOG_DRIVER =                                \
-#   $(top_builddir)/pre-inst-env                  \
-#   $(GUILE) --no-auto-compile -e main            \
-#       $(top_srcdir)/build-aux/test-driver.scm
+SCM_LOG_DRIVER =                                 \
+   $(top_builddir)/pre-inst-env         \
+   $(GUILE) --no-auto-compile -L $(top_srcdir) -e main \
+       $(top_srcdir)/build-aux/test-driver.scm
 
-# # Tell 'build-aux/test-driver.scm' to display only source file names,
-# # not indivdual test names.
-# AM_SCM_LOG_DRIVER_FLAGS = --brief=yes
-
-# AM_SCM_LOG_FLAGS = --no-auto-compile -L "$(top_srcdir)"
-
-# AM_TESTS_ENVIRONMENT = abs_top_srcdir="$(abs_top_srcdir)"
+# Tell 'build-aux/test-driver.scm' to display only source file names,
+# not indivdual test names.
+AM_SCM_LOG_DRIVER_FLAGS = --brief=yes 

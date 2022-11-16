@@ -1,4 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env sh
+
+### Follow Best Practices
+set -o errexit nounset pipefail
+if [ "${TRACE-0}" = "1" ]; then set -o xtrace; fi
+cd "$(dirname "$0")"
+### End Follow Best Practices
 
 echo "Beginning Incantation…"
 
@@ -19,5 +25,5 @@ make
 DESTDIR=test/ make install
 tree test
 make dist
-mv -vt .. *.bz2
+mv -vt .. ./*.bz2
 echo "Incantation Complete."
