@@ -1,0 +1,7 @@
+@c *********************************************************************
+@subsection Title
+@cindex Concept
+@anchor{Concept}
+
+One-Line Description of Concept, followed by any needed explanation or
+examples.

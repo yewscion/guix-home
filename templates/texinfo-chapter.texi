@@ -1,0 +1,18 @@
+@c *********************************************************************
+@node Title, Next, Last, Top
+@chapter Title
+
+One line description of this chapter's purpose.
+
+A bigger paragraph that will better explain how it attempts to
+accomplish that purpose through the following sections, and an overview
+of high-level topics.
+
+@menu
+
+@c Space for Node Names -----| |-------------------- Short Descriptions
+* Section::                    Description.
+@c Space for Node Names -----| |-------------------- Short Descriptions
+
+@end menu
+

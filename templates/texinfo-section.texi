@@ -1,0 +1,8 @@
+@c *********************************************************************
+@node Title, Next, Last, Up 
+@section Title
+
+A one-line description of the content of this section.
+
+A bigger paragraph describing the content of this section and what it
+attempts to do, possibly introducing the first group of procedures.

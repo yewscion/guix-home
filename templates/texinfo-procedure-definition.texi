@@ -1,0 +1,16 @@
+@c *********************************************************************
+@deffn {Scheme Procedure} foo-bar-baz @
+       @code{parameter-one} @code{parameter-two}
+@deffnx {Scheme Procedure} foo-bar-baz-number-two @
+        @code{parameter-one} @code{parameter-two}
+@ref{ACTION}
+
+Describe the thought process behind this procedure here, and add a code
+example below.
+
+@lisp
+(use-modules (cdr255 userlib))
+
+@end lisp
+@end deffn
+

@@ -1,0 +1,9 @@
+** Item                                                               :drill:
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic (and reversed card)
+:DRILL_CARD_TYPE: twosided
+:END:
+*** Front
+Item
+*** Back
+Definition
