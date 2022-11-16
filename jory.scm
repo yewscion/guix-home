@@ -12,12 +12,58 @@
              (srfi srfi-1)
              (ice-9 textual-ports)
              (guix modules)
+             (guix utils)
              (cdr255 kernel)
              (gnu packages linux))
-(use-service-modules admin avahi base databases desktop docker games mail
+(use-service-modules admin avahi base cuirass databases desktop docker games mail
                      mcron networking sddm ssh virtualization web xorg)
-(use-package-modules admin certs databases emacs games package-management
-                     ssh tls version-control xdisorg )
+(use-package-modules admin certs databases emacs fcitx5 games gtk package-management
+                     ssh tls version-control xdisorg)
+;;; Thanks to lizog and their friend for this procedure, which is needed to
+;;; regenerate the gtk-immodule-cache for fcitx5.
+(define (generate-gtk-immodule-cache gtk gtk-version . extra-pkgs)
+  (define major+minor (version-major+minor gtk-version))
+
+  (define build
+    (with-imported-modules '((guix build utils)
+                             (guix build union)
+                             (guix build profiles)
+                             (guix search-paths)
+                             (guix records))
+      #~(begin
+          (use-modules (guix build utils)
+                       (guix build union)
+                       (guix build profiles)
+                       (ice-9 popen)
+                       (srfi srfi-1)
+                       (srfi srfi-26))
+
+          (define (immodules-dir pkg)
+            (format #f "~a/lib/gtk-~a/~a/immodules"
+                    pkg #$major+minor #$gtk-version))
+
+          (let* ((moddirs (filter file-exists?
+                                  (map immodules-dir
+                                       (list #$gtk #$@extra-pkgs))))
+                 (modules (append-map (cut find-files <> "\\.so$")
+                                      moddirs))
+                 (query (format #f "~a/bin/gtk-query-immodules-~a"
+                                #$gtk:bin #$major+minor))
+                 (pipe (apply open-pipe* OPEN_READ query modules)))
+
+            ;; Generate a new immodules cache file.
+            (dynamic-wind
+              (const #t)
+              (lambda ()
+                (call-with-output-file #$output
+                  (lambda (out)
+                    (while (not (eof-object? (peek-char pipe)))
+                      (write-char (read-char pipe) out))))
+                #t)
+              (lambda ()
+                (close-pipe pipe)))))))
+
+  (computed-file (string-append "gtk-query-immodules-" major+minor) build))
 (define %ming-pubkey
   (plain-file "ming_id.pub"
               (string-append "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDvbir"
@@ -51,12 +97,44 @@
                    '("ctrl:swapcaps_hyper" "compose:rctrl"
                      "grp:toggle")))
 (define %system-wide-environment-variables
-  '(("GTK_IM_MODULE" . "fcitx")
+  `(("GTK_IM_MODULE" . "fcitx")
     ("QT_IM_MODULE" . "fcitx")
     ("XMODIFIERS" . "@im=fcitx")
     ("SDL_IM_MODULE" . "fcitx")
     ("GLFW_IM_MODULE" . "ibus")
-    ("PYTHONPYCACHEPREFIX" . "/tmp")))
+    ("PYTHONPYCACHEPREFIX" . "/tmp")
+    ("GUIX_GTK3_IM_MODULE_FILE" .
+     ,(generate-gtk-immodule-cache
+       gtk+
+       "3.0.0"
+       #~(begin #$fcitx5-gtk:gtk3)))
+    ("GUIX_GTK2_IM_MODULE_FILE" .
+     ,(generate-gtk-immodule-cache
+       gtk+
+       "2.0.0"
+       #~(begin #$fcitx5-gtk:gtk2)))
+    ))
+(define %cuirass-specs
+  #~(list (specification
+           (name "yewscion")
+           (build '(channels yewscion))
+           (systems  '("x86_64-linux"))
+           (priority 1)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))
+          (specification
+           (name "big-ones")
+           (build '(packages "clojure-tools" "elm" "emacs" "fluid-3" "fcitx5"
+                             "gambit-c" "gauche" "ghc" "icecat" "icedtea"
+                             "openjdk" "sbcl" "stumpwm" "timidity++"
+                             "ungoogled-chromium" "wesnoth"
+                             "wine64-staging"))
+           (systems '("x86_64-linux"))
+           (priority 2))))
 (define %my-desktop-services
   (modify-services %desktop-services
                    (delete elogind-service-type)))
@@ -69,6 +147,10 @@
               (authorized-keys
                `(("ming" ,%ming-pubkey)
                  ("git" ,%ming-pubkey)))))
+    (service cuirass-service-type
+             (cuirass-configuration
+              (specifications %cuirass-specs)
+              (host "0.0.0.0")))
     (service postgresql-service-type
              (postgresql-configuration
               (postgresql postgresql-14)))
