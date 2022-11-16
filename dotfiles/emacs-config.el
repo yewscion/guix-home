@@ -123,7 +123,8 @@
       mpc-host "s")
 
 ;;; mastodon-mode
-(setq mastodon-instance-url "https://tech.lgbt/")
+(setq mastodon-instance-url "https://tech.lgbt/"
+      mastodon-active-user "yewscion")
 
 ;;; ANSI Color
 (setq ansi-color-faces-vector
@@ -717,6 +718,8 @@ None; Inert Data.")
           ("date" "\\citedate%<[%A]%>[%A]{%(%K%,)}")
           ("full" "\\fullcite%<[%A]%>[%A]{%(%K%,)}")))
         (org-mode
+         (("ebib" "[[ebib:%K][%D]]")))
+        (org-journal-mode
          (("ebib" "[[ebib:%K][%D]]")))
         (markdown-mode
          (("text" "@%K%< [%A]%>")
@@ -1603,11 +1606,11 @@ even beep.)"
   (setq dired-actual-switches "-aDFhikmopqs")
   (revert-buffer))
 
+;;; Inserting Templates
 (defun cdr:templates-insert-scm-docstring ()
   "Inserts a scheme docstring at the current position."
   (interactive)
   (save-mark-and-excursion
-    (beginning-of-line)
     (insert-file-contents "~/.emacs.d/templates/scheme-docstring")))
 (defun cdr:templates-insert-apl-docstring ()
   "Inserts an APL docstring comment at the current position."
@@ -1615,12 +1618,52 @@ even beep.)"
   (save-mark-and-excursion
     (beginning-of-line)
     (insert-file-contents "~/.emacs.d/templates/apl-docstring")))
-(defun cdr:templates-insert-java-docstring ()
-  "Inserts a Java docstring comment at the current position."
+(defun cdr:templates-insert-java-field-docstring ()
+  "Inserts a Javadoc field docstring comment at the beginning of
+the current line."
   (interactive)
   (save-mark-and-excursion
     (beginning-of-line)
-    (insert-file-contents "~/.emacs.d/templates/java-docstring")))
+    (insert-file-contents "~/.emacs.d/templates/java-field-docstring")))
+(defun cdr:templates-insert-java-method-docstring ()
+  "Inserts a Javadoc method docstring comment at the beginning of
+the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents "~/.emacs.d/templates/java-method-docstring")))
+(defun cdr:templates-insert-texinfo-chapter ()
+  "Inserts the template for the start of a chapter at the beginning
+of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/texinfo-chapter.texi")))
+(defun cdr:templates-insert-texinfo-section ()
+  "Inserts the template for the start of a section at the beginning
+of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/texinfo-section.texi")))
+(defun cdr:templates-insert-texinfo-subsection ()
+  "Inserts the template for the start of a subsection at the beginning
+of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/texinfo-subsection.texi")))
+(defun cdr:templates-insert-texinfo-procedure-definition ()
+  "Inserts the template for a procedure definition at the beginning
+of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/texinfo-procedure-definition.texi")))
 (defun cdr:templates-insert-org-header ()
   "Inserts my org header at the current position."
   (interactive)
@@ -1653,6 +1696,23 @@ even beep.)"
   "Inserts my .dir-locals.el template at the current position."
   (interactive)
   (insert-file-contents "~/.emacs.d/templates/dir-locals"))
+(defun cdr:templates-insert-autoconf-commentable-header ()
+  "Inserts the standard commentable autoconf header for source code
+files at the beginning of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/autoconf-commentable-header.in")))
+(defun cdr:templates-insert-spaced-repetition-card ()
+  "Inserts an empty spaced repetition card template at the
+beginning of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/spaced-repetition-card.org")))
+;;; End Templates
 
 (defun cdr:edit-region-as-org ()
   "Create an indirect buffer for a region's content, and switch to Org Mode."
@@ -1937,42 +1997,112 @@ value."
           "project's"))
    " license.\n\n"
    "Please see the =LICENSE= file and the above link for more information."))
-(defun cdr:readme-std-usage-instructions (project &optional type)
+(defun cdr:readme-std-usage-instruction-header (project)
+  "Templating function for the header of the 'Usage' section of my
+README.md files."
+  (concat
+   "** Usage\n\n"
+   "Full usage is documented in the =doc/"
+   project
+   ".info= file. Here are\nonly generic instructions.\n\n"))
+
+(setq cdr:binary-message
+      (concat "Any binaries or scripts will be available in Your =$PATH=. A "
+              "list of these\nis maintained in the info file. They all also "
+              "have the =--help= flag, so\nif You prefer learning that way,"
+              " that is also available.\n\n"))
+(defun cdr:readme-std-usage-instructions (project &optional
+                                                  type namespace main-lib
+                                                  binary-message)
   "Templating function for the 'Usage' section of my README.md files."
   (interactive)
-  (cond ((or (not type) (string= type "guile"))
-         (concat
-          "** Usage\n\n"
-          "Full usage is documented in the =doc/"
-          project
-          ".info= file. Here are\nonly generic instructions.\n\n"
-          "Once ="
-          project
-          "= in installed, You should be able to access all of\nits exported"
-          " functions in guile by using its modules:\n\n"
-          "#+begin_src scheme\n"
-          "(use-modules ("
-          (cadr (split-string project "-"))
-          " main))\n"
-          "#+end_src\n\n"
-          "Any binaries or scripts will be available in Your =$PATH=. A list of "
-          "these\nis maintained in the info file. They all also have the =--help=="
-          " flag, so\nif You prefer learning that way, that is also available.\n"
-          "\n"))
-        ((string= type "emacs")
-         (concat
-          "** Usage\n\n"
-          "Full usage is documented in the =doc/"
-          project
-          ".info= file. Here are\nonly generic instructions.\n\n"
-          "Once ="
-          project
-          "= in installed, You should be able to access all of\nits "
-          "functionality in emacs. You may need to add the following to\nYour "
-          "init file: \n"
-          "#+begin_src lisp\n"
-          "(require 'ogham)\n"
-          "#+end_src\n\n"))))
+  (let ((type (if type type "guile"))
+        (namespace (if namespace namespace "cdr255"))
+        (main-lib (if main-lib main-lib "core"))
+        (header (cdr:readme-std-usage-instruction-header project))
+        (binary-message (if binary-message binary-message
+                          cdr:binary-message)))
+    (cond ((string= type "guile")
+           (concat
+            header
+            "You should be able to access all of\nits exported"
+            " functions in guile by using its modules:\n\n"
+            "#+begin_src scheme\n"
+            "(use-modules ("
+            namespace
+            " "
+            main-lib
+            "))\n"
+            "#+end_src\n\n"
+            binary-message))
+          ((string= type "emacs")
+           (concat
+            header
+            "Once ="
+            project
+            "= in installed, You should be able to access all of\nits "
+            "functionality in emacs. You may need to add the following"
+            " to\nYour init file: \n#+begin_src lisp\n(require '"
+            namespace
+            ")\n"
+            "#+end_src\n\n"))
+          ((string= type "java")
+           (concat
+            header
+            "You should be able to access the libaries related to this "
+            "project so long as\nYour =CLASSPATH= is set properly. This "
+            "can be accomplished either by setting\nthe environment "
+            "variable itself, or by calling =java= et. al with the =-cp=\n"
+            "flag. When possible, jars are installed alongside the "
+            "classfiles themselves,\nin order to allow for the most "
+            "versatility when it comes to the end-user's\nwishes.\n\n"
+            binary-message))
+          ((string= type "apl")
+           (concat
+            header
+            "GNU APL libraries are interestingly different than most "
+            "languages, as they\nare organized in workspaces.\n\nIn order "
+            "to use the libraries included here, there are a few "
+            "options\navailable:\n\n1. You can simply =)PCOPY= the =.apl= "
+            "files themselves.\n\n2. Second, You can use the config file or "
+            "=)LIBS n <path>= to set\none of Your nine workspaces to the "
+            "directory where the files are\ninstalled.\n\n3. Finally, You "
+            "can also simply copy the functions You want to use (I\nwould "
+            "enjoy a commented attribution, if possible) provided You still "
+            "adhere\nto the =LICENSE=.\n\n"
+            binary-message))
+          ((string= type "common-lisp")
+           (concat
+            header
+            "Common lisp actually has an\n[[https://yewscion.com/common-"
+            "common-lisps-in-guix.html][interesting issue]]\nright now in "
+            "GNU Guix, so be aware of that if using more than one\n"
+            "implementation.\n\nOther than that, loading using =asdf= is "
+            "usually the way to go."
+            binary-message))
+          ((string= type "clojure")
+           (concat
+            header
+            "Clojure has a few design decisions that makes working with it "
+            "in GNU Guix\ndifficult, but the basics are the same as normal. "
+            "Just remember: No automatic\ndependency management, and no "
+            "=leiningen=."
+            binary-message))
+          ((string= type "c")
+           (concat
+            header
+            "You should be able to access the libraries related to this "
+            "project by\nreferencing the =/usr/lib= directory, as normal. "
+            "If a subdirectory was\nneeded, I most likely chose "
+            "=/usr/lib/yewscion=. If You are using GNU Guix,\nthe actual "
+            "directory will be slightly different, depending on Your "
+            "profile\nsetup.\n\nYou should be able to access the headers "
+            "using the standard =#include=\nsyntax.\n\n"
+            binary-message))
+          ((string= type "other")
+           (concat
+            header
+            binary-message)))))
 
 (defun cdr:lisp-fill-paragraph (&optional justify)
   "Like \\[fill-paragraph], but handle Emacs Lisp comments and docstrings.
@@ -2610,52 +2740,59 @@ current datetime."
 
 ;;; Template Map <F5>
 
-(define-key template-map (kbd "d") #'cdr:templates-insert-scm-docstring)
+(define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
+(define-key template-map (kbd "C-c") #'cdr:templates-insert-spaced-repetition-card)
+(define-key template-map (kbd "C-d") #'cdr:templates-insert-dir-locals)
+(define-key template-map (kbd "C-i") #'cdr:templates-insert-texinfo-chapter)
+(define-key template-map (kbd "C-j")  #'cdr:templates-insert-java-field-docstring)
+(define-key template-map (kbd "C-l")  #'cdr:templates-insert-latex-figure-list)
+(define-key template-map (kbd "C-o") #'cdr:templates-insert-texinfo-subsection)
 (define-key template-map (kbd "a") #'cdr:templates-insert-apl-docstring)
 (define-key template-map (kbd "b") #'cdr:templates-insert-bib-annotation)
-(define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
-(define-key template-map (kbd "h") #'cdr:templates-insert-org-header)
-(define-key template-map (kbd "s") #'cdr:templates-insert-setup)
-(define-key template-map (kbd "l") #'cdr:templates-insert-latex-figure-image)
-(define-key template-map (kbd "C-l")
-  #'cdr:templates-insert-latex-figure-list)
+(define-key template-map (kbd "c")  #'cdr:templates-insert-autoconf-commentable-header)
+(define-key template-map (kbd "d") #'cdr:templates-insert-scm-docstring)
 (define-key template-map (kbd "g") #'cdr:templates-insert-guix-package)
-(define-key template-map (kbd "C-d") #'cdr:templates-insert-dir-locals)
-(define-key template-map (kbd "j") #'cdr:templates-insert-java-docstring)
+(define-key template-map (kbd "h") #'cdr:templates-insert-org-header)
+(define-key template-map (kbd "i") #'cdr:templates-insert-texinfo-procedure-definition)
+(define-key template-map (kbd "j")  #'cdr:templates-insert-java-method-docstring)
+(define-key template-map (kbd "l") #'cdr:templates-insert-latex-figure-image)
+(define-key template-map (kbd "o") #'cdr:templates-insert-texinfo-section)
+(define-key template-map (kbd "s") #'cdr:templates-insert-setup)
+
 
 ;;; Subprocess Map <F4>
 
-(define-key subprocess-map (kbd "s") #'slime)
-(define-key subprocess-map (kbd "c") #'cider)
-(define-key subprocess-map (kbd "g") #'run-guile)
-(define-key subprocess-map (kbd "C-p") #'run-python)
-(define-key subprocess-map (kbd "p") #'run-prolog)
-(define-key subprocess-map (kbd "j") #'run-janet)
 (define-key subprocess-map (kbd "C-g") #'run-geiser)
-(define-key subprocess-map (kbd "v") #'vterm)
-(define-key subprocess-map (kbd "r") #'run-ruby)
-(define-key subprocess-map (kbd "e") #'eshell)
-(define-key subprocess-map (kbd "l") #'lsp)
+(define-key subprocess-map (kbd "C-p") #'run-python)
 (define-key subprocess-map (kbd "a") #'gnu-apl)
 (define-key subprocess-map (kbd "b") #'run-bqn)
+(define-key subprocess-map (kbd "c") #'cider)
+(define-key subprocess-map (kbd "e") #'eshell)
+(define-key subprocess-map (kbd "g") #'run-guile)
+(define-key subprocess-map (kbd "j") #'run-janet)
+(define-key subprocess-map (kbd "l") #'lsp)
+(define-key subprocess-map (kbd "p") #'run-prolog)
+(define-key subprocess-map (kbd "r") #'run-ruby)
+(define-key subprocess-map (kbd "s") #'slime)
+(define-key subprocess-map (kbd "v") #'vterm)
 
 ;;; Imperative Map <F3>
 (define-key imperative-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
 (define-key imperative-map (kbd "C-n") #'orgy-cm-step-next)
-(define-key imperative-map (kbd "c") #'whitespace-cleanup)
-(define-key imperative-map (kbd "w") #'whitespace-report)
 (define-key imperative-map (kbd "C-w") #'cdr:copy-deft-note-as-comment)
+(define-key imperative-map (kbd "c") #'whitespace-cleanup)
+(define-key imperative-map (kbd "d") #'make-directory)
+(define-key imperative-map (kbd "f") #'fill-buffer)
+(define-key imperative-map (kbd "j") #'cdr:make-daily-journal-entry)
 (define-key imperative-map (kbd "p") #'cdr:prep-latex-for-copy)
 (define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
-(define-key imperative-map (kbd "f") #'fill-buffer)
 (define-key imperative-map (kbd "v") #'add-file-local-variable)
-(define-key imperative-map (kbd "d") #'make-directory)
-(define-key imperative-map (kbd "j") #'cdr:make-daily-journal-entry)
+(define-key imperative-map (kbd "w") #'whitespace-report)
 
 ;;; Transform Map <F2>
 (define-key transform-map (kbd "C-r") #'replace-regexp)
-(define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
 (define-key transform-map (kbd "C-u") #'unfill-toggle)
+(define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
 (define-key transform-map (kbd "d") #'downcase-dwim)
 (define-key transform-map (kbd "f") #'cdr:fill-sexp)
 (define-key transform-map (kbd "i") #'edit-indirect-region)
@@ -2670,17 +2807,17 @@ current datetime."
 
 ;;; Function (Major Modes)
 
-                                        ;(global-set-key (kbd "<f1>") nil) ; Help prefix
-                                        ;(global-set-key (kbd "<f2>") nil) ; 2 Column prefix
-                                        ;(global-set-key (kbd "<f3>") nil) ; Define Macros
-                                        ;(global-set-key (kbd "<f4>") nil) ; Run Macro
+;(global-set-key (kbd "<f1>") nil) ; Help prefix
+;(global-set-key (kbd "<f2>") nil) ; 2 Column prefix
+;(global-set-key (kbd "<f3>") nil) ; Define Macros
+;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
 (global-set-key (kbd "<f7>") 'deft)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
-                                        ; (global-set-key (kbd "<f10>") nil) ; GUI Menu Key
-                                        ; (global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
+;(global-set-key (kbd "<f10>") nil) ; GUI Menu Key
+;(global-set-key (kbd "<f11>") nil) ; GUI Fullscreen
 (global-set-key (kbd "<f12>") 'mu4e)
 
 ;;; Ctrl Function (Maps)
