@@ -10,8 +10,11 @@
  (guix transformations)
  (guix monads)
  (guix store)
+ (guix utils)
  (gnu packages code)
  (gnu packages curl)
+ (gnu packages gtk)
+ (gnu packages fcitx5)
  (gnu packages emacs-xyz))
 ;;; Thanks to lizog and their friend for this procedure, which is needed to
 ;;; regenerate the gtk-immodule-cache for fcitx5.
@@ -146,6 +149,10 @@
                  "    log-guix-state \| \\\n"
                  "    tee \"$HOME/.local/var/log/guix/"
                  "$timestamp-post-update.log\"\n}\n"))
+(define my-init-project
+  (string-append "cp -LRv --no-preserve=all ~/.local/share/empty-repo/. .;"
+                 "chmod 775 setup-symlinks.sh bootstrap incant.sh cast.sh;"
+                 " ./setup-symlinks.sh"))
 (define my-bash-profile
   (string-append my-function-dir-git-branch
                  my-function-nm-switch
@@ -372,7 +379,8 @@
              ("ghr" . ,my-guix-home-reconfigure)
              ("gbl" . ,my-guix-build-local)
              ("gbfa" . ,my-guix-build-for-aarch64)
-             ("gfs" . ,my-guix-fetch-sources)))
+             ("gfs" . ,my-guix-fetch-sources)
+             ("initialize-project" . ,my-init-project)))
           (bash-profile
            (list (plain-file "bash-profile"
                              my-bash-profile)))
@@ -384,7 +392,7 @@
                   "bash_logout"
                   "")))
           (environment-variables
-           '(("SHELL" . "bash")
+           `(("SHELL" . "bash")
              ("HISTCONTROL" . "ignoreboth")
              ("HISTTIMEFORMAT" . "true")
              ("PATH" . "$HOME/.local/bin:$PATH:$HOME/.local/npm/bin")
@@ -485,6 +493,9 @@
                      ("incant.sh"
                       ,(local-file
                         "templates/incant.sh"))
+                     ("cast.sh"
+                      ,(local-file
+                        "templates/cast.sh"))
                      ("LICENSE"
                       ,(local-file
                         "templates/agpl3.0"))
@@ -558,7 +569,10 @@
                       ,(local-file
                         "templates/m4/m4_ax_try_run_java.m4"))
                      ("m4/tar-edited.m4"
-                      ,(local-file "templates/m4/tar-edited.m4")))))
+                      ,(local-file "templates/m4/tar-edited.m4"))
+                     ("build-aux/test-driver.scm"
+                      ,(local-file
+                        "templates/build-aux/test-driver.scm")))))
                    `(".emacs.d/templates"
                      ,(local-file "templates"
                                   #:recursive? #true))
@@ -575,11 +589,8 @@
                    `(".config/gnu-apl/preferences"
                      ,(local-file "dotfiles/gnu-apl-preferences.conf"
                                   "gnu-apl-preferences"))
-                   ;; `(".npmrc"
-                   ;;   ,(local-file "dotfiles/npmrc"
-                   ;;                "npmrc"))
                    `(".config/stumpwm/window-placement.lisp"
                      ,(local-file "dotfiles/stumpwm-windows.lisp"
                                   "stumpwm-windows.lisp"))
                    `(".local/bin/u-ctags"
-                     ,(file-append my-u-ctags "/bin/u-ctags")))))))
+                     ,(file-append my-u-ctags "/bin/u-ctags"))))))
