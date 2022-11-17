@@ -2606,6 +2606,179 @@ current datetime."
   (insert-file-contents (concat (getenv "HOME")
                                 "/.emacs.d/templates/journal-entry.org"))
   (buffer-substring-no-properties (point-min) (point-max)))
+(defun cdr:orgy-copy-item ()
+  "Copy the current item in the org-list at point to the kill ring.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Relies on buffer state."
+  (interactive)
+  (let* ((begin (org-list-get-item-begin))
+         (end (org-list-get-item-end begin (org-list-struct))))
+    (save-excursion
+      (copy-region-as-kill begin end))))
+
+(defun cdr:orgy-copy-rest-of-list ()
+  "Copy the current item in the org-list at point, and all items following it
+to the kill ring.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Relies on buffer state and point."
+  (interactive)
+  (let* ((current-list (org-list-struct))
+         (begin (org-list-get-item-begin))
+         (end (org-list-get-bottom-point current-list)))
+    (copy-region-as-kill begin end)))
+
+(defun cdr:orgy-empty-list-item-p (&optional item-point struct)
+  "Predicate to tell if the list item at ITEM-POINT is empty.
+
+This is an ACTION.
+
+Arguments
+=========
+ITEM-POINT <number>: The point at which to check for an empty list item.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Relies on buffer state."
+  (interactive)
+  (save-excursion
+    (let ((item-point (if item-point item-point (point))))
+      (goto-char item-point)
+      (let ((begin-item (org-in-item-p)))
+        (unless begin-item
+          (error "Point not in a list item."))
+        (let* ((struct (if struct struct (org-list-struct)))
+               (list-item (assoc begin-item struct))
+               (length-of-bullet (length (nth 2 list-item)))
+               (length-of-cookie (if (nth 4 list-item)
+                                     (length (nth 4 list-item))
+                                   0))
+               (minimum (+ begin-item length-of-bullet length-of-cookie 1))
+               (length-of-item (nth 6 list-item)))
+          (<= length-of-item minimum))))))
+
+;; Thanks to user Vladimir Panteleev at the following URL:
+;; https://stackoverflow.com/a/35711240/16201239
+(defun delete-current-line ()
+  "Delete (not kill) the current line."
+  (interactive)
+  (save-excursion
+    (delete-region
+     (progn (forward-visible-line 0) (point))
+     (progn (forward-visible-line 1) (point)))))
+
+(defun cdr:orgy-identify-empty-list-items (&optional struct)
+  "Remove all empty list items from the current list.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Relies on buffer state."
+  (interactive)
+  (let ((struct (if struct struct (org-list-struct))))
+    (unless struct
+      (error "Point not in an org-list."))
+    (save-excursion
+      (cl-loop for item in struct
+               collect
+               (progn
+                 (goto-char (nth 0 item))
+                 (cdr:orgy-empty-list-item-p (nth 0 item) struct))))))
+
+(defun cdr:orgy-remove-empty-list-items ()
+  "Remove all empty list items from the current list.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Relies on buffer state."
+  (interactive)
+  (let* ((struct (org-list-struct))
+         (rev-struct (reverse struct))
+         (ids (reverse (cdr:orgy-identify-empty-list-items struct))))
+    (save-excursion
+      (cdr:orgy-delete-empty-list-items rev-struct ids))))
+
+(defun cdr:orgy-delete-list-items-by-id (struct ids)
+  "Delete list items from the list defined by STRUCT, based on the
+boolean list of IDS.
+
+This expects both the STRUCT and the IDS to be in reverse order,
+with the last item first.
+
+This is an ACTION.
+
+Arguments
+=========
+STRUCT <<list> of <org list items>>: The output of org-list-struct, but
+reversed (so the last element is first)
+
+IDS <<list> of <booleans>>: A list that matches the length of
+STRUCT, with each truthy value indicating an entry should be
+deleted, and each falsey value indicating it should stay.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Changes Buffer State."
+  (let ((count (- (length struct) 1)))
+    (save-excursion
+      (cl-loop for n from 0 to count do
+               (let ((current-item (nth n struct))
+                     (current-id (nth n ids)))
+               (goto-char (nth 0 current-item))
+               (when current-id
+                 (delete-region (point)
+                                (nth 6 current-item))))))))
+  
 
 
 ;; Without this `mail-user-agent' cannot be set to `mu4e-user-agent'
