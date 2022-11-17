@@ -2942,6 +2942,7 @@ Changes Buffer State."
 (define-prefix-command 'subprocess-map)
 (define-prefix-command 'imperative-map)
 (define-prefix-command 'transform-map)
+(define-prefix-command 'imperative-org-map)
 
 ;;; Template Map <F5>
 
@@ -2982,19 +2983,32 @@ Changes Buffer State."
 (define-key subprocess-map (kbd "v") #'vterm)
 
 ;;; Imperative Map <F3>
-(define-key imperative-map (kbd "C-h") #'cdr:orgy-pull-task-clock-to-hog)
-(define-key imperative-map (kbd "C-n") #'orgy-cm-step-next)
+(define-key imperative-map (kbd "C-o") #'imperative-org-map)
 (define-key imperative-map (kbd "C-w") #'cdr:copy-deft-note-as-comment)
+(define-key imperative-map (kbd "C-y") #'yank-from-primary)
+(define-key imperative-map (kbd "b") #'switch-to-buffer)
 (define-key imperative-map (kbd "c") #'whitespace-cleanup)
 (define-key imperative-map (kbd "d") #'make-directory)
 (define-key imperative-map (kbd "f") #'fill-buffer)
-(define-key imperative-map (kbd "j") #'cdr:make-daily-journal-entry)
+(define-key imperative-map (kbd "o") #'imperative-org-map)
 (define-key imperative-map (kbd "p") #'cdr:prep-latex-for-copy)
+(define-key imperative-map (kbd "r") #'revert-buffer-quick)
 (define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
 (define-key imperative-map (kbd "v") #'add-file-local-variable)
 (define-key imperative-map (kbd "w") #'whitespace-report)
 
+;;; Imperative Org Map <F3> o
+(define-key imperative-org-map (kbd "C-l") #'cdr:orgy-remove-empty-list-items)
+(define-key imperative-org-map (kbd "h") #'cdr:orgy-pull-task-clock-to-hog)
+(define-key imperative-org-map (kbd "i") #'cdr:orgy-copy-item)
+(define-key imperative-org-map (kbd "j") #'cdr:make-daily-journal-entry)
+(define-key imperative-org-map (kbd "l") #'cdr:orgy-copy-rest-of-list)
+(define-key imperative-org-map (kbd "n") #'orgy-cm-step-next)
+(define-key imperative-org-map (kbd "o") #'cdr:edit-region-as-org)
+(define-key imperative-org-map (kbd "w") #'org-copy-src-block)
+
 ;;; Transform Map <F2>
+(define-key transform-map (kbd "<tab>") #'indent-relative)
 (define-key transform-map (kbd "C-r") #'replace-regexp)
 (define-key transform-map (kbd "C-u") #'unfill-toggle)
 (define-key transform-map (kbd "C-w") #'cdr:copy-unfilled-region)
@@ -3002,11 +3016,9 @@ Changes Buffer State."
 (define-key transform-map (kbd "f") #'cdr:fill-sexp)
 (define-key transform-map (kbd "i") #'edit-indirect-region)
 (define-key transform-map (kbd "n") #'cdr:clean-up-newlines)
-(define-key transform-map (kbd "o") #'cdr:edit-region-as-org)
 (define-key transform-map (kbd "r") #'replace-string)
 (define-key transform-map (kbd "t") #'titlecase-dwim)
 (define-key transform-map (kbd "u") #'upcase-dwim)
-(define-key transform-map (kbd "w") #'org-copy-src-block)
 
 ;; Keys
 
@@ -3044,47 +3056,48 @@ Changes Buffer State."
 
 (global-set-key (kbd "M-<f1>") 'org-pomodoro)
 (global-set-key (kbd "M-<f2>") 'ebib-insert-citation)
-(global-set-key (kbd "M-<f3>") nil)
+(global-set-key (kbd "M-<f3>") 'calendar)
 (global-set-key (kbd "M-<f4>") nil) ; Close Program
 (global-set-key (kbd "M-<f5>") nil)
 (global-set-key (kbd "M-<f6>") nil)
-(global-set-key (kbd "M-<f7>") nil)
-(global-set-key (kbd "M-<f8>") nil)
+(global-set-key (kbd "M-<f7>") 'ispell)
+(global-set-key (kbd "M-<f8>") 'mastodon)
 (global-set-key (kbd "M-<f9>") nil)
 ;; (global-set-key (kbd "M-<f10>") nil) ; Non-Functional
 (global-set-key (kbd "M-<f11>") nil)
 (global-set-key (kbd "M-<f12>") nil)
 
-;;; Super (Minor Modes/Special Functions)
+;;; Super (Minor Modes/Mode Functions)
 
 ;; (global-set-key (kbd "s-q") nil) ; GNOME ?
 (global-set-key (kbd "s-w") 'whitespace-mode)
 (global-set-key (kbd "s-e") 'show-paren-mode)
 (global-set-key (kbd "s-n") 'display-line-numbers-mode)
 (global-set-key (kbd "s-t") 'vterm-toggle)
-(global-set-key (kbd "s-y") 'yank-from-primary)
-(global-set-key (kbd "s-u") 'unfill-paragraph)
-(global-set-key (kbd "s-i") nil)
+;; (global-set-key (kbd "s-y") 'yank-from-primary) Moving to Imperative Map
+;; (global-set-key (kbd "s-u") 'unfill-paragraph) Moving to Transform Map
+;; (global-set-key (kbd "s-i") nil)
 ;; (global-set-key (kbd "s-o") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-p") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-a") nil) ; GNOME Application Menu
 ;; (global-set-key (kbd "s-s") nil) ; GNOME Switch Window Menu
 ;; (global-set-key (kbd "s-d") nil) ; GNOME Show Desktop
 (global-set-key (kbd "s-f") 'display-fill-column-indicator-mode)
-(global-set-key (kbd "s-g") 'cdr:run-genpro-and-update)
+;; (global-set-key (kbd "s-g") 'cdr:run-genpro-and-update) Unneeded now
 ;; (global-set-key (kbd "s-h") nil) ; GNOME ?
 (global-set-key (kbd "s-j") nil)
 (global-set-key (kbd "s-k") nil)
 ;; (global-set-key (kbd "s-l") nil) ; GNOME Lock Screen
 (global-set-key (kbd "s-z") nil)
-(global-set-key (kbd "s-x") nil)
-(global-set-key (kbd "s-c") 'copy-unfilled-subtree)
+(global-set-key (kbd "s-x") (lambda () (interactive) (switch-to-buffer
+                                                      "*scratch*")))
+;; (global-set-key (kbd "s-c") 'copy-unfilled-subtree) → Imperative Map
 ;; (global-set-key (kbd "s-v") nil) ; GNOME Show Notifications
 (global-set-key (kbd "s-b") nil)
 ;; (global-set-key (kbd "s-n") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-m") nil) ; GNOME ?
 (global-set-key (kbd "s-;") 'projectile-mode)
-(global-set-key (kbd "s-<tab>") 'indent-relative)
+;; (global-set-key (kbd "s-<tab>") 'indent-relative) Moving to Transform Map
 
 ;;; Audio Controls
 (global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
