@@ -3128,104 +3128,8 @@ Changes Buffer State."
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
 
-;;; Pseudotaxus Mode
-(setq cdr:pseudotaxus-function-name-regexp
-      "\\[.*\\S .*\\]")
-(setq cdr:pseudotaxus-variable-name-regexp
-      "\\([[:upper:]]\\w*\\)\\([[:punct:]]\\|[[:space:]]\\|$\\)")
-(setq cdr:pseudotaxus-preprocessor-regexp
-      "`.+`")
-(setq cdr:pseudotaxus-constants-regexp
-      (concat "\\(true\\|false\\|nonexistant\\|unbound\\|missing\\|null\\|"
-              "success\\|failure\\|succeeds\\|fails\\|found\\|newline\\|"
-              "beep\\|indent\\|user\\|screen\\|system\\)"))
-(setq cdr:pseudotaxus-types-regexp
-      (concat "\\(number\\|string\\|character\\|boolean\\|truthy\\|falsey\\|"
-              "list\\|array\\|sequence\\|every\\|each\\|member\\|index\\|"
-              "nothing\\|maybe\\|"
-              "symbol\\|many\\|any\\|constant\\|operator\\|procedure\\|"
-              "argument\\|parameter\\|"
-              "file\\|stream\\|pipe\\|port\\|line\\|interrupt\\|sum\\|"
-              "difference\\|product\\|quotient\\|remainder\\|value\\|name\\|"
-              "result\\|message\\|field\\|an?\\|the\\)"
-              "\\(ish\\|-like\\|esque\\|s\\)?"))
-(setq cdr:pseudotaxus-operators-regexp
-      (regexp-opt '(">" "<" "==" "!=" "<>" "<=" ">=" "=" "!<" "!>" "≡" "≯"
-                    "≮" "≥" "≤" "≠" "less than" "more than" "greater than"
-                    "equal to" "different than" "different from" "¬" "⊻"
-                    "∨" "∧" "&&" "||" "not" "xor" "and" "or" "exclusive"
-                    "->" "<-" "→" "←" "fed" "right" "left"
-                    "^" "*" "+" "-" "/" "%" "×" "÷" "plus" "minus" "times"
-                    "divided by" "modulo" "add" "subtract" "multiply"
-                    "divide" "take the remainder of" "raised to the"
-                    "power" "squared" "cubed" "root" "square" "cube")
-                  'symbols))
-(setq cdr:pseudotaxus-keywords-regexp
-      (regexp-opt
-       '("begin" "end" "read" "obtain" "get" "from" "take" "use" "copy" "print"
-         "display" "show" "save" "return" "compute" "calculate" "determine"
-         "append" "over" "set" "initialize" "init" "let" "is" "has" "contains"
-         "to" "increment" "bump" "decrement" "if" "then" "else" "otherwise" "when"
-         "unless" "while" "done" "endwhile" "do" "case" "of" "others" "endcase"
-         "repeat" "until" "for" "endfor" "call" "exception" "as" "recurse" "this"
-         "that" "except" "in" "at" "including" "convert" "wrap" "ensure" "cast"
-         "expecting" "expect")
-       'symbols))
-(setq cdr:pseudotaxus-algorithms-regexp
-      (regexp-opt
-       '("sum" "difference" "product" "quotient" "remainder" "modulus" "sign"
-         "reciprocal" "magnitude" "logarithm" "average" "mean" "median" "mode"
-         "range" "max" "maximum" "min" "minimum" "maxima" "minima" "ceiling"
-         "floor" "sort" "reverse" "search" "find" "filter in" "filter out"
-         "grade up" "grade down" "scan" "map" "reduce" "expand" "replicate")
-       'symbols))
-(setq cdr:pseudotaxus-string-regexp
-      "\\('.*'\\|\\\".*\\\"\\)")
-(setq cdr:pseudotaxus-special-types-regexp
-      (regexp-opt '("truthy" "falsey") 'symbols))
-(setq cdr:pseudotaxus-special-operator-regexp
-      "!=\\|!<\\|!>\\|\\^\\|\\*\\|take the remainder of\\|raised to\\|resulting in")
-(setq cdr:pseudotaxus-numeric-ordinals-regexp
-      (concat
-       "first\\|second\\|third\\|fourth\\|fifth\\|sixth\\|seventh\\|eighth\\|"
-       "ninth\\|tenth\\|eleventh\\|twelfth\\|thirteenth\\|fourteenth\\|"
-       "fifteenth\\|sixteenth\\|seventeenth\\|eighteenth\\|nineteenth\\|"
-       "twentieth\\|thirtieth\\|fortieth\\|fiftieth\\|sixtieth\\|"
-       "seventieth\\|eightieth\\|nintieth\\|hundreth\\|thousandth\\|"
-       "millionth\\|billionth\\|trillionth\\|quadrillionth\\|"
-       "quintillionth\\|sextillionth\\|septillionth\\|octillionth\\|"
-       "nonillionth\\|decillionth\\|undecillionth\\|duodecillionth"))
-(setq cdr:pseudotaxus-numeric-words-regexp
-      (concat
-       "one\\|two\\|three\\|four\\|five\\|six\\|seven\\|eight\\|nine\\|ten\\|eleven\\|"
-       "twelve\\|thirteen\\|fourteen\\|fifteen\\|sixteen\\|seventeen\\|"
-       "eighteen\\|ninteen\\|twenty\\|thirty\\|forty\\|fifty\\|sixty\\|seventy\\|"
-       "eighty\\|ninety\\|hundred\\|thousand\\|million\\|billion\\|trillion\\|"
-       "quadrillion\\|quintillion\\|sextillion\\|septillion\\|octillion\\|"
-       "nonillion\\|decillion\\|undecillion\\|duodecillion\\|googol\\|centillion"))      
-(define-generic-mode
-    'pseudotaxus-mode
-                                        ; Comments
-  '(";" "#" "//" ("/*" . "*/"))
-                                        ; Keywords
-  '()
-  `((,cdr:pseudotaxus-string-regexp . 'font-lock-string-face)
-    (,cdr:pseudotaxus-function-name-regexp . 'font-lock-function-name-face)
-    (,cdr:pseudotaxus-variable-name-regexp . 'font-lock-variable-name-face)
-    (,cdr:pseudotaxus-preprocessor-regexp . 'font-lock-preprocessor-face)
-    (,cdr:pseudotaxus-special-types-regexp . 'font-lock-type-face)
-    (,cdr:pseudotaxus-special-operator-regexp . 'font-lock-builtin-face)
-    (,cdr:pseudotaxus-algorithms-regexp . 'font-lock-function-name-face)
-    (,cdr:pseudotaxus-constants-regexp . 'font-lock-constant-face)
-    (,cdr:pseudotaxus-operators-regexp . 'font-lock-builtin-face)
-    (,cdr:pseudotaxus-keywords-regexp . 'font-lock-keyword-face)
-    (,cdr:pseudotaxus-types-regexp . 'font-lock-type-face)
-    (,cdr:pseudotaxus-numeric-words-regexp . 'font-lock-number-face)
-    (,cdr:pseudotaxus-numeric-ordinals-regexp . 'font-lock-number-face))
-  '("\\.pseudo$" "\\.taxus$")
-  nil
-  "A mode for editing Pseudotaxus files.")
-;;; End Pseudotaxus Mode
+;;; Load Pseudotaxus Mode
+(require 'pseudotaxus)
 
 ;;; Last Minute Settings
 ;;;; BQN glyphs
@@ -3275,6 +3179,7 @@ Changes Buffer State."
   (if (listp item)
       (car item)
     item))
+
 
 ;; Local Variables:
 ;; mode: emacs-lisp
