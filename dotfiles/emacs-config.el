@@ -1875,41 +1875,59 @@ value."
           (shell-command-to-string
            (concat "$SHELL --login -c 'echo $'" variable)))))
     (setenv variable path-from-shell)))
-(defun cdr:readme-guix-instructions (project)
+(defun cdr:readme-guix-instructions (project type namespace main-lib)
   "Templating function for the 'Guix' section of my README.md files."
   (interactive)
-  (concat
-   "*** GNU Guix\n\n"
-   "If You use [[https://guix.gnu.org/][GNU Guix]], this package \n"
-   "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]."
-   "\n\n"
-   "Once You have it "
-   "set up, You can just run:\n\n"
-   "#+begin_src bash\n"
-   "guix pull\n"
-   "guix install "
-   project
-   "\n"
-   "#+end_src\n\n"
-   "If You just want to try it out, You can use Guix Shell instead:\n\n"
-   "#+begin_src bash\n"
-   "guix shell "
-   project
-   " bash --pure\n"
-   "#+end_src\n\n"
-   "And if You'd rather just try it out "
-   "without my channel, You can clone this\nrepo and then do:\n"
-   "#+begin_src bash\n"
-   "cd "
-   project
-   "\nguix shell -f guix.scm bash --pure\n"
-   "#+end_src\n\n"
-   "This'll create a profile with *just* this project in it, "
-   "to mess around with.\n\n"))
-(defun cdr:readme-src-instructions (project &optional type)
+  (let ((shell-addons (cond ((string= type "guile")
+                             "guile -- guile")
+                            ((string= type "emacs")
+                             "emacs")
+                            ((string= type "java")
+                             "icedtea:jdk icedtea")
+                            ((string= type "apl")
+                             "apl")
+                            ((string= type "common-lisp")
+                             "sbcl")
+                            ((string= type "clojure")
+                             "clojure clojuretools -- clj")
+                            ((string= type "c")
+                             "gcc")
+                            (t
+                             "--check"))))
+    (concat
+     "*** GNU Guix\n\n"
+     "If You use [[https://guix.gnu.org/][GNU Guix]], this package \n"
+     "is on [[https://sr.ht/~yewscion/yewscion-guix-channel/][my channel]]."
+     "\n\n"
+     "Once You have it "
+     "set up, You can just run:\n\n"
+     "#+begin_src bash\n"
+     "guix pull\n"
+     "guix install "
+     project
+     "\n"
+     "#+end_src\n\n"
+     "If You just want to try it out, You can use Guix Shell instead:\n\n"
+     "#+begin_src bash\n"
+     "guix shell --pure --rebuild-cache -v4 "
+     project
+     " bash "
+     shell-addons
+     "\n"
+     "#+end_src\n\n"
+     "And if You'd rather just try it out "
+     "without my channel, You can clone this\nrepo and then do:\n"
+     "#+begin_src bash\n"
+     "cd "
+     project
+     "\n./cast.sh\n"
+     "#+end_src\n\n"
+     "Either of these will create a profile with *just* this project in it, "
+     "to mess around with.\n\n")))
+(defun cdr:readme-src-instructions (project type namespace main-lib)
   "Templating function for the 'Source' section of my README.md files."
   (interactive)
-  (cond ((or (not type) (string= type "gnu"))
+  (cond ((string= type "gnu")
          (concat
           "*** Source\n\n"
           "If You don't want to use [[https://guix.gnu.org/][GNU Guix]],\n"
@@ -1941,24 +1959,38 @@ value."
           project
           "\ncd "
           project
-          "\ncp ogham.el ~/.emacs.d/lisp/"
-          "\ncat >> ~/.emacs.d/init.el <<< (require 'ogham)"
+          "\ncp -v *.el ~/.emacs.d/lisp/"
+          "\ncat >> ~/.emacs.d/init.el <<< (require '"
+          namespace
+          ")"
           "\n#+end_src\n\n"
-          "You can also just open the =ogham.el= file and run =M-x eval-buffer=,\n"
+          "Then, in Emacs, it's just a matter of restarting (or calling \n"
+          "=M-x package-initialize= again!) and You should be good to go.\n\n"
+          "You can also just open the ="
+          project
+          ".el= file and run =M-x eval-buffer=,\n"
           "but that only lasts for the current session.\n\n"
           "If You don't want to use git, or would rather stick with an\n"
           "actual release, then see the tagged releases for some tarballs\n"
           "of the source.\n\n"
+          "You can also install using the standard "
+          "=./configure && make && make check && make install=\n"
+          "sequence, as I use GNU Autotools for all of my projects.\n\n"
           "The needed dependencies are tracked in the =DEPENDENCIES.txt= file\n"
-          "to support this use case.\n\n"))))
+          "to support this use case.\n\n"))
+        (t
+         "")))
 
-(defun cdr:readme-install-instructions (project &optional type)
+(defun cdr:readme-install-instructions (project &optional type namespace main-lib)
   "Templating function for the 'Install' section of my README.md files."
   (interactive)
-  (concat
-   "** Installation\n"
-   (cdr:readme-guix-instructions project)
-   (cdr:readme-src-instructions project type)))
+  (let ((type (if type type "guile"))
+        (namespace (if namespace namespace "cdr255"))
+        (main-lib (if main-lib main-lib "core")))
+    (concat
+     "** Installation\n"
+     (cdr:readme-guix-instructions project type namespace main-lib)
+     (cdr:readme-src-instructions project type namespace main-lib))))
 (defun cdr:readme-contrib-instructions (project)
   "Templating function for the 'Contributing' section of my README.md files."
   (interactive)
