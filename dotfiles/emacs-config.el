@@ -2788,8 +2788,9 @@ This is an ACTION.
 Arguments
 =========
 
-TIME <string>: A valid time string, specified by
-format-time-string. nil will use the current time.
+TIME <number> or <list>: A valid time, as specified by
+format-time-string. Usually either UNIX seconds or '(HI LO US
+PS). nil will use the current time.
 
 Returns
 =======
@@ -2816,8 +2817,9 @@ This is an ACTION.
 Arguments
 =========
 
-TIME <string>: A valid time string, specified by
-format-time-string. nil will use the current time.
+TIME <number> or <list>: A valid time, as specified by
+format-time-string. Usually either UNIX seconds or '(HI LO US
+PS). nil will use the current time.
 
 Returns
 =======
