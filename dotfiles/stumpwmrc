@@ -155,7 +155,7 @@ otherwise."
 
 ;;; Starup Common Programs
 (stumpwm:run-commands
- "exec --no-startup-id fcitx5 -d"
+ "exec --no-startup-id ~/.local/bin/fcitx -d"
  "exec pulseaudio --start"
  "exec icecat"
  "exec urxvt"
