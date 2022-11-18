@@ -2801,6 +2801,7 @@ which is the default filename format for org-journal files.
 
 Impurities
 ==========
+
 None if time is specified, otherwise relies on current system time."
   (let ((now (decode-time time)))
     (format
@@ -2973,18 +2974,63 @@ This is an ACTION.
 
 Arguments
 =========
+
 None.
 
 Returns
 =======
+
 Undefined.
 
 Impurities
 ==========
+
 Relies on global variables, filesystem state, and current system time."
   (interactive)
-  (find-file (cdr:orgy-journal-filename)))
+  (find-file (cdr:orgy-journal-filename (cdr:timey-unix-today))))
+(defun cdr:orgy-open-journal-yesterday ()
+  "Opens yesterday's org-journal file, or switches to the already-open buffer.
 
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on global variables, filesystem state, and current system time."  
+  (interactive)
+  (find-file (cdr:orgy-journal-filename (cdr:timey-unix-yesterday))))
+(defun cdr:orgy-open-journal-last-week ()
+  "Opens the org-journal file from one week ago, or switches to the
+already-open buffer.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on global variables, filesystem state, and current system time."
+  (interactive)
+  (find-file (cdr:orgy-journal-filename (cdr:timey-unix-last-week))))
 
 
 ;; Without this `mail-user-agent' cannot be set to `mu4e-user-agent'
