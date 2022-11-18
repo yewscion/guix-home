@@ -3195,6 +3195,7 @@ Relies on global variables, filesystem state, and current system time."
 (define-prefix-command 'imperative-map)
 (define-prefix-command 'transform-map)
 (define-prefix-command 'imperative-org-map)
+(define-prefix-command 'orgy-open-journal-map)
 
 ;;; Template Map <F5>
 
@@ -3249,7 +3250,8 @@ Relies on global variables, filesystem state, and current system time."
 (define-key imperative-map (kbd "v") #'add-file-local-variable)
 (define-key imperative-map (kbd "w") #'whitespace-report)
 
-;;; Imperative Org Map <F3> o
+;;; Imperative Org Map <F3> o / <F3> C-o
+(define-key imperative-org-map (kbd "C-j") #'orgy-open-journal-map)
 (define-key imperative-org-map (kbd "C-l") #'cdr:orgy-remove-empty-list-items)
 (define-key imperative-org-map (kbd "h") #'cdr:orgy-pull-task-clock-to-hog)
 (define-key imperative-org-map (kbd "i") #'cdr:orgy-copy-item)
@@ -3258,6 +3260,16 @@ Relies on global variables, filesystem state, and current system time."
 (define-key imperative-org-map (kbd "n") #'orgy-cm-step-next)
 (define-key imperative-org-map (kbd "o") #'cdr:edit-region-as-org)
 (define-key imperative-org-map (kbd "w") #'org-copy-src-block)
+
+;;; Orgy open journal Map <F3> o C-j / <F3> C-o C-j
+(define-key orgy-open-journal-map (kbd "C-j") #'cdr:orgy-open-journal-today)
+(define-key orgy-open-journal-map (kbd "C-t") #'cdr:orgy-open-journal-today)
+(define-key orgy-open-journal-map (kbd "C-w") #'cdr:orgy-open-journal-last-week)
+(define-key orgy-open-journal-map (kbd "C-y") #'cdr:orgy-open-journal-yesterday)
+(define-key orgy-open-journal-map (kbd "j") #'cdr:orgy-open-journal-today)
+(define-key orgy-open-journal-map (kbd "t") #'cdr:orgy-open-journal-today)
+(define-key orgy-open-journal-map (kbd "w") #'cdr:orgy-open-journal-last-week)
+(define-key orgy-open-journal-map (kbd "y") #'cdr:orgy-open-journal-yesterday)
 
 ;;; Transform Map <F2>
 (define-key transform-map (kbd "<tab>") #'indent-relative)
