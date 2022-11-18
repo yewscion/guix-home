@@ -2776,11 +2776,84 @@ Changes Buffer State."
       (cl-loop for n from 0 to count do
                (let ((current-item (nth n struct))
                      (current-id (nth n ids)))
-               (goto-char (nth 0 current-item))
-               (when current-id
-                 (delete-region (point)
-                                (nth 6 current-item))))))))
-  
+                 (goto-char (nth 0 current-item))
+                 (when current-id
+                   (delete-region (point)
+                                  (nth 6 current-item))))))))
+(defun cdr:orgy-journal-date (&optional time)
+  "Generates a datecode equivalent to the default for org-journal entries.
+
+This is an ACTION.
+
+Arguments
+=========
+
+TIME <string>: A valid time string, specified by
+format-time-string. nil will use the current time.
+
+Returns
+=======
+
+A <string> of the format \"YYYYMMDD\" for the specified time,
+which is the default filename format for org-journal files.
+
+
+Impurities
+==========
+None if time is specified, otherwise relies on current system time."
+  (let ((now (decode-time time)))
+    (format
+     "%S%S%S"
+     (nth 5 now)
+     (nth 4 now)
+     (nth 3 now))))
+
+(defun cdr:orgy-journal-filename (&optional time)
+  "Generate the default org-journal filename for the given TIME.
+
+This is an ACTION.
+
+Arguments
+=========
+
+TIME <string>: A valid time string, specified by
+format-time-string. nil will use the current time.
+
+Returns
+=======
+
+A <string> of the format \"org-journal-directory/YYYYMMDD.gpg\"
+for the specified time, which is the default filename format for
+org-journal files. \"org-journal-directory\" is pulled from the
+global org-journal-dir variable.
+
+
+Impurities
+==========
+Relies on global variables and optionally the current system time."
+  (concat
+   org-journal-dir
+   (cdr:orgy-journal-date time)
+   ".gpg"))
+(defun cdr:orgy-open-journal-today ()
+  "Opens today's org-journal file, or switches to the already-open buffer.
+
+This is an ACTION.
+
+Arguments
+=========
+None.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Relies on global variables, filesystem state, and current system time."
+  (interactive)
+  (find-file (cdr:orgy-journal-filename)))
+
 
 
 ;; Without this `mail-user-agent' cannot be set to `mu4e-user-agent'
