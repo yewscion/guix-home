@@ -2680,8 +2680,10 @@ Relies on buffer state."
                (length-of-cookie (if (nth 4 list-item)
                                      (length (nth 4 list-item))
                                    0))
-               (minimum (+ begin-item length-of-bullet length-of-cookie 1))
-               (length-of-item (nth 6 list-item)))
+               (length-of-item (nth 6 list-item))
+               (preamble (+ begin-item length-of-bullet length-of-cookie))
+               (spaces (how-many " " preamble length-of-item))
+               (minimum (+ preamble spaces 1)))
           (<= length-of-item minimum))))))
 
 ;; Thanks to user Vladimir Panteleev at the following URL:
@@ -2742,7 +2744,7 @@ Relies on buffer state."
          (rev-struct (reverse struct))
          (ids (reverse (cdr:orgy-identify-empty-list-items struct))))
     (save-excursion
-      (cdr:orgy-delete-empty-list-items rev-struct ids))))
+      (cdr:orgy-delete-list-items-by-id rev-struct ids))))
 
 (defun cdr:orgy-delete-list-items-by-id (struct ids)
   "Delete list items from the list defined by STRUCT, based on the
