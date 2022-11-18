@@ -2832,11 +2832,140 @@ global org-journal-dir variable.
 
 Impurities
 ==========
+
 Relies on global variables and optionally the current system time."
   (concat
    org-journal-dir
    (cdr:orgy-journal-date time)
    ".gpg"))
+(defun cdr:timey-unix (&optional offset amount)
+    "Returns the current UNIX time (seconds since the epoch) with an
+optional AMOUNT of OFFSET, based on the system clock.
+
+This is an ACTION.
+
+Arguments
+=========
+
+OFFSET <string>: One of \"day\", \"week\", \"hour\", \"minute\",
+or \"second\". Both omitting this value and putting anything else
+will result in no offset, regardless of AMOUNT.
+
+AMOUNT <number>: The count of the specified offset blocks to add
+to the current system time. Not specifying this will cause no
+offset, regardless of OFFSET.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on current system time."
+    (if (or (not offset) (not amount))
+        (time-convert nil 'integer)
+      (let ((offset (cond ((not offset)
+                           0)
+                          ((string= "day" offset)
+                           86400)
+                          ((string= "week" offset)
+                           604800)
+                          ((string= "hour" offset)
+                           3600)
+                          ((string= "minute" offset)
+                           60)
+                          ((string= "second" offset)
+                           1)
+                          (t
+                           0)))
+            (amount (if amount amount 0)))
+        (+ (time-convert nil 'integer) (* amount offset)))))
+(defun cdr:timey-unix-today ()
+  "Returns the current UNIX time (seconds since the epoch), based on the
+system clock.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on current system time."
+  (cdr:timey-unix))
+(defun cdr:timey-unix-yesterday ()
+  "Returns the UNIX time (seconds since the epoch) for exactly one
+day in the past, based on the system clock.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on current system time."  
+  (cdr:timey-unix "day" -1))
+(defun cdr:timey-unix-tomorrow ()
+  "Returns the UNIX time (seconds since the epoch) for exactly one
+day in the future, based on the system clock.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on current system time."
+  (cdr:timey-unix "day" 1))
+(defun cdr:timey-unix-last-week ()
+  "Returns the UNIX time (seconds since the epoch) for exactly one
+day in the future, based on the system clock.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Relies on current system time."
+  (cdr:timey-unix "week" -1))
 (defun cdr:orgy-open-journal-today ()
   "Opens today's org-journal file, or switches to the already-open buffer.
 
