@@ -17,6 +17,42 @@
 ;;; Local Elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+;;; Local Colors
+(setq cdr:colors-black "#2d3743"
+      cdr:colors-cyan "#34cae2"
+      cdr:colors-orange "#e67128"
+      cdr:colors-green "#338f86"
+      cdr:colors-magenta "#ee7ae7"
+      cdr:colors-red "#ff4242"
+      cdr:colors-white "#e1e1e0"
+      cdr:colors-yellow "#ffad29")
+
+;;; Local Faces
+(defface cdr:orgy-new-todo
+  `((t :inherit org-todo
+       :foreground ,cdr:colors-cyan))
+  "Personal Face For New TODOs.")
+(defface cdr:orgy-blocked-todo
+  `((t :inherit org-todo
+       :foreground ,cdr:colors-red))
+  "Personal Face For Blocked TODOs.")
+(defface cdr:orgy-deferred-todo
+  `((t :inherit org-todo
+       :foreground ,cdr:colors-magenta))
+  "Personal Face For Deferred TODOs.")
+(defface cdr:orgy-ongoing-todo
+  `((t :inherit org-todo
+       :foreground ,cdr:colors-orange))
+  "Personal Face For Ongoind TODOs.")
+(defface cdr:orgy-cancelled-todo
+  `((t :inherit org-todo
+       :foreground ,cdr:colors-yellow))
+  "Personal Face For Cancelled TODOs.")
+(defface cdr:orgy-complete-todo
+  `((t :inherit org-todo
+       :foreground ,cdr:colors-green))
+  "Personal Face For Completed TODOs.")
+
 ;;; Regex Builder Config
 (require 're-builder)
 (setq reb-re-syntax 'string)
