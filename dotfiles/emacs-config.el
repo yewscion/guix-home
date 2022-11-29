@@ -2580,7 +2580,7 @@ I/O, Depends on Filesystem and two commands (guix and git)."
   (let ((tempdir (make-temp-file "cdr-emacs-guix" t))
         (olddir  (cdr:get-pwd))
         (repo   (if (not repo)
-                    (read-from-minibuffer "Which Repo? ")
+                    (read-directory-name "Which Repo? ")
                   repo)))
     (unwind-protect
         (progn
