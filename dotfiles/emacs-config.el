@@ -3294,6 +3294,7 @@ Relies on global variables, filesystem state, and current system time."
 (define-key imperative-map (kbd "C-o") #'imperative-org-map)
 (define-key imperative-map (kbd "C-w") #'cdr:copy-deft-note-as-comment)
 (define-key imperative-map (kbd "C-y") #'yank-from-primary)
+(define-key imperative-map (kbd "C-a") #'beginning-of-line)
 (define-key imperative-map (kbd "b") #'switch-to-buffer)
 (define-key imperative-map (kbd "c") #'whitespace-cleanup)
 (define-key imperative-map (kbd "d") #'make-directory)
