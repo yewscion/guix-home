@@ -223,7 +223,7 @@
 
 ;;;; Org Agenda
 (setq org-agenda-files
-      (file-expand-wildcards "~/Documents/org/*.org"))
+      (file-expand-wildcards "~/Documents/org/goals.org"))
 
 ;;;; Customization
 (setq org-log-into-drawer t
