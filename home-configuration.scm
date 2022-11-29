@@ -302,15 +302,16 @@
   "texlive-latex-venndiagram" "texlive-latex-xkeyval"
   "texlive-latex-xpatch" "texlive-libkpathsea" "texlive-luatex-luamplib"
   "texlive-hologo" "texlive-listings" "texlive-lm" "texlive-luaotfload"
-  "texlive-metapost" "texlive-pdfx" "texlive-pgf" "texlive-stringenc"
-  "texlive-svn-prov" "texlive-tex-gyre" "texlive-tex-texinfo"
-  "texlive-tracklang" "texlive-txfonts" "texlive-unicode-math"
-  "texlive-varwidth" "texlive-xcolor" "texlive-xifthen" "texmacs"
-  "the-silver-searcher" "timidity++" "tintin++" "transmission" "tree"
-  "universal-ctags" "unzip" "uxn" "virt-manager" "virt-viewer" "vlang"
-  "wesnoth" "which" "wine64-staging" "wordnet" "xapian" "xboard"
-  "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel" "xkeyboard-config"
-  "xmp" "xprop" "xrdb" "yewscion-scripts" "yt-dlp" "zenity" "zutils"))
+  "texlive-metapost" "texlive-mflogo" "texlive-pdfx" "texlive-pgf"
+  "texlive-stringenc" "texlive-svn-prov" "texlive-tex-gyre"
+  "texlive-tex-texinfo" "texlive-tracklang" "texlive-txfonts"
+  "texlive-unicode-math" "texlive-varwidth" "texlive-xcolor"
+  "texlive-xifthen" "texmacs" "the-silver-searcher" "timidity++" "tintin++"
+  "transmission" "tree" "universal-ctags" "unzip" "uxn" "virt-manager"
+  "virt-viewer" "vlang" "wesnoth" "which" "wine64-staging" "wordnet"
+  "xapian" "xboard" "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel"
+  "xkeyboard-config" "xmp" "xprop" "xrdb" "yewscion-scripts" "yt-dlp"
+  "zenity" "zutils"))
 (define
  
  my-no-test-packages
