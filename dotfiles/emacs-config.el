@@ -781,9 +781,10 @@ None; Inert Data.")
           ("paren" "[%(%<%A %>@%K%<, %A%>%; )]")
           ("year" "[-@%K%< %A%>]")))
         (text-mode
-         (("deft-page-citation" "%K%<, p.%A%>")
-          ("deft-timecode-citation" "%K%<, %A%>")
-          ("deft-para-citation" "%K%< \"%A\", para. %A%>"))))
+         (("page-citation" "%K%<, p.%A%>")
+          ("timecode-citation" "%K%<, %A%>")
+          ("para-citation" "%K%< \"%A\", para. %A%>")
+          ("commit-message" "Notes for %K."))))
       font-latex-user-keyword-classes
       '(("cdr:minted"
          (("mintinline" "{{")
