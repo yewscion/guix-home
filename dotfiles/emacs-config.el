@@ -245,11 +245,30 @@
       org-journal-dir "~/Documents/org/journal/"
       org-journal-encrypt-journal t
 ;;;; TODO
+      org-todo-keyword-faces
+      `(("TODO" . cdr:orgy-new-todo)
+        ("GOAL" . cdr:orgy-new-todo)
+        ("IDEA" . cdr:orgy-new-todo)
+        ("RESEARCHING" . cdr:orgy-ongoing-todo)
+        ("ONGOING" . cdr:orgy-ongoing-todo)
+        ("PROGRESSED" . cdr:orgy-ongoing-todo)
+        ("STAYED" . cdr:orgy-deferred-todo)
+        ("WAIT" . cdr:orgy-deferred-todo)
+        ("MAYBE" . cdr:orgy-deferred-todo)
+        ("DONE" . cdr:orgy-complete-todo)
+        ("FINISHED" . cdr:orgy-complete-todo)
+        ("COMPLETED" . cdr:orgy-complete-todo)
+        ("BLOCKED" . cdr:orgy-blocked-todo)
+        ("JUMBLED" . cdr:orgy-blocked-todo)
+        ("HELP" . cdr:orgy-blocked-todo)
+        ("ABORTIVE" . cdr:orgy-cancelled-todo)
+        ("NOPE" . cdr:orgy-cancelled-todo)
+        ("QUIT" . cdr:orgy-cancelled-todo))
       org-todo-keywords
-      '((sequence "TODO(t!)" "CWIP(w!)" "|" "DONE(d@)" "|" "TRSH(T@)")
-        (sequence "RESEARCHING(r@)" "ONGOING(O!)"
-                  "BLOCKED(b@)" "|"
-                  "HANDED OFF(h@)" "CANCELED(C@)")))
+      ;; Three lines: towdhn;irmfja;gpscbq
+      '((sequence "TODO(t!)" "|" "ONGOING(o!)" "|" "WAIT(w@)" "|" "DONE(d!)" "|" "HELP(h@)" "|" "NOPE(n@)")
+        (sequence "IDEA(i!)" "|" "RESEARCHING(r!)" "|" "MAYBE(m@)" "|" "FINISHED(f!)" "|" "JUMBLED(j@)" "|" "ABORTIVE(a@)")
+        (sequence "GOAL(g!)" "|" "PROGRESSED(p!)" "|" "STAYED(s@)" "|" "COMPLETED(c!)" "|" "BLOCKED(b@)" "|" "QUIT(q@)")))
 ;;;; Capture
 (setq org-capture-templates
       '(("r" "Recipes (using org-chef)")
