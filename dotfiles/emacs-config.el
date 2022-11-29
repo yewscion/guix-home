@@ -742,11 +742,11 @@ None; Inert Data.")
         "booksubtitle" "booktitleaddon" "commentator" "edition"
         "editora" "editorb" "editorc" "eid" "eprint" "eprintclass"
         "eprinttype" "eventdate" "eventtitle" "foreword" "holder"
-        "howpublished" "introduction" "isrn" "issuesubtitle"
-        "issuetitle" "issuetitleaddon" "journaltitleadddon"
-        "journalsubtitle" "mainsubtitle" "maintitle" "maintitleaddon"
-        "month" "part" "primaryclass" "remark" "subtitle" "titleaddon"
-        "translator" "venue" "version" "volumes")
+        "howpublished" "introduction" "isrn" "issue" "issuesubtitle"
+        "issuetitle" "issuetitleaddon" "journal" "journaltitleaddon"
+        "journalsubtitle" "language" "mainsubtitle" "maintitle" "maintitleaddon"
+        "month" "origlanguage" "part" "primaryclass" "remark" "subtitle" "titleaddon"
+        "translator" "venue" "version" "volumes" "year")
       ebib-use-timestamp t
       biblio-bibtex-use-autokey t
       ebib-keywords my-ebib-keywords
