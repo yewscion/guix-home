@@ -243,7 +243,7 @@
   "emacs-wisp-mode" "emacs-with-editor" "emacs-wordgen"
   "emacs-writegood-mode" "emacs-writeroom" "emacs-xmlgen" "emacs-xpm"
   "emacs-xterm-color" "emacs-yaml" "emacs-yaml-mode" "emacs-yasnippet"
-  "endless-sky" "erofs-utils" "esbuild" "espeak-ng" "exa" "exempi"
+  "endless-sky" "erlang" "erofs-utils" "esbuild" "espeak-ng" "exa" "exempi"
   "exfat-utils" "exfatprogs" "expect" "extundelete" "fcitx5" "fcitx5-anthy"
   "fcitx5-chinese-addons" "fcitx5-configtool" "fcitx5-gtk"
   "fcitx5-gtk:gtk2" "fcitx5-gtk:gtk3" "fcitx5-gtk4" "fcitx5-lua"
