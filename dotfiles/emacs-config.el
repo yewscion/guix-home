@@ -3537,6 +3537,11 @@ Relies on global variables, filesystem state, and current system time."
   (if (listp item)
       (car item)
     item))
+(fset 'cdr:convert-cbnf-to-list-of-strings
+   (kmacro-lambda-form [C-f2 ?i ?\C-x ?h C-f2 ?\C-r ?- ?- ?. ?*
+   ?\C-q ?\C-j return return ?\C-x ?h C-f2 ?r ?\; return return
+   ?\C-x ?h C-f2 ?r ?  ?| return return C-f2 ?\C-u ?\C-x ?h ?\M-w
+   ?\C-c ?\C-k] 0 "%d"))
 
 
 ;; Local Variables:
