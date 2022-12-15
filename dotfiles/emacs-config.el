@@ -1661,6 +1661,38 @@ even beep.)"
   (interactive)
   (setq dired-actual-switches "-aDFhikmopqs")
   (revert-buffer))
+(defun cdr:diredy-xdg-open (&optional command-name prefix file-list)
+  "Opens the selected files using xdg-open (or similar command, if specified).
+
+This is an ACTION.
+
+Arguments
+=========
+
+COMMAND-NAME <string>: The command to use to open the files.
+
+PREFIX <number>: The prefix argument. Ignored for now.
+
+FILE-LIST <<list> of <paths>>: The files to open.
+
+Returns
+=======
+Undefined.
+
+Impurities
+==========
+Deals with external programs and files."
+  (interactive
+   (let ((files (dired-get-marked-files t current-prefix-arg nil nil t)))
+     (list
+      "xdg-open"
+      current-prefix-arg
+      files)))
+  (mapcar (lambda (x) (start-process "XDG-OPEN"
+                                     nil
+                                     command-name
+                                     x))
+          file-list))
 
 ;;; Inserting Templates
 (defun cdr:templates-insert-scm-docstring ()
@@ -3437,6 +3469,9 @@ Relies on global variables, filesystem state, and current system time."
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-;") 'iedit-mode)
+
+;;; Alterations to mode-specific keymaps
+(define-key dired-mode-map (kbd "C-c C-c") #'cdr:diredy-xdg-open)
 
 ;;; Ensure paths are set properly
 (cdr:set-variable-from-shell "HOME")
