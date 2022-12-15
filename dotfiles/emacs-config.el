@@ -3321,7 +3321,9 @@ Relies on global variables, filesystem state, and current system time."
 (define-key subprocess-map (kbd "p") #'run-prolog)
 (define-key subprocess-map (kbd "r") #'run-ruby)
 (define-key subprocess-map (kbd "s") #'slime)
-(define-key subprocess-map (kbd "v") #'vterm)
+(define-key subprocess-map (kbd "v") #'vterm-toggle)
+(define-key subprocess-map (kbd "o") #'tuareg-run-ocaml)
+
 
 ;;; Imperative Map <F3>
 (define-key imperative-map (kbd "C-o") #'imperative-org-map)
@@ -3426,7 +3428,7 @@ Relies on global variables, filesystem state, and current system time."
 (global-set-key (kbd "s-w") 'whitespace-mode)
 (global-set-key (kbd "s-e") 'show-paren-mode)
 (global-set-key (kbd "s-n") 'display-line-numbers-mode)
-(global-set-key (kbd "s-t") 'vterm-toggle)
+;; (global-set-key (kbd "s-t") 'vterm-toggle) Moving to Subprocess Map
 ;; (global-set-key (kbd "s-y") 'yank-from-primary) Moving to Imperative Map
 ;; (global-set-key (kbd "s-u") 'unfill-paragraph) Moving to Transform Map
 ;; (global-set-key (kbd "s-i") nil)
@@ -3450,7 +3452,7 @@ Relies on global variables, filesystem state, and current system time."
 ;; (global-set-key (kbd "s-n") nil) ; GNOME ?
 ;; (global-set-key (kbd "s-m") nil) ; GNOME ?
 (global-set-key (kbd "s-;") 'projectile-mode)
-;; (global-set-key (kbd "s-<tab>") 'indent-relative) Moving to Transform Map
+(global-set-key (kbd "s-<tab>") 'ediprolog-dwim)
 
 ;;; Audio Controls
 (global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
