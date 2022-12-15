@@ -153,7 +153,7 @@
               (host "0.0.0.0")))
     (service postgresql-service-type
              (postgresql-configuration
-              (postgresql postgresql-14)))
+              (postgresql postgresql-15)))
     (service gmnisrv-service-type)
     (service wesnothd-service-type)
     (service docker-service-type)
