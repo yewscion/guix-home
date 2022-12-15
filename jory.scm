@@ -241,7 +241,7 @@
                 (home-directory "/home/ming")
                 (supplementary-groups
                  '("wheel" "netdev" "audio" "video"
-                   "docker" "libvirt" "kvm")))
+                   "docker" "libvirt" "kvm" "cdrom")))
                (user-account
                 (name "git")
                 (group "git")
