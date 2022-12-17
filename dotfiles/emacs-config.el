@@ -3543,6 +3543,115 @@ Relies on global variables, filesystem state, and current system time."
    ?\C-x ?h C-f2 ?r ?  ?| return return C-f2 ?\C-u ?\C-x ?h ?\M-w
    ?\C-c ?\C-k] 0 "%d"))
 
+(defun cdr:insert-indented (string)
+  (let ((start (point)))
+    (insert string)
+    (indent-region start
+                   (point))))
+
+(defun cdr:cleanup-shell-output (command)
+  (string-trim-right
+   (shell-command-to-string
+    command)))
+
+(defun cdr:empty-string-to-nil (supplied-string)
+  (if (string= supplied-string "")
+      nil
+    supplied-string))
+
+(defun cdr:build-guix-import-command (name version importer recursive-p)
+  (concat "guix import " importer (if recursive-p " --recursive " " ")
+          name (if version
+                   (concat "@" version)
+                 " ")
+          " 2>/dev/null"))
+
+(defun cdr:insert-guix-imported-package (name version importer indent-p recursive-p)
+  (let* ((command (cdr:build-guix-import-command
+                   name version importer recursive-p))
+         (prefix (if (not recursive-p) (concat "(define-public " importer "-" name "\n")
+                   nil))
+         (package-definition (concat (if prefix prefix "")
+                                     (cdr:cleanup-shell-output
+                                      command)
+                                     (if prefix ")" ""))))
+    (if (string= "" package-definition)
+        (error "No package produced; Check output of `%s` in shell!"
+               command))
+    (if indent-p (cdr:insert-indented package-definition)
+      (insert package-definition))))
+
+(defun cdr:insert-guix-hexpm-package (name version)
+  (interactive "sPackage Name? 
+sVersion(Optional)? ")
+  (let ((version (cdr:empty-string-to-nil version)))
+    (cdr:insert-guix-imported-package name version "hexpm" t t)))
+
+(defun cdr:insert-guix-elpa-melpa-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "elpa -a melpa" t t)))
+
+(defun cdr:insert-guix-elpa-nongnu-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "elpa -a nongnu" t t)))
+
+(defun cdr:insert-guix-texlive-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "texlive" t nil)))
+
+(defun cdr:insert-guix-elm-package (name version)
+  (interactive "sPackage Name? 
+sVersion(Optional)? ")
+  (let ((version (cdr:empty-string-to-nil version)))
+    (cdr:insert-guix-imported-package name version "elm" t t)))
+
+(defun cdr:insert-guix-opam-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "opam" t t)))
+
+(defun cdr:insert-guix-crate-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "crate" t t)))
+
+(defun cdr:insert-guix-cran-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "cran" t t)))
+
+(defun cdr:insert-guix-gem-package (name version)
+  (interactive "sPackage Name? 
+sVersion(Optional)? ")
+  (let ((version (cdr:empty-string-to-nil version)))
+    (cdr:insert-guix-imported-package name version "gem" t t)))
+
+(defun cdr:insert-guix-go-package (name version)
+  (interactive "sPackage Name? 
+sVersion(Optional)? ")
+  (let ((version (cdr:empty-string-to-nil version)))
+    (cdr:insert-guix-imported-package name version "go" t t)))
+
+(defun cdr:insert-guix-stackage-package (name version)
+  (interactive "sPackage Name? 
+sLTS Version(Optional;Default is 20.4)? ")
+  (let ((version (if (string= "" version) "20.4" version)))
+    (cdr:insert-guix-imported-package
+     name nil (concat "stackage --lts-version=" version " ") t t)))
+
+(defun cdr:insert-guix-hackage-package (name version)
+  (interactive "sPackage Name? 
+sVersion(Optional)? ")
+  (let ((version (cdr:empty-string-to-nil version)))
+    (cdr:insert-guix-imported-package name version "hackage" t t)))
+
+(defun cdr:insert-guix-pypi-package (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "pypi" t t)))
 
 ;; Local Variables:
 ;; mode: emacs-lisp
