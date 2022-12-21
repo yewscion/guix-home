@@ -28,6 +28,48 @@
       cdr:colors-yellow "#ffad29")
 
 ;;; Local Faces
+;;;; Generic
+(defface cdr:good-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-green))
+  "Personal Face For 'Good' text.")
+(defface cdr:info-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-yellow))
+  "Personal Face For 'Informational' text.")
+(defface cdr:warning-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-orange))
+  "Personal Face For 'Warning' text.")
+(defface cdr:bad-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-red))
+  "Personal Face For 'Bad' text.")
+(defface cdr:emphasis-face
+  `((t :inherit default
+       :slant italic
+       :foreground ,cdr:colors-white))
+  "Personal Face For 'Emphasized' text.")
+(defface cdr:strong-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-white))
+  "Personal Face For 'Strongly Emphasized' text.")
+(defface cdr:system-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-cyan))
+  "Personal Face For 'System' text.")
+(defface cdr:awesome-face
+  `((t :inherit default
+       :weight bold
+       :foreground ,cdr:colors-magenta))
+  "Personal Face For 'Awesome' text.")
+;;;; Org TODOs
 (defface cdr:orgy-new-todo
   `((t :inherit org-todo
        :foreground ,cdr:colors-cyan))
