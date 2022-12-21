@@ -3516,6 +3516,8 @@ Relies on global variables, filesystem state, and current system time."
 
 ;;; Alterations to mode-specific keymaps
 (define-key dired-mode-map (kbd "C-c C-c") #'cdr:diredy-xdg-open)
+(define-key text-mode-map (kbd "C-c C-c") #'kill-current-buffer)
+(define-key ebib-entry-mode-map (kbd "C") #'ebib-follow-crossref)
 
 ;;; Ensure paths are set properly
 (cdr:set-variable-from-shell "HOME")
