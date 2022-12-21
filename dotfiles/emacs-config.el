@@ -338,7 +338,7 @@
                         "Health")
          (function my-org-capture:health-template) :unnarrowed t)
         ("dw" "Wishlist Item" entry
-         (file "~/Documents/org/wishlist.org")
+         (file "~/Documents/org/data/wishlist.org")
          (function my-org-capture:wishlist-template))
         ("c" "Chores")
         ("cg" "Grocery Shopping List" entry
