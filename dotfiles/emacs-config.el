@@ -268,49 +268,58 @@
       (file-expand-wildcards "~/Documents/org/goals.org"))
 
 ;;;; Customization
-(setq org-log-into-drawer t
-      org-return-follows-link t
-      org-startup-folded t
-      org-image-actual-width 590
-      org-pomodoro-audio-player "mpv"
-      org-adapt-indentation nil
-      org-capture-before-finalize-hook nil
-      org-contacts-files '("~/Documents/org/contacts.gpg")
-      org-export-backends '(ascii beamer html icalendar
-                                  latex man md odt org
-                                  texinfo deck rss s5)
-      org-refile-targets '((org-agenda-files :maxlevel . 3)
-                           (nil :maxlevel . 9)
-                           (org-buffer-list :maxlevel . 3))
-      org-time-stamp-custom-formats '("%F" . "%F %H:%MZ%z")
+(setq
+ org-log-into-drawer t
+ org-return-follows-link t
+ org-startup-folded t
+ org-image-actual-width 590
+ org-pomodoro-audio-player "mpv"
+ org-adapt-indentation nil
+ org-capture-before-finalize-hook nil
+ org-contacts-files '("~/Documents/org/contacts.gpg")
+ org-export-backends '(ascii beamer html icalendar
+                             latex man md odt org
+                             texinfo deck rss s5)
+ org-refile-targets '((org-agenda-files :maxlevel . 3)
+                      (nil :maxlevel . 9)
+                      (org-buffer-list :maxlevel . 3))
+ org-time-stamp-custom-formats '("%F" . "%F %H:%MZ%z")
 ;;;; Journal
-      org-journal-dir "~/Documents/org/journal/"
-      org-journal-encrypt-journal t
+ org-journal-dir "~/Documents/org/journal/"
+ org-journal-encrypt-journal t
 ;;;; TODO
-      org-todo-keyword-faces
-      `(("TODO" . cdr:orgy-new-todo)
-        ("GOAL" . cdr:orgy-new-todo)
-        ("IDEA" . cdr:orgy-new-todo)
-        ("RESEARCHING" . cdr:orgy-ongoing-todo)
-        ("ONGOING" . cdr:orgy-ongoing-todo)
-        ("PROGRESSED" . cdr:orgy-ongoing-todo)
-        ("STAYED" . cdr:orgy-deferred-todo)
-        ("WAIT" . cdr:orgy-deferred-todo)
-        ("MAYBE" . cdr:orgy-deferred-todo)
-        ("DONE" . cdr:orgy-complete-todo)
-        ("FINISHED" . cdr:orgy-complete-todo)
-        ("COMPLETED" . cdr:orgy-complete-todo)
-        ("BLOCKED" . cdr:orgy-blocked-todo)
-        ("JUMBLED" . cdr:orgy-blocked-todo)
-        ("HELP" . cdr:orgy-blocked-todo)
-        ("ABORTIVE" . cdr:orgy-cancelled-todo)
-        ("NOPE" . cdr:orgy-cancelled-todo)
-        ("QUIT" . cdr:orgy-cancelled-todo))
-      org-todo-keywords
-      ;; Three lines: towdhn;irmfja;gpscbq
-      '((sequence "TODO(t!)" "|" "ONGOING(o!)" "|" "WAIT(w@)" "|" "DONE(d!)" "|" "HELP(h@)" "|" "NOPE(n@)")
-        (sequence "IDEA(i!)" "|" "RESEARCHING(r!)" "|" "MAYBE(m@)" "|" "FINISHED(f!)" "|" "JUMBLED(j@)" "|" "ABORTIVE(a@)")
-        (sequence "GOAL(g!)" "|" "PROGRESSED(p!)" "|" "STAYED(s@)" "|" "COMPLETED(c!)" "|" "BLOCKED(b@)" "|" "QUIT(q@)")))
+ org-todo-keyword-faces
+ `(("NOTION" . cdr:orgy-new-todo)
+   ("GOAL" . cdr:orgy-new-todo)
+   ("UNREAD" . cdr:orgy-new-todo)
+   ("RESEARCHING" . cdr:orgy-ongoing-todo)
+   ("ONGOING" . cdr:orgy-ongoing-todo)
+   ("DIGESTING" . cdr:orgy-ongoing-todo)
+   ("MAYBE" . cdr:orgy-deferred-todo)
+   ("STAYED" . cdr:orgy-deferred-todo)
+   ("EXCERPTED" . cdr:orgy-deferred-todo)
+   ("FINISHED" . cdr:orgy-complete-todo)
+   ("COMPLETED" . cdr:orgy-complete-todo)
+   ("PORED" . cdr:orgy-complete-todo)
+   ("JUMBLED" . cdr:orgy-blocked-todo)
+   ("BLOCKED" . cdr:orgy-blocked-todo)
+   ("ABEYED" . cdr:orgy-blocked-todo)
+   ("VOIDED" . cdr:orgy-cancelled-todo)
+   ("QUIT" . cdr:orgy-cancelled-todo)
+   ("INUTILE" . cdr:orgy-cancelled-todo))
+ org-todo-keywords
+ ;; Three lines: nrmfjv;udiaep;goscbq
+ ;; Available letters: hkltwxyz
+ '(
+   (sequence
+    "NOTION(n!)" "|" "RESEARCHING(r!)" "|" "MAYBE(m@)"     "|" "FINISHED(f!)"
+    "|" "JUMBLED(j@)" "|" "VOIDED(v@)")
+   (sequence
+    "GOAL(g!)"   "|" "ONGOING(o!)"     "|" "STAYED(s@)"    "|" "COMPLETED(c!)"
+    "|" "BLOCKED(b@)" "|" "QUIT(q@)")
+   (sequence
+    "UNREAD(u!)" "|" "DIGESTING(d!)"   "|" "EXCERPTED(e!)" "|" "PORED(p!)"
+    "|" "ABEYED(a@)"  "|" "INUTILE(i@)")))
 ;;;; Capture
 (setq org-capture-templates
       '(("r" "Recipes (using org-chef)")
