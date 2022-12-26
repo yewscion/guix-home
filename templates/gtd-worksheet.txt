@@ -1,0 +1,71 @@
+Identify what's not on Cruise Control.  When in doubt, write it down. Start
+with top-of-mind stuff. Here are some prompts:
+
+* What do You have to do today? Yesterday? Day Before Last?
+
+* Dangling Tasks? Planned Tasks? Seasonal? Social Events?
+
+* Mail? Email? Work Stuff? Problems? Issues?
+
+* Do a mental walkthrough of common work and life areas.
+
+* Housekeeping Items? Home Maintenance?
+
+* What People have You given attention to recently?
+
+* 20k feet look at your job, what are Your responsibilities?
+
+* 20k feet look at your life, what are Your goals?
+
+* What fun things do You want to do?
+
+* Maintaining relationships? Partner? Pets?
+
+* Is all of Your Gear okay?
+
+* If there were something You haven't captured yet, what would it be?
+
+Things are on Your mind because there is still thinking to be done. Thinking
+about each item, ask these questions:
+
+* What is it?
+
+* What's the next step?
+
+* Is it Actionable?
+
+If it is NOT Actionable:
+========================
+
+* Is it just something that You need to remember? If so, ARCHIVE it now.
+
+* If not, does it need time to incubate or is it in the far future? If so,
+SCHEDULE it and a reminder for it, now.
+
+* If not, is it something You can get away without? If so, TRASH it now.
+
+* If not, is it something that You need or want to do someday, but not soon?
+If so, add it to Your SOMEDAY list.
+
+* If not, it is probably more than one item pretending to be one
+item. DECOMPOSE it into smaller pieces, now, and repeat with the pieces.
+
+If it IS Actionable:
+========================
+
+* Can it be done in less than 2 minutes? If so, do it now.
+
+* If not, is it a long, multi-step process? If so, this is a PROJECT.
+
+* If not, is this something You can hand off to someone else? If so, this is
+something to be DELEGATED.
+
+* If not, is it something that will take a long while? If so, this is
+something to be DEFERRED to a specific time.
+
+* If not, it is probably more than one item pretending to be one
+item. DECOMPOSE it into smaller pieces, now, and repeat with the pieces.
+
+# Local Variables:
+# mode: read-only
+# End:
