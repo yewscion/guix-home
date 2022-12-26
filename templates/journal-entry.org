@@ -16,13 +16,8 @@
 3. [ ]
 *** Most Interesting Thing
 //
-*** DASH
-| DASH       | Value |
-|------------+-------|
-| Depression |     0 |
-| Anxiety    |     0 |
-| Sickness   |     0 |
-| Headache   |     0 |
+*** GLAD DASH CURE
+[[file:~/Documents/forms/glad.form][Forms File]]
 
 # Local Variables:
 # mode: org-journal
