@@ -4,7 +4,7 @@
 ;;;
 ;;; Author: Christopher Rodriguez
 ;;; Created: 2022-04-10
-;;; Last Released: 2022-06-09
+;;; Last Released: 2022-12-24
 ;;; Contact: yewscion@gmail.com
 ;;;
 
@@ -277,18 +277,18 @@
  (swap-devices
   (list (swap-space
          (target
-          (uuid "0fd9015c-34ca-4d05-843b-584fa94796d3")))))
+          (uuid "ef7e4ec2-b20a-4d00-beb1-c33c1755511e")))))
  (file-systems
   (cons* (file-system
           (mount-point "/")
           (device
-           (uuid "ada80f5c-de9b-4a3b-b25d-cd4518d2a8f7"
+           (uuid "c2a95ae1-a94b-4a2e-9c62-2141b28061ba"
                  'ext4))
           (type "ext4"))
          (file-system
           (mount-point "/home")
           (device
-           (uuid "0ee6f458-e0d7-4bc3-b449-b368901c70fd"
+           (uuid "8523cff9-7ef1-468a-9135-c958a326f270"
                  'ext4))
           (type "ext4"))
          %base-file-systems)))
