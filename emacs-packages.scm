@@ -82,6 +82,7 @@
    "emacs-gif-screencast"
    "emacs-git-modes"
    "emacs-gnu-apl-mode"
+   "emacs-gnuplot"
    "emacs-graphviz-dot-mode"
    "emacs-guix"
    "emacs-helm"
