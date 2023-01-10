@@ -153,6 +153,10 @@ otherwise."
 ;;; Restore Rules
 (restore-window-placement-rules "~/.config/stumpwm/window-placement.lisp")
 
+;;; Replace defaults with Xresources configs
+(stumpwm:run-shell-command
+ "xrdb -load ~/.Xresources")
+
 ;;; Starup Common Programs
 (stumpwm:run-commands
  "exec --no-startup-id ~/.local/bin/fcitx -d"
