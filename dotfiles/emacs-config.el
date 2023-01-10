@@ -3526,7 +3526,16 @@ Relies on global variables, filesystem state, and current system time."
 ;;; Alterations to mode-specific keymaps
 (define-key dired-mode-map (kbd "C-c C-c") #'cdr:diredy-xdg-open)
 (define-key text-mode-map (kbd "C-c C-c") #'kill-current-buffer)
+(add-hook 'forms-mode-hook (lambda nil
+                             (local-set-key (kbd "C-c C-c C-c")
+                                            #'(lambda nil (interactive)
+                                                (forms-save-buffer)
+                                                (kill-current-buffer)))))
+
 (define-key ebib-entry-mode-map (kbd "C") #'ebib-follow-crossref)
+(define-key org-mode-map (kbd "s-<return>") #'org-open-at-point)
+(define-key ebib-index-mode-map (kbd "B") #'ebib-biblio-import-doi)
+
 
 ;;; Ensure paths are set properly
 (cdr:set-variable-from-shell "HOME")
