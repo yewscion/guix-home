@@ -365,6 +365,7 @@
    (dot . t)
    (elm . t)
    (emacs-lisp . t)
+   (gnuplot . t)
    (js . t)
    (lilypond . t)
    (lisp . t)
