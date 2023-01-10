@@ -3327,6 +3327,9 @@ Relies on global variables, filesystem state, and current system time."
 
 ;; Maps
 
+;;; Last Preloads
+(require 'forms)
+
 ;;; Prefixes
 
 (define-prefix-command 'template-map)
