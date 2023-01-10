@@ -3706,6 +3706,25 @@ sVersion(Optional)? ")
   (let ((version nil))
     (cdr:insert-guix-imported-package name version "pypi" t t)))
 
+(defun cdr:shry-save-image (&optional copy-url)
+  "Save the image under point to ~/Pictures.
+If COPY-URL (the prefix if called interactively) is non-nil, copy
+the URL of the image to the kill buffer instead."
+  (interactive "P")
+(let* ((url (get-text-property (point) 'image-url))
+       (filename (car (reverse (split-string url "/")))))
+    (cond
+     ((not url)
+      (message "No image under point"))
+     (copy-url
+      (with-temp-buffer
+	(insert url)
+	(copy-region-as-kill (point-min) (point-max))
+	(message "Copied %s" url)))
+     (t
+      (message "Saving %s to ~/Pictures..." url)
+      (url-copy-file url (concat "~/Pictures/" filename) t)))))
+
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
