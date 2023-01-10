@@ -322,13 +322,14 @@
              ("GUIX_GTK3_IM_MODULE_FILE" .
               ,(generate-gtk-immodule-cache
                 gtk+
-                "3.0.0"
+                "3.24.30"
                 #~(begin #$fcitx5-gtk:gtk3)))
              ("GUIX_GTK2_IM_MODULE_FILE" .
               ,(generate-gtk-immodule-cache
                 gtk+
-                "2.0.0"
-                #~(begin #$fcitx5-gtk:gtk2)))))
+                "2.24.33"
+                #~(begin #$fcitx5-gtk:gtk2)))
+             ))
           (guix-defaults? #t)
           (package bash)))
         (simple-service 'my-extensions
