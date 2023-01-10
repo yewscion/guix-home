@@ -334,7 +334,8 @@
          (function my-org-capture:recipe-template))
         ("n" "Notes, Links, and Contacts")
         ("nn" "Note" entry
-         (file "~/Documents/org/inbox.org")
+         (file+headline "~/Documents/org/notes.org"
+                        "Inbox")
          (function my-org-capture:note-template))
         ("nc" "Contact" entry
          (file "~/Documents/org/data/contacts.org")
