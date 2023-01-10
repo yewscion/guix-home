@@ -324,26 +324,28 @@
 (setq org-capture-templates
       '(("r" "Recipes (using org-chef)")
         ("ru" "Import Recipe from URL" entry
-         (file "~/Documents/org/recipes.org")
+         (file+headline "~/Documents/org/data/recipes.org"
+                        "Inbox")
          "%(org-chef-get-recipe-from-url)"
          :empty-lines 1)
         ("rm" "Import Recipe Manually" entry
-         (file "~/Documents/org/recipes.org")
+         (file+headline "~/Documents/org/data/recipes.org"
+                        "Inbox")
          (function my-org-capture:recipe-template))
         ("n" "Notes, Links, and Contacts")
         ("nn" "Note" entry
          (file "~/Documents/org/inbox.org")
          (function my-org-capture:note-template))
         ("nc" "Contact" entry
-         (file "~/Documents/org/contacts.org")
+         (file "~/Documents/org/data/contacts.org")
          (function my-org-capture:contacts-template))
         ("nl" "Link from Clipboard" entry
-         (file+headline "~/Documents/org/bookmarks.org"
+         (file+headline "~/Documents/org/data/bookmarks.org"
                         "Inbox")
          (function my-org-capture:link-template))
         ("d" "Data Aggregation")
         ("dh" "Daily Health Check In" table-line
-         (file+headline "~/Documents/org/metrics.org"
+         (file+headline "~/Documents/org/data/metrics.org"
                         "Health")
          (function my-org-capture:health-template) :unnarrowed t)
         ("dw" "Wishlist Item" entry
