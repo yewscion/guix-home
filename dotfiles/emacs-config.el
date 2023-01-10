@@ -3464,7 +3464,7 @@ Relies on global variables, filesystem state, and current system time."
 (global-set-key (kbd "M-<f2>") 'ebib-insert-citation)
 (global-set-key (kbd "M-<f3>") 'calendar)
 (global-set-key (kbd "M-<f4>") nil) ; Close Program
-(global-set-key (kbd "M-<f5>") nil)
+(global-set-key (kbd "M-<f5>") 'emms-browser)
 (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-<f7>") 'ispell)
 (global-set-key (kbd "M-<f8>") 'mastodon)
