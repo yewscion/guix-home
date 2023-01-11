@@ -2948,7 +2948,7 @@ Impurities
 None if time is specified, otherwise relies on current system time."
   (let ((now (decode-time time)))
     (format
-     "%S%S%S"
+     "%d%02d%02d"
      (nth 5 now)
      (nth 4 now)
      (nth 3 now))))
