@@ -3540,8 +3540,24 @@ Relies on global variables, filesystem state, and current system time."
                                                 (kill-current-buffer)))))
 
 (define-key ebib-entry-mode-map (kbd "C") #'ebib-follow-crossref)
-(define-key org-mode-map (kbd "s-<return>") #'org-open-at-point)
 (define-key ebib-index-mode-map (kbd "B") #'ebib-biblio-import-doi)
+(define-key org-mode-map (kbd "s-<return>") #'org-open-at-point)
+(define-key org-mode-map (kbd "M-p") #'org-metaup)
+(define-key org-mode-map (kbd "M-n") #'org-metadown)
+(define-key org-mode-map (kbd "M-[") #'org-metaleft)
+(define-key org-mode-map (kbd "M-]") #'org-metaright)
+(define-key org-mode-map (kbd "M-s-p") #'org-shiftmetaup)
+(define-key org-mode-map (kbd "M-s-n") #'org-shiftmetadown)
+(define-key org-mode-map (kbd "M-s-[") #'org-shiftmetaleft)
+(define-key org-mode-map (kbd "M-s-]") #'org-shiftmetaright)
+(define-key org-mode-map (kbd "M-<up>") nil)
+(define-key org-mode-map (kbd "M-<down>") nil)
+(define-key org-mode-map (kbd "M-<left>") nil)
+(define-key org-mode-map (kbd "M-<right>") nil)
+(define-key org-mode-map (kbd "M-S-<up>") nil)
+(define-key org-mode-map (kbd "M-S-<down>") nil)
+(define-key org-mode-map (kbd "M-S-<left>") nil)
+(define-key org-mode-map (kbd "M-S-<right>") nil)
 
 
 ;;; Ensure paths are set properly
