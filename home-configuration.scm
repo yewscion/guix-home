@@ -196,31 +196,38 @@
   "guile-bash" "guile-cdr255" "guile-chickadee" "guile-colorized"
   "guile-git" "guile-goblins" "guile-hall" "guile-ncurses" "guile-readline"
   "guile-sqlite3" "guile-ssh" "gtk+:bin" "gv" "gwl" "haunt" "htop"
-  "httrack" "icecat" "inkscape" "innoextract" "ispell" "janet" "java-bsh"
-  "java-bigdecimal-math" "java-cglib" "java-guice" "java-junit"
-  "java-log4j-core" "jpegoptim" "kawa" "knock" "le-certs" "libreoffice"
-  "libvirt" "links" "lxc" "make" "mc" "milkytracker" "maven" "mpv" "msmtp"
-  "mu" "my-frotz" "nasm" "ncdu" "ncurses" "netcat" "nethack" "newlisp"
-  "newt" "nmap" "node" "nomad" "nss-certs" "offlineimap3" "openjdk:doc"
-  "openjdk:jdk" "optipng" "orca-music" "owl-lisp" "p7zip" "pagr" "pamixer"
-  "password-store" "patchelf" "patchelf-wrapper" "pavucontrol" "perl"
-  "perl-image-exiftool" "picolisp" "pinentry-emacs" "pioneer" "pkg-config"
-  "plantuml" "poppler" "portmidi" "postgresql" "pseudotaxus"
-  "pseudotaxus-emacs" "pseudotaxus-grove" "pulseaudio" "python"
-  "python-css-html-js-minify" "python-lsp-server" "python-pygments"
-  "python-pygments-pseudotaxus" "qemu" "rebar3" "restic" "ripgrep" "rlwrap"
-  "rsync" "ruby" "ruby-kramdown" "rxvt-unicode" "sbcl" "sbcl-deploy"
-  "sbcl-esrap" "sbcl-ironclad" "sbcl-stumpwm-battery-portable"
-  "sbcl-stumpwm-notify" "sbcl-stumpwm-screenshot" "sbcl-zpng"
-  "scheme-primer" "screen" "sdl2" "sed" "sedsed" "setxkbmap" "sfarklib"
-  "shellcheck" "shepherd" "shotwell" "signing-party" "sshfs" "sshpass"
-  "stumpish" "stumpwm" "stumpwm:lib" "swi-prolog" "talkfilters" "telescope"
-  "texinfo" "texmacs" "the-silver-searcher" "timidity++" "tintin++"
-  "transmission" "trash-cli" "tree" "universal-ctags" "unzip" "uxn"
-  "virt-manager" "virt-viewer" "vlang" "wesnoth" "which" "wine64-staging"
-  "wordnet" "xapian" "xboard" "xdg-utils" "xdotool" "xdpyprobe" "xindy"
-  "xfontsel" "xkeyboard-config" "xmp" "xorriso" "xprop" "xrdb"
-  "yewscion-scripts" "yt-dlp" "zenity" "zutils"))
+  "httrack" "icecat" "imagemagick" "inkscape" "innoextract" "ispell"
+  "janet" "java-bsh" "java-bigdecimal-math" "java-cglib" "java-guice"
+  "java-junit" "java-log4j-core" "jpegoptim" "kawa" "knock" "le-certs"
+  "libreoffice" "libvirt" "links" "lxc" "make" "mc" "milkytracker" "maven"
+  "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu" "ncurses" "netcat" "nethack"
+  "newlisp" "newt" "nmap" "node" "nss-certs" "offlineimap3"
+  "openjdk:doc" "openjdk:jdk" "optipng" "orca-music" "owl-lisp" "p7zip" ;; openjdk@15:jdk
+                                                                        ;; allowed
+                                                                        ;; installation
+                                                                        ;; of
+                                                                        ;; lsps.
+  "pagr" "pamixer" "password-store" "patchelf" "patchelf-wrapper"
+  "pavucontrol" "perl" "perl-image-exiftool" "picolisp" "pinentry-emacs"
+  "pioneer" "pkg-config" "plantuml" "poppler" "portmidi" "postgresql"
+  "pseudotaxus" "pseudotaxus-emacs" "pseudotaxus-grove" "pulseaudio"
+  "python" "python-css-html-js-minify" "python-lsp-server"
+  "python-pygments" "python-pygments-pseudotaxus" "qemu" "rebar3" "restic"
+  "ripgrep" "rlwrap" "rsync" "ruby" "ruby-kramdown" "rxvt-unicode" "sbcl"
+  "sbcl-deploy" "sbcl-esrap" "sbcl-ironclad"
+  "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
+  "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "screen" "sdl2"
+  "sed" "sedsed" "setxkbmap" "sfarklib" "shellcheck" "shepherd" "shotwell"
+  "signing-party" "sshfs" "sshpass" "stumpish" "stumpwm" "stumpwm:lib"
+  "swi-prolog" "talkfilters" "telescope" "texinfo" "texmacs"
+  "the-silver-searcher" "timidity++" "tintin++" "transmission" "trash-cli"
+  "tree" "universal-ctags" "unzip" "uxn" "virt-manager" "virt-viewer"
+  "vlang" "wesnoth" "which" "wine64-staging" "wordnet" "xapian" "xboard"
+  "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel" "xkeyboard-config"
+  "xmp" "xorriso" "xprop" "xrdb" "yewscion-scripts" "yt-dlp" "zenity"
+  "zutils"))
+
+; Graveyard: "nomad"
 
 (define my-packages
   (append my-other-packages my-emacs-packages my-texlive-packages))
