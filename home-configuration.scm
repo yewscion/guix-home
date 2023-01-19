@@ -11,10 +11,14 @@
  (guix monads)
  (guix store)
  (guix utils)
+ (guix packages)
  (gnu packages code)
  (gnu packages curl)
  (gnu packages gtk)
  (gnu packages fcitx5)
+ (gnu packages java)
+ (gnu packages maven)
+ (cdr255 fixes)
  (gnu packages emacs-xyz))
 ;;; Thanks to lizog and their friend for this procedure, which is needed to
 ;;; regenerate the gtk-immodule-cache for fcitx5.
@@ -199,7 +203,7 @@
   "httrack" "icecat" "imagemagick" "inkscape" "innoextract" "ispell"
   "janet" "java-bsh" "java-bigdecimal-math" "java-cglib" "java-guice"
   "java-junit" "java-log4j-core" "jpegoptim" "kawa" "knock" "le-certs"
-  "libreoffice" "libvirt" "links" "lxc" "make" "mc" "milkytracker" "maven"
+  "libreoffice" "libvirt" "links" "lxc" "make" "mc" "milkytracker" ;"maven"
   "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu" "ncurses" "netcat" "nethack"
   "newlisp" "newt" "nmap" "node" "nss-certs" "offlineimap3"
   "openjdk:doc" "openjdk:jdk" "optipng" "orca-music" "owl-lisp" "p7zip" ;; openjdk@15:jdk
@@ -240,6 +244,13 @@
     ;emacs-citar
     ;emacs-org-ref
     ))
+(define use-new-java-logback-classic
+  ;; This is a procedure to replace OPENSSL by LIBRESSL,
+  ;; recursively.
+  (package-input-rewriting `((,java-logback-classic . ,java-logback-classic-fixed))))
+
+(define maven-with-replaced-jlc
+  (use-new-java-logback-classic maven))
 (define my-transformation
   (options->transformation
    '(
@@ -263,13 +274,14 @@
                           #$output
                           "/bin/u-ctags")))))
 (define my-transformed-packages
-  (map my-transformation
-       my-no-test-packages))
+  ;; (map my-transformation
+    ;;           my-no-test-packages)
+  (list maven-with-replaced-jlc))
 (define my-spec-list (append
                       '()
                       my-packages))
 (define my-package-list
-  (append my-transformed-packages
+  (append '() my-transformed-packages
           (map (compose list specification->package+output) my-spec-list)))
 (home-environment
  (packages
