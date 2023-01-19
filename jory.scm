@@ -114,12 +114,37 @@
        "2.0.0"
        #~(begin #$fcitx5-gtk:gtk2)))
     ))
+
+(load "emacs-packages.scm")
+(load "texlive-packages.scm")
 (define %cuirass-specs
   #~(list (specification
            (name "yewscion")
            (build '(channels yewscion))
            (systems  '("x86_64-linux"))
            (priority 1)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))
+          (specification
+           (name "emacs-packages")
+           (build (quote #$(append '(packages) my-emacs-packages)))
+           (systems  '("x86_64-linux"))
+           (priority 2)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))
+          (specification
+           (name "texlive-packages")
+           (build (quote #$(append '(packages) my-texlive-packages)))
+           (systems  '("x86_64-linux"))
+           (priority 2)
            (channels
             (cons (channel
                    (name 'yewscion)
