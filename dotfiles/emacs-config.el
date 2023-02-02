@@ -3323,6 +3323,349 @@ Relies on global variables, filesystem state, and current system time."
 "
   "Keyboard map for BQN.")
 
+;;; Compost
+(defun compost-search (regex)
+  "Search through the compost directory for matches of REGEX.
+
+This is an ACTION.
+
+Arguments
+=========
+
+REGEX <string>: A regular expression for which to search for matches.
+
+Returns
+=======
+
+Return value of call to 'deadgrep'.
+
+Impurities
+==========
+
+Used entirely for side effects: Calls 'deadgrep' using two
+arguments, one obtained through a prompt."
+  (interactive "sCompost Search: ")
+  (deadgrep regex compost-directory))
+
+(defun compost-date (&optional time)
+  "Generates a datecode equivalent to the default for compost entries.
+
+This is an ACTION.
+
+Arguments
+=========
+
+TIME <number> or <list> or <nil>: A valid time, as specified by
+format-time-string. Usually either UNIX seconds or '(HI LO US
+PS). nil will use the current time.
+
+Returns
+=======
+
+A <string> of the format \"YYYYMMDDTHHMMSSZ±ZONE\" for the
+specified time, which is the default filename format for
+org-journal files.
+
+Impurities
+==========
+
+None if time is specified, otherwise relies on current system time."
+  (let ((now (decode-time time)))
+    (format
+     "%d%02d%02dT%02d%02d%02dZ%05d"
+     (nth 5 now)
+     (nth 4 now)
+     (nth 3 now)
+     (nth 2 now)
+     (nth 1 now)
+     (nth 0 now)
+     (/ (nth 8 now) 36))))
+
+(defun compost-add (&optional time)
+  "Adds a new entry into the configured 'compost-directory.
+
+This is an ACTION.
+
+Arguments
+=========
+
+TIME <number> or <list> or <nil>: A valid time, as specified by
+format-time-string. Usually either UNIX seconds or '(HI LO US
+PS). nil will use the current time.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Creates a new buffer associated
+with a file in the compost directory for the current second in
+local time, in which the user can add notes."  
+  (interactive)
+  (find-file (file-truename (concat compost-directory "/" (compost-date time) ".txt"))))
+
+(defcustom compost-directory
+  "~/.compost"
+  "The directory for storing Your compost. Shouldn't end with a slash.")
+
+(defun compost-transplant ()
+  "Kill the current buffer with guardrails inserted before and
+after, then yank it into the current 'other window'. Meant to be
+used in a two-window setup, with the current buffer's contents
+being added as a comment to the other buffer's contents, at the
+current point of other buffer.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Copies state of current buffer,
+switches current buffer, alters text of new current buffer, and
+switches again."
+  (interactive)
+  (progn
+    (cdr:kill-buffer)
+    (other-window 1)
+    (cdr:yank-as-comment)
+    (other-window 1)))
+
+(defun cdr:yank-as-comment ()
+  "Yank the top of the kill ring into the current buffer as a comment.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Modifies kill-ring and current buffer."
+  (interactive)
+  (progn (yank)
+         (comment-region (mark) (point))))
+
+(defun cdr:kill-buffer ()
+  "Add the entirety of the current buffer to the kill ring, with guard rails.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Modifies kill-ring and uses
+current buffer state."
+  (interactive)
+  (kill-new (concat
+             "--------\n"
+             (cdr:remove-ending-newlines
+              (cdr:buffer-as-string))
+             "\n"
+             "--------\n"
+             )))
+(defun cdr:kill-buffer-as-comment ()
+  "Add the entire buffer to the kill ring as a comment of the current mode's
+syntax.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Modifies kill-ring and uses
+current buffer state and mode."
+  (interactive)
+  (kill-new (cdr:comment-block-from-buffer)))
+
+(defun cdr:comment-block-from-buffer ()
+  "Create a comment block out of the contents of the current buffer.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Modifies kill-ring and uses
+current buffer state and mode."
+  (cdr:create-comment-block (cdr:buffer-as-string)))
+
+(defun cdr:create-comment-block (string)
+  "Create a comment block using STRING as the contents.
+
+This is an ACTION.
+
+Arguments
+=========
+
+STRING <string>: The contents of the comment block.
+
+Returns
+=======
+
+A <string> with the original STRING surrounded by guard rails and
+with comment padding and characters prepended to each line.
+
+Impurities
+==========
+
+Relies on current buffer's major mode for comment characters."
+  (concat comment-start
+          comment-padding
+          "--------\n"
+          (cdr:comment-string string)
+          "\n"
+          comment-start
+          comment-padding
+          "--------\n"))
+
+(defun cdr:comment-string (string)
+  "Comment STRING using the current major mode's comment syntax, after
+removing any extraneous newlines.
+
+This is an ACTION.
+
+Arguments
+=========
+
+STRING <string>: The string to turn into a comment.
+
+Returns
+=======
+
+A <string> representing the original STRING with comment padding
+and characters prepended to each line.
+
+Impurities
+==========
+
+Relies on current buffer's major mode for comment characters."
+  (cdr:comment-multiline-string
+   (cdr:remove-ending-newlines string)))
+
+(defun cdr:comment-multiline-string (string)
+  "Comments STRING using the current mode's comment syntax, taking into
+account that newlines will need a new comment character.
+
+This is an ACTION.
+
+Arguments
+=========
+
+STRING <string>: The string to turn into a comment.
+
+Returns
+=======
+
+A <string> representing the original STRING with comment padding
+and characters prepended to each line.
+
+Impurities
+==========
+
+Relies on current buffer's major mode for comment characters."
+  (concat comment-start
+          comment-padding
+          (string-replace "\n"
+                          (concat "\n"
+                                  comment-start
+                                  comment-padding)
+                          string)))
+
+(defun cdr:remove-ending-newlines (string)
+  "Removes extra newlines at the end of STRING, leaving none.
+
+This is a CALCULATION.
+
+Arguments
+=========
+
+STRING <string>: The string to turn into a comment.
+
+Returns
+=======
+
+A <string> representing the original STRING, but with no ending
+newlines.
+
+Impurities
+==========
+
+None."
+  (replace-regexp-in-string "\n+\\'" "" string))
+
+(defun cdr:buffer-as-string ()
+  "Get the entire contents of the current buffer as a string.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+A <string> representing the entire contents of the current
+buffer, with no properties or extraneous information.
+
+Impurities
+==========
+
+Relies on the current buffer state."
+  (buffer-substring-no-properties (point-min) (point-max)))
+
 ;;; Enabled Commands
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
