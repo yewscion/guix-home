@@ -1171,8 +1171,8 @@ None; Inert Data.")
       `(("https://www.elbeno.com/blog/?feed=rss2"
          tech programming)
         ("https://anchor.fm/s/581d4eb4/podcast/rss"
-	 tech)
-	("http://retro-style.software-by-mabe.com/blog-atom-feed"
+         tech)
+        ("http://retro-style.software-by-mabe.com/blog-atom-feed"
          tech code lisp cl)
         ("https://alhassy.github.io/rss.xml"
          tech code lisp cl)
@@ -1482,6 +1482,7 @@ lists."
          (cdr:orgy-pull-inbox-for-hog)
          (cdr:orgy-clear-hog-inbox)
          (message "🐖 Hogging it! 🐖")))
+
 
 ;;; Misc
 (defun i-ching-pull ()
@@ -2953,6 +2954,8 @@ None if time is specified, otherwise relies on current system time."
      (nth 4 now)
      (nth 3 now))))
 
+
+
 (defun cdr:orgy-journal-filename (&optional time)
   "Generate the default org-journal filename for the given TIME.
 
@@ -3066,7 +3069,7 @@ Undefined.
 Impurities
 ==========
 
-Relies on current system time."  
+Relies on current system time."
   (cdr:timey-unix "day" -1))
 (defun cdr:timey-unix-tomorrow ()
   "Returns the UNIX time (seconds since the epoch) for exactly one
@@ -3149,7 +3152,7 @@ Undefined.
 Impurities
 ==========
 
-Relies on global variables, filesystem state, and current system time."  
+Relies on global variables, filesystem state, and current system time."
   (interactive)
   (find-file (cdr:orgy-journal-filename (cdr:timey-unix-yesterday))))
 (defun cdr:orgy-open-journal-last-week ()
@@ -3188,14 +3191,14 @@ Relies on global variables, filesystem state, and current system time."
 (defun cdr:set-glyphs-for-bqn ()
   (interactive)
   (let ((bqn-glyphs
-	 '(?× ?÷ ?⋆ ?√ ?⌊ ?⌈ ?¬ ?∧ ?∨ ?≠ ?≤ ?≥ ?≡ ?≢ ?⊣ ?⊢ ?⥊ ?∾ ?≍
+         '(?× ?÷ ?⋆ ?√ ?⌊ ?⌈ ?¬ ?∧ ?∨ ?≠ ?≤ ?≥ ?≡ ?≢ ?⊣ ?⊢ ?⥊ ?∾ ?≍
               ?⋈ ?↑ ?↓ ?↕ ?« ?» ?⌽ ?⍉ ?⍋ ?⍒ ?⊏ ?⊑ ?⊐ ?⊒ ?∊ ?⍷ ?⊔ ?˙ ?˜ ?˘ ?¨
               ?⌜ ?⁼ ?´ ?˝ ?∘ ?○ ?⊸ ?⟜ ?⌾ ?⊘ ?◶ ?⎉ ?⚇ ?⍟ ?⎊ ?𝕨 ?𝕩 ?𝕗 ?𝕘
               ?𝕤 ?𝕣 ?𝕎 ?𝕏 ?𝔽 ?𝔾 ?𝕊 ?𝕣 ?← ?⇐ ?↩ ?⟨ ?⟩ ?‿ ?· ?⋄)))
     (mapc (lambda (x)
             "Set Font of Character to BQN386 Unicode."
             (set-fontset-font t x (font-spec :family "BQN386 Unicode")))
-	  bqn-glyphs)))
+          bqn-glyphs)))
 
 ;;; Patching BQN mode
 (require 'bqn-mode)
@@ -3335,7 +3338,6 @@ Relies on global variables, filesystem state, and current system time."
 (require 'forms)
 
 ;;; Prefixes
-
 (define-prefix-command 'template-map)
 (define-prefix-command 'subprocess-map)
 (define-prefix-command 'imperative-map)
@@ -3344,7 +3346,6 @@ Relies on global variables, filesystem state, and current system time."
 (define-prefix-command 'orgy-open-journal-map)
 
 ;;; Template Map <F5>
-
 (define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
 (define-key template-map (kbd "C-c") #'cdr:templates-insert-spaced-repetition-card)
 (define-key template-map (kbd "C-d") #'cdr:templates-insert-dir-locals)
@@ -3364,9 +3365,7 @@ Relies on global variables, filesystem state, and current system time."
 (define-key template-map (kbd "o") #'cdr:templates-insert-texinfo-section)
 (define-key template-map (kbd "s") #'cdr:templates-insert-setup)
 
-
 ;;; Subprocess Map <F4>
-
 (define-key subprocess-map (kbd "C-g") #'run-geiser)
 (define-key subprocess-map (kbd "C-p") #'run-python)
 (define-key subprocess-map (kbd "a") #'gnu-apl)
@@ -3381,7 +3380,6 @@ Relies on global variables, filesystem state, and current system time."
 (define-key subprocess-map (kbd "s") #'slime)
 (define-key subprocess-map (kbd "v") #'vterm-toggle)
 (define-key subprocess-map (kbd "o") #'tuareg-run-ocaml)
-
 
 ;;; Imperative Map <F3>
 (define-key imperative-map (kbd "C-o") #'imperative-org-map)
@@ -3593,7 +3591,7 @@ Relies on global variables, filesystem state, and current system time."
 (defun cdr:set-buffer-local-family (font-family)
   "Sets font in current buffer"
   (interactive "sFont Family: ")
-  (defface tmp-buffer-local-face 
+  (defface tmp-buffer-local-face
     '((t :family font-family))
     "Temporary buffer-local face")
   (buffer-face-set 'tmp-buffer-local-face))
@@ -3667,7 +3665,7 @@ Relies on global variables, filesystem state, and current system time."
       (insert package-definition))))
 
 (defun cdr:insert-guix-hexpm-package (name version)
-  (interactive "sPackage Name? 
+  (interactive "sPackage Name?
 sVersion(Optional)? ")
   (let ((version (cdr:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "hexpm" t t)))
@@ -3688,7 +3686,7 @@ sVersion(Optional)? ")
     (cdr:insert-guix-imported-package name version "texlive" t nil)))
 
 (defun cdr:insert-guix-elm-package (name version)
-  (interactive "sPackage Name? 
+  (interactive "sPackage Name?
 sVersion(Optional)? ")
   (let ((version (cdr:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "elm" t t)))
@@ -3709,26 +3707,26 @@ sVersion(Optional)? ")
     (cdr:insert-guix-imported-package name version "cran" t t)))
 
 (defun cdr:insert-guix-gem-package (name version)
-  (interactive "sPackage Name? 
+  (interactive "sPackage Name?
 sVersion(Optional)? ")
   (let ((version (cdr:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "gem" t t)))
 
 (defun cdr:insert-guix-go-package (name version)
-  (interactive "sPackage Name? 
+  (interactive "sPackage Name?
 sVersion(Optional)? ")
   (let ((version (cdr:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "go" t t)))
 
 (defun cdr:insert-guix-stackage-package (name version)
-  (interactive "sPackage Name? 
+  (interactive "sPackage Name?
 sLTS Version(Optional;Default is 20.4)? ")
   (let ((version (if (string= "" version) "20.4" version)))
     (cdr:insert-guix-imported-package
      name nil (concat "stackage --lts-version=" version " ") t t)))
 
 (defun cdr:insert-guix-hackage-package (name version)
-  (interactive "sPackage Name? 
+  (interactive "sPackage Name?
 sVersion(Optional)? ")
   (let ((version (cdr:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "hackage" t t)))
@@ -3750,9 +3748,9 @@ the URL of the image to the kill buffer instead."
       (message "No image under point"))
      (copy-url
       (with-temp-buffer
-	(insert url)
-	(copy-region-as-kill (point-min) (point-max))
-	(message "Copied %s" url)))
+        (insert url)
+        (copy-region-as-kill (point-min) (point-max))
+        (message "Copied %s" url)))
      (t
       (message "Saving %s to ~/Pictures..." url)
       (url-copy-file url (concat "~/Pictures/" filename) t)))))
