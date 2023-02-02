@@ -157,7 +157,13 @@
                              "gambit-c" "gauche" "ghc" "icecat" "icedtea"
                              "openjdk" "sbcl" "stumpwm" "timidity++"
                              "ungoogled-chromium" "wesnoth"
-                             "wine64-staging"))
+                             "wine64-staging" "linux-libre-jory"))
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels))
            (systems '("x86_64-linux"))
            (priority 2))))
 (define %my-desktop-services
