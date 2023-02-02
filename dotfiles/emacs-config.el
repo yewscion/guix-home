@@ -3726,7 +3726,7 @@ Relies on the current buffer state."
 
 ;;; Imperative Map <F3>
 (define-key imperative-map (kbd "C-o") #'imperative-org-map)
-(define-key imperative-map (kbd "C-w") #'cdr:copy-deft-note-as-comment)
+(define-key imperative-map (kbd "C-w") #'compost-transplant)
 (define-key imperative-map (kbd "C-y") #'yank-from-primary)
 (define-key imperative-map (kbd "C-a") #'beginning-of-line)
 (define-key imperative-map (kbd "b") #'switch-to-buffer)
@@ -3784,7 +3784,7 @@ Relies on the current buffer state."
 ;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
-(global-set-key (kbd "<f7>") 'deft)
+(global-set-key (kbd "<f7>") 'compost-search)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
 ;(global-set-key (kbd "<f10>") nil) ; GUI Menu Key
@@ -3799,7 +3799,7 @@ Relies on the current buffer state."
 (global-set-key (kbd "C-<f4>") 'subprocess-map)
 (global-set-key (kbd "C-<f5>") 'template-map)
 (global-set-key (kbd "C-<f6>") nil)
-(global-set-key (kbd "C-<f7>") nil)
+(global-set-key (kbd "C-<f7>") 'compost-add)
 (global-set-key (kbd "C-<f8>") nil)
 (global-set-key (kbd "C-<f9>") nil)
 ;; (global-set-key (kbd "C-<f10>") nil) ; Non-Functional
@@ -3828,7 +3828,7 @@ Relies on the current buffer state."
 (global-set-key (kbd "s-e") 'show-paren-mode)
 (global-set-key (kbd "s-n") 'display-line-numbers-mode)
 ;; (global-set-key (kbd "s-t") 'vterm-toggle) Moving to Subprocess Map
-;; (global-set-key (kbd "s-y") 'yank-from-primary) Moving to Imperative Map
+(global-set-key (kbd "s-y") 'cdr:yank-as-comment)
 ;; (global-set-key (kbd "s-u") 'unfill-paragraph) Moving to Transform Map
 ;; (global-set-key (kbd "s-i") nil)
 ;; (global-set-key (kbd "s-o") nil) ; GNOME ?
@@ -3840,7 +3840,7 @@ Relies on the current buffer state."
 ;; (global-set-key (kbd "s-g") 'cdr:run-genpro-and-update) Unneeded now
 ;; (global-set-key (kbd "s-h") nil) ; GNOME ?
 (global-set-key (kbd "s-j") nil)
-(global-set-key (kbd "s-k") nil)
+(global-set-key (kbd "s-k") 'cdr:kill-buffer)
 ;; (global-set-key (kbd "s-l") nil) ; GNOME Lock Screen
 (global-set-key (kbd "s-z") nil)
 (global-set-key (kbd "s-x") (lambda () (interactive) (switch-to-buffer
