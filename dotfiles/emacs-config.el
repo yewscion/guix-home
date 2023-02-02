@@ -3675,6 +3675,11 @@ sVersion(Optional)? ")
   (let ((version nil))
     (cdr:insert-guix-imported-package name version "elpa -a melpa" t t)))
 
+(defun cdr:insert-guix-elpa-melpa-package-nonr (name)
+  (interactive "sPackage Name? ")
+  (let ((version nil))
+    (cdr:insert-guix-imported-package name version "elpa -a melpa" t nil)))
+
 (defun cdr:insert-guix-elpa-nongnu-package (name)
   (interactive "sPackage Name? ")
   (let ((version nil))
