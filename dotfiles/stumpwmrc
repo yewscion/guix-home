@@ -153,20 +153,16 @@ otherwise."
 ;;; Restore Rules
 (restore-window-placement-rules "~/.config/stumpwm/window-placement.lisp")
 
-;;; Replace defaults with Xresources configs
-(stumpwm:run-shell-command
- "xrdb -load ~/.Xresources")
-
 ;;; Starup Common Programs
 (stumpwm:run-commands
- "exec --no-startup-id ~/.local/bin/fcitx -d"
+ "exec xrdb ~/.Xresources"
+ "exec shepherd && herd start emacs"
  "exec pulseaudio --start"
  "exec icecat"
  "exec urxvt"
  "exec ~/.local/bin/chromium"
  "exec slack"
- "exec discord"
- "exec shepherd")
+ "exec discord")
 
 ;; Local Variables:
 ;; mode: lisp
