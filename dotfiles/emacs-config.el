@@ -2932,7 +2932,7 @@ This is an ACTION.
 Arguments
 =========
 
-TIME <number> or <list>: A valid time, as specified by
+TIME <number> or <list> or <nil>: A valid time, as specified by
 format-time-string. Usually either UNIX seconds or '(HI LO US
 PS). nil will use the current time.
 
@@ -2964,7 +2964,7 @@ This is an ACTION.
 Arguments
 =========
 
-TIME <number> or <list>: A valid time, as specified by
+TIME <number> or <list> or <nil>: A valid time, as specified by
 format-time-string. Usually either UNIX seconds or '(HI LO US
 PS). nil will use the current time.
 
