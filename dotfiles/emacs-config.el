@@ -3652,7 +3652,12 @@ Relies on global variables, filesystem state, and current system time."
 (defun cdr:insert-guix-imported-package (name version importer indent-p recursive-p)
   (let* ((command (cdr:build-guix-import-command
                    name version importer recursive-p))
-         (prefix (if (not recursive-p) (concat "(define-public " importer "-" name "\n")
+         (pkg-prefix (if (or
+                          (string= importer "elpa -a melpa")
+                          (string= importer "elpa -a nongnu"))
+                         "emacs"
+                       importer))
+         (prefix (if (not recursive-p) (concat "(define-public " pkg-prefix "-" name "\n")
                    nil))
          (package-definition (concat (if prefix prefix "")
                                      (cdr:cleanup-shell-output
