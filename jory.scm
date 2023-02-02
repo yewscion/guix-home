@@ -4,7 +4,7 @@
 ;;;
 ;;; Author: Christopher Rodriguez
 ;;; Created: 2022-04-10
-;;; Last Released: 2022-12-24
+;;; Last Released: 2023-01-22
 ;;; Contact: yewscion@gmail.com
 ;;;
 
@@ -16,7 +16,7 @@
              (cdr255 kernel)
              (gnu packages linux))
 (use-service-modules admin avahi base cuirass databases desktop docker games mail
-                     mcron networking sddm ssh virtualization web xorg)
+                     mcron networking sddm shepherd ssh virtualization web xorg)
 (use-package-modules admin certs databases emacs fcitx5 games gtk package-management
                      ssh tls version-control xdisorg)
 ;;; Thanks to lizog and their friend for this procedure, which is needed to
@@ -92,6 +92,48 @@
            (execl (string-append #$findutils "/bin/updatedb")
                   "updatedb"
                   "--prunepaths=/tmp /var/tmp"))))
+
+(define (generate-l14-stopgap-command limit constraint)
+  (string-append "echo "
+                 limit
+                 " > "
+                 "/sys/devices/virtual/powercap/"
+                 "intel-rapl/intel-rapl:0/"
+                 "constraint_"
+                 constraint
+                 "_power_limit_uw"))
+(define l14-ec-stopgap-service
+  ;; Per https://forums.puri.sm/t/librem-14-sudden-crash-when-unplugged/ .
+  ;; Stopgap for EC firmware bug.
+  (shepherd-service
+   (documentation
+    (string-append
+     "Per "
+     "https://forums.puri.sm/t/librem-14-sudden-crash-when-unplugged/"
+     " : Stopgap for EC firmware bug."))
+   (provision '(librem-ec-stopgap))
+   (one-shot? #true)
+   (start
+    #~(make-system-constructor
+         #$(generate-l14-stopgap-command "15000000" "1")
+         " && "
+         #$(generate-l14-stopgap-command "5000000" "0")))
+   (stop
+    #~(make-system-destructor
+         "echo \""
+         "Applied These Stopgaps for Librem 14 EC firmware: \n"
+         #$(generate-l14-stopgap-command "15000000" "1")
+         "\n"
+         #$(generate-l14-stopgap-command "5000000" "0")
+         "\n\""))
+   (auto-start? #true)))
+(define l14-ec-stopgap-service-type
+  (shepherd-service-type
+   'l14-ec-stopgap
+   (const l14-ec-stopgap-service)
+   (description "Run the Stopgaps for the Librem 14 EC.")))
+(define (l14-ec-stopgap-service)
+  (service l14-ec-stopgap-service-type #f))
 (define %my-keyboard-layout
   (keyboard-layout "us,apl" #:options
                    '("ctrl:swapcaps_hyper" "compose:rctrl"
@@ -215,7 +257,8 @@
              (libvirt-configuration
               (unix-sock-group "libvirt")
               (tls-port "16555")))
-    (service virtlog-service-type))
+    (service virtlog-service-type)
+    (l14-ec-stopgap-service))
    %my-desktop-services))
 
 (define %my-services
