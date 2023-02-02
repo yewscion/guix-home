@@ -366,9 +366,6 @@
          (list `(".config/shepherd/init.scm"
                  ,(local-file "dotfiles/shepherd-init.scm"
                               "shepherd-init"))
-               `(".config/shepherd/services.scm"
-                 ,(local-file "dotfiles/shepherd-services.scm"
-                              "shepherd-services"))
                `(".msmtprc"
                  ,(local-file "dotfiles/msmtprc" "msmtprc"))
                `(".emacs.d/init.el"
@@ -512,6 +509,9 @@
                    `(".Xresources"
                      ,(local-file "dotfiles/xresources"
                                   "xresources"))
+                   `(".Xdefaults"
+                     ,(local-file "dotfiles/xresources"
+                                  "xdefaults"))
                    `(".config/mc/ini"
                      ,(local-file "dotfiles/mc.ini" "mc-ini"))
                    `(".config/stumpwm/config"
