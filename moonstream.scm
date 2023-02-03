@@ -36,6 +36,10 @@
 		     games
                      sqlite
                      version-control)
+
+(load "emacs-packages.scm")
+(load "texlive-packages.scm")
+
 (define %cuirass-specs
   #~(list (specification
            (name "yewscion")
@@ -127,8 +131,7 @@ max_execution_time = 1800"))
   (users (cons* (user-account
                 (name "ming")
                 (group "users")
-                (supplementary-groups '("wheel"
-					"docker"))
+                (supplementary-groups '("wheel"))
                 (home-directory "/home/ming"))
                (user-account
                 (name "git")
