@@ -177,59 +177,7 @@
                  "esac\n"))
 (load "emacs-packages.scm")
 (load "texlive-packages.scm")
-(define my-other-packages
-  '("libadlmidi" "agda" "alsa-plugins" "alsa-plugins:pulseaudio" "anki"
-  "ant" "ant-junit" "gnu-apl" "apl-primer" "autoconf" "automake" "b3sum"
-  "bash" "beets" "biber" "bison" "borg" "brightnessctl" "bsd-games"
-  "btrfs-progs" "carp" "cbqn" "cl-asdf" "clisp" "clojure"
-  "codechallenge-solutions" "coreutils" "curl" "dbqn" "dfc" "dmidecode"
-  "docker" "dosfstools" "efibootmgr" "elm" "endless-sky" "erlang"
-  "erofs-utils" "esbuild" "espeak-ng" "exa" "exempi" "exfat-utils"
-  "exfatprogs" "expect" "extundelete" "fcitx5" "fcitx5-anthy"
-  "fcitx5-chinese-addons" "fcitx5-configtool" "fcitx5-gtk"
-  "fcitx5-gtk:gtk2" "fcitx5-gtk:gtk3" "fcitx5-gtk4" "fcitx5-lua"
-  "fcitx5-material-color-theme" "fcitx5-qt" "fcitx5-rime" "fennel" "ffmpeg"
-  "file" "flex" "fluid-3" "fluidsynth" "font-3270" "font-bqn386"
-  "font-gnu-freefont" "font-openmoji" "font-google-noto" "font-gnu-unifont"
-  "font-gnu-unifont:pcf" "font-gnu-unifont:psf" "font-gnu-unifont:bin"
-  "font-terminus" "fontforge" "font-tex-gyre" "gambit-c" "gash" "gauche"
-  "gcc-toolchain" "genpro" "gerbil" "gfortran-toolchain" "ghc" "ghc-alex"
-  "ghc-bnfc" "ghc-happy" "ghostscript" "gifsicle" "gimp" "git"
-  "git:send-email" "git-filter-repo" "glibc-locales" "gnupg" "gnuplot"
-  "gnurobots" "gparted" "graphviz" "grep" "groovy" "guildhall" "guile"
-  "guile-bash" "guile-cdr255" "guile-chickadee" "guile-colorized"
-  "guile-git" "guile-goblins" "guile-hall" "guile-ncurses" "guile-readline"
-  "guile-sqlite3" "guile-ssh" "gtk+:bin" "gv" "gwl" "haunt" "htop"
-  "httrack" "icecat" "imagemagick" "inkscape" "innoextract" "ispell"
-  "janet" "java-bsh" "java-bigdecimal-math" "java-cglib" "java-guice"
-  "java-junit" "java-log4j-core" "jpegoptim" "kawa" "knock" "le-certs"
-  "libreoffice" "libvirt" "links" "lxc" "make" "mc" "milkytracker" ;"maven"
-  "mpv" "msmtp" "mu" "my-frotz" "nasm" "ncdu" "ncurses" "netcat" "nethack"
-  "newlisp" "newt" "nmap" "node" "nss-certs" "offlineimap3"
-  "openjdk:doc" "openjdk:jdk" "optipng" "orca-music" "owl-lisp" "p7zip" ;; openjdk@15:jdk
-                                                                        ;; allowed
-                                                                        ;; installation
-                                                                        ;; of
-                                                                        ;; lsps.
-  "pagr" "pamixer" "password-store" "patchelf" "patchelf-wrapper"
-  "pavucontrol" "perl" "perl-image-exiftool" "picolisp" "pinentry-emacs"
-  "pioneer" "pkg-config" "plantuml" "poppler" "portmidi" "postgresql"
-  "pseudotaxus" "pseudotaxus-emacs" "pseudotaxus-grove" "pulseaudio"
-  "python" "python-css-html-js-minify" "python-lsp-server"
-  "python-pygments" "python-pygments-pseudotaxus" "qemu" "rebar3" "restic"
-  "ripgrep" "rlwrap" "rsync" "ruby" "ruby-kramdown" "rxvt-unicode" "sbcl"
-  "sbcl-deploy" "sbcl-esrap" "sbcl-ironclad"
-  "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
-  "sbcl-stumpwm-screenshot" "sbcl-zpng" "scheme-primer" "screen" "sdl2"
-  "sed" "sedsed" "setxkbmap" "sfarklib" "shellcheck" "shepherd" "shotwell"
-  "signing-party" "sshfs" "sshpass" "stumpish" "stumpwm" "stumpwm:lib"
-  "swi-prolog" "talkfilters" "telescope" "texinfo" "texmacs"
-  "the-silver-searcher" "timidity++" "tintin++" "transmission" "trash-cli"
-  "tree" "universal-ctags" "unzip" "uxn" "virt-manager" "virt-viewer"
-  "vlang" "wesnoth" "which" "wine64-staging" "wordnet" "xapian" "xboard"
-  "xdg-utils" "xdotool" "xdpyprobe" "xindy" "xfontsel" "xkeyboard-config"
-  "xmp" "xorriso" "xprop" "xrdb" "yewscion-scripts" "yt-dlp" "zenity"
-  "zutils"))
+(load "other-packages.scm")
 
 ; Graveyard: "nomad"
 
