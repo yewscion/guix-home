@@ -179,7 +179,7 @@
 (load "texlive-packages.scm")
 (load "other-packages.scm")
 
-; Graveyard: "nomad"
+; Package Graveyard: "nomad"
 
 (define my-packages
   (append my-other-packages my-emacs-packages my-texlive-packages))
