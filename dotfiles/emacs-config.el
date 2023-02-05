@@ -2648,38 +2648,65 @@ C-style comments."
     (when hostentry (netrc-get hostentry "password"))))
 (defun replace-in-string (what with in)
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
-(defun cdr:insert-guix-hash (&optional repo)
-  "Insert the guix hash for the most recent commit in REPO at point.
+
+(defun cdr:insert-guix-hash ()
+  "Insert the guix hash for the most recent commit in a git repo at point.
 
 This is an ACTION.
 
 Arguments
 =========
-REPO<string>: The path/url to the repo in question. Will prompt user if
-missing.
+
+None.
 
 Returns
 =======
-A <string> representing the hash of REPO.
+
+Undefined.
 
 Impurities
 ==========
-I/O, Depends on Filesystem and two commands (guix and git)."
+
+I/O, Depends on Filesystem and two commands (guix and git),
+creates directory and clones user-supplied directory/URI with
+git."
   (interactive)
+  (let ((repo   (if (y-or-n-p "Local Directory?")
+                    (read-directory-name "Hash this Repo:  ")
+                  (read-string "Hash this Repo:  "))))
+    (insert (cdr:run-guix-hash-in-temp-dir repo))))
+
+(defun cdr:run-guix-hash-in-temp-dir (repo)
+  "Compute the guix hash of REPO using a temporary directory.
+
+This is an ACTION.
+
+Arguments
+=========
+
+REPO <string>: The path/uri to the repo in question.
+
+Returns
+=======
+
+A <string> representing the guix hash of the given REPO.
+
+Impurities
+==========
+
+Creates and Deletes a directory in /tmp, changes the current
+directory mid-execution, clones a git repo, and runs guix hash on
+it."
   (let ((tempdir (make-temp-file "cdr-emacs-guix" t))
-        (olddir  (cdr:get-pwd))
-        (repo   (if (not repo)
-                    (read-directory-name "Which Repo? ")
-                  repo)))
+        (olddir  (cdr:get-pwd)))
     (unwind-protect
         (progn
           (cd tempdir)
           (shell-command
            (cdr:generate-shell-command-git-clone-pwd repo))
-          (insert
-           (string-trim-right
+          (string-trim-right
             (shell-command-to-string
-             "guix hash -rx ."))))
+             "guix hash -rx .")))
       (progn
         (delete-directory tempdir t)
         (cd olddir)))))
