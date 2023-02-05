@@ -158,7 +158,16 @@
 
 (define %my-desktop-services
   (modify-services %desktop-services
-                   (delete elogind-service-type)))
+                   (delete elogind-service-type)
+                   (guix-service-type config =>
+                        (guix-configuration
+                          (inherit config)
+                          (substitute-urls
+                            (append (list "http://guix.cdr.gdn")
+                                    %default-substitute-urls))
+                          (authorized-keys
+                            (append (list (local-file "./moonstream.pub"))
+                                    %default-authorized-guix-keys))))))
 (define %my-service-addons
   (append
    (list
