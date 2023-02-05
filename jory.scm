@@ -154,8 +154,7 @@
      ,(generate-gtk-immodule-cache
        gtk+
        "2.0.0"
-       #~(begin #$fcitx5-gtk:gtk2)))
-    ))
+       #~(begin #$fcitx5-gtk:gtk2)))))
 
 (load "emacs-packages.scm")
 (load "texlive-packages.scm")
