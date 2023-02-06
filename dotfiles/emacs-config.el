@@ -3372,7 +3372,8 @@ Impurities
 Used entirely for side effects: Calls 'deadgrep' using two
 arguments, one obtained through a prompt."
   (interactive "sCompost Search: ")
-  (deadgrep regex compost-directory))
+  (let ((deadgrep-display-buffer-function #'switch-to-buffer))
+    (deadgrep regex compost-directory)))
 
 (defun compost-date (&optional time)
   "Generates a datecode equivalent to the default for compost entries.
