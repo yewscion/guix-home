@@ -3911,7 +3911,10 @@ Relies on the current buffer state."
 
 ;;; Alterations to mode-specific keymaps
 (define-key dired-mode-map (kbd "C-c C-c") #'cdr:diredy-xdg-open)
-(define-key text-mode-map (kbd "C-c C-c") #'kill-current-buffer)
+(define-key text-mode-map (kbd "C-c C-c") #'(lambda nil (interactive)
+                                              (progn
+                                                (save-buffer)
+                                                (kill-current-buffer))))
 (add-hook 'forms-mode-hook (lambda nil
                              (local-set-key (kbd "C-c C-c C-c")
                                             #'(lambda nil (interactive)
