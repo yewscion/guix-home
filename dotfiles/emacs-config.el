@@ -3917,7 +3917,8 @@ Relies on the current buffer state."
                                             #'(lambda nil (interactive)
                                                 (forms-save-buffer)
                                                 (kill-current-buffer)))))
-
+(define-key pdf-view-mode-map (kbd "s-<mouse-1>") #'compost-annotation-new)
+(define-key pdf-view-mode-map (kbd "s-<mouse-3>") #'compost-annotation-done)
 (define-key ebib-entry-mode-map (kbd "C") #'ebib-follow-crossref)
 (define-key ebib-index-mode-map (kbd "B") #'ebib-biblio-import-doi)
 (define-key org-mode-map (kbd "s-<return>") #'org-open-at-point)
