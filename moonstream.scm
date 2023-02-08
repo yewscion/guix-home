@@ -180,7 +180,7 @@ max_execution_time = 1800"))
              (service postgresql-service-type
                       (postgresql-configuration
                        (postgresql postgresql)
-                       (port 54321)
+                       (port 5432)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
 	     (elogind-service)
