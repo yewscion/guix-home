@@ -3471,6 +3471,16 @@ switches again."
     (cdr:yank-as-comment)
     (other-window 1)))
 
+(defun compost-annotation-done (@click)
+  (interactive "e")
+  (let ((p1 (event-start @click)))
+    (pdf-annot-put (pdf-annot-at-position p1) 'color "#006400")))
+
+(defun compost-annotation-new (@click)
+  (interactive "e")
+  (let ((p1 (event-start @click)))
+    (pdf-annot-add-text-annotation p1)))
+
 (defun cdr:yank-as-comment ()
   "Yank the top of the kill ring into the current buffer as a comment.
 
