@@ -171,9 +171,11 @@ max_execution_time = 1800"))
                        (openssh openssh-sans-x)
                        (password-authentication? #f)
                        (authorized-keys
-                        `(("ming" ,(local-file "ming_rsa.pub")
+                        `(("ming"
+                           ,(local-file "public-keys/ssh-jory.pub")
                            ,(local-file "public-keys/ssh-crane.pub"))
-                          ("git" ,(local-file "ming_rsa.pub")
+                          ("git"
+                           ,(local-file "public-keys/ssh-jory.pub")
                            ,(local-file "public-keys/ssh-crane.pub"))))))
              (service postgresql-service-type
                       (postgresql-configuration
