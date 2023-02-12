@@ -13,12 +13,13 @@
              (ice-9 textual-ports)
              (guix modules)
              (guix utils)
-             (cdr255 kernel)
-             (gnu packages linux))
-(use-service-modules admin avahi base cuirass databases desktop docker games mail
-                     mcron networking sddm shepherd ssh virtualization web xorg)
-(use-package-modules admin certs databases emacs fcitx5 games gtk package-management
-                     ssh tls version-control xdisorg)
+             (cdr255 kernel))
+
+(use-service-modules admin avahi base cuirass databases desktop docker games
+mail mcron networking sddm shepherd ssh virtualization web xorg)
+
+(use-package-modules admin certs databases emacs fcitx5 games gtk linux
+package-management ssh tls version-control xdisorg)
 ;;; Thanks to lizog and their friend for this procedure, which is needed to
 ;;; regenerate the gtk-immodule-cache for fcitx5.
 (define (generate-gtk-immodule-cache gtk gtk-version . extra-pkgs)
