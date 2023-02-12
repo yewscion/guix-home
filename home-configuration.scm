@@ -11,6 +11,8 @@
  (guix monads)
  (guix store)
  (guix utils)
+ (guix derivations)
+ (guix build utils)
  (guix packages)
  (gnu packages code)
  (gnu packages curl)
@@ -19,6 +21,7 @@
  (gnu packages java)
  (gnu packages maven)
  (cdr255 fixes)
+ (cdr255 agda)
  (gnu packages emacs-xyz))
 ;;; Thanks to lizog and their friend for this procedure, which is needed to
 ;;; regenerate the gtk-immodule-cache for fcitx5.
@@ -221,6 +224,29 @@
 		         (string-append
                           #$output
                           "/bin/u-ctags")))))
+(define my-agda-lib-list
+  (map specification->package+output
+       my-agda-lib-string-list))
+(define (find-agda-lib-file package)
+  (string-join
+          (find-files
+           (derivation->output-path
+            (run-with-store
+             (open-connection)
+             (package->derivation package)))
+           ".+\\.agda-lib")
+          "\n"
+          'infix))
+(define (find-agda-lib-files list-of-packages)
+  (string-join
+   (map find-agda-lib-file
+        list-of-packages)
+   "\n"
+   'infix))
+(define my-agda-libraries
+  (plain-file
+   "agda-libraries"
+   (find-agda-lib-files my-agda-lib-list)))
 (define my-transformed-packages
   ;; (map my-transformation
     ;;           my-no-test-packages)
@@ -474,4 +500,6 @@
                      ,(local-file "dotfiles/stumpwm-windows.lisp"
                                   "stumpwm-windows.lisp"))
                    `(".local/bin/u-ctags"
-                     ,(file-append my-u-ctags "/bin/u-ctags")))))))
+                     ,(file-append my-u-ctags "/bin/u-ctags"))
+                   `(".agda/libraries"
+                     ,my-agda-libraries))))))
