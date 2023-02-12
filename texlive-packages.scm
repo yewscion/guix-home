@@ -8,7 +8,7 @@
     "texlive-generic-iftex" "texlive-generic-xstring" "texlive-hyperref"
     "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts"
     "texlive-latex-appendix" "texlive-latex-catchfile"
-    "texlive-latex-cleveref" "texlive-latex-comment"
+    "texlive-latex-cleveref" "texlive-latex-comment" "texlive-latex-colortbl"
     "texlive-latex-datetime2" "texlive-latex-datetime2-english"
     "texlive-latex-endfloat" "texlive-latex-environ"
     "texlive-latex-everyhook" "texlive-latex-fancyhdr"
