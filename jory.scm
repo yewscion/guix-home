@@ -20,71 +20,9 @@ mail mcron networking sddm shepherd ssh virtualization web xorg)
 
 (use-package-modules admin certs databases emacs fcitx5 games gtk linux
 package-management ssh tls version-control xdisorg)
-;;; Thanks to lizog and their friend for this procedure, which is needed to
-;;; regenerate the gtk-immodule-cache for fcitx5.
-(define (generate-gtk-immodule-cache gtk gtk-version . extra-pkgs)
-  (define major+minor (version-major+minor gtk-version))
 
-  (define build
-    (with-imported-modules '((guix build utils)
-                             (guix build union)
-                             (guix build profiles)
-                             (guix search-paths)
-                             (guix records))
-      #~(begin
-          (use-modules (guix build utils)
-                       (guix build union)
-                       (guix build profiles)
-                       (ice-9 popen)
-                       (srfi srfi-1)
-                       (srfi srfi-26))
-
-          (define (immodules-dir pkg)
-            (format #f "~a/lib/gtk-~a/~a/immodules"
-                    pkg #$major+minor #$gtk-version))
-
-          (let* ((moddirs (filter file-exists?
-                                  (map immodules-dir
-                                       (list #$gtk #$@extra-pkgs))))
-                 (modules (append-map (cut find-files <> "\\.so$")
-                                      moddirs))
-                 (query (format #f "~a/bin/gtk-query-immodules-~a"
-                                #$gtk:bin #$major+minor))
-                 (pipe (apply open-pipe* OPEN_READ query modules)))
-
-            ;; Generate a new immodules cache file.
-            (dynamic-wind
-              (const #t)
-              (lambda ()
-                (call-with-output-file #$output
-                  (lambda (out)
-                    (while (not (eof-object? (peek-char pipe)))
-                      (write-char (read-char pipe) out))))
-                #t)
-              (lambda ()
-                (close-pipe pipe)))))))
-
-  (computed-file (string-append "gtk-query-immodules-" major+minor) build))
-(define %ming-pubkey
-  (plain-file "ming_id.pub"
-              (string-append "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDvbir"
-                             "/LAxFP2O7WPCxX2BL5YIbb4yTPbnmJlooQaM7H5L0Dx"
-                             "WAC0/3Q+XXqb6xDGrHmoJHTp3YHD30W1JNWQiKtKuEK"
-                             "gYzYypiTWHU2MbZ4ahuQN7v2Bc1KM720MFaHKjDd8ru"
-                             "rTya3cOd6PTXOKyhZIMjt1H6OgwYULX92oaYGVdEn+e"
-                             "bSlR3xaSMyPXSJ5yPAWcZlHYrQysz7b2KtulTRvsaE0"
-                             "gq3muCxFdIXqAlbAcCPScLoDWygEDMLSKN/gjV+4b45"
-                             "3oiG21KnmKMhkbczu9YpbUdB46lLH6eb6twe+CNcaDZ"
-                             "l/TNIA55l7UtaM9GMxesCQXIsTg0sFV9PZW2zpI4i8/"
-                             "6vpAqr++t/1TQVOZjvxxv+5UWMbKVPJqawIXonOaN1I"
-                             "z9svDuacMij2cBnyNxcBq5BsOjHO6ch2IYnflapFseP"
-                             "fysve5Z3UVVOJJeCanp+nSGSrwDOckreVWnU8G2D0Mu"
-                             "V5HNMNaghoI72uBVi5s3GmH2utl0RSh/x81byQ8iyb6"
-                             "g8m2XiwwoxDGDu6sePVJOJ9iEUYmLWX4TcA4CVLhdFq"
-                             "D1R/9/VE7w+RgvFmzNrufxZEaP3dXJVdIctyeCntGl9"
-                             "eZreVc65GpHesIANJj/cDmeNPk8vyfPJpwHgLAZpGY4"
-                             "NgbR8hXFnyrZRd+XcTvpkZcJc51OKo7kOQ== ")))
-
+(load "system-packages.scm")
+(load "gtk-immodule-cache-fcitx5.scm")
 (define updatedb-job
   ;; Run 'updatedb' at 3AM every day.  Here we write the
   ;; job's action as a Scheme procedure.
@@ -158,17 +96,20 @@ package-management ssh tls version-control xdisorg)
        #~(begin #$fcitx5-gtk:gtk2)))))
 
 (define %my-desktop-services
-  (modify-services %desktop-services
-                   (delete elogind-service-type)
-                   (guix-service-type config =>
-                        (guix-configuration
-                          (inherit config)
-                          (substitute-urls
-                            (append (list "http://guix.cdr.gdn")
-                                    %default-substitute-urls))
-                          (authorized-keys
-                            (append (list (local-file "./moonstream.pub"))
-                                    %default-authorized-guix-keys))))))
+  (modify-services
+   %desktop-services
+   (delete elogind-service-type)
+   (guix-service-type
+    config =>
+    (guix-configuration
+     (inherit config)
+     (substitute-urls
+      (append (list "http://guix.cdr.gdn")
+              %default-substitute-urls))
+     (authorized-keys
+      (append
+       (list (local-file "./public-keys/guix-publish-moonstream.pub"))
+              %default-authorized-guix-keys))))))
 (define %my-service-addons
   (append
    (list
@@ -176,8 +117,14 @@ package-management ssh tls version-control xdisorg)
              (openssh-configuration
               (password-authentication? #f)
               (authorized-keys
-               `(("ming" ,%ming-pubkey)
-                 ("git" ,%ming-pubkey)))))
+               `(("ming"
+                  ,(local-file "public-keys/ssh-jory.pub")
+                  ,(local-file "public-keys/ssh-crane.pub")
+                  ,(local-file "public-keys/ssh-frostpine.pub"))
+                 ("git"
+                  ,(local-file "public-keys/ssh-jory.pub")
+                  ,(local-file "public-keys/ssh-crane.pub")
+                  ,(local-file "public-keys/ssh-frostpine.pub"))))))
     (service postgresql-service-type
              (postgresql-configuration
               (postgresql postgresql-15)))
@@ -214,37 +161,6 @@ package-management ssh tls version-control xdisorg)
     (service virtlog-service-type)
     (l14-ec-stopgap-service))
    %my-desktop-services))
-
-(define %my-services
-  (modify-services
-      %my-service-addons
-    (guix-service-type
-     config =>
-     (guix-configuration
-      (inherit config)
-      (authorized-keys
-       (append (list (local-file "/etc/cdr255/frostpine.pub"))
-               %default-authorized-guix-keys))))))
-(define %my-packages
-  (list "b3sum" "bash" "borg" "brightnessctl" "btrfs-progs" "clamav"
-  "coreutils" "curl" "dfc" "dmidecode" "docker" "dosfstools" "efibootmgr"
-  "emacs" "erofs-utils" "espeak-ng" "exa" "exfat-utils" "exfatprogs"
-  "expect" "extundelete" "fcitx5" "fcitx5-anthy" "fcitx5-chinese-addons"
-  "fcitx5-configtool" "fcitx5-gtk" "fcitx5-gtk:gtk2" "fcitx5-gtk:gtk3"
-  "fcitx5-gtk4" "fcitx5-lua" "fcitx5-material-color-theme" "fcitx5-qt"
-  "fcitx5-rime" "file" "font-gnu-freefont" "font-gnu-unifont"
-  "font-tex-gyre" "gash" "ghostscript" "git" "glibc-locales" "gnupg"
-  "gparted" "grep" "guile" "gv" "icecat" "le-certs" "libvirt" "links" "lxc"
-  "mc" "msmtp" "mu" "ncdu" "ncurses" "netcat" "nmap" "nss-certs" "openjdk"
-  "openssh" "openssl" "pinentry-emacs" "postgresql" "qemu" "ripgrep"
-  "rsync" "rxvt-unicode" "sbcl" "sbcl-deploy" "sbcl-esrap" "sbcl-ironclad"
-  "sbcl-stumpwm-battery-portable" "sbcl-stumpwm-notify"
-  "sbcl-stumpwm-screenshot" "sbcl-zpng" "sed" "sedsed" "setxkbmap"
-  "shepherd" "sshfs" "sshpass" "stumpish" "stumpwm" "stumpwm:lib"
-  "telescope" "texinfo" "the-silver-searcher" "transmission" "tree" "unzip"
-  "which" "wordnet" "xapian" "xdg-utils" "xdotool" "xdpyprobe"
-  "xkeyboard-config@2.36" "xorg-server-xwayland" "xrdb" "zenity"
-  "zutils"))
 (define %my-firmware
   (list "ath9k-htc-firmware"))
 (define %my-kernel-modules
@@ -293,10 +209,10 @@ package-management ssh tls version-control xdisorg)
  (packages
   (append
    (map (compose list specification->package+output)
-        %my-packages)
+        my-gui-system-packages)
    %base-packages))
  (services
-  %my-services)
+  %my-service-addons)
  (bootloader
   (bootloader-configuration
    (bootloader grub-bootloader)
