@@ -38,6 +38,7 @@
    "emacs-company-quickhelp-terminal"
    "emacs-company-web"
    "emacs-company-wordfreq"
+   "emacs-compost-mode"
    "emacs-csv"
    "emacs-csv-mode"
    "emacs-daemons"
