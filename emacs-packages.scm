@@ -229,7 +229,7 @@
    "emacs-org-noter"
    "emacs-org-page"
    "emacs-org-pandoc-import"
- ;  "emacs-org-pdftools"
+   "emacs-org-pdftools"
    "emacs-org-pomodoro"
    "emacs-org-present"
    "emacs-org-pretty-table"
