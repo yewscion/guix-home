@@ -170,6 +170,7 @@ max_execution_time = 1800"))
                       (openssh-configuration
                        (openssh openssh-sans-x)
                        (password-authentication? #f)
+                       (port 20828)
                        (authorized-keys
                         `(("ming"
                            ,(local-file "public-keys/ssh-jory.pub")
