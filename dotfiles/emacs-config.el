@@ -3682,8 +3682,8 @@ Relies on the current buffer state."
 (global-set-key (kbd "C-<f3>") 'imperative-map)
 (global-set-key (kbd "C-<f4>") 'subprocess-map)
 (global-set-key (kbd "C-<f5>") 'template-map)
-(global-set-key (kbd "C-<f6>") nil)
-(global-set-key (kbd "C-<f7>") 'compost-add)
+(global-set-key (kbd "C-<f6>") 'compost-prefix)
+(global-set-key (kbd "C-<f7>") nil)
 (global-set-key (kbd "C-<f8>") nil)
 (global-set-key (kbd "C-<f9>") nil)
 ;; (global-set-key (kbd "C-<f10>") nil) ; Non-Functional
@@ -3995,6 +3995,15 @@ the URL of the image to the kill buffer instead."
      (t
       (message "Saving %s to ~/Pictures..." url)
       (url-copy-file url (concat "~/Pictures/" filename) t)))))
+
+(defun cdr:get-url-contents-as-string (url)
+  (with-current-buffer (url-retrieve-synchronously
+                        url)
+    (buffer-string)))
+
+(defun cdr:insert-contents-of-url (url)
+  (interactive "sURL? ")
+  (insert (cdr:get-url-contents-as-string url)))
 
 ;; Local Variables:
 ;; mode: emacs-lisp
