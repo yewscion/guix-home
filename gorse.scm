@@ -120,10 +120,17 @@ max_execution_time = 1800"))
              (service openssh-service-type
                       (openssh-configuration
                        (openssh openssh-sans-x)
-               (password-authentication? #f)
+                       (password-authentication? #f)
+                       (port-number 9418)
                        (authorized-keys
-                        `(("ming" ,(local-file "ming_rsa.pub"))
-                          ("git" ,(local-file "ming_rsa.pub"))))))
+                        `(("ming"
+                           ,(local-file "public-keys/ssh-jory.pub")
+                           ,(local-file "public-keys/ssh-crane.pub")
+                           ,(local-file "public-keys/ssh-frostpine.pub"))
+                          ("git"
+                           ,(local-file "public-keys/ssh-jory.pub")
+                           ,(local-file "public-keys/ssh-crane.pub")
+                           ,(local-file "public-keys/ssh-frostpine.pub"))))))
 	     (service docker-service-type)
 	     (service php-fpm-service-type
                       (php-fpm-configuration
