@@ -3587,7 +3587,7 @@ Relies on the current buffer state."
 
 ;;; Last Preloads
 (require 'forms)
-
+(require 'pdf-view)
 ;;; Prefixes
 (define-prefix-command 'template-map)
 (define-prefix-command 'subprocess-map)
