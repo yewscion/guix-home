@@ -4005,6 +4005,27 @@ the URL of the image to the kill buffer instead."
   (interactive "sURL? ")
   (insert (cdr:get-url-contents-as-string url)))
 
+(defun cdr:orgy-babel-tangle ()
+  (interactive)
+  (let ((tangledir (file-name-base buffer-file-name))
+        (files (org-babel-tangle)))
+    (if (not (file-directory-p tangledir))
+        (mkdir tangledir))
+    (mapc (lambda (x)
+            (let ((filedir (if (not
+                                (file-name-directory x))
+                               ""
+                             (file-name-directory x))))
+              (if (not (file-directory-p
+                        (concat tangledir "/" filedir)))
+                  (mkdir (concat tangledir "/" filedir)))
+              (rename-file x (concat tangledir
+                                     "/"
+                                     x)
+                           t)))
+          files)))
+
+
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:

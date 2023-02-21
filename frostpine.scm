@@ -121,7 +121,7 @@ package-management ssh tls version-control xdisorg)
                 (group "users")
                 (home-directory "/home/ming")
                 (supplementary-groups
-                 '("wheel" "netdev" "audio" "video" "docker")))
+                 '("wheel" "netdev" "audio" "video" "docker" "cdrom")))
                %base-user-accounts))
  (packages (append (map (compose list specification->package+output)
                         my-gui-system-packages) %base-packages))
@@ -153,3 +153,4 @@ package-management ssh tls version-control xdisorg)
                  'ext4))
           (type "ext4"))
          %base-file-systems)))
+ 
