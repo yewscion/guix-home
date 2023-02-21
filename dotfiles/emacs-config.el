@@ -1856,6 +1856,30 @@ beginning of the current line."
     (beginning-of-line)
     (insert-file-contents
      "~/.emacs.d/templates/spaced-repetition-card.org")))
+(defun cdr:templates-insert-guile-script ()
+  "Inserts an empty guile script template at the
+beginning of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/guile-script.scm")))
+(defun cdr:templates-insert-latex-appendix-listings ()
+  "Inserts a latex-appendix-listings template at the
+beginning of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/latex-appendix-listings.tex")))
+(defun cdr:templates-insert-agda-docstring ()
+  "Inserts an empty agda docstring template at the
+beginning of the current line."
+  (interactive)
+  (save-mark-and-excursion
+    (beginning-of-line)
+    (insert-file-contents
+     "~/.emacs.d/templates/agda-docstring.agda")))
 ;;; End Templates
 
 (defun cdr:edit-region-as-org ()
