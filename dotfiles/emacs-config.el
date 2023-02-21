@@ -3590,6 +3590,7 @@ Relies on the current buffer state."
 (require 'pdf-view)
 ;;; Prefixes
 (define-prefix-command 'template-map)
+(define-prefix-command 'latex-template-map)
 (define-prefix-command 'subprocess-map)
 (define-prefix-command 'imperative-map)
 (define-prefix-command 'transform-map)
@@ -3597,24 +3598,32 @@ Relies on the current buffer state."
 (define-prefix-command 'orgy-open-journal-map)
 
 ;;; Template Map <F5>
+
+(define-key template-map (kbd "C-a") #'cdr:templates-insert-agda-docstring)
 (define-key template-map (kbd "C-b") #'cdr:templates-insert-blog-post)
 (define-key template-map (kbd "C-c") #'cdr:templates-insert-spaced-repetition-card)
 (define-key template-map (kbd "C-d") #'cdr:templates-insert-dir-locals)
 (define-key template-map (kbd "C-i") #'cdr:templates-insert-texinfo-chapter)
-(define-key template-map (kbd "C-j")  #'cdr:templates-insert-java-field-docstring)
-(define-key template-map (kbd "C-l")  #'cdr:templates-insert-latex-figure-list)
+(define-key template-map (kbd "C-j") #'cdr:templates-insert-java-field-docstring)
 (define-key template-map (kbd "C-o") #'cdr:templates-insert-texinfo-subsection)
+(define-key template-map (kbd "l") #'latex-template-map)
+(define-key template-map (kbd "C-l") #'latex-template-map)
+(define-key template-map (kbd "G") #'cdr:templates-insert-guile-script)
 (define-key template-map (kbd "a") #'cdr:templates-insert-apl-docstring)
 (define-key template-map (kbd "b") #'cdr:templates-insert-bib-annotation)
-(define-key template-map (kbd "c")  #'cdr:templates-insert-autoconf-commentable-header)
+(define-key template-map (kbd "c") #'cdr:templates-insert-autoconf-commentable-header)
 (define-key template-map (kbd "d") #'cdr:templates-insert-scm-docstring)
 (define-key template-map (kbd "g") #'cdr:templates-insert-guix-package)
 (define-key template-map (kbd "h") #'cdr:templates-insert-org-header)
 (define-key template-map (kbd "i") #'cdr:templates-insert-texinfo-procedure-definition)
-(define-key template-map (kbd "j")  #'cdr:templates-insert-java-method-docstring)
-(define-key template-map (kbd "l") #'cdr:templates-insert-latex-figure-image)
+(define-key template-map (kbd "j") #'cdr:templates-insert-java-method-docstring)
 (define-key template-map (kbd "o") #'cdr:templates-insert-texinfo-section)
 (define-key template-map (kbd "s") #'cdr:templates-insert-setup)
+
+;;; LaTeX Template Map C-<F5> l or C-<F5> C-l
+(define-key latex-template-map (kbd "i") #'cdr:templates-insert-latex-figure-image)
+(define-key latex-template-map (kbd "l") #'cdr:templates-insert-latex-figure-list)
+(define-key latex-template-map (kbd "a") #'cdr:templates-insert-latex-appendix-listings)
 
 ;;; Subprocess Map <F4>
 (define-key subprocess-map (kbd "C-g") #'run-geiser)
