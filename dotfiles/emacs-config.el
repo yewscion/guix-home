@@ -2071,7 +2071,7 @@ value."
 (defun cdr:readme-src-instructions (project type namespace main-lib)
   "Templating function for the 'Source' section of my README.md files."
   (interactive)
-  (cond ((string= type "gnu")
+  (cond ((or (string= type "gnu") (string= type "guile"))
          (concat
           "*** Source\n\n"
           "If You don't want to use [[https://guix.gnu.org/][GNU Guix]],\n"
