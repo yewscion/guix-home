@@ -5,7 +5,7 @@
     "texlive-doi" "texlive-enumitem" "texlive-etoolbox" "texlive-fontspec"
     "texlive-fonttable" "texlive-generic-etexcmds"
     "texlive-generic-gettitlestring" "texlive-generic-ifptex"
-    "texlive-generic-iftex" "texlive-generic-xstring" "texlive-hyperref"
+    "texlive-generic-iftex" "texlive-xstring" "texlive-hyperref"
     "texlive-ifmtarg" "texlive-kpathsea" "texlive-kpfonts"
     "texlive-latex-appendix" "texlive-latex-catchfile"
     "texlive-latex-cleveref" "texlive-latex-comment" "texlive-latex-colortbl"
