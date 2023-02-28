@@ -4,7 +4,7 @@
   (append
    my-agda-lib-string-list
    '(
-     "agda"
+     "agda@2.6.3"
      "alsa-plugins"
      "alsa-plugins:pulseaudio"
      "anki"
@@ -22,7 +22,7 @@
      "brightnessctl"
      "bsd-games"
      "btrfs-progs"
-     "carp"
+     "carp" ;; 2023-02-26 • No instance for (Eq Context) arising from the superclasses of an instance declaration
      "cbqn"
      "cl-asdf"
      "clisp"
@@ -190,10 +190,14 @@
      "pseudotaxus-grove"
      "pulseaudio"
      "python"
+     "python-beautifulsoup4"
      "python-css-html-js-minify"
      "python-lsp-server"
+     "python-pillow"
      "python-pygments"
      "python-pygments-pseudotaxus"
+     "python-pypa-build"
+     "python-requests"
      "qemu"
      "rebar3"
      "restic"
@@ -207,7 +211,7 @@
      "sbcl-deploy"
      "sbcl-esrap"
      "sbcl-ironclad"
-     "sbcl-stumpwm-battery-portable"
+     "my-sbcl-stumpwm-battery-portable"
      "sbcl-stumpwm-notify"
      "sbcl-stumpwm-screenshot"
      "sbcl-zpng"
