@@ -95,7 +95,7 @@
    "gparted"
    "icecat"
    "pinentry-emacs"
-   "sbcl-stumpwm-battery-portable"
+   "my-sbcl-stumpwm-battery-portable"
    "sbcl-stumpwm-notify"
    "sbcl-stumpwm-screenshot"
    "stumpish"
