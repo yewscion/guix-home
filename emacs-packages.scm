@@ -5,7 +5,7 @@
    "emacs-abc-mode"
    "emacs-academic-phrases"
    "emacs-adoc-mode"
-   "emacs-agda2-mode"
+   "emacs-agda2-mode@2.6.3"
    "emacs-alarm-clock"
    "emacs-alda-mode"
    "emacs-alert"
