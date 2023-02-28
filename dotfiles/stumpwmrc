@@ -160,9 +160,10 @@ otherwise."
  "exec pulseaudio --start"
  "exec icecat"
  "exec urxvt"
- "exec ~/.local/bin/chromium"
  "exec slack"
- "exec discord")
+ "exec discord"
+ "exec scholar-social.sh"
+ "exec google-messages.sh")
 
 ;; Local Variables:
 ;; mode: lisp
