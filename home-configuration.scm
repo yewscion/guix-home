@@ -458,5 +458,8 @@
                                   "stumpwm-windows.lisp"))
                    `(".local/bin/u-ctags"
                      ,(file-append my-u-ctags "/bin/u-ctags"))
+                   `(".local/share/bash/yewscion.bash"
+                     ,(local-file "dotfiles/yewscion.bash"
+                                  "yewscion.bash"))
                    `(".agda/libraries"
                      ,my-agda-libraries))))))
