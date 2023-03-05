@@ -270,6 +270,14 @@
        ediprolog-system 'swi)
 
 
+;;; Agda
+
+(setq agda-input-user-translations '()
+      agda2-backend "GHC"
+      agda2-fontset-name cdr:fonts-unifont
+      agda2-highlight-level 'interactive
+      agda2-information-window-max-height 0.4)
+
 ;;; Org Mode
 ;;;; Ensure Packages are Loaded
 (require 'org-chef)
