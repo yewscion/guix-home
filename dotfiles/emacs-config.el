@@ -1212,7 +1212,13 @@ None; Inert Data.")
 (require 'zone)
 (zone-when-idle 600)
 
-;;; Printing PDFs
+;;; Persistent Scratch Mode
+(setq persistent-scratch-autosave-mode t
+      persistent-scratch-backup-directory "~/.emacs.d/persistent-scratch-backups/"
+      persistent-scratch-backup-file-name-format "%Y-%m-%dT%H-%M-%S-%N"
+      persistent-scratch-what-to-save '(major-mode point narrowing))
+
+
 (setq pdf-misc-print-program-args
       '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
       pdf-misc-print-program-executable "/usr/bin/lpr")
