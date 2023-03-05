@@ -25,7 +25,9 @@
       cdr:colors-magenta "#ee7ae7"
       cdr:colors-red "#ff4242"
       cdr:colors-white "#e1e1e0"
-      cdr:colors-yellow "#ffad29")
+      cdr:colors-yellow "#ffad29"
+      cdr:colors-light-grey "#808080"
+      cdr:colors-dark-grey "#212931")
 
 ;;; Local Faces
 ;;;; Generic
@@ -1092,43 +1094,67 @@ None; Inert Data.")
                          :lang  'en ; ISO639 codes, 'ja' or 'en'
                          ))
 (set-face-attribute 'default nil
-                    :font cdr:fonts-freemono)
+                    :font cdr:fonts-unifont
+                    :width 'condensed
+                    :height 120
+                    :background cdr:colors-black
+                    :foreground cdr:colors-white)
 (set-face-attribute 'fixed-pitch nil
-                    :font cdr:fonts-freemono)
+                    :font cdr:fonts-unifont)
 (set-face-attribute 'header-line nil
-                    :background "#808080"
-                    :foreground "#333333"
+                    :background cdr:colors-light-grey
+                    :foreground cdr:colors-black
                     :font cdr:fonts-unifont)
 (set-face-attribute 'mode-line nil
-                    :background "#212931"
-                    :foreground "#eeeeec"
+                    :background cdr:colors-dark-grey
+                    :foreground cdr:colors-white
                     :font cdr:fonts-unifont)
 (set-face-attribute 'org-mode-line-clock nil
                     :inherit 'header-line)
 (set-face-attribute 'term-color-black nil
-                    :background "#2d3743"
-                    :foreground "#2d3743")
+                    :background cdr:colors-black
+                    :foreground cdr:colors-black)
 (set-face-attribute 'term-color-blue nil
-                    :background "#34cae2"
-                    :foreground "#34cae2")
+                    :background cdr:colors-cyan
+                    :foreground cdr:colors-cyan)
 (set-face-attribute 'term-color-cyan nil
-                    :background "#e67128"
-                    :foreground "#e67128")
+                    :background cdr:colors-orange
+                    :foreground cdr:colors-orange)
 (set-face-attribute 'term-color-green nil
-                    :background "#338f86"
-                    :foreground "#338f86")
+                    :background cdr:colors-green
+                    :foreground cdr:colors-green)
 (set-face-attribute 'term-color-magenta nil
-                    :background "#ee7ae7"
-                    :foreground "#ee7ae7")
+                    :background cdr:colors-magenta
+                    :foreground cdr:colors-magenta)
 (set-face-attribute 'term-color-red nil
-                    :background "#ff4242"
-                    :foreground "#ff4242")
+                    :background cdr:colors-red
+                    :foreground cdr:colors-red)
 (set-face-attribute 'term-color-white nil
-                    :background "#e1e1e0"
-                    :foreground "#e1e1e0")
+                    :background cdr:colors-white
+                    :foreground cdr:colors-white)
 (set-face-attribute 'term-color-yellow nil
-                    :background "#ffad29"
-                    :foreground "#ffad29")
+                    :background cdr:colors-yellow
+                    :foreground cdr:colors-yellow)
+(set-face-attribute 'mastodon-boost-fave-face nil
+                    :inherit cdr:awesome-face)
+(set-face-attribute 'mastodon-boosted-face nil
+                    :inherit cdr:good-face :weight bold)
+(set-face-attribute 'mastodon-cw-face nil
+                    :inherit cdr:warning-face)
+(set-face-attribute 'mastodon-display-name-face nil
+                    :inherit cdr:info-face)
+(set-face-attribute 'mastodon-handle-face nil
+                    :inherit cdr:emphasis-face)
+(set-face-attribute 'bqn-glyph-face nil
+                    :family "BQN386 Unicode")
+(set-face-attribute 'bqn-two-modifier-face nil
+                    :inherit font-lock-keyword-face
+                    :weight light
+                    :family "BQN386 Unicode")
+(set-face-attribute 'org-table nil
+                    :foreground "LightSkyBlue"
+                    :width condensed
+                    :family "Unifont")
 
 ;;;; Undo some defaults I don't need.
 ;;;;; StumpWM takes care of this for me.
