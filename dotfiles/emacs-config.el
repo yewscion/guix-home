@@ -181,9 +181,9 @@
 
 (setq-default geiser-scheme-implementation 'guile)
 
-;; Assuming the Guix checkout is in ~/Downloads/guix.
+;; Assuming the Guix checkout is in ~/Downloads/Checkouts/guix.
 (with-eval-after-load 'geiser-guile
-  (add-to-list 'geiser-guile-load-path "~/Downloads/guix"))
+  (add-to-list 'geiser-guile-load-path "~/Downloads/Checkouts/guix"))
 
 ;;; i-ching-mode
 (setq i-ching-hexagram-font "unifont")
