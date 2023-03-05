@@ -158,7 +158,8 @@
       emms-mode-line-format "[%s]"
       emms-mode-line-mode-line-function #'cdr:emms-describe-track
       emms-mode-line-cycle-current-title-function
-      'cdr:emms-describe-track)
+      'cdr:emms-describe-track
+      emms-browser-default-browse-type 'info-album)
 
 ;;; Clojure Config
 (setq org-babel-clojure-backend 'cider)
