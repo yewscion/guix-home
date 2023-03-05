@@ -453,7 +453,9 @@
       lsp-ui-doc-show-with-cursor t
       lsp-ui-doc-show-with-mouse nil
       lsp-ui-doc-use-childframe t
-      lsp-ui-doc-use-webkit t)
+      lsp-ui-doc-use-webkit t
+      lsp-java-vmargs
+      '("-Xmx1G" "-XX:+UseG1GC" "-XX:+UseStringDeduplication"))
 
 ;;; Ebib/biblio/etc
 (require 'ebib)
