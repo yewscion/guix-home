@@ -264,6 +264,12 @@
       gnu-apl-program-extra-args '("--emacs")
       gnu-apl-show-apl-welcome t
       gnu-apl-show-tips-on-start nil)
+
+;;; Ediprolog
+(setq  ediprolog-max-history 8000000
+       ediprolog-system 'swi)
+
+
 ;;; Org Mode
 ;;;; Ensure Packages are Loaded
 (require 'org-chef)
