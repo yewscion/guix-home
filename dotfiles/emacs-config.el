@@ -1219,9 +1219,24 @@ None; Inert Data.")
       persistent-scratch-what-to-save '(major-mode point narrowing))
 
 
+;;; PDFs
 (setq pdf-misc-print-program-args
       '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
-      pdf-misc-print-program-executable "/usr/bin/lpr")
+      pdf-misc-print-program-executable "/usr/bin/lpr"
+      pdf-annot-default-annotation-properties
+      '((t
+         (label . "Christopher Rodriguez"))
+        (text
+         (color . "brown")
+         (icon . "Note"))
+        (highlight
+         (color . "yellow"))
+        (underline
+         (color . "blue"))
+        (squiggly
+         (color . "orange"))
+        (strike-out
+         (color . "red"))))
 
 ;;; Elfeed
 (setq elfeed-feeds
