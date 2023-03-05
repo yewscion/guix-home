@@ -204,8 +204,16 @@
       mpc-host "s")
 
 ;;; mastodon-mode
-(setq mastodon-instance-url "https://tech.lgbt/"
-      mastodon-active-user "yewscion")
+(setq mastodon-instance-url "https://scholar.social/"
+      mastodon-active-user "yewscion"
+      mastodon-media--avatar-height 15
+      mastodon-media--enable-image-caching t
+      mastodon-media--preview-max-height 80
+      mastodon-tl--enable-relative-timestamps nil
+      mastodon-tl--show-avatars t
+      mastodon-toot--default-media-directory "~/Pictures"
+      mastodon-toot--enable-custom-instance-emoji t
+      mastodon-toot-timestamp-format "%FT%TZ%z")
 
 ;;; ANSI Color
 (setq ansi-color-faces-vector
