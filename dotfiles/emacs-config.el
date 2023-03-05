@@ -1239,55 +1239,36 @@ None; Inert Data.")
          (color . "red"))))
 
 ;;; Elfeed
+(setq
+ cdr:elfeed-urls
+ '(
+   ("Andy Salerno's Blog" "https://andysalerno.com/index.xml" tech blog)
+   ("Freedom to Tinker" "https://freedom-to-tinker.com/feed/rss/" tech politics)
+   ("Friends with Benefits" "https://www.webtoons.com/en/challenge/friends-with-benefits/rss?title_no=412808" comic trans)
+   ("GNU Guile News" "https://www.gnu.org/software/guile/news/feed.xml" software)
+   ("GNU Guix Blog" "https://guix.gnu.org/feeds/blog.atom" software blog)
+   ("Lost in Lambduhhs" "https://anchor.fm/s/581d4eb4/podcast/rss" podcast tech)
+   ("Lukasz Janyst's Blog" "https://jany.st/rss.xml" tech blog)
+   ("Manfred Bergmann's Blog" "http://retro-style.software-by-mabe.com/blog-atom-feed" tech blog)
+   ("Musa Al-hassy's Blog" "https://alhassy.github.io/rss.xml" general blog)
+   ("Pascal Costanza's Blog" "https://blog.p-cos.net" general blog)
+   ("Physics::Journey" "https://p6steve.wordpress.com/rss" tech blog)
+   ("Planet Scheme" "https://planet.scheme.org/atom.xml" tech news)
+   ("Questionable Content" "https://www.questionablecontent.net/QCRSS.xml" comic)
+   ("Serious Trans Vibes" "https://www.webtoons.com/en/challenge/serious-trans-vibes/rss?title_no=206579" comic trans)
+   ("Something Positive" "https://somethingpositive.net/feed/" comic)
+   ("The Prettiest Platypus" "https://www.webtoons.com/en/challenge/the-prettiest-platypus/rss?title_no=463063" comic trans)
+   ("This Month in Org" "https://blog.tecosaur.com/tmio/rss.xml" tech blog)
+   ("Transincidental" "https://www.webtoons.com/en/challenge/transincidental/rss?title_no=605328" comic trans)
+   ("Why is a raven like a writing desk?" "https://www.elbeno.com/blog/?feed=rss2" tech blog)
+   ("Wingo's Blog" "https://www.wingolog.org/feed/atom" tech computer-science)
+   ("XKCD" "https://xkcd.com/atom.xml" comic)
+   ("Yewscion's Blog" "https://yewscion.com/feed.xml" personal)
+   ("rekado's Blog" "https://elephly.net/feed.xml" tech blog)
+   ))
+
 (setq elfeed-feeds
-      `(("https://www.elbeno.com/blog/?feed=rss2"
-         tech programming)
-        ("https://anchor.fm/s/581d4eb4/podcast/rss"
-         tech)
-        ("http://retro-style.software-by-mabe.com/blog-atom-feed"
-         tech code lisp cl)
-        ("https://alhassy.github.io/rss.xml"
-         tech code lisp cl)
-        ("https://andysalerno.com/index.xml"
-         tech)
-        ("https://blog.tecosaur.com/tmio/rss.xml"
-         tech emacs org-mode)
-        ("https://freedom-to-tinker.com/feed/rss/"
-         tech policy)
-        ("https://guix.gnu.org/feeds/blog.atom"
-         tech gnu guix lisp scheme guile)
-        ("https://jany.st/rss.xml"
-         tech hardware)
-        ("https://p6steve.wordpress.com/rss"
-         tech raku)
-        ("https://planet.lisp.org/rss20.xml"
-         tech code lisp cl)
-        ("https://planet.scheme.org/atom.xml"
-         tech code lisp scheme)
-        ("https://somethingpositive.net/feed/"
-         comic nsfw)
-        ("https://www.gnu.org/software/guile/news/feed.xml"
-         tech code lisp scheme guile)
-        ("https://www.questionablecontent.net/QCRSS.xml"
-         comic nsfw)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "the-prettiest-platypus/rss?title_no=463063")
-         comic trans)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "serious-trans-vibes/rss?title_no=206579")
-         comic trans)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "friends-with-benefits/rss?title_no=412808")
-         comic trans)
-        (,(concat "https://www.webtoons.com/en/challenge/"
-                  "transincidental/rss?title_no=605328")
-         comic trans)
-        ("https://www.wingolog.org/feed/atom"
-         tech code lisp scheme guile)
-        ("https://xkcd.com/atom.xml"
-         comic)
-        ("https://yewscion.com/feed.xml"
-         personal tech code)))
+      (mapcar #'cdr cdr:elfeed-urls))
 
 ;;; Load Local Custom
 (load "~/.emacs.d/custom.el")
