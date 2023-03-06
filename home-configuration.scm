@@ -129,7 +129,7 @@
                  "    \"tramp\")\n"
                  "        export PS1=\"$ \"\n"
                  "        ;;\n"
-                 "    xterm*|rxvt*|eterm*|screen*)\n"
+                 "    xterm*|rxvt*|eterm*|screen*|alacritty*)\n"
                  "        tty -s && export PS1=\""
                  my-ps1-prompt
                  "\"\n"
@@ -453,6 +453,9 @@
                    `(".config/gnu-apl/preferences"
                      ,(local-file "dotfiles/gnu-apl-preferences.conf"
                                   "gnu-apl-preferences"))
+                   `(".config/alacritty/alacritty.yml"
+                     ,(local-file "dotfiles/alacritty.yml"
+                                  "alacritty-yml"))
                    `(".config/stumpwm/window-placement.lisp"
                      ,(local-file "dotfiles/stumpwm-windows.lisp"
                                   "stumpwm-windows.lisp"))
