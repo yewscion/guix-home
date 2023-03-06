@@ -127,6 +127,14 @@ otherwise."
 (define-key *root-map* (kbd "e") "exec emacsclient -c")
 ;;; Emacs Everywhere ; Ruins current emacsclient session.
 ;(define-key *root-map* (kbd "E") "exec emacsclient --eval '(emacs-everywhere)'")
+;;; Google Messages in Chromium
+(define-key *root-map* (kbd "M-m") "~/.local/bin/,google-messages.sh")
+;;; Scholar Social in Chromium
+(define-key *root-map* (kbd "M-s") "~/.local/bin/,scholar-social.sh")
+;;; Update All Remote Systems
+(define-key *root-map* (kbd "M-u") "~/.local/bin/,update-all-remote-systems.sh")
+;;; Daily Guix Update
+(define-key *root-map* (kbd "M-d") "~/.local/bin/,daily-guix-update.sh")
 ;;; Screenshots
 (define-key *top-map* (kbd "Print") "screenshot-now")
 ;; Message/Modeline Font
@@ -162,8 +170,8 @@ otherwise."
  "exec urxvt"
  "exec slack"
  "exec discord"
- "exec scholar-social.sh"
- "exec google-messages.sh")
+ "exec ,scholar-social.sh"
+ "exec ,google-messages.sh")
 
 ;; Local Variables:
 ;; mode: lisp
