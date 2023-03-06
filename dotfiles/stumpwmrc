@@ -116,7 +116,7 @@ otherwise."
 (define-key *top-map* (kbd "F11") "fullscreen")
 ;; Root Map Assignments
 ;;; Terminal
-(define-key *root-map* (kbd "c") "exec urxvt")
+(define-key *root-map* (kbd "c") "exec alacritty")
 ;;; Browse somewhere
 (define-key *root-map* (kbd "b") "exec icecat")
 ;;; Lock screen
@@ -167,7 +167,7 @@ otherwise."
  "exec shepherd && herd start emacs"
  "exec pulseaudio --start"
  "exec icecat"
- "exec urxvt"
+ "exec alacritty"
  "exec slack"
  "exec discord"
  "exec ,scholar-social.sh"
