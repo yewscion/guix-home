@@ -5,6 +5,7 @@
    my-agda-lib-string-list
    '(
      "agda@2.6.3"
+     "alacritty"
      "alsa-plugins"
      "alsa-plugins:pulseaudio"
      "anki"
@@ -200,6 +201,7 @@
      "python-pygments-pseudotaxus"
      "python-pypa-build"
      "python-requests"
+     "python-twtxt"
      "qemu"
      "rebar3"
      "restic"
