@@ -1,6 +1,7 @@
 (define my-system-packages
   (list
    "agda"
+   "alacritty"
    "b3sum"
    "bash"
    "borg"
