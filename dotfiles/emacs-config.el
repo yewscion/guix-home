@@ -279,6 +279,7 @@ variable of the same name."
       mpc-host "s")
 
 ;;; mastodon-mode
+(require 'mastodon)
 (setq mastodon-instance-url "https://scholar.social/"
       mastodon-active-user "yewscion"
       mastodon-media--avatar-height 15
@@ -290,6 +291,7 @@ variable of the same name."
       mastodon-toot--enable-custom-instance-emoji t
       mastodon-toot-timestamp-format "%FT%TZ%z")
 
+(require 'bqn-mode)
 ;;; ANSI Color
 (setq ansi-color-faces-vector
       [default default default
