@@ -3818,7 +3818,7 @@ Used entirely for Side Effects: Modifies kill-ring and current buffer."
 ;(global-set-key (kbd "<f4>") nil) ; Run Macro
 (global-set-key (kbd "<f5>") 'emms)
 (global-set-key (kbd "<f6>") 'ebib)
-(global-set-key (kbd "<f7>") 'compost-search)
+(global-set-key (kbd "<f7>") 'ispell)
 (global-set-key (kbd "<f8>") 'elfeed)
 (global-set-key (kbd "<f9>") 'org-agenda)
 ;(global-set-key (kbd "<f10>") nil) ; GUI Menu Key
