@@ -3749,6 +3749,7 @@ Relies on the current buffer state."
 (define-key imperative-map (kbd "s") #'cdr:cleanup-script-output)
 (define-key imperative-map (kbd "v") #'add-file-local-variable)
 (define-key imperative-map (kbd "w") #'whitespace-report)
+(define-key imperative-map (kbd "y") #'cdr:paste-commit-and-update-hash)
 
 ;;; Imperative Org Map <F3> o / <F3> C-o
 (define-key imperative-org-map (kbd "C-j") #'orgy-open-journal-map)
