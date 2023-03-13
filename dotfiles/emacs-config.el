@@ -3661,6 +3661,12 @@ Impurities
 Relies on the current buffer state."
   (buffer-substring-no-properties (point-min) (point-max)))
 
+(fset 'cdr:paste-commit-and-update-hash
+   (kmacro-lambda-form [?\C-y ?\M-d ?\C-s ?u ?r ?l return ?\C-f
+   ?\C-f ?\C- ?\C-s ?\" return ?\C-b ?\M-w ?\C-s ?b ?a ?s ?e ?3
+   ?2 return ?\C-s ?\" return ?\M-d ?\M-x ?c ?d ?r ?: ?i ?n ?s ?e
+   ?r ?t ?- ?g ?u ?i ?x ?- ?h ?a ?s ?h return ?n ?\C-y ?\M-y
+   return] 0 "%d"))
 ;;; Enabled Commands
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
