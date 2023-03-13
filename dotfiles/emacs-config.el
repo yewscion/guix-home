@@ -18,85 +18,160 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;;; Local Colors
-(setq cdr:colors-black "#2d3743"
-      cdr:colors-cyan "#34cae2"
-      cdr:colors-orange "#e67128"
-      cdr:colors-green "#338f86"
-      cdr:colors-magenta "#ee7ae7"
-      cdr:colors-red "#ff4242"
-      cdr:colors-white "#e1e1e0"
-      cdr:colors-yellow "#ffad29"
-      cdr:colors-light-grey "#808080"
-      cdr:colors-dark-grey "#212931")
+(setq cdr:colors-blue "#346879"
+      cdr:colors-cyan "#79d2d2"
+      cdr:colors-orange "#ff8765"
+      cdr:colors-green "#4ab581"
+      cdr:colors-magenta "#a498b3"
+      cdr:colors-red "#b44648"
+      cdr:colors-yellow "#d7d693"
+      cdr:colors-white "#ebe6e0"
+      cdr:colors-black "#2e261f"
+      cdr:colors-light-grey "#978c81"
+      cdr:colors-dark-grey "#43382d")
 
 ;;; Local Faces
-;;;; Generic
-(defface cdr:good-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-green))
-  "Personal Face For 'Good' text.")
-(defface cdr:info-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-yellow))
-  "Personal Face For 'Informational' text.")
-(defface cdr:warning-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-orange))
-  "Personal Face For 'Warning' text.")
-(defface cdr:bad-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-red))
-  "Personal Face For 'Bad' text.")
-(defface cdr:emphasis-face
-  `((t :inherit default
-       :slant italic
-       :foreground ,cdr:colors-white))
-  "Personal Face For 'Emphasized' text.")
-(defface cdr:strong-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-white))
-  "Personal Face For 'Strongly Emphasized' text.")
-(defface cdr:system-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-cyan))
-  "Personal Face For 'System' text.")
-(defface cdr:awesome-face
-  `((t :inherit default
-       :weight bold
-       :foreground ,cdr:colors-magenta))
-  "Personal Face For 'Awesome' text.")
-;;;; Org TODOs
-(defface cdr:orgy-new-todo
-  `((t :inherit org-todo
-       :foreground ,cdr:colors-cyan))
-  "Personal Face For New TODOs.")
-(defface cdr:orgy-blocked-todo
-  `((t :inherit org-todo
-       :foreground ,cdr:colors-red))
-  "Personal Face For Blocked TODOs.")
-(defface cdr:orgy-deferred-todo
-  `((t :inherit org-todo
-       :foreground ,cdr:colors-magenta))
-  "Personal Face For Deferred TODOs.")
-(defface cdr:orgy-ongoing-todo
-  `((t :inherit org-todo
-       :foreground ,cdr:colors-orange))
-  "Personal Face For Ongoind TODOs.")
-(defface cdr:orgy-cancelled-todo
-  `((t :inherit org-todo
-       :foreground ,cdr:colors-yellow))
-  "Personal Face For Cancelled TODOs.")
-(defface cdr:orgy-complete-todo
-  `((t :inherit org-todo
-       :foreground ,cdr:colors-green))
-  "Personal Face For Completed TODOs.")
 
+;;;; Tooling
+(defmacro cdr:make-face
+    (name inherit weight slant foreground background description)
+  "Make a customizable face, and assign it to a customizable
+variable of the same name."
+  (let ((face-name (intern (concat "cdr:" name "-face"))))
+  `(defface ,face-name
+     ((t :inherit ,inherit
+         :weight ,weight
+         :slant ,slant
+         :foreground ,foreground
+         :background ,background))
+  ,description)
+  `(defvar ,face-name (quote ,face-name)
+     ,description)))
+
+;;;; Fontspecs
+(setq cdr:fonts-freemono (font-spec
+                          :family "FreeMono"
+                          :weight 'normal
+                          :slant 'normal
+                          :width 'normal
+                          :foundry "GNU" ; symbol or string representing foundry, 'misc'
+                          :size 13 ; integers are pixels, floats are points.
+                          :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
+                          :name "FreeMono" ; fontconfig-style name
+                          :script 'latin ; look in script-representative-chars
+                          :lang  'en ; ISO639 codes, 'ja' or 'en'
+                          ))
+(setq cdr:fonts-unifont (font-spec
+                         :family "Unifont"
+                         :weight 'normal
+                         :slant 'normal
+                         :width 'normal
+                         :foundry "GNU" ; symbol or string representing foundry, 'misc'
+                         :size 12.0 ; integers are pixels, floats are points.
+                         :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
+                         :name "Unifont" ; fontconfig-style name
+                         :script 'unicode ; look in script-representative-chars
+                         :lang  'en ; ISO639 codes, 'ja' or 'en'
+                         ))
+;;;; Generic
+(cdr:make-face "good"
+               default
+               bold
+               nil
+               cdr:colors-green
+               nil
+               "Personal Face For 'Good' text.")
+(cdr:make-face "info"
+               default
+               bold
+               nil
+               cdr:colors-yellow
+               nil
+               "Personal Face For 'Informational' text.")
+(cdr:make-face "warning"
+               default
+               bold
+               nil
+               cdr:colors-orange
+               nil
+               "Personal Face For 'Warning' text.")
+(cdr:make-face "bad"
+               default
+               bold
+               nil
+               cdr:colors-red
+               nil
+               "Personal Face For 'Bad' text.")
+(cdr:make-face "emphasis"
+               default
+               nil
+               italic
+               cdr:colors-white
+               nil
+               "Personal Face For 'Emphasized' text.")
+(cdr:make-face "strong"
+               default
+               bold
+               nil
+               cdr:colors-white
+               nil
+               "Personal Face For 'Strong' text.")
+(cdr:make-face "system"
+               default
+               bold
+               nil
+               cdr:colors-cyan
+               nil
+               "Personal Face For 'System' text.")
+(cdr:make-face "awesome"
+               default
+               bold
+               nil
+               cdr:colors-magenta
+               nil
+               "Personal Face For 'Awesome' text.")
+(cdr:make-face "orgy-new-todo"
+               org-todo
+               nil
+               nil
+               cdr:colors-cyan
+               nil
+               "Personal Face For New TODOs.")
+(cdr:make-face "orgy-blocked-todo"
+               org-todo
+               nil
+               nil
+               cdr:colors-red
+               nil
+               "Personal Face For Blocked TODOs.")
+(cdr:make-face "orgy-deferred-todo"
+               org-todo
+               nil
+               nil
+               cdr:colors-magenta
+               nil
+               "Personal Face For Deferred TODOs.")
+(cdr:make-face "orgy-ongoing-todo"
+               org-todo
+               nil
+               nil
+               cdr:colors-orange
+               nil
+               "Personal Face For Orange TODOs.")
+(cdr:make-face "orgy-cancelled-todo"
+               org-todo
+               nil
+               nil
+               cdr:colors-yellow
+               nil
+               "Personal Face For Cancelled TODOs.")
+(cdr:make-face "orgy-complete-todo"
+               org-todo
+               nil
+               nil
+               cdr:colors-green
+               nil
+               "Personal Face For Completed TODOs.")
 ;;; Regex Builder Config
 (require 're-builder)
 (setq reb-re-syntax 'string)
