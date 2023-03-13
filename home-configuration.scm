@@ -441,6 +441,9 @@
                    `(".emacs.d/templates"
                      ,(local-file "templates"
                                   #:recursive? #true))
+                   `(".local/share/refcards"
+                     ,(local-file "refcards"
+                                  #:recursive? #true))
                    `(".Xresources"
                      ,(local-file "dotfiles/xresources"
                                   "xresources"))
