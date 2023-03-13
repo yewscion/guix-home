@@ -1120,143 +1120,99 @@ None; Inert Data.")
 
 ;;; Set Up UI
 (require 'eterm-256color)
-(when (display-graphic-p)
-  (progn ;; Emoji Support
-    (setq use-default-font-for-symbols nil
-          emojify-display-style 'unicode
-          emojify-emoji-styles '(github unicode))
-    (defun my-emoji-fonts ()
-      (set-fontset-font t 'unicode
-                        (face-attribute 'default :family))
-      (set-fontset-font t '(#x2300 . #x27e7)
-                        (font-spec :family "Emoji One"))
-      (set-fontset-font t '(#x27F0 . #x1FAFF)
-                        (font-spec :family "Emoji One"))
-      (set-fontset-font t 'unicode
-                        "Unifont, Upper" nil 'append))
-    (my-emoji-fonts)))
-
-(set-face-attribute 'fixed-pitch nil :font "FreeMono")
-(setq inhibit-startup-screen t
-      large-file-warning-threshold 100000000
-      undo-limit 16000000
-      garbage-collection-messages t
-      initial-scratch-message nil
-      display-time-24hr-format t
-      nrepl-sync-request-timeout nil
-      mark-ring-max most-positive-fixnum
-      use-file-dialog nil
-      use-dialog-box nil
-      whitespace-line-column nil
-      shell-prompt-pattern "^\\[.*\\..*\\] {..\\:..} .*\\@.*\\:*\\/\\$"
-      tramp-shell-prompt-pattern "$ "
-      show-paren-mode t
-      term-buffer-maximum-size 16384
-      term-set-terminal-size t
-      titlecase-style 'apa
-      user-full-name "Christopher Rodriguez"
-      vterm-kill-buffer-on-exit nil
-      vterm-shell "bash -l"
-      comint-use-prompt-regexp nil
-      scroll-preserve-screen-position t)
-(setq-default fill-column 77
-              indent-tabs-mode nil
-              show-trailing-whitespace nil)
-(prefer-coding-system 'utf-8)
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-(column-number-mode 1)
-(display-time-mode 1)
-(guru-global-mode 1)
-(global-disable-mouse-mode)
-(display-battery-mode)
-(setq cdr:fonts-freemono (font-spec
-                          :family "FreeMono"
-                          :weight 'normal
-                          :slant 'normal
-                          :width 'normal
-                          :foundry "GNU" ; symbol or string representing foundry, 'misc'
-                          :size 13 ; integers are pixels, floats are points.
-                          :spacing 'm ; [p]roportional [d]ual [m]ono [c]harcell
-                          :name "FreeMono" ; fontconfig-style name
-                          :script 'latin ; look in script-representative-chars
-                          :lang  'en ; ISO639 codes, 'ja' or 'en'
-                          ))
-(setq cdr:fonts-unifont (font-spec
-                         :family "Unifont"
-                         :weight 'normal
-                         :slant 'normal
-                         :width 'normal
-                         :foundry "GNU" ; symbol or string representing foundry, 'misc'
-                         :size 12.0 ; integers are pixels, floats are points.
-                         :spacing 'd ; [p]roportional 0 [d]ual 90 [m]ono 100 [c]harcell 110
-                         :name "Unifont" ; fontconfig-style name
-                         :script 'unicode ; look in script-representative-chars
-                         :lang  'en ; ISO639 codes, 'ja' or 'en'
-                         ))
-(set-face-attribute 'default nil
-                    :font cdr:fonts-unifont
-                    :width 'condensed
-                    :height 120
-                    :background cdr:colors-black
-                    :foreground cdr:colors-white)
-(set-face-attribute 'fixed-pitch nil
-                    :font cdr:fonts-unifont)
-(set-face-attribute 'header-line nil
-                    :background cdr:colors-light-grey
-                    :foreground cdr:colors-black
-                    :font cdr:fonts-unifont)
-(set-face-attribute 'mode-line nil
-                    :background cdr:colors-dark-grey
-                    :foreground cdr:colors-white
-                    :font cdr:fonts-unifont)
-(set-face-attribute 'org-mode-line-clock nil
-                    :inherit 'header-line)
-(set-face-attribute 'term-color-black nil
-                    :background cdr:colors-black
-                    :foreground cdr:colors-black)
-(set-face-attribute 'term-color-blue nil
-                    :background cdr:colors-cyan
-                    :foreground cdr:colors-cyan)
-(set-face-attribute 'term-color-cyan nil
-                    :background cdr:colors-orange
-                    :foreground cdr:colors-orange)
-(set-face-attribute 'term-color-green nil
-                    :background cdr:colors-green
-                    :foreground cdr:colors-green)
-(set-face-attribute 'term-color-magenta nil
-                    :background cdr:colors-magenta
-                    :foreground cdr:colors-magenta)
-(set-face-attribute 'term-color-red nil
-                    :background cdr:colors-red
-                    :foreground cdr:colors-red)
-(set-face-attribute 'term-color-white nil
-                    :background cdr:colors-white
-                    :foreground cdr:colors-white)
-(set-face-attribute 'term-color-yellow nil
-                    :background cdr:colors-yellow
-                    :foreground cdr:colors-yellow)
-(set-face-attribute 'mastodon-boost-fave-face nil
-                    :inherit cdr:awesome-face)
-(set-face-attribute 'mastodon-boosted-face nil
-                    :inherit cdr:good-face :weight bold)
-(set-face-attribute 'mastodon-cw-face nil
-                    :inherit cdr:warning-face)
-(set-face-attribute 'mastodon-display-name-face nil
-                    :inherit cdr:info-face)
-(set-face-attribute 'mastodon-handle-face nil
-                    :inherit cdr:emphasis-face)
-(set-face-attribute 'bqn-glyph-face nil
-                    :family "BQN386 Unicode")
-(set-face-attribute 'bqn-two-modifier-face nil
-                    :inherit font-lock-keyword-face
-                    :weight light
-                    :family "BQN386 Unicode")
-(set-face-attribute 'org-table nil
-                    :foreground "LightSkyBlue"
-                    :width condensed
-                    :family "Unifont")
+(add-hook 'after-make-frame-functions
+          (lambda (the-new-frame)
+            (progn
+              (setq inhibit-startup-screen t
+                  large-file-warning-threshold 100000000
+                  undo-limit 16000000
+                  garbage-collection-messages t
+                  initial-scratch-message nil
+                  display-time-24hr-format t
+                  nrepl-sync-request-timeout nil
+                  mark-ring-max most-positive-fixnum
+                  use-file-dialog nil
+                  use-dialog-box nil
+                  whitespace-line-column nil
+                  shell-prompt-pattern "^\\[.*\\..*\\] {..\\:..} .*\\@.*\\:*\\/\\$"
+                  tramp-shell-prompt-pattern "$ "
+                  show-paren-mode t
+                  term-buffer-maximum-size 16384
+                  term-set-terminal-size t
+                  titlecase-style 'apa
+                  user-full-name "Christopher Rodriguez"
+                  vterm-kill-buffer-on-exit nil
+                  vterm-shell "bash -l"
+                  comint-use-prompt-regexp nil
+                  scroll-preserve-screen-position t)
+            (setq-default fill-column 74
+                          indent-tabs-mode nil
+                          show-trailing-whitespace nil)
+            (prefer-coding-system 'utf-8)
+            (menu-bar-mode 0)
+            (tool-bar-mode 0)
+            (scroll-bar-mode 0)
+            (column-number-mode 1)
+            (display-time-mode 1)
+            (guru-global-mode 1)
+            (global-disable-mouse-mode)
+            (display-battery-mode)
+            (set-face-attribute 'default nil
+                                :font cdr:fonts-unifont
+                                :width 'condensed
+                                :height 120
+                                :background cdr:colors-black
+                                :foreground cdr:colors-white)
+            (set-face-attribute 'fixed-pitch nil
+                                :font cdr:fonts-unifont)
+            (set-face-attribute 'header-line nil
+                                :background cdr:colors-light-grey
+                                :foreground cdr:colors-black
+                                :font cdr:fonts-unifont)
+            (set-face-attribute 'mode-line nil
+                                :background cdr:colors-dark-grey
+                                :foreground cdr:colors-white
+                                :font cdr:fonts-unifont)
+            (set-face-attribute 'org-mode-line-clock nil
+                                :inherit 'header-line)
+            (set-face-attribute 'term-color-black nil
+                                :background cdr:colors-black
+                                :foreground cdr:colors-black)
+            (set-face-attribute 'term-color-blue nil
+                                :background cdr:colors-cyan
+                                :foreground cdr:colors-cyan)
+            (set-face-attribute 'term-color-cyan nil
+                                :background cdr:colors-orange
+                                :foreground cdr:colors-orange)
+            (set-face-attribute 'term-color-green nil
+                                :background cdr:colors-green
+                                :foreground cdr:colors-green)
+            (set-face-attribute 'term-color-magenta nil
+                                :background cdr:colors-magenta
+                                :foreground cdr:colors-magenta)
+            (set-face-attribute 'term-color-red nil
+                                :background cdr:colors-red
+                                :foreground cdr:colors-red)
+            (set-face-attribute 'term-color-white nil
+                                :background cdr:colors-white
+                                :foreground cdr:colors-white)
+            (set-face-attribute 'term-color-yellow nil
+                                :background cdr:colors-yellow
+                                :foreground cdr:colors-yellow)
+            (set-face-attribute 'mastodon-boost-fave-face nil
+                                :inherit cdr:awesome-face)
+            (set-face-attribute 'mastodon-boosted-face nil
+                                :inherit cdr:good-face :weight 'bold)
+            (set-face-attribute 'mastodon-cw-face nil
+                                :inherit cdr:warning-face)
+            (set-face-attribute 'mastodon-display-name-face nil
+                                :inherit cdr:info-face)
+            (set-face-attribute 'mastodon-handle-face nil
+                                :inherit cdr:emphasis-face)
+            (set-face-attribute 'org-table nil
+                                :foreground cdr:colors-cyan
+                                :width 'condensed
+                                :family "Unifont"))))
 
 ;;;; Undo some defaults I don't need.
 ;;;;; StumpWM takes care of this for me.
