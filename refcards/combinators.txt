@@ -1,0 +1,53 @@
+
+                     Combinator List and Definitions
+
+| Sym | Function             | Bird             | Combinator          |
+|-----+----------------------+------------------+---------------------|
+| B   | λabc.a(bc)           | Bluebird         | S(KS)K              |
+| B1  | λabcd.a(bcd)         | Blackbird        | BBB                 |
+| B2  | λabcde.a(bcde)       | Bunting          | B(BBB)B             |
+| B3  | λabcd.a(b(cd))       | Becard           | B(BB)B              |
+| C   | λabc.acb             | Cardinal         | S(BBS)(KK)          |
+| C*  | λabcd.abdc           | Cardinal 1R      | BC                  |
+| C** | λabcde.abced         | Cardinal 2R      | BC*                 |
+| D   | λabcd.ab(cd)         | Dove             | BB                  |
+| D1  | λabcde.abc(de)       | Dickcissel       | B(BB)               |
+| D2  | λabcde.a(bc)(de)     | Dovekies         | BB(BB)              |
+| E   | λabcde.ab(cde)       | Eagle            | B(BBB)              |
+| Ê   | λabcdefg.a(bcd)(efg) | Bald Eagle       | B(BBB)(B(BBB))      |
+| F   | λabc.cba             | Finch            | ETTET               |
+| F*  | λabcd.adcb           | Finch 1R         | BC*R*               |
+| F** | λabcde.abedc         | Finch 2R         | BF*                 |
+| G   | λabcd.ad(bc)         | Goldfinch        | BBC                 |
+| H   | λabc.abcb            | Hummingbird      | BW(BC)              |
+| I   | λa.a                 | Idiot Bird       | SKK                 |
+| I*  | λab.ab               | Identity Bird 1R | S(SK)               |
+| I** | λabc.abc             | Identity Bird 2R |                     |
+| J   | λabcd.ab(adc)        | Jay              | B(BC)(W(BC(B(B1)))) |
+| K   | λab.a                | Kestrel (True)   | K                   |
+| KI  | λab.b                | Kite (False)     | KI                  |
+| L   | λab.a(bb)            | Lark             | CBM                 |
+| M   | λa.aa                | Mockingbird      | SII                 |
+| M2  | λab.ab(ab)           | Dbl Mockingbird  | BM                  |
+| O   | λab.b(ab)            | Owl              | SI                  |
+| Q   | λabc.b(ac)           | Queer Bird       | CB                  |
+| Q1  | λabc.a(cb)           | Quixotic Bird    | BCB                 |
+| Q2  | λabc.b(ca)           | Quizzical Bird   | C(BCB)              |
+| Q3  | λabc.c(ab)           | Quirky Bird      | BT                  |
+| Q4  | λabc.c(ba)           | Quacky Bird      | F*B                 |
+| R   | λabc.bca             | Robin            | BBT                 |
+| R*  | λabcd.acdb           | Robin 1R         | C*C*                |
+| R** | λabcde.abdec         | Robin 2R         | BR*                 |
+| S   | λabc.ac(bc)          | Starling         | S                   |
+| T   | λab.ba               | Thrush           | CI                  |
+| U   | λab.b(aab)           | Turing           | LO                  |
+| V   | λabc.cab             | Vireo (Pairing)  | BCT                 |
+| V*  | λabcd.acbd           | Vireo 1R         | C*F*                |
+| V** | λabcde.abecd         | Vireo 2R         | BV*                 |
+| W   | λab.abb              | Warbler          | C(BMR)              |
+| W*  | λabc.abcc            | Warbler 1R       | BW                  |
+| W** | λabcd.abcdd          | Warbler 2R       | B(BW)               |
+| W1  | λab.baa              | Converse Warbler | CW                  |
+| Y   | λa.a(la)             | Why / Sage Bird  | SLL                 |
+| Θ   | λa.a(la)             | Theta            | YO                  |
+| ω   | λa.aa(aa)            | Omega            | MM                  |
