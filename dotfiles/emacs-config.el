@@ -3667,6 +3667,29 @@ Relies on the current buffer state."
    ?2 return ?\C-s ?\" return ?\M-d ?\M-x ?c ?d ?r ?: ?i ?n ?s ?e
    ?r ?t ?- ?g ?u ?i ?x ?- ?h ?a ?s ?h return ?n ?\C-y ?\M-y
    return] 0 "%d"))
+(defun cdr:yank-as-comment ()
+  "Yank the top of the kill ring into the current buffer as a comment.
+
+This is an ACTION.
+
+Arguments
+=========
+
+None.
+
+Returns
+=======
+
+Undefined.
+
+Impurities
+==========
+
+Used entirely for Side Effects: Modifies kill-ring and current buffer."
+  (interactive)
+  (progn (yank)
+         (comment-region (mark) (point))))
+
 ;;; Enabled Commands
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
