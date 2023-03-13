@@ -128,13 +128,13 @@ otherwise."
 ;;; Emacs Everywhere ; Ruins current emacsclient session.
 ;(define-key *root-map* (kbd "E") "exec emacsclient --eval '(emacs-everywhere)'")
 ;;; Google Messages in Chromium
-(define-key *root-map* (kbd "M-m") "~/.local/bin/,google-messages.sh")
+(define-key *root-map* (kbd "M-m") "exec ,google-messages")
 ;;; Scholar Social in Chromium
-(define-key *root-map* (kbd "M-s") "~/.local/bin/,scholar-social.sh")
+(define-key *root-map* (kbd "M-s") "exec ,scholar-social")
 ;;; Update All Remote Systems
-(define-key *root-map* (kbd "M-u") "~/.local/bin/,update-all-remote-systems.sh")
+(define-key *root-map* (kbd "M-u") "exec ,update-all-remote-systems")
 ;;; Daily Guix Update
-(define-key *root-map* (kbd "M-d") "~/.local/bin/,daily-guix-update.sh")
+(define-key *root-map* (kbd "M-d") "exec ,daily-guix-update")
 ;;; Screenshots
 (define-key *top-map* (kbd "Print") "screenshot-now")
 ;; Message/Modeline Font
@@ -161,17 +161,23 @@ otherwise."
 ;;; Restore Rules
 (restore-window-placement-rules "~/.config/stumpwm/window-placement.lisp")
 
+;; On normal quit, stop shepherd
+
+(stumpwm:add-hook *quit-hook*
+                  (stumpwm:run-commands
+                   "exec herd stop root"))
+
 ;;; Starup Common Programs
 (stumpwm:run-commands
- "exec xrdb ~/.Xresources"
- "exec shepherd && herd start emacs"
- "exec pulseaudio --start"
- "exec icecat"
- "exec alacritty"
- "exec slack"
- "exec discord"
- "exec ,scholar-social.sh"
- "exec ,google-messages.sh")
+                   "exec xrdb ~/.Xresources"
+                   "exec rm -f /run/user/$(id -u)/shepherd/socket && shepherd && herd start emacs"
+                   "exec pulseaudio --start"
+                   "exec icecat"
+                   "exec alacritty"
+                   "exec slack"
+                   "exec discord"
+                   "exec ,scholar-social"
+                   "exec ,google-messages")
 
 ;; Local Variables:
 ;; mode: lisp
