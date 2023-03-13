@@ -1251,7 +1251,6 @@ None; Inert Data.")
       persistent-scratch-backup-file-name-format "%Y-%m-%dT%H-%M-%S-%N"
       persistent-scratch-what-to-save '(major-mode point narrowing))
 
-
 ;;; PDFs
 (setq pdf-misc-print-program-args
       '("-o media=letter" "-o fit-to-page" "-o sides=two-sided-long-edge")
@@ -3862,7 +3861,7 @@ Used entirely for Side Effects: Modifies kill-ring and current buffer."
 (global-set-key (kbd "s-e") 'show-paren-mode)
 (global-set-key (kbd "s-n") 'display-line-numbers-mode)
 ;; (global-set-key (kbd "s-t") 'vterm-toggle) Moving to Subprocess Map
-(global-set-key (kbd "s-y") 'cdr:yank-as-comment)
+(global-set-key (kbd "s-y") #'cdr:yank-as-comment)
 ;; (global-set-key (kbd "s-u") 'unfill-paragraph) Moving to Transform Map
 ;; (global-set-key (kbd "s-i") nil)
 ;; (global-set-key (kbd "s-o") nil) ; GNOME ?
@@ -3938,7 +3937,6 @@ Used entirely for Side Effects: Modifies kill-ring and current buffer."
 (define-key org-mode-map (kbd "M-S-<left>") nil)
 (define-key org-mode-map (kbd "M-S-<right>") nil)
 
-
 ;;; Ensure paths are set properly
 (cdr:set-variable-from-shell "HOME")
 (cdr:set-variable-from-shell "PATH")
@@ -3961,6 +3959,7 @@ Used entirely for Side Effects: Modifies kill-ring and current buffer."
           'cdr:display-header-line)
 (add-hook 'buffer-list-update-hook
           'cdr:display-mode-line)
+
 ;;; Staging
 ;; Use monospaced font faces in current buffer
 (defun cdr:switch-to-unifont ()
