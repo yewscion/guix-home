@@ -1320,6 +1320,7 @@ None; Inert Data.")
  cdr:elfeed-urls
  '(
    ("Andy Salerno's Blog" "https://andysalerno.com/index.xml" tech blog)
+   ("Elephant Town" "https://www.elephant.town/comic/rss" comic)
    ("Freedom to Tinker" "https://freedom-to-tinker.com/feed/rss/" tech politics)
    ("Friends with Benefits" "https://www.webtoons.com/en/challenge/friends-with-benefits/rss?title_no=412808" comic trans)
    ("GNU Guile News" "https://www.gnu.org/software/guile/news/feed.xml" software)
