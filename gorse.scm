@@ -27,6 +27,7 @@
 		     games
                      sqlite
                      version-control)
+(load "system-packages.scm")
 (define %nginx-deploy-hook
   (program-file
    "nginx-deploy-hook"
@@ -102,15 +103,8 @@ max_execution_time = 1800"))
                   (name "git")
                   (system? #t))
                       %base-groups))
-  (packages (cons* nss-certs            ;for HTTPS access
-                   le-certs
-                   openssh-sans-x
-                   emacs-next
-		   rxvt-unicode
-                   git
-                   sqlite
-                   %base-packages))
-
+  (packages (append (map (compose list specification->package+output)
+                         my-system-packages) %base-packages))
   (services (cons*
              (service avahi-service-type)
 	     (service unattended-upgrade-service-type)
