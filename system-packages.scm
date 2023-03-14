@@ -72,6 +72,8 @@
    "the-silver-searcher"
    "transmission:out"
    "tree"
+   "unison"
+   "usync"
    "unzip"
    "which"
    "wordnet"
