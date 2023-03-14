@@ -39,12 +39,16 @@
 
 (load "emacs-packages.scm")
 (load "texlive-packages.scm")
+(load "system-packages.scm")
+(load "other-packages.scm")
+
 
 (define %cuirass-specs
   #~(list (specification
            (name "yewscion")
            (build '(channels yewscion))
-           (systems  '("x86_64-linux"))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
            (priority 1)
            (channels
             (cons (channel
@@ -55,7 +59,8 @@
           (specification
            (name "emacs-packages")
            (build (quote #$(append '(packages) my-emacs-packages)))
-           (systems  '("x86_64-linux"))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
            (priority 2)
            (channels
             (cons (channel
@@ -66,8 +71,21 @@
           (specification
            (name "texlive-packages")
            (build (quote #$(append '(packages) my-texlive-packages)))
-           (systems  '("x86_64-linux"))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
            (priority 2)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))
+          (specification
+           (name "system-packages")
+           (build (quote #$(append '(packages) my-gui-system-packages)))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
+           (priority 3)
            (channels
             (cons (channel
                    (name 'yewscion)
@@ -87,8 +105,21 @@
                    (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
                    (branch "trunk"))
                   %default-channels))
-           (systems '("x86_64-linux"))
-           (priority 1))))
+           (systems '("x86_64-linux"
+                      "aarch64-linux"))
+           (priority 1))
+          (specification
+           (name "other-packages")
+           (build (quote #$(append '(packages) my-other-packages)))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
+           (priority 2)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))))
 (define %nginx-deploy-hook
   (program-file
    "nginx-deploy-hook"
@@ -144,15 +175,8 @@ max_execution_time = 1800"))
                   (name "git")
                   (system? #t))
                       %base-groups))
-  (packages (cons* nss-certs            ;for HTTPS access
-                   le-certs
-                   openssh-sans-x
-                   emacs-next
-		   rxvt-unicode
-                   git
-                   sqlite
-                   %base-packages))
-
+  (packages (append (map (compose list specification->package+output)
+                         my-system-packages) %base-packages))
   (services (cons*
              (service avahi-service-type)
 	     (service unattended-upgrade-service-type)
