@@ -77,7 +77,7 @@
      "font-gnu-unifont:psf"
      "font-google-noto"
      "font-inconsolata"
-     "font-openmoji"
+     "font-openmoji@14.0.0"
      "font-sarasa-gothic"
      "font-terminus"
      "font-tex-gyre"
