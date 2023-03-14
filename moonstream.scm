@@ -47,7 +47,8 @@
   #~(list (specification
            (name "yewscion")
            (build '(channels yewscion))
-           (systems  '("x86_64-linux"))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
            (priority 1)
            (channels
             (cons (channel
@@ -58,7 +59,8 @@
           (specification
            (name "emacs-packages")
            (build (quote #$(append '(packages) my-emacs-packages)))
-           (systems  '("x86_64-linux"))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
            (priority 2)
            (channels
             (cons (channel
@@ -69,7 +71,8 @@
           (specification
            (name "texlive-packages")
            (build (quote #$(append '(packages) my-texlive-packages)))
-           (systems  '("x86_64-linux"))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
            (priority 2)
            (channels
             (cons (channel
@@ -102,7 +105,8 @@
                    (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
                    (branch "trunk"))
                   %default-channels))
-           (systems '("x86_64-linux"))
+           (systems '("x86_64-linux"
+                      "aarch64-linux"))
            (priority 1))
           (specification
            (name "other-packages")
