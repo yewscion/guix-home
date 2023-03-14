@@ -39,6 +39,9 @@
 
 (load "emacs-packages.scm")
 (load "texlive-packages.scm")
+(load "system-packages.scm")
+(load "other-packages.scm")
+
 
 (define %cuirass-specs
   #~(list (specification
@@ -75,6 +78,18 @@
                    (branch "trunk"))
                   %default-channels)))
           (specification
+           (name "system-packages")
+           (build (quote #$(append '(packages) my-gui-system-packages)))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
+           (priority 3)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))
+          (specification
            (name "big-ones")
            (build '(packages "clojure-tools" "elm" "emacs" "fluid-3" "fcitx5"
                              "gambit-c" "gauche" "ghc" "icecat" "icedtea"
@@ -88,7 +103,19 @@
                    (branch "trunk"))
                   %default-channels))
            (systems '("x86_64-linux"))
-           (priority 1))))
+           (priority 1))
+          (specification
+           (name "other-packages")
+           (build (quote #$(append '(packages) my-other-packages)))
+           (systems  '("x86_64-linux"
+                       "aarch64-linux"))
+           (priority 2)
+           (channels
+            (cons (channel
+                   (name 'yewscion)
+                   (url "https://git.sr.ht/~yewscion/yewscion-guix-channel")
+                   (branch "trunk"))
+                  %default-channels)))))
 (define %nginx-deploy-hook
   (program-file
    "nginx-deploy-hook"
