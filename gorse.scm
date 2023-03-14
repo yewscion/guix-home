@@ -109,7 +109,7 @@ max_execution_time = 1800"))
              (service avahi-service-type)
              (service unattended-upgrade-service-type)
              (service dhcp-client-service-type)
-             (dovecot-service)
+             (service dovecot-service-type)
              (service opensmtpd-service-type (opensmtpd-configuration))
              (service openssh-service-type
                       (openssh-configuration
@@ -306,7 +306,7 @@ max_execution_time = 1800"))
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
-             (elogind-service)
+             (service elogind-service-type)
              (simple-service 'my-cron-jobs
                              mcron-service-type
                              (list updatedb-job))
