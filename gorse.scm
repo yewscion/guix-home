@@ -50,6 +50,22 @@ root=/srv/gemini/example.org
 
 [example.com]
 root=/srv/gemini/example.com"))
+(define %my-radicale-config-file
+  (plain-file "radicale.conf" "
+[auth]
+type = htpasswd
+htpasswd_filename = /var/lib/radicale/htpasswd
+htpasswd_encryption = bcrypt
+
+[server]
+hosts = 0.0.0.0:5232, [::]:5232
+ssl = True
+certificate = /etc/letsencrypt/live/cdr255.com/cert.pem
+key = /etc/letsencrypt/live/cdr255.com/privkey.pem
+
+[storage]
+filesystem_folder = /var/lib/radicale/collections
+hook = git add -A && (git diff --cached --quiet || git commit -m \"Changes by \"%(user)s)"))
 (define updatedb-job
   ;; Run 'updatedb' at 3AM every day.  Here we write the
   ;; job's action as a Scheme procedure.
