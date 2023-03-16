@@ -326,7 +326,8 @@ max_execution_time = 1800"))
              (extra-special-file "/var/lib/radicale/htpasswd"
                                  (local-file "dotfiles/radicale-htpasswd"))
              (service radicale-service-type
-                      (config-file %my-radicale-config-file))
+                      (radicale-configuration
+                       (config-file %my-radicale-config-file)))
              (simple-service 'my-cron-jobs
                              mcron-service-type
                              (list updatedb-job))
