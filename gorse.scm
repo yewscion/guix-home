@@ -114,6 +114,12 @@ max_execution_time = 1800"))
                 (home-directory "/home/git")
                 (comment "For Use With Git")
                 (system? #t))
+               (user-account
+                (name "radicale")
+                (group "radicale")
+                (home-directory "/home/radicale")
+                (comment "For Use With Radicale")
+                (system? #t))
                %base-user-accounts))
   (groups (cons* (user-group
                   (name "git")
