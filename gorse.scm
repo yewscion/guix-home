@@ -323,6 +323,10 @@ max_execution_time = 1800"))
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
              (service elogind-service-type)
+             (extra-special-file "/var/lib/radicale/htpasswd"
+                                 (local-file "dotfiles/radicale-htpasswd"))
+             (service radicale-service-type
+                      (config-file %my-radicale-config-file))
              (simple-service 'my-cron-jobs
                              mcron-service-type
                              (list updatedb-job))
