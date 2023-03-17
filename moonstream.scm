@@ -199,10 +199,14 @@ max_execution_time = 1800"))
                         `(("ming"
                            ,(local-file "public-keys/ssh-jory.pub")
                            ,(local-file "public-keys/ssh-crane.pub")
+                           ,(local-file "public-keys/ssh-radicale.pub")
+                           ,(local-file "public-keys/ssh-trisana.pub")
                            ,(local-file "public-keys/ssh-frostpine.pub"))
                           ("git"
                            ,(local-file "public-keys/ssh-jory.pub")
                            ,(local-file "public-keys/ssh-crane.pub")
+                           ,(local-file "public-keys/ssh-radicale.pub")
+                           ,(local-file "public-keys/ssh-trisana.pub")
                            ,(local-file "public-keys/ssh-frostpine.pub"))))))
              (service postgresql-service-type
                       (postgresql-configuration
