@@ -3689,6 +3689,99 @@ Used entirely for Side Effects: Modifies kill-ring and current buffer."
   (progn (yank)
          (comment-region (mark) (point))))
 
+(defun cdr:selection-menu (title item-alist)
+  "Show a menu to the user to select from.
+
+This is an ACTION.
+
+Arguments
+=========
+
+TITLE <string>: The title of the menu to display.
+
+ITEM-ALIST <<list> of <cons>>: The items the user can choose
+from, in the form:
+(list (cons \"Item Name\" #'procedure-to-execute) …)
+
+Returns
+=======
+
+<undefined>
+
+Impurities
+==========
+
+Used solely for its side effects. I/O."
+  (eval
+   (let ((tmm-completion-prompt (concat title "\n\n")))
+     (tmm-prompt (list ""  (cons "" item-alist) nil nil nil)))))
+
+(defun cdr:temp-buffer-with-file-contents (title filename)
+  "Create a new temporary buffer starting with TITLE and put the contents
+of FILENAME inside of it.
+
+This is an ACTION.
+
+Arguments
+=========
+
+TITLE <string>: The prefix for the new temporary buffer.
+
+FILENAME <string>: The file from which to insert data.
+
+Returns
+=======
+
+<undefined>
+
+Impurities
+==========
+
+Used solely for its side effects. Relies on current system state. I/O."
+  (let ((temp-buffer-name (make-temp-name title)))
+    (generate-new-buffer temp-buffer-name)
+    (set-buffer temp-buffer-name)
+    (insert-file-contents filename)
+    (local-set-key "q" 'kill-current-buffer)
+    (read-only-mode nil)
+    (switch-to-buffer temp-buffer-name)
+    (message (concat "Opening " title "…"))))
+
+(defun cdr:create-selection-menu-alist (string-and-file-alist)
+  "Transform an alist of Names and Filenames into an alist suitable
+for cdr:selection-menu, with the goal of opening temporary
+buffers containing the contents of the files specified.
+
+This is a CALCULATION.
+
+Arguments
+=========
+
+STRING-AND-FILE-ALIST <<list> of <lists> of <strings>>: A list in
+the form:
+
+'((\"Title\" \"/foo/bar/baz\") …)
+
+Returns
+=======
+
+A <<list> of <cons>> which is suitable for cdr:selection-menu,
+specifying the items the user can choose from, in the form:
+(list (cons \"Item Name\" #'procedure-to-execute) …)
+
+The #'procedure-to-execute will open a new temporary buffer with
+\"Item Name\" as a prefix, and the contents of the associated
+file inserted.
+
+Impurities
+==========
+
+None."
+  (mapcar 
+   (lambda (x)
+     (cons (car x) `(cdr:temp-buffer-with-file-contents ,(car x) ,(cadr x))))
+   string-and-file-alist))
+
 ;;; Enabled Commands
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
