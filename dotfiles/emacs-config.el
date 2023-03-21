@@ -3793,6 +3793,21 @@ None."
 
 ;; Maps
 
+;;; Refcards
+(setq cdr:refcards-alist
+      '(("Combinators"
+         "~/.local/share/refcards/combinators.txt")
+        ("Eisenhower Decision Matrix"
+         "~/.local/share/refcards/eisenhower-decision-matrix.txt")
+        ("GTD Mind Sweep"
+         "~/.local/share/refcards/gtd-worksheet.txt")))
+(defun cdr:display-refcard-menu ()
+  (interactive)
+  (cdr:selection-menu
+   "Refcards"
+   (cdr:create-selection-menu-alist
+    cdr:refcards-alist)))
+
 ;;; Last Preloads
 (require 'forms)
 (require 'pdf-view)
@@ -3827,6 +3842,8 @@ None."
 (define-key template-map (kbd "j") #'cdr:templates-insert-java-method-docstring)
 (define-key template-map (kbd "o") #'cdr:templates-insert-texinfo-section)
 (define-key template-map (kbd "s") #'cdr:templates-insert-setup)
+(define-key template-map (kbd "r") #'cdr:display-refcard-menu)
+(define-key template-map (kbd "C-r") #'cdr:display-refcard-menu)
 
 ;;; LaTeX Template Map C-<F5> l or C-<F5> C-l
 (define-key latex-template-map (kbd "i") #'cdr:templates-insert-latex-figure-image)
