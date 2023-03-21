@@ -150,10 +150,8 @@ checkArguments() {
     fi
 }
 
-confirm() {
-    report "${1}"
-    echo ""
-    read -r -p "$(yellowText "Is this reasonable? [y/N]")" response;
+yesOrNo() {
+    read -r -p "$(yellowText "${1} ")" response;
     case "$response" in
         [yY][eE][sS]|[yY])
             true;
@@ -162,6 +160,12 @@ confirm() {
             false;
             ;;
     esac
+}
+
+confirm() {
+    report "${1}"
+    echo ""
+    return yesOrNo "Is this reasonable? [y/N]"
 }
 
 confirmPrompt() {
