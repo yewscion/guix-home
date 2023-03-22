@@ -1300,8 +1300,11 @@ None; Inert Data.")
    ("rekado's Blog" "https://elephly.net/feed.xml" tech blog)
    ))
 
-(setq elfeed-feeds
-      (mapcar #'cdr cdr:elfeed-urls))
+(setq
+ elfeed-feeds (mapcar #'cdr cdr:elfeed-urls)
+ elfeed-enclosure-default-dir "/home/ming/Downloads/Elfeed/")
+(setq-default
+ elfeed-search-filter "@1-month-ago +unread -nsfw")
 
 ;;; Load Local Custom
 (load "~/.emacs.d/custom.el")
