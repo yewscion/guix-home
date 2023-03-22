@@ -62,6 +62,7 @@ hosts = 0.0.0.0:5232, [::]:5232
 ssl = True
 certificate = /etc/letsencrypt/live/cdr255.com/cert.pem
 key = /etc/letsencrypt/live/cdr255.com/privkey.pem
+dns_lookup = False
 
 [storage]
 filesystem_folder = /var/lib/radicale/collections
