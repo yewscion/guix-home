@@ -73,6 +73,13 @@ filesystem_folder = /var/lib/radicale/collections"))
            (execl (string-append #$findutils "/bin/updatedb")
                   "updatedb"
                   "--prunepaths=/tmp /var/tmp /gnu/store"))))
+(define radicale-bkup-job
+  #~(job '(next-hour '(4))
+         (lambda ()
+           (execl (string-append #$tar "/bin/tar")
+                  "-cvvjf"
+                  "/tmp/radicale$(date --iso-8601).tar.bzip2"
+                  "/var/lib/radicale/collections"))))
 (define %local-php-ini
   (plain-file "php.ini"
               "memory_limit = 2G
@@ -337,5 +344,6 @@ max_execution_time = 1800"))
                        (config-file %my-radicale-config-file)))
              (simple-service 'my-cron-jobs
                              mcron-service-type
-                             (list updatedb-job))
+                             (list updatedb-job
+                                   radicale-bkup-job))
              %base-services)))
