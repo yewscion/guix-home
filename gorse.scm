@@ -62,11 +62,10 @@ hosts = 0.0.0.0:5232, [::]:5232
 ssl = True
 certificate = /etc/letsencrypt/live/cdr255.com/cert.pem
 key = /etc/letsencrypt/live/cdr255.com/privkey.pem
-dns_lookup = False
 
 [storage]
 filesystem_folder = /var/lib/radicale/collections
-hook = git add -A && git commit -m \"Changes by user\""))
+hook = git add -A && git commit"))
 (define updatedb-job
   ;; Run 'updatedb' at 3AM every day.  Here we write the
   ;; job's action as a Scheme procedure.
