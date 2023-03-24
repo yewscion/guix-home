@@ -210,7 +210,7 @@ max_execution_time = 1800"))
                            ,(local-file "public-keys/ssh-frostpine.pub"))))))
              (service postgresql-service-type
                       (postgresql-configuration
-                       (postgresql postgresql)
+                       (postgresql postgresql-15)
                        (port 5432)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
