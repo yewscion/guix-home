@@ -4064,6 +4064,7 @@ None."
 (define-key org-mode-map (kbd "M-S-<down>") nil)
 (define-key org-mode-map (kbd "M-S-<left>") nil)
 (define-key org-mode-map (kbd "M-S-<right>") nil)
+(define-key elfeed-show-mode-map (kbd "C-c C-C") #'cdr:shry-save-image)
 
 ;;; Ensure paths are set properly
 (cdr:set-variable-from-shell "HOME")
