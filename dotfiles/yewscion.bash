@@ -87,7 +87,7 @@ whiteText() {
 
 formatText() {
     if test -n "$1"; then
-        fmt -50 -t -u "${*}"
+        fmt -50 -t -u <<< "${*}"
     elif test ! -t 0; then
         fmt -50 -t -u /dev/stdin
     else
