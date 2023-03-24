@@ -344,6 +344,15 @@ max_execution_time = 1800"))
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
+             (service mysql-service-type
+                      (mysql-configuration
+                       (mysql mysql)
+                       (bind-address "0.0.0.0")
+                       (port 3306)
+                       (socket "/run/mysqld/mysqld.sock")
+                       (extra-content "")
+                       (extra-environment #~'())
+                       (auto-upgrade? #t)))
              (service elogind-service-type)
              (extra-special-file "/var/lib/radicale/htpasswd"
                                  (local-file "dotfiles/radicale-htpasswd"))
