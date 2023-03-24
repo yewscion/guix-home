@@ -1299,10 +1299,25 @@ None; Inert Data.")
    ("Yewscion's Blog" "https://yewscion.com/feed.xml" personal)
    ("rekado's Blog" "https://elephly.net/feed.xml" tech blog)
    ))
-
 (setq
- elfeed-feeds (mapcar #'cdr cdr:elfeed-urls)
- elfeed-enclosure-default-dir "/home/ming/Downloads/Elfeed/")
+ cdr:podcast-urls
+ '(("Planet Money" "https://feeds.npr.org/510289/podcast.xml" economics)
+   ("Algorithms + Data Structures = Programs" "https://feeds.buzzsprout.com/1501960.rss" programming)
+   ("ArrayCast" "https://arraycast.com/episodes?format=rss" programming)
+   ("CoRecursive: Coding Stories" "https://link.chtbl.com/corecursive?id=corecursive&platform=rss" tech)
+   ("Two's Complement" "https://www.twoscomplement.org/podcast/feed.xml" programming)
+   ("Lost in Lambduhhs" "https://anchor.fm/s/581d4eb4/podcast/rss" tech)
+   ("Eric Normand Podcast" "https://feeds.transistor.fm/thoughts-on-functional-programming-podcast-by-eric-normand" csc)
+   ))
+
+(setq elfeed-feeds
+      (mapcar #'cdr
+              (append
+               cdr:elfeed-urls
+               (mapcar (lambda (x)
+                         (append x '(podcast)))
+                       cdr:podcast-urls)))
+      elfeed-enclosure-default-dir "/home/ming/Downloads/Elfeed/")
 (setq-default
  elfeed-search-filter "@1-month-ago +unread -nsfw")
 
