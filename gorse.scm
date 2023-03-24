@@ -288,11 +288,16 @@ max_execution_time = 1800"))
                                (ssl-certificate "/etc/letsencrypt/live/yew.gdn/fullchain.pem"))
                               (nginx-server-configuration
                                (listen '("443 ssl"))
+                               (server-name '("1464.link"))
+                               (root "/srv/http/1464.link/")
+                               (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
+                               (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
+                              (nginx-server-configuration
+                               (listen '("443 ssl"))
                                (server-name '("yewscion.com"))
                                (root "/srv/http/yewscion/")
                                (ssl-certificate-key "/etc/letsencrypt/live/yewscion.com/privkey.pem")
-                               (ssl-certificate "/etc/letsencrypt/live/yewscion.com/fullchain.pem"))
-                              ))))
+                               (ssl-certificate "/etc/letsencrypt/live/yewscion.com/fullchain.pem"))))))
              (service agate-service-type
                       (agate-configuration
                        (key "/etc/agate/key.rsa")
@@ -326,6 +331,9 @@ max_execution_time = 1800"))
                           (deploy-hook %nginx-deploy-hook))
                          (certificate-configuration
                           (domains '("cdr.quest" "www.cdr.quest"))
+                          (deploy-hook %nginx-deploy-hook))
+                         (certificate-configuration
+                          (domains '("1464.link" "www.1464.link"))
                           (deploy-hook %nginx-deploy-hook))))))
              (service qemu-binfmt-service-type
                       (qemu-binfmt-configuration
