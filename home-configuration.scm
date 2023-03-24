@@ -278,12 +278,12 @@
              ("GUIX_GTK3_IM_MODULE_FILE" .
               ,(generate-gtk-immodule-cache
                 gtk+
-                "3.24.30"
+                (package-version gtk+)
                 #~(begin #$fcitx5-gtk:gtk3)))
              ("GUIX_GTK2_IM_MODULE_FILE" .
               ,(generate-gtk-immodule-cache
                 gtk+
-                "2.24.33"
+                (package-version gtk+-2)
                 #~(begin #$fcitx5-gtk:gtk2)))
              ))
           (guix-defaults? #t)
