@@ -286,12 +286,12 @@ max_execution_time = 1800"))
                                (root "/srv/http/yew.gdn/")
                                (ssl-certificate-key "/etc/letsencrypt/live/yew.gdn/privkey.pem")
                                (ssl-certificate "/etc/letsencrypt/live/yew.gdn/fullchain.pem"))
-                              (nginx-server-configuration
-                               (listen '("443 ssl"))
-                               (server-name '("1464.link"))
-                               (root "/srv/http/1464.link/")
-                               (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
-                               (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
+                              ;; (nginx-server-configuration
+                              ;;  (listen '("443 ssl"))
+                              ;;  (server-name '("1464.link"))
+                              ;;  (root "/srv/http/1464.link/")
+                              ;;  (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
+                              ;;  (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
                               (nginx-server-configuration
                                (listen '("443 ssl"))
                                (server-name '("yewscion.com"))
