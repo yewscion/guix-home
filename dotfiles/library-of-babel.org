@@ -63,3 +63,8 @@
                filename
                pair))))
 #+end_src
+
+#+name: tower-insert-contents-of-file
+#+begin_src sh :var file=file-not-specified :results verbatim
+cat "${file}"
+#+end_src
