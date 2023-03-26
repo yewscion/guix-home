@@ -286,12 +286,12 @@ max_execution_time = 1800"))
                                (root "/srv/http/yew.gdn/")
                                (ssl-certificate-key "/etc/letsencrypt/live/yew.gdn/privkey.pem")
                                (ssl-certificate "/etc/letsencrypt/live/yew.gdn/fullchain.pem"))
-                              ;; (nginx-server-configuration
-                              ;;  (listen '("443 ssl"))
-                              ;;  (server-name '("1464.link"))
-                              ;;  (root "/srv/http/1464.link/")
-                              ;;  (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
-                              ;;  (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
+                              (nginx-server-configuration
+                               (listen '("443 ssl"))
+                               (server-name '("1464.link"))
+                               (root "/srv/http/1464.link/")
+                               (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
+                               (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
                               (nginx-server-configuration
                                (listen '("443 ssl"))
                                (server-name '("yewscion.com"))
@@ -344,15 +344,15 @@ max_execution_time = 1800"))
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
-             ;; (service mysql-service-type
-             ;;          (mysql-configuration
-             ;;           (mysql mysql)
-             ;;           (bind-address "0.0.0.0")
-             ;;           (port 3306)
-             ;;           (socket "/run/mysqld/mysqld.sock")
-             ;;           (extra-content "")
-             ;;           (extra-environment #~'())
-             ;;           (auto-upgrade? #t)))
+             (service mysql-service-type
+                      (mysql-configuration
+                       (mysql mysql)
+                       (bind-address "0.0.0.0")
+                       (port 3306)
+                       (socket "/run/mysqld/mysqld.sock")
+                       (extra-content "")
+                       (extra-environment #~'())
+                       (auto-upgrade? #t)))
              (service elogind-service-type)
              (extra-special-file "/var/lib/radicale/htpasswd"
                                  (local-file "dotfiles/radicale-htpasswd"))
