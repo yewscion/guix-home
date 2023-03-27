@@ -326,7 +326,6 @@ post_max_size = 200M"))
                                (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem")
                                (raw-content '("client_max_body_size 25m;"
                                               "client_body_buffer_size 128k;"
-                                              "include mime.types;"
                                               "charset utf-8;"
                                               "ssl_session_timeout 5m;")))
                               (nginx-server-configuration
