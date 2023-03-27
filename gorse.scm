@@ -313,7 +313,7 @@ post_max_size = 200M"))
                                  "~* \.(tpl|md|tgz|log|out)$"
                                  '("deny all;"))
                                  (nginx-location-configuration
-                                 "~ /\."
+                                 "~ /\\."
                                  '("deny all;"))
                                  (nginx-location-configuration
                                  "~ /store"
