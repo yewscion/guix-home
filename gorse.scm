@@ -96,15 +96,18 @@ max_execution_time = 1800"))
                 (bootloader
                  (inherit grub-bootloader)
                  (installer #~(const #t))))))
-  (file-systems (cons (file-system
+  (file-systems (cons* (file-system
                         (device "/dev/sda")
                         (mount-point "/")
                         (type "ext4"))
-                      %base-file-systems))
+                       (file-system
+                        (device "/dev/sdc")
+                        (mount-point "/var/capsule/")
+                        (type "ext4"))
+                       %base-file-systems))
   (swap-devices (list
                  (swap-space
                   (target "/dev/sdb"))))
-
   (initrd-modules (cons "virtio_scsi"    ;needed to find the disk
                         %base-initrd-modules))
 
