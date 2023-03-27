@@ -299,27 +299,27 @@ post_max_size = 200M"))
                                 (list
                                  (nginx-php-location)
                                  (nginx-location-configuration
-                                  "/"
+                                  (uri "/")
                                   '("if (!-e $request_filename) {"
                                     "    rewrite ^(.*)$ /index.php?q=$1;"
                                     "}"))
                                  (nginx-location-configuration
-                                  "^~ /.well-known/"
+                                  (uri "^~ /.well-known/")
                                   '("allow all;"
                                     "if (!-e $request_filename) {"
                                     "    rewrite ^(.*)$ /index.php?q=$1;"
                                     "}")
                                  (nginx-location-configuration
-                                 "~* \\.(tpl|md|tgz|log|out)$"
+                                  (uri "~* \\.(tpl|md|tgz|log|out)$")
                                  '("deny all;"))
                                  (nginx-location-configuration
-                                 "~ /\\."
+                                  (uri "~ /\\.")
                                  '("deny all;"))
                                  (nginx-location-configuration
-                                 "~ /store"
+                                  (uri "~ /store")
                                  '("deny all;"))
                                  (nginx-location-configuration
-                                 "~ /util"
+                                  (uri "~ /util")
                                  '("deny all;")))))
                                (index '("index.php"))
                                (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
