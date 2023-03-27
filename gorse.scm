@@ -296,6 +296,7 @@ max_execution_time = 1800"))
                                (locations
                                 (list
                                  (nginx-php-location)))
+                               (index '("index.php"))
                                (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
                                (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
                               (nginx-server-configuration
