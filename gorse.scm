@@ -293,6 +293,9 @@ max_execution_time = 1800"))
                                (listen '("443 ssl"))
                                (server-name '("1464.link"))
                                (root "/srv/http/1464.link/")
+                               (locations
+                                (list
+                                 (nginx-php-location)))
                                (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
                                (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
                               (nginx-server-configuration
