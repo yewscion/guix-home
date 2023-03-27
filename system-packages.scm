@@ -50,6 +50,7 @@
    "nss-certs"
    "openssh"
    "openssl"
+   "php"
    "postgresql"
    "qemu"
    "restic"
