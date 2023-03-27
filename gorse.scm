@@ -300,27 +300,27 @@ post_max_size = 200M"))
                                  (nginx-php-location)
                                  (nginx-location-configuration
                                   (uri "/")
-                                  '("if (!-e $request_filename) {"
+                                  (body '("if (!-e $request_filename) {"
                                     "    rewrite ^(.*)$ /index.php?q=$1;"
-                                    "}"))
+                                    "}")))
                                  (nginx-location-configuration
                                   (uri "^~ /.well-known/")
-                                  '("allow all;"
+                                  (body '("allow all;"
                                     "if (!-e $request_filename) {"
                                     "    rewrite ^(.*)$ /index.php?q=$1;"
-                                    "}")
+                                    "}")))
                                  (nginx-location-configuration
                                   (uri "~* \\.(tpl|md|tgz|log|out)$")
-                                 '("deny all;"))
+                                  (body '("deny all;")))
                                  (nginx-location-configuration
                                   (uri "~ /\\.")
-                                 '("deny all;"))
+                                  (body '("deny all;")))
                                  (nginx-location-configuration
                                   (uri "~ /store")
-                                 '("deny all;"))
+                                  (body '("deny all;")))
                                  (nginx-location-configuration
                                   (uri "~ /util")
-                                 '("deny all;")))))
+                                  (body '("deny all;"))))))
                                (index '("index.php"))
                                (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
                                (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem")
