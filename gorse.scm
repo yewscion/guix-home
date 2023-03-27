@@ -83,7 +83,9 @@ filesystem_folder = /var/lib/radicale/collections"))
 (define %local-php-ini
   (plain-file "php.ini"
               "memory_limit = 2G
-max_execution_time = 1800"))
+max_execution_time = 1800
+upload_max_filesize = 50M
+post_max_size = 200M"))
 
 (operating-system
   (host-name "gorse")
