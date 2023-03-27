@@ -310,7 +310,7 @@ post_max_size = 200M"))
                                     "    rewrite ^(.*)$ /index.php?q=$1;"
                                     "}")
                                  (nginx-location-configuration
-                                 "~* \.(tpl|md|tgz|log|out)$"
+                                 "~* \\.(tpl|md|tgz|log|out)$"
                                  '("deny all;"))
                                  (nginx-location-configuration
                                  "~ /\\."
