@@ -376,6 +376,15 @@ post_max_size = 200M"))
                        (platforms (lookup-qemu-platforms "arm" "aarch64" "risc-v"))))
              (service postgresql-service-type
                       (postgresql-configuration
+                       (config-file
+                        (postgresql-config-file
+                         (log-destination "stderr")
+                         (hba-file
+                          (plain-file "pg_hba.conf"
+                                      "
+local	all	all			trust
+host	all	all	127.0.0.1/32 	md5
+host	all	all	::1/128 	md5"))))
                        (postgresql postgresql-15)
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
