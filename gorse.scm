@@ -320,7 +320,7 @@ post_max_size = 200M"))
                                   (body '("deny all;")))
                                  (nginx-location-configuration
                                   (uri "~ /util")
-                                  (body '("deny all;"))))))
+                                  (body '("deny all;")))))
                                (index '("index.php"))
                                (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
                                (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem")
