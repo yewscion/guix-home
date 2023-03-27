@@ -297,10 +297,38 @@ post_max_size = 200M"))
                                (root "/srv/http/1464.link/")
                                (locations
                                 (list
-                                 (nginx-php-location)))
+                                 (nginx-php-location)
+                                 (nginx-location-configuration
+                                  "/"
+                                  '("if (!-e $request_filename) {"
+                                    "    rewrite ^(.*)$ /index.php?q=$1;"
+                                    "}"))
+                                 (nginx-location-configuration
+                                  "^~ /.well-known/"
+                                  '("allow all;"
+                                    "if (!-e $request_filename) {"
+                                    "    rewrite ^(.*)$ /index.php?q=$1;"
+                                    "}")
+                                 (nginx-location-configuration
+                                 "~* \.(tpl|md|tgz|log|out)$"
+                                 '("deny all;"))
+                                 (nginx-location-configuration
+                                 "~ /\."
+                                 '("deny all;"))
+                                 (nginx-location-configuration
+                                 "~ /store"
+                                 '("deny all;"))
+                                 (nginx-location-configuration
+                                 "~ /util"
+                                 '("deny all;")))))
                                (index '("index.php"))
                                (ssl-certificate-key "/etc/letsencrypt/live/1464.link/privkey.pem")
-                               (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem"))
+                               (ssl-certificate "/etc/letsencrypt/live/1464.link/fullchain.pem")
+                               (raw-content '("client_max_body_size 25m;"
+                                              "client_body_buffer_size 128k;"
+                                              "include mime.types;"
+                                              "charset utf-8;"
+                                              "ssl_session_timeout 5m;")))
                               (nginx-server-configuration
                                (listen '("443 ssl"))
                                (server-name '("yewscion.com"))
