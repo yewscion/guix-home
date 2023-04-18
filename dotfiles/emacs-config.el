@@ -17,18 +17,6 @@
 ;;; Local Elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-;;; Local Colors
-(setq cdr:colors-blue "#346879"
-      cdr:colors-cyan "#79d2d2"
-      cdr:colors-orange "#ff8765"
-      cdr:colors-green "#4ab581"
-      cdr:colors-magenta "#a498b3"
-      cdr:colors-red "#b44648"
-      cdr:colors-yellow "#d7d693"
-      cdr:colors-white "#ebe6e0"
-      cdr:colors-black "#2e261f"
-      cdr:colors-light-grey "#978c81"
-      cdr:colors-dark-grey "#43382d")
 
 ;;; Local Faces
 
@@ -78,98 +66,98 @@ variable of the same name."
                default
                bold
                nil
-               cdr:colors-green
+               yewscion-colors-green
                nil
                "Personal Face For 'Good' text.")
 (cdr:make-face "info"
                default
                bold
                nil
-               cdr:colors-yellow
+               yewscion-colors-yellow
                nil
                "Personal Face For 'Informational' text.")
 (cdr:make-face "warning"
                default
                bold
                nil
-               cdr:colors-orange
+               yewscion-colors-orange
                nil
                "Personal Face For 'Warning' text.")
 (cdr:make-face "bad"
                default
                bold
                nil
-               cdr:colors-red
+               yewscion-colors-red
                nil
                "Personal Face For 'Bad' text.")
 (cdr:make-face "emphasis"
                default
                nil
                italic
-               cdr:colors-white
+               yewscion-colors-white
                nil
                "Personal Face For 'Emphasized' text.")
 (cdr:make-face "strong"
                default
                bold
                nil
-               cdr:colors-white
+               yewscion-colors-white
                nil
                "Personal Face For 'Strong' text.")
 (cdr:make-face "system"
                default
                bold
                nil
-               cdr:colors-cyan
+               yewscion-colors-cyan
                nil
                "Personal Face For 'System' text.")
 (cdr:make-face "awesome"
                default
                bold
                nil
-               cdr:colors-magenta
+               yewscion-colors-magenta
                nil
                "Personal Face For 'Awesome' text.")
 (cdr:make-face "orgy-new-todo"
                org-todo
                nil
                nil
-               cdr:colors-cyan
+               yewscion-colors-cyan
                nil
                "Personal Face For New TODOs.")
 (cdr:make-face "orgy-blocked-todo"
                org-todo
                nil
                nil
-               cdr:colors-red
+               yewscion-colors-red
                nil
                "Personal Face For Blocked TODOs.")
 (cdr:make-face "orgy-deferred-todo"
                org-todo
                nil
                nil
-               cdr:colors-magenta
+               yewscion-colors-magenta
                nil
                "Personal Face For Deferred TODOs.")
 (cdr:make-face "orgy-ongoing-todo"
                org-todo
                nil
                nil
-               cdr:colors-orange
+               yewscion-colors-orange
                nil
                "Personal Face For Orange TODOs.")
 (cdr:make-face "orgy-cancelled-todo"
                org-todo
                nil
                nil
-               cdr:colors-yellow
+               yewscion-colors-yellow
                nil
                "Personal Face For Cancelled TODOs.")
 (cdr:make-face "orgy-complete-todo"
                org-todo
                nil
                nil
-               cdr:colors-green
+               yewscion-colors-green
                nil
                "Personal Face For Completed TODOs.")
 ;;; Regex Builder Config
@@ -1161,44 +1149,44 @@ None; Inert Data.")
                                 :font cdr:fonts-unifont
                                 :width 'condensed
                                 :height 120
-                                :background cdr:colors-black
-                                :foreground cdr:colors-white)
+                                :background yewscion-colors-black
+                                :foreground yewscion-colors-white)
             (set-face-attribute 'fixed-pitch nil
                                 :font cdr:fonts-unifont)
             (set-face-attribute 'header-line nil
-                                :background cdr:colors-light-grey
-                                :foreground cdr:colors-black
+                                :background yewscion-colors-light-grey
+                                :foreground yewscion-colors-black
                                 :font cdr:fonts-unifont)
             (set-face-attribute 'mode-line nil
-                                :background cdr:colors-dark-grey
-                                :foreground cdr:colors-white
+                                :background yewscion-colors-dark-grey
+                                :foreground yewscion-colors-white
                                 :font cdr:fonts-unifont)
             (set-face-attribute 'org-mode-line-clock nil
                                 :inherit 'header-line)
             (set-face-attribute 'term-color-black nil
-                                :background cdr:colors-black
-                                :foreground cdr:colors-black)
+                                :background yewscion-colors-black
+                                :foreground yewscion-colors-black)
             (set-face-attribute 'term-color-blue nil
-                                :background cdr:colors-cyan
-                                :foreground cdr:colors-cyan)
+                                :background yewscion-colors-cyan
+                                :foreground yewscion-colors-cyan)
             (set-face-attribute 'term-color-cyan nil
-                                :background cdr:colors-orange
-                                :foreground cdr:colors-orange)
+                                :background yewscion-colors-orange
+                                :foreground yewscion-colors-orange)
             (set-face-attribute 'term-color-green nil
-                                :background cdr:colors-green
-                                :foreground cdr:colors-green)
+                                :background yewscion-colors-green
+                                :foreground yewscion-colors-green)
             (set-face-attribute 'term-color-magenta nil
-                                :background cdr:colors-magenta
-                                :foreground cdr:colors-magenta)
+                                :background yewscion-colors-magenta
+                                :foreground yewscion-colors-magenta)
             (set-face-attribute 'term-color-red nil
-                                :background cdr:colors-red
-                                :foreground cdr:colors-red)
+                                :background yewscion-colors-red
+                                :foreground yewscion-colors-red)
             (set-face-attribute 'term-color-white nil
-                                :background cdr:colors-white
-                                :foreground cdr:colors-white)
+                                :background yewscion-colors-white
+                                :foreground yewscion-colors-white)
             (set-face-attribute 'term-color-yellow nil
-                                :background cdr:colors-yellow
-                                :foreground cdr:colors-yellow)
+                                :background yewscion-colors-yellow
+                                :foreground yewscion-colors-yellow)
             (set-face-attribute 'mastodon-boost-fave-face nil
                                 :inherit cdr:awesome-face)
             (set-face-attribute 'mastodon-boosted-face nil
@@ -1210,7 +1198,7 @@ None; Inert Data.")
             (set-face-attribute 'mastodon-handle-face nil
                                 :inherit cdr:emphasis-face)
             (set-face-attribute 'org-table nil
-                                :foreground cdr:colors-cyan
+                                :foreground yewscion-colors-cyan
                                 :width 'condensed
                                 :family "Unifont"))))
 
