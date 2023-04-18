@@ -441,6 +441,8 @@
                    `(".emacs.d/templates"
                      ,(local-file "templates"
                                   #:recursive? #true))
+                   `(".emacs.d/yewscion-0-theme.el"
+                     ,(local-file "dotfiles/yewscion-0-theme.el"))
                    `(".local/share/refcards"
                      ,(local-file "refcards"
                                   #:recursive? #true))
