@@ -379,31 +379,30 @@ variable of the same name."
  org-journal-encrypt-journal t
 ;;;; TODO
  org-todo-keyword-faces
- `(("NOTION" . cdr:orgy-new-todo-face)
-   ("GOAL" . cdr:orgy-new-todo-face)
-   ("UNREAD" . cdr:orgy-new-todo-face)
-   ("RESEARCHING" . cdr:orgy-ongoing-todo-face)
-   ("ONGOING" . cdr:orgy-ongoing-todo-face)
-   ("DIGESTING" . cdr:orgy-ongoing-todo-face)
-   ("MAYBE" . cdr:orgy-deferred-todo-face)
-   ("STAYED" . cdr:orgy-deferred-todo-face)
-   ("EXCERPTED" . cdr:orgy-deferred-todo-face)
-   ("FINISHED" . cdr:orgy-complete-todo-face)
-   ("COMPLETED" . cdr:orgy-complete-todo-face)
-   ("PORED" . cdr:orgy-complete-todo-face)
-   ("JUMBLED" . cdr:orgy-blocked-todo-face)
-   ("BLOCKED" . cdr:orgy-blocked-todo-face)
-   ("ABEYED" . cdr:orgy-blocked-todo-face)
-   ("VOIDED" . cdr:orgy-cancelled-todo-face)
-   ("QUIT" . cdr:orgy-cancelled-todo-face)
-   ("INUTILE" . cdr:orgy-cancelled-todo-face))
+ `(("THOUGHT" . ,yewscion-colors-cyan)
+   ("GOAL" . ,yewscion-colors-cyan)
+   ("UNREAD" . ,yewscion-colors-cyan)
+   ("REASONING" . ,yewscion-colors-magenta)
+   ("ONGOING" . ,yewscion-colors-magenta)
+   ("DIGESTING" . ,yewscion-colors-magenta)
+   ("MULTIPLE" . ,yewscion-colors-blue)
+   ("STAYED" . ,yewscion-colors-blue)
+   ("EXCERPTED" . ,yewscion-colors-blue)
+   ("NOTED" . ,yewscion-colors-green)
+   ("COMPLETED" . ,yewscion-colors-green)
+   ("PORED" . ,yewscion-colors-green)
+   ("LACKING" . ,yewscion-colors-yellow)
+   ("BLOCKED" . ,yewscion-colors-yellow)
+   ("ABEYED" . ,yewscion-colors-yellow)
+   ("VOIDED" . ,yewscion-colors-dark-grey)
+   ("QUIT" . ,yewscion-colors-dark-grey)
+   ("INUTILE" . ,yewscion-colors-dark-grey))
  org-todo-keywords
- ;; Three lines: nrmfjv;udiaep;goscbq
- ;; Available letters: hkltwxyz
- '(
-   (sequence
-    "NOTION(n!)" "|" "RESEARCHING(r!)" "|" "MAYBE(m@)"     "|" "FINISHED(f!)"
-    "|" "JUMBLED(j@)" "|" "VOIDED(v@)")
+ ;; Three lines: trmnlv;udiaep;goscbq
+ ;; Available letters: fhjkwxyz
+ '((sequence
+    "THOUGHT(t!)" "|" "REASONING(r!)" "|" "MULTIPLE(m@)"     "|" "NOTED(n!)"
+    "|" "LACKING(l@)" "|" "VOIDED(v@)")
    (sequence
     "GOAL(g!)"   "|" "ONGOING(o!)"     "|" "STAYED(s@)"    "|" "COMPLETED(c!)"
     "|" "BLOCKED(b@)" "|" "QUIT(q@)")
