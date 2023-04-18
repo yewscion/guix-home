@@ -1,6 +1,7 @@
 (define my-texlive-packages
   '("texlive-amsfonts" "texlive-babel-russian"
     "texlive-biblatex" "texlive-biblatex-apa" "texlive-booktabs"
+    "texlive-caption"
     "texlive-capt-of" "texlive-cm" "texlive-csquotes" "texlive-context"
     "texlive-doi" "texlive-enumitem" "texlive-etoolbox" "texlive-fontspec"
     "texlive-fonttable" "texlive-generic-etexcmds"
