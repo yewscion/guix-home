@@ -266,7 +266,7 @@
              ("CARP_DIR" . "$GUIX_PROFILE/share/carp")
              ("APL_LIB_ROOT" . "$HOME/Documents/apl-libs")
              ("PYTHONPYCACHEPREFIX" . "/tmp")
-             ("LC_ALL" . "en_US.UTF-8")
+             ("LC_ALL" . "zh_US.UTF-8")
              ("INPUT_METHOD" . "fcitx")
              ("GTK_IM_MODULE" . "fcitx")
              ("QT_IM_MODULE" . "fcitx")
