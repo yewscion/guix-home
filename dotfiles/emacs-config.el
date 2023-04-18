@@ -17,8 +17,32 @@
 ;;; Local Elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+;;; Load Libraries for Configuration
+(require 're-builder)
+(require 'emms-setup)
+(require 'emms-player-mpv)
+(require 'emms-player-simple)
+(require 'emms-streams)
+(require 'emms-mode-line-cycle)
+(require 'mastodon)
+(require 'bqn-mode)
+(require 'org-chef)
+(require 'org-ebib)
+(require 'org-drill)
+(require 'ebib)
+(require 'biblio)
+(require 'ebib-biblio)
+(require 'mu4e)
+(require 'projectile)
+(require 'eterm-256color)
+(require 'zone)
+(require 'forms)
+(require 'pdf-view)
+(require 'pseudotaxus)
+(require 'elfeed)
 
-;;; Local Faces
+;;; Load Local Custom
+(load "~/.emacs.d/custom.el")
 
 ;;;; Tooling
 (defmacro cdr:make-face
@@ -161,15 +185,9 @@ variable of the same name."
                nil
                "Personal Face For Completed TODOs.")
 ;;; Regex Builder Config
-(require 're-builder)
 (setq reb-re-syntax 'string)
 
   ;;; EMMS Config
-(require 'emms-setup)
-(require 'emms-player-mpv)
-(require 'emms-player-simple)
-(require 'emms-streams)
-(require 'emms-mode-line-cycle)
 (emms-all)
 (emms-default-players)
 (emms-mode-line-cycle 0)
@@ -267,7 +285,6 @@ variable of the same name."
       mpc-host "s")
 
 ;;; mastodon-mode
-(require 'mastodon)
 (setq mastodon-instance-url "https://scholar.social/"
       mastodon-active-user "yewscion"
       mastodon-media--avatar-height 15
@@ -278,8 +295,6 @@ variable of the same name."
       mastodon-toot--default-media-directory "~/Pictures"
       mastodon-toot--enable-custom-instance-emoji t
       mastodon-toot-timestamp-format "%FT%TZ%z")
-
-(require 'bqn-mode)
 ;;; ANSI Color
 (setq ansi-color-faces-vector
       [default default default
@@ -344,10 +359,6 @@ variable of the same name."
       agda2-information-window-max-height 0.4)
 
 ;;; Org Mode
-;;;; Ensure Packages are Loaded
-(require 'org-chef)
-(require 'org-ebib)
-
 ;;;; Local Lisp
 (load "~/.emacs.d/lisp/ob-markdown.el")
 
@@ -484,7 +495,6 @@ variable of the same name."
 (org-babel-lob-ingest "~/.emacs.d/library-of-babel.org")
 
 ;;;; Drill
-(require 'org-drill)
 (setq org-drill-hide-item-headings-p t
       org-drill-learn-fraction 0.4
       org-drill-add-random-noise-to-intervals-p t
@@ -522,9 +532,6 @@ variable of the same name."
       '("-Xmx1G" "-XX:+UseG1GC" "-XX:+UseStringDeduplication"))
 
 ;;; Ebib/biblio/etc
-(require 'ebib)
-(require 'biblio)
-(require 'ebib-biblio)
 (defconst my-ebib-keywords '("ABSTRACTION"
                              "AFRICA"
                              "ALGORITHM design"
@@ -986,7 +993,6 @@ None; Inert Data.")
 (add-hook 'message-setup-hook 'mml-secure-message-sign)
 
 ;;;; MU4E
-(require 'mu4e)
 (add-to-list 'mu4e-bookmarks
              '( :name  "Non-Trashed"
                 :query "not maildir:/trash and not maildir:/sent"
@@ -1075,7 +1081,6 @@ None; Inert Data.")
   'message-send-hook)
 
 ;;; Projectile
-(require 'projectile)
 (setq cdr:my-assignment-configure-cmd
       (concat "if [ -e content.tex ]; then echo \"Sorry, it looks like this "
               "project has already been configured…\"; else echo "
@@ -1106,7 +1111,6 @@ None; Inert Data.")
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 
 ;;; Set Up UI
-(require 'eterm-256color)
 (add-hook 'after-make-frame-functions
           (lambda (the-new-frame)
             (progn
@@ -1229,7 +1233,6 @@ None; Inert Data.")
       display-time-load-average-threshold
       10000)
 ;;; Zone Mode
-(require 'zone)
 (zone-when-idle 600)
 
 ;;; Persistent Scratch Mode
@@ -1307,9 +1310,6 @@ None; Inert Data.")
       elfeed-enclosure-default-dir "/home/ming/Downloads/Elfeed/")
 (setq-default
  elfeed-search-filter "@1-month-ago +unread -nsfw")
-
-;;; Load Local Custom
-(load "~/.emacs.d/custom.el")
 
 ;;; Functions
 
@@ -3343,7 +3343,6 @@ Relies on global variables, filesystem state, and current system time."
           bqn-glyphs)))
 
 ;;; Patching BQN mode
-(require 'bqn-mode)
 (defun bqn-process-execute-region (start end &optional dont-follow return-output)
   (interactive "r")
   (let ((region (buffer-substring-no-properties start end))
@@ -3814,8 +3813,6 @@ None."
     cdr:refcards-alist)))
 
 ;;; Last Preloads
-(require 'forms)
-(require 'pdf-view)
 ;;; Prefixes
 (define-prefix-command 'template-map)
 (define-prefix-command 'latex-template-map)
@@ -4065,7 +4062,6 @@ None."
           #'TeX-revert-document-buffer)
 
 ;;; Load Pseudotaxus Mode
-(require 'pseudotaxus)
 
 ;;; Last Minute Settings
 ;;;; BQN glyphs
