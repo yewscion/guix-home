@@ -234,6 +234,7 @@
      "shepherd"
      "shotwell"
      "signing-party"
+     "squashfs-tools-ng"
      "sshfs"
      "sshpass"
      "stumpish"
