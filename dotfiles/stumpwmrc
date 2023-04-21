@@ -1,8 +1,6 @@
 ;; cdr255's .stumpwmrc file.
 
 (in-package :stumpwm)
-(require :battery-portable)
-(require :screenshot)
 (require :uiop)
 
 ;; These are lifted right from the example.
@@ -44,6 +42,13 @@ otherwise."
   (if (is-current-port-speaker-p)
       (uiop:launch-program "pacmd set-sink-port 0 analog-output-headphones")
       (uiop:launch-program "pacmd set-sink-port 0 analog-output-speaker")))
+(defun get-battery-zero-percent () ()
+       "Get the current output of get-bat0-percent."
+  (read
+   (uiop:process-info-output
+    (uiop:launch-program
+     "get-bat0-percent"
+     :output :stream))))
 
 ;; Custom Functions
 (defcommand brightness-up (amount)
@@ -75,14 +80,6 @@ otherwise."
   (run-shell-command
    (format nil "pamixer -d ~d" amount))
   (show-volume))
-(defcommand
-    screenshot-now () ()
-    "Take a Screenshot NOW."
-    (screenshot::%screenshot-window
-     (xlib:screen-root
-      (stumpwm:screen-number
-       (stumpwm:current-screen)))
-     (format nil "~~/Pictures/~a.screenshot.png" (timestamp))))
 (defcommand
     swap-sink-port () ()
   "Swap the default Sink Port Between Speakers and Headphones."
@@ -125,8 +122,8 @@ otherwise."
 (define-key *root-map* (kbd "V") "exec /opt/cisco/anyconnect/bin/vpnui")
 ;;; Emacsclient
 (define-key *root-map* (kbd "e") "exec emacsclient -c")
-;;; Emacs Everywhere ; Ruins current emacsclient session.
-;(define-key *root-map* (kbd "E") "exec emacsclient --eval '(emacs-everywhere)'")
+;;; Emacs, not with the client
+(define-key *root-map* (kbd "E") "exec emacs")
 ;;; Google Messages in Chromium
 (define-key *root-map* (kbd "M-m") "exec ,google-messages")
 ;;; Scholar Social in Chromium
@@ -135,14 +132,19 @@ otherwise."
 (define-key *root-map* (kbd "M-u") "exec ,update-all-remote-systems")
 ;;; Daily Guix Update
 (define-key *root-map* (kbd "M-d") "exec ,daily-guix-update")
+;;; Amazon Chime
+(define-key *root-map* (kbd "M-a") "exec ,amazon-chime")
 ;;; Screenshots
-(define-key *top-map* (kbd "Print") "screenshot-now")
+(define-key *top-map* (kbd "Print") "exec flameshot screen")
 ;; Message/Modeline Font
 (set-font "-gnu-unifont-medium-r-normal-sans-16-160-75-75-c-80-iso10646-1")
 
 ;;; Set up my Mode Line
 (setf *window-format* "%m%n%s%t")
-(setf *screen-mode-line-format* (list "[^B%n^b] %W^>| %B | %d"))
+(setf *screen-mode-line-format* (list "[^B%n^b] %W^>| ䷡ "
+                                      '(:eval (get-battery-zero-percent))
+                                      " | ䷟ "
+                                      '(:eval (stumpwm:run-shell-command "date +%FT%T%z" t))))
 (setf *time-modeline-string* "%a %b %e %k:%M")
 (setf *mode-line-timeout* 2)
 (enable-mode-line (current-screen) (current-head) t)
@@ -170,14 +172,14 @@ otherwise."
 ;;; Starup Common Programs
 (stumpwm:run-commands
                    "exec xrdb ~/.Xresources"
-                   "exec rm -f /run/user/$(id -u)/shepherd/socket && shepherd && herd start emacs"
                    "exec pulseaudio --start"
+                   "exec rm -f /run/user/$(id -u)/shepherd/socket && shepherd && herd start emacs"
                    "exec icecat"
                    "exec alacritty"
                    "exec slack"
-                   "exec discord"
                    "exec ,scholar-social"
-                   "exec ,google-messages")
+                   "exec ,google-messages"
+                   "exec ,amazon-chime")
 
 ;; Local Variables:
 ;; mode: lisp
