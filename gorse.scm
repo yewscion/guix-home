@@ -259,6 +259,20 @@ post_max_size = 200M"))
                                         "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;"))))))
                               (nginx-server-configuration
                                (listen '("443 ssl"))
+                               (server-name '("write.cdr.gdn"))
+                               (ssl-certificate-key "/etc/letsencrypt/live/cdr.gdn/privkey.pem")
+                               (ssl-certificate "/etc/letsencrypt/live/cdr.gdn/fullchain.pem")
+                               (locations
+                                (list
+                                 (nginx-php-location)
+                                 (nginx-location-configuration
+                                  (uri "/")
+                                  (body '("proxy_pass http://localhost:9889;"
+                                        "proxy_set_header Host $host;"
+                                        "proxy_set_header X-Real-IP $remote_addr;"
+                                        "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;"))))))
+                              (nginx-server-configuration
+                               (listen '("443 ssl"))
                                (server-name '("cdr.gdn"))
                                (root "/srv/http/cdr.gdn/")
                                (index '("index.php"))
