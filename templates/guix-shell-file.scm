@@ -11,6 +11,7 @@
  (gnu packages texinfo)
  (gnu packages guile)
  (gnu packages java)
+ (gnu packages ocaml)
  (guix gexp))
 
 (package
@@ -41,7 +42,8 @@
       ;; Java and Guile programs don't need to be stripped.
       (delete 'strip))))
   (native-inputs (list autoconf automake pkg-config texinfo
-                       `(,openjdk17 "jdk")))
+                       `(,openjdk17 "jdk")
+                       ocaml))
   (inputs (list guile-3.0-latest))
   (synopsis "project-synopsis")
   (description
