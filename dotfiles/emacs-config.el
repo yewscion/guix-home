@@ -3785,7 +3785,60 @@ None."
    (lambda (x)
      (cons (car x) `(cdr:temp-buffer-with-file-contents ,(car x) ,(cadr x))))
    string-and-file-alist))
+(defun cdr:ebiby-key-page-description (key db)
+  (format "%s (%s)"
+          key
+          (ebib-get-field-value "pagetotal" key db "???" 'unbraced 'xref)))
 
+(defun cdr:ebiby-title-page-description (key db)
+  (format "%s (%s)"
+          (ebib-get-field-value "title" key db "Unknown Title" 'unbraced 'xref)
+          (ebib-get-field-value "pagetotal" key db "???" 'unbraced 'xref)))
+(defun cdr:ebiby-journal-description (key db)
+  (format "%s v%sn%s - pages %s (%s)"
+          (ebib-get-field-value "journaltitle" key db "Unknown Journal" 'unbraced 'xref)
+          (ebib-get-field-value "volume" key db "??" 'unbraced 'xref)
+          (ebib-get-field-value "number" key db "??" 'unbraced 'xref)
+          (ebib-get-field-value "pages" key db "???-???" 'unbraced 'xref)
+          (ebib-get-field-value "pagetotal" key db "???" 'unbraced 'xref)))
+(defun cdr:ebiby-chapter-description (key db)
+  (format "%s, Chapter %s%s - pages %s (%s)"
+          (ebib-get-field-value "booktitle" key db "Unknown Book" 'unbraced 'xref)
+          (ebib-get-field-value "chapter" key db "??" 'unbraced 'xref)
+          (concat
+           ": "
+           (ebib-get-field-value "title" key db "" 'unbraced 'xref))
+          (ebib-get-field-value "pages" key db "???-???" 'unbraced 'xref)
+          (ebib-get-field-value "pagetotal" key db "???" 'unbraced 'xref)))
+
+(defun cdr:ebiby-set-citation-description (name procedure)
+  (message (concat
+            "Setting Ebib Description to \""
+            name
+            "\"!"))
+  (setq ebib-citation-description-function
+        procedure))
+(defun cdr:ebiby-toggle-citation-style ()
+  (interactive)
+  (cond ((equal ebib-citation-description-function
+                #'cdr:ebiby-key-page-description)
+         (cdr:ebiby-set-citation-description
+          "TitlePage" #'cdr:ebiby-title-page-description))
+        ((equal ebib-citation-description-function
+                #'cdr:ebiby-title-page-description)
+         (cdr:ebiby-set-citation-description
+          "Journal" #'cdr:ebiby-journal-description))
+        ((equal ebib-citation-description-function
+                #'cdr:ebiby-journal-description)
+         (cdr:ebiby-set-citation-description
+          "Chapter" #'cdr:ebiby-chapter-description))
+        ((equal ebib-citation-description-function
+                #'cdr:ebiby-chapter-description)
+         (cdr:ebiby-set-citation-description
+          "KeyPage" #'cdr:ebiby-key-page-description))
+        (t
+         (cdr:ebiby-set-citation-description
+          "KeyPage(u)" #'cdr:ebiby-key-page-description))))
 ;;; Enabled Commands
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
