@@ -4093,7 +4093,7 @@ None."
 (global-set-key (kbd "M-<f3>") 'calendar)
 (global-set-key (kbd "M-<f4>") nil) ; Close Program
 (global-set-key (kbd "M-<f5>") 'emms-browser)
-(global-set-key (kbd "M-<f6>") nil)
+(global-set-key (kbd "M-<f6>") 'cdr:ebiby-toggle-citation-style)
 (global-set-key (kbd "M-<f7>") 'ispell)
 (global-set-key (kbd "M-<f8>") 'mastodon)
 (global-set-key (kbd "M-<f9>") nil)
