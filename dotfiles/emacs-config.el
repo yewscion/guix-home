@@ -3969,7 +3969,8 @@ None."
 ;;; Imperative Org Map <F3> o / <F3> C-o
 (define-key imperative-org-map (kbd "C-j") #'orgy-open-journal-map)
 (define-key imperative-org-map (kbd "C-l") #'cdr:orgy-remove-empty-list-items)
-(define-key imperative-org-map (kbd "h") #'cdr:orgy-pull-task-clock-to-hog)
+(define-key imperative-org-map (kbd "C-h") #'cdr:hog-it)
+(define-key imperative-org-map (kbd "h") #'cdr:hog-it)
 (define-key imperative-org-map (kbd "i") #'cdr:orgy-copy-item)
 (define-key imperative-org-map (kbd "j") #'cdr:make-daily-journal-entry)
 (define-key imperative-org-map (kbd "l") #'cdr:orgy-copy-rest-of-list)
