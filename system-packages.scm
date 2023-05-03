@@ -1,5 +1,6 @@
 (define my-system-packages
   (list
+   "abiword"
    "agda"
    "alacritty"
    "b3sum"
@@ -71,6 +72,7 @@
    "telescope"
    "texinfo"
    "the-silver-searcher"
+   "tidy-html"
    "transmission:out"
    "tree"
    "unison"
