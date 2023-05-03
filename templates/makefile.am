@@ -146,13 +146,23 @@ EXTRA_DIST += $(JAVASOURCES) $(GUILESOURCES) $(NOCOMP_SOURCES)
 
 # Added Jobs
 
-project-name.jar: $(MYJAVAPKGDIR)/project-name.class
-	$(JAR) cfe project-name.jar $(MYJAVAPKG).project-name \
-	-C $(MYJAVADIR) $(MYJAVAPKG)/project-name.class
+## Java
 
-$(MYJAVAPKGDIR)/project-name.class: $(JAVAFILEONE)
-	$(MKDIR_P) $(MYJAVADIR)
-	$(JAVAC) $(JAVAC_OPTS) -d $(MYJAVADIR) $(JAVAFILEONE)
+# project-name.jar: $(MYJAVAPKGDIR)/project-name.class
+# 	$(JAR) cfe project-name.jar $(MYJAVAPKG).project-name \
+# 	-C $(MYJAVADIR) $(MYJAVAPKG)/project-name.class
+
+# $(MYJAVAPKGDIR)/project-name.class: $(JAVAFILEONE)
+# 	$(MKDIR_P) $(MYJAVADIR)
+# 	$(JAVAC) $(JAVAC_OPTS) -d $(MYJAVADIR) $(JAVAFILEONE)
+
+## OCaml
+
+# all: $(builddir)/bin/hello
+
+# $(builddir)/bin/hello: $(srcdir)/bin/hello.ml
+# 	$(OCAMLOPT) -o $(builddir)/bin/hello $(srcdir)/bin/hello.ml
+
 ################################################################################
 
 # Tests
