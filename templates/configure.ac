@@ -60,6 +60,9 @@ guileobjectdir="${libdir}/guile/$GUILE_EFFECTIVE_VERSION/site-ccache"
 AC_SUBST([guilemoduledir])
 AC_SUBST([guileobjectdir])
 
+dnl Set Up OCaml
+AC_PROG_OCAML
+
 dnl Finishing Up
 AC_PROG_LN_S
 AC_PROG_MKDIR_P
