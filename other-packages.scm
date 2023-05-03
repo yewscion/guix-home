@@ -263,7 +263,7 @@
      "unzip"
      "uxn"
      "virt-manager"
-     "virt-viewer"
+     ;"virt-viewer"
      "vlang"
      "wesnoth"
      "which"
