@@ -368,7 +368,7 @@ post_max_size = 200M"))
                           (domains '("yewscion.com" "www.yewscion.com"))
                           (deploy-hook %nginx-deploy-hook))
                          (certificate-configuration
-                          (domains '("cdr.gdn" "www.cdr.gdn" "links.cdr.gdn" "wb.cdr.gdn" "bugs.cdr.gdn"))
+                          (domains '("cdr.gdn" "www.cdr.gdn" "links.cdr.gdn" "wb.cdr.gdn" "bugs.cdr.gdn" "write.cdr.gdn"))
                           (deploy-hook %nginx-deploy-hook))
                          (certificate-configuration
                           (domains '("yew.gdn" "www.yew.gdn" "dia.yew.gdn" "uml.yew.gdn"))
