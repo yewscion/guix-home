@@ -382,59 +382,10 @@
                      ("tests/maintests.scm"
                       ,(local-file
                         "templates/maintests.scm"))
-                     ("m4/m4_ax_check_class.m4"
+                     ("m4"
                       ,(local-file
-                        "templates/m4/m4_ax_check_class.m4"))
-                     ("m4/m4_ax_check_classpath.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_check_classpath.m4"))
-                     ("m4/m4_ax_check_java_home.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_check_java_home.m4"))
-                     ("m4/m4_ax_check_java_plugin.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_check_java_plugin.m4"))
-                     ("m4/m4_ax_check_junit.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_check_junit.m4"))
-                     ("m4/m4_ax_java_check_class.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_java_check_class.m4"))
-                     ("m4/m4_ax_java_options.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_java_options.m4"))
-                     ("m4/m4_ax_prog_jar.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_jar.m4"))
-                     ("m4/m4_ax_prog_java_cc.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_java_cc.m4"))
-                     ("m4/m4_ax_prog_javac.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_javac.m4"))
-                     ("m4/m4_ax_prog_javac_works.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_javac_works.m4"))
-                     ("m4/m4_ax_prog_javadoc.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_javadoc.m4"))
-                     ("m4/m4_ax_prog_javah.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_javah.m4"))
-                     ("m4/m4_ax_prog_java.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_java.m4"))
-                     ("m4/m4_ax_prog_java_works.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_prog_java_works.m4"))
-                     ("m4/m4_ax_try_compile_java.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_try_compile_java.m4"))
-                     ("m4/m4_ax_try_run_java.m4"
-                      ,(local-file
-                        "templates/m4/m4_ax_try_run_java.m4"))
-                     ("m4/tar-edited.m4"
-                      ,(local-file "templates/m4/tar-edited.m4"))
+                        "templates/m4"
+                        #:recursive? #true))
                      ("build-aux/test-driver.scm"
                       ,(local-file
                         "templates/build-aux/test-driver.scm")))))
