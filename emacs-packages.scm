@@ -1,3 +1,7 @@
+(define emacs-org-965-transform
+  (package-input-rewriting
+   `((,emacs-org . ,emacs-org-965))))
+
 (define my-emacs-packages
   (list
    "emacs"
