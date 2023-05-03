@@ -889,6 +889,8 @@ None; Inert Data.")
 (setq ebib-bibtex-dialect 'biblatex
       ebib-preload-bib-files '("~/Documents/biblio/main.bib")
       ebib-reading-list-file "~/Documents/org/data/reading-list.org"
+      ebib-reading-list-todo-marker "UNREAD"
+      ebib-reading-list-done-marker "PORED"
       ebib-file-associations '()
       ebib-hidden-fields
       '("addendum" "afterword" "annotator" "archiveprefix" "bookauthor"
