@@ -162,6 +162,7 @@
 (define my-transformation
   (options->transformation
    '(
+     ;; (with-version . "emacs-org=9.6.5") ;; Did not work.
      ;; (without-tests . "curl")
      ;; (with-commit
      ;;  .
@@ -204,16 +205,14 @@
   (plain-file
    "agda-libraries"
    (find-agda-lib-files my-agda-lib-list)))
-(define my-transformed-packages
-  ;; (map my-transformation
-    ;;           my-no-test-packages)
-  (list maven-with-replaced-jlc))
 (define my-spec-list (append
                       '()
                       my-packages))
+(define my-transformed-packages
+   (map emacs-org-965-transform
+        (map specification->package+output my-spec-list)))
 (define my-package-list
-  (append '() my-transformed-packages
-          (map (compose list specification->package+output) my-spec-list)))
+  (append '() my-transformed-packages))
 (home-environment
  (packages
   my-package-list)
