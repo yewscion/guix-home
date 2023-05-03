@@ -4423,7 +4423,55 @@ the URL of the image to the kill buffer instead."
                            t)))
           files)))
 
+(defun cdr:process-shipt-receipt ()
+  (interactive)
+   (condition-case nil
+      (while t
+        (cdr:process-shipt-receipt-item))
+    (error nil)))
 
+(defun cdr:process-shipt-receipt-item ()
+  (interactive)
+  (cdr:kvpl-enclose-value-discarding-key "QTY")
+  (cdr:delete-double-nl-add-table-divider)
+  (cdr:delete-previous-line)
+  (cdr:delete-double-nl-add-table-divider)
+  (cdr:delete-double-nl-add-table-divider)
+  (cdr:delete-double-nl-add-table-divider)
+  (beginning-of-line)
+  (insert " |  |  |  |")
+  (cdr:delete-previous-line)
+  (insert "|"))
+
+(defun cdr:delete-previous-line ()
+  (previous-line)
+  (cdr:delete-current-line))
+
+(defun cdr:kvpl-enclose-value-discarding-key (key)
+  (let ((chars-to-delete (+ 1 (length key))))
+    (search-forward (concat key ":"))
+    (insert " | ")
+    (end-of-line)
+    (insert " | ")
+    (beginning-of-line)
+    (delete-char chars-to-delete)))
+
+(defun cdr:delete-preceding-double-newline ()
+  (beginning-of-line)
+  (delete-char -2))
+
+(defun cdr:delete-double-nl-add-table-divider ()
+  (cdr:delete-preceding-double-newline)
+  (insert " | "))
+
+(defun cdr:delete-current-line ()
+  (beginning-of-line)
+  (kill-line)
+  (delete-char 1))
+
+(defun cdr:delete-char-multiple-numbers (list-of-numbers)
+  (dolist (current list-of-numbers)
+    (delete-char-current)))
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
