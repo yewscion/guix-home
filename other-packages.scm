@@ -166,6 +166,10 @@
      "nmap"
      "node"
      "nss-certs"
+     "ocaml"
+     "ocamlformat"
+     "ocaml-findlib"
+     "ocaml-utop"
      "offlineimap3"
      "openjdk:doc"
      "openjdk:jdk" ;; openjdk@15:jdk allowed installation of lsps.
