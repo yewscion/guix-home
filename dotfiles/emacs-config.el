@@ -3812,6 +3812,87 @@ None."
    (cdr:create-selection-menu-alist
     cdr:refcards-alist)))
 
+(defun cdr:hog-it ()
+  (interactive)
+  (let ((task-clock (cdr:hog-grab-task-clock-as-string))
+        (inbox (cdr:hog-grab-inbox-as-string)))
+    (save-excursion
+      (org-save-outline-visibility t
+        (org-fold-hide-sublevels 2)
+        (goto-char (org-find-exact-headline-in-buffer "HOG"))
+        (next-line 1)
+        (org-insert-heading-after-current)
+        (setq current-prefix-arg '(16))
+        (call-interactively #'org-time-stamp-inactive)
+        (insert (concat
+                 "\n*** Hand-Off Details\n#+begin_src markdown\n"
+                 task-clock
+                 "\n#+end_src\n*** Start of Shift Summary\n#+begin_src markdown\n"
+                 inbox
+                 "\n#+end_src\n"))
+        (message "🐽🐽🐽 Hogging It! 🐽🐽🐽")))))
+(defun cdr:hog-cleanup-hog-inbox (hog-inbox-string)
+  (replace-regexp-in-string
+   "\n " ""
+   hog-inbox-string))
+
+(defun cdr:hog-cleanup-task-clock (task-clock-string)
+  (replace-regexp-in-string
+   "-+|" "-|"
+   (replace-regexp-in-string
+    " +|" " |"
+    (replace-regexp-in-string
+     "\n\n+" ""
+     (replace-regexp-in-string
+      "\\\\_ +" ""
+      (replace-regexp-in-string
+       "/" "*"
+       (replace-regexp-in-string
+        "\\*" "**"
+        (replace-regexp-in-string
+         "-\\+-" "-|-"
+         (replace-regexp-in-string
+          "  #\\+.*" ""
+          task-clock-string)))))))))
+
+(defun web:org-element-to-string ()
+  (let* ((e (org-element-at-point))
+         (beg (org-element-property :begin e))
+         (end (org-element-property :end e)))
+    (string-trim-right (buffer-substring-no-properties beg end))))
+
+
+(defun web:heading-contents-to-string ()
+  (interactive)
+  (save-excursion
+    (org-back-to-heading)
+    (forward-line)
+    (unless (= (point) (point-max))
+      (let ((b (point))
+            (e (or (outline-next-heading) (point-max))))
+        (buffer-substring-no-properties b e)))))
+
+(defun cdr:hog-grab-task-clock-as-string ()
+  (interactive)
+  (save-excursion
+    (org-save-outline-visibility t
+      (org-fold-hide-sublevels 2)
+      (goto-char (org-find-exact-headline-in-buffer "Tasks"))
+      (search-forward "#+name: task-clocktable")
+      (search-forward "#+begin")
+      (cdr:hog-cleanup-task-clock
+       (web:org-element-to-string)))))
+
+(defun cdr:hog-grab-inbox-as-string ()
+  (interactive)
+  (save-excursion
+    (org-save-outline-visibility t
+      (org-fold-hide-sublevels 10)
+      (goto-char (org-find-exact-headline-in-buffer "HOG Inbox"))
+      (cdr:hog-cleanup-hog-inbox
+       (web:heading-contents-to-string)))))
+
+
 ;;; Last Preloads
 ;;; Prefixes
 (define-prefix-command 'template-map)
