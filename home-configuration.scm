@@ -22,6 +22,7 @@
  (gnu packages maven)
  (cdr255 fixes)
  (cdr255 agda)
+ (cdr255 utils)
  (gnu packages emacs-xyz))
 
 (load "gtk-immodule-cache-fcitx5.scm")
@@ -142,7 +143,7 @@
 ; Package Graveyard: "nomad"
 
 (define my-packages
-  (append my-other-packages my-emacs-packages my-texlive-packages))
+  (append my-emacs-packages my-other-packages my-texlive-packages))
 
 (define
   my-no-test-packages
@@ -209,10 +210,12 @@
                       '()
                       my-packages))
 (define my-transformed-packages
-   (map emacs-org-965-transform
-        (map specification->package+output my-spec-list)))
+  '())
+;;    (map emacs-org-965-transform
+;;         (map specification->package+output my-spec-list)))
 (define my-package-list
-  (append '() my-transformed-packages))
+  (append my-transformed-packages
+          (map (compose list specification->package+output) my-spec-list)))
 (home-environment
  (packages
   my-package-list)
