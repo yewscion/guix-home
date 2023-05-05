@@ -393,6 +393,26 @@ post_max_size = 200M"))
                        (config-file
                         (postgresql-config-file
                          (log-destination "stderr")
+                         (hba-file
+                          (plain-file "pg_hba.conf"
+                                      "
+# TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+
+# \"local\" is for Unix domain socket connections only
+local   all         pgadmin                           trust
+local   all         all                               trust
+
+# IPv4 local connections:
+host    all         all         127.0.0.1/32          md5
+
+# IPv6 local connections:
+host    all         all         ::1/128               md5
+
+# IPv4 remote connections:
+host    all             all              0.0.0.0/0                       md5
+
+host    all             all              ::/0                            md5
+"))
                          (extra-config
                           '(("listen_addresses" "0.0.0.0,::")))))
                        (postgresql postgresql-15)
