@@ -415,7 +415,9 @@ host    all         all         192.168.0.0/16        md5
                        (postgresql postgresql-15)
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
-                       (log-directory "/var/log/postgresql/db")))
+                       (log-directory "/var/log/postgresql/db")
+                       (extra-config
+                        '(("listen_addresses" "0.0.0.0,::")))))
              (service mysql-service-type
                       (mysql-configuration
                        (mysql mysql)
