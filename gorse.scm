@@ -396,9 +396,22 @@ post_max_size = 200M"))
                          (hba-file
                           (plain-file "pg_hba.conf"
                                       "
-local	all	all			trust
-host	all	all	127.0.0.1/32 	md5
-host	all	all	::1/128 	md5"))))
+# TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+
+# \"local\" is for Unix domain socket connections only
+local   all         pgadmin                           trust
+local   all         all                               trust
+
+# IPv4 local connections:
+host    all         all         127.0.0.1/32          md5
+
+# IPv6 local connections:
+host    all         all         ::1/128               md5
+
+# IPv4 remote connections:
+host    all         all         10.0.0.0/8            md5
+host    all         all         192.168.0.0/16        md5
+"))))
                        (postgresql postgresql-15)
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
