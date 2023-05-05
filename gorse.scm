@@ -411,13 +411,13 @@ host    all         all         ::1/128               md5
 # IPv4 remote connections:
 host    all         all         10.0.0.0/8            md5
 host    all         all         192.168.0.0/16        md5
-"))))
+"))
+                         (extra-config
+                          '(("listen_addresses" "0.0.0.0,::")))))
                        (postgresql postgresql-15)
                        (port 54321)
                        (data-directory "/var/lib/postgresql/db")
-                       (log-directory "/var/log/postgresql/db")
-                       (extra-config
-                        '(("listen_addresses" "0.0.0.0,::")))))
+                       (log-directory "/var/log/postgresql/db")))
              (service mysql-service-type
                       (mysql-configuration
                        (mysql mysql)
