@@ -153,6 +153,7 @@
      "make"
                                         ;"maven" ;; Frequently Troubled.
      "mc"
+     "mcron"
      "milkytracker"
      "mpv"
      "msmtp"
@@ -258,6 +259,7 @@
      "transmission"
      "trash-cli"
      "tree"
+     "ungoogled-chromium"
      "universal-ctags"
      "usync"
      "unison"
