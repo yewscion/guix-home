@@ -307,6 +307,10 @@
                  ,(local-file "dotfiles/msmtprc" "msmtprc"))
                `(".emacs.d/init.el"
                  ,(local-file "dotfiles/emacs-config.el"))
+               `(".emacs.d/procs.el"
+                 ,(local-file "dotfiles/emacs-procs.el"))
+               `(".config/cron/battery-warning.guile"
+                 ,(local-file "dotfiles/cron-battery-warning.scm"))
                `(".emacs.d/library-of-babel.org"
                  ,(local-file "dotfiles/library-of-babel.org"))
                `(".emacs.d/lisp"
