@@ -42,6 +42,7 @@
    "links"
    "lxc"
    "mc"
+   "mcron"
    "msmtp"
    "mu"
    "ncdu"
