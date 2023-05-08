@@ -24,6 +24,7 @@
    "emacs-citar"
    "emacs-citeproc-el"
    "emacs-clojure-mode"
+   "emacs-cobol-mode"
    "emacs-company"
    "emacs-company-auctex"
    "emacs-company-c-headers"
