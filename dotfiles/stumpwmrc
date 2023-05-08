@@ -121,7 +121,7 @@ otherwise."
 ;;; VPN
 (define-key *root-map* (kbd "V") "exec /opt/cisco/anyconnect/bin/vpnui")
 ;;; Emacsclient
-(define-key *root-map* (kbd "e") "exec emacsclient -c")
+(define-key *root-map* (kbd "e") "exec ,emacsclient")
 ;;; Emacs, not with the client
 (define-key *root-map* (kbd "E") "exec emacs")
 ;;; Google Messages in Chromium
