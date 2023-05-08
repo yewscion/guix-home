@@ -366,7 +366,8 @@ variable of the same name."
 
 ;;;; Org Agenda
 (setq org-agenda-files
-      (file-expand-wildcards "~/Documents/org/goals.org"))
+      (append (file-expand-wildcards "~/Documents/org/goals.org")
+              (file-expand-wildcards "~/Documents/org/work.org")))
 
 ;;;; Customization
 (setq
