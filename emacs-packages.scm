@@ -370,5 +370,6 @@
    "emacs-yaml-mode"
    "emacs-yasnippet"
    "emacs-zetteldeft"
+   "emacs-zig-mode"
    "emacs-zzz-to-char"
    ))
