@@ -14,12 +14,14 @@
  (guix derivations)
  (guix build utils)
  (guix packages)
+ (guix build-system trivial)
  (gnu packages code)
  (gnu packages curl)
  (gnu packages gtk)
  (gnu packages fcitx5)
  (gnu packages java)
  (gnu packages maven)
+ (gnu packages commencement)
  (cdr255 fixes)
  (cdr255 agda)
  (cdr255 utils)
@@ -183,6 +185,31 @@
 		         (string-append
                           #$output
                           "/bin/u-ctags")))))
+
+(define librt_symlink
+  #~(begin
+      (mkdir #$output)
+      (chdir #$output)
+      (mkdir "lib")
+      (symlink (string-append #+gcc-toolchain "/lib/librt.so.1")
+               (string-append #$output "/lib/librt.so"))))
+
+
+(define librt-symlink
+  (package
+   (name "librt-symlink")
+   (version "0")
+   (source #f)
+   (build-system trivial-build-system)
+   (arguments
+    `(#:builder ,librt_symlink))
+   (home-page
+    "none")
+   (synopsis "None")
+    (description
+     "None.")
+    (license #f)))
+
 (define my-agda-lib-list
   (map specification->package+output
        my-agda-lib-string-list))
@@ -194,6 +221,7 @@
              (open-connection)
              (package->derivation package)))
            ".+\\.agda-lib")
+
           "\n"
           'infix))
 (define (find-agda-lib-files list-of-packages)
@@ -218,7 +246,7 @@
           (map (compose list specification->package+output) my-spec-list)))
 (home-environment
  (packages
-  my-package-list)
+  (append my-package-list (list librt-symlink)))
  (services
   (list (service
          home-bash-service-type
