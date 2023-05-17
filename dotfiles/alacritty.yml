@@ -87,7 +87,6 @@ cursor:
   unfocused_hollow: true
   thickness: 1.0
 live_config_reload: true
-alt_send_esc: true
 ipc_socket: true
 shell:
   program: /bin/bash
