@@ -1724,6 +1724,8 @@ None; Inert Data.")
 (add-hook 'buffer-list-update-hook
           'cdr:display-mode-line)
 
+(setq persistent-scratch-autosave-interval (cons 'idle' 10))
+(persistent-scratch-setup-default)
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
