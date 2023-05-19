@@ -1,3 +1,4 @@
+(require 'cdr255)
 ;;; Functions
 
 (defun copy-lines-matching-re (re)
@@ -70,11 +71,6 @@
       (fill-region (point-min) (point-max)))))
 
 ;;; http://ergoemacs.org/emacs/elisp_read_file_content.html
-(defun get-string-from-file (filePath)
-  "Return filePath's file content."
-  (with-temp-buffer
-    (insert-file-contents filePath)
-    (buffer-string)))
 (defun read-lines (filePath)
   "Return a list of lines of a file at filePath."
   (with-temp-buffer
@@ -2054,7 +2050,7 @@ current buffer state."
   (kill-new (concat
              "--------\n"
              (cdr:remove-ending-newlines
-              (cdr:buffer-as-string))
+              (cdr255:buffer-as-string))
              "\n"
              "--------\n"
              )))
@@ -2102,7 +2098,7 @@ Impurities
 
 Used entirely for Side Effects: Modifies kill-ring and uses
 current buffer state and mode."
-  (cdr:create-comment-block (cdr:buffer-as-string)))
+  (cdr:create-comment-block (cdr255:buffer-as-string)))
 
 (defun cdr:create-comment-block (string)
   "Create a comment block using STRING as the contents.
@@ -2154,37 +2150,9 @@ Impurities
 ==========
 
 Relies on current buffer's major mode for comment characters."
-  (cdr:comment-multiline-string
+  (cdr255:comment-multiline-string
    (cdr:remove-ending-newlines string)))
 
-(defun cdr:comment-multiline-string (string)
-  "Comments STRING using the current mode's comment syntax, taking into
-account that newlines will need a new comment character.
-
-This is an ACTION.
-
-Arguments
-=========
-
-STRING <string>: The string to turn into a comment.
-
-Returns
-=======
-
-A <string> representing the original STRING with comment padding
-and characters prepended to each line.
-
-Impurities
-==========
-
-Relies on current buffer's major mode for comment characters."
-  (concat comment-start
-          comment-padding
-          (string-replace "\n"
-                          (concat "\n"
-                                  comment-start
-                                  comment-padding)
-                          string)))
 
 (defun cdr:remove-ending-newlines (string)
   "Removes extra newlines at the end of STRING, leaving none.
@@ -2208,27 +2176,6 @@ Impurities
 None."
   (replace-regexp-in-string "\n+\\'" "" string))
 
-(defun cdr:buffer-as-string ()
-  "Get the entire contents of the current buffer as a string.
-
-This is an ACTION.
-
-Arguments
-=========
-
-None.
-
-Returns
-=======
-
-A <string> representing the entire contents of the current
-buffer, with no properties or extraneous information.
-
-Impurities
-==========
-
-Relies on the current buffer state."
-  (buffer-substring-no-properties (point-min) (point-max)))
 
 (fset 'cdr:paste-commit-and-update-hash
    (kmacro-lambda-form [?\C-y ?\M-d ?\C-s ?u ?r ?l return ?\C-f
@@ -2258,99 +2205,6 @@ Used entirely for Side Effects: Modifies kill-ring and current buffer."
   (interactive)
   (progn (yank)
          (comment-region (mark) (point))))
-
-(defun cdr:selection-menu (title item-alist)
-  "Show a menu to the user to select from.
-
-This is an ACTION.
-
-Arguments
-=========
-
-TITLE <string>: The title of the menu to display.
-
-ITEM-ALIST <<list> of <cons>>: The items the user can choose
-from, in the form:
-(list (cons \"Item Name\" #'procedure-to-execute) …)
-
-Returns
-=======
-
-<undefined>
-
-Impurities
-==========
-
-Used solely for its side effects. I/O."
-  (eval
-   (let ((tmm-completion-prompt (concat title "\n\n")))
-     (tmm-prompt (list ""  (cons "" item-alist) nil nil nil)))))
-
-(defun cdr:temp-buffer-with-file-contents (title filename)
-  "Create a new temporary buffer starting with TITLE and put the contents
-of FILENAME inside of it.
-
-This is an ACTION.
-
-Arguments
-=========
-
-TITLE <string>: The prefix for the new temporary buffer.
-
-FILENAME <string>: The file from which to insert data.
-
-Returns
-=======
-
-<undefined>
-
-Impurities
-==========
-
-Used solely for its side effects. Relies on current system state. I/O."
-  (let ((temp-buffer-name (make-temp-name title)))
-    (generate-new-buffer temp-buffer-name)
-    (set-buffer temp-buffer-name)
-    (insert-file-contents filename)
-    (local-set-key "q" 'kill-current-buffer)
-    (read-only-mode nil)
-    (switch-to-buffer temp-buffer-name)
-    (message (concat "Opening " title "…"))))
-
-(defun cdr:create-selection-menu-alist (string-and-file-alist)
-  "Transform an alist of Names and Filenames into an alist suitable
-for cdr:selection-menu, with the goal of opening temporary
-buffers containing the contents of the files specified.
-
-This is a CALCULATION.
-
-Arguments
-=========
-
-STRING-AND-FILE-ALIST <<list> of <lists> of <strings>>: A list in
-the form:
-
-'((\"Title\" \"/foo/bar/baz\") …)
-
-Returns
-=======
-
-A <<list> of <cons>> which is suitable for cdr:selection-menu,
-specifying the items the user can choose from, in the form:
-(list (cons \"Item Name\" #'procedure-to-execute) …)
-
-The #'procedure-to-execute will open a new temporary buffer with
-\"Item Name\" as a prefix, and the contents of the associated
-file inserted.
-
-Impurities
-==========
-
-None."
-  (mapcar 
-   (lambda (x)
-     (cons (car x) `(cdr:temp-buffer-with-file-contents ,(car x) ,(cadr x))))
-   string-and-file-alist))
 (defun cdr:ebiby-key-page-description (key db)
   (format "%s (%s)"
           key
@@ -2408,9 +2262,9 @@ None."
 
 (defun cdr:display-refcard-menu ()
   (interactive)
-  (cdr:selection-menu
+  (cdr255:selection-menu
    "Refcards"
-   (cdr:create-selection-menu-alist
+   (cdr255:create-temp-file-menu-alist
     cdr:refcards-alist)))
 
 (defun cdr:hog-it ()
@@ -2518,18 +2372,16 @@ None."
     '((t :family font-family))
     "Temporary buffer-local face")
   (buffer-face-set 'tmp-buffer-local-face))
+(setq cdr:cursor-types
+      '((box hollow)
+        (hollow bar)
+        (bar hbar)
+        (hbar box)))
 (defun cdr:toggle-cursor ()
   (interactive)
-  (cond ((eq (cdr:car-or-value cursor-type) 'box)
-         (cdr:update-cursor-type 'hollow))
-        ((eq (cdr:car-or-value cursor-type) 'hollow)
-         (cdr:update-cursor-type 'bar))
-        ((eq (cdr:car-or-value cursor-type) 'bar)
-         (cdr:update-cursor-type 'hbar))
-        ((eq (cdr:car-or-value cursor-type) 'hbar)
-         (cdr:update-cursor-type 'box))
-        (t
-         (cdr:update-cursor-type 'box)))
+  (cdr255:toggle-proc-var-alist #'cdr:update-cursor-type
+                                (cdr:car-or-value cursor-type)
+                                cdr:cursor-types)
   (message (concat "Cursor is now "
                    (format "%s" cursor-type)
                    "!")))
@@ -2539,10 +2391,12 @@ None."
                     (cons new-symbol
                           (cdr cursor-type))
                   new-symbol)))
+
 (defun cdr:car-or-value (item)
   (if (listp item)
       (car item)
     item))
+
 (fset 'cdr:convert-cbnf-to-list-of-strings
    (kmacro-lambda-form [C-f2 ?i ?\C-x ?h C-f2 ?\C-r ?- ?- ?. ?*
    ?\C-q ?\C-j return return ?\C-x ?h C-f2 ?r ?\; return return
@@ -2559,11 +2413,6 @@ None."
   (string-trim-right
    (shell-command-to-string
     command)))
-
-(defun cdr:empty-string-to-nil (supplied-string)
-  (if (string= supplied-string "")
-      nil
-    supplied-string))
 
 (defun cdr:build-guix-import-command (name version importer recursive-p)
   (concat "guix import " importer (if recursive-p " --recursive " " ")
@@ -2595,7 +2444,7 @@ None."
 (defun cdr:insert-guix-hexpm-package (name version)
   (interactive "sPackage Name?
 sVersion(Optional)? ")
-  (let ((version (cdr:empty-string-to-nil version)))
+  (let ((version (cdr255:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "hexpm" t t)))
 
 (defun cdr:insert-guix-elpa-melpa-package (name)
@@ -2621,7 +2470,7 @@ sVersion(Optional)? ")
 (defun cdr:insert-guix-elm-package (name version)
   (interactive "sPackage Name?
 sVersion(Optional)? ")
-  (let ((version (cdr:empty-string-to-nil version)))
+  (let ((version (cdr255:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "elm" t t)))
 
 (defun cdr:insert-guix-opam-package (name)
@@ -2642,13 +2491,13 @@ sVersion(Optional)? ")
 (defun cdr:insert-guix-gem-package (name version)
   (interactive "sPackage Name?
 sVersion(Optional)? ")
-  (let ((version (cdr:empty-string-to-nil version)))
+  (let ((version (cdr255:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "gem" t t)))
 
 (defun cdr:insert-guix-go-package (name version)
   (interactive "sPackage Name?
 sVersion(Optional)? ")
-  (let ((version (cdr:empty-string-to-nil version)))
+  (let ((version (cdr255:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "go" t t)))
 
 (defun cdr:insert-guix-stackage-package (name version)
@@ -2661,7 +2510,7 @@ sLTS Version(Optional;Default is 20.4)? ")
 (defun cdr:insert-guix-hackage-package (name version)
   (interactive "sPackage Name?
 sVersion(Optional)? ")
-  (let ((version (cdr:empty-string-to-nil version)))
+  (let ((version (cdr255:empty-string-to-nil version)))
     (cdr:insert-guix-imported-package name version "hackage" t t)))
 
 (defun cdr:insert-guix-pypi-package (name)
@@ -2687,15 +2536,6 @@ the URL of the image to the kill buffer instead."
      (t
       (message "Saving %s to ~/Pictures..." url)
       (url-copy-file url (concat "~/Pictures/" filename) t)))))
-
-(defun cdr:get-url-contents-as-string (url)
-  (with-current-buffer (url-retrieve-synchronously
-                        url)
-    (buffer-string)))
-
-(defun cdr:insert-contents-of-url (url)
-  (interactive "sURL? ")
-  (insert (cdr:get-url-contents-as-string url)))
 
 (defun cdr:orgy-babel-tangle ()
   (interactive)
@@ -2728,18 +2568,14 @@ the URL of the image to the kill buffer instead."
   (interactive)
   (cdr:kvpl-enclose-value-discarding-key "QTY")
   (cdr:delete-double-nl-add-table-divider)
-  (cdr:delete-previous-line)
+  (cdr255:delete-previous-line)
   (cdr:delete-double-nl-add-table-divider)
   (cdr:delete-double-nl-add-table-divider)
   (cdr:delete-double-nl-add-table-divider)
   (beginning-of-line)
   (insert " |  |  |  |")
-  (cdr:delete-previous-line)
+  (cdr255:delete-previous-line)
   (insert "|"))
-
-(defun cdr:delete-previous-line ()
-  (previous-line)
-  (cdr:delete-current-line))
 
 (defun cdr:kvpl-enclose-value-discarding-key (key)
   (let ((chars-to-delete (+ 1 (length key))))
@@ -2758,14 +2594,15 @@ the URL of the image to the kill buffer instead."
   (cdr:delete-preceding-double-newline)
   (insert " | "))
 
-(defun cdr:delete-current-line ()
-  (beginning-of-line)
-  (kill-line)
-  (delete-char 1))
-
 (defun cdr:delete-char-multiple-numbers (list-of-numbers)
   (dolist (current list-of-numbers)
-    (delete-char-current)))
+    (delete-char current)))
+
+(defun cdr:toggle-input-methods ()
+  (interactive)
+  (cdr255:toggle-proc-var-alist #'activate-input-method
+                             current-input-method
+                             cdr:my-input-methods))
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
