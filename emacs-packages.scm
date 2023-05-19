@@ -20,6 +20,7 @@
    "emacs-bqn-mode"
    "emacs-bui"
    "emacs-build-farm"
+   "emacs-cdr255"
    "emacs-cider"
    "emacs-citar"
    "emacs-citeproc-el"
