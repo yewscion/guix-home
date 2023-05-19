@@ -47,6 +47,7 @@
 ;;; Load Personal Procedures
 (load "~/.emacs.d/procs.el")
 
+
 ;;;; Tooling
 (defmacro cdr:make-face
     (name inherit weight slant foreground background description)
@@ -1326,7 +1327,6 @@ None; Inert Data.")
 
 ;;; Start Pinentry
 (pinentry-start)
-
 (setq cdr:my-input-methods
       '(("APL-Z" "chinese-b5-tsangchi")
         ("chinese-b5-tsangchi" "BQN-Z")
@@ -1457,7 +1457,6 @@ None; Inert Data.")
 
 
 ;; Maps
-
 
 ;;; Refcards
 (setq cdr:refcards-alist
