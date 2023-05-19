@@ -16,8 +16,8 @@
 (package-initialize)
 ;;; Local Elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-
 ;;; Load Libraries for Configuration
+(require 'cdr255)
 (require 're-builder)
 (require 'emms-setup)
 (require 'emms-player-mpv)
@@ -1327,6 +1327,11 @@ None; Inert Data.")
 ;;; Start Pinentry
 (pinentry-start)
 
+(setq cdr:my-input-methods
+      '(("APL-Z" "chinese-b5-tsangchi")
+        ("chinese-b5-tsangchi" "BQN-Z")
+        ("BQN-Z" nil)
+        (nil "APL-Z")))
 
 ;;; Patching BQN mode
 (defun bqn-process-execute-region (start end &optional dont-follow return-output)
@@ -1650,6 +1655,7 @@ None; Inert Data.")
 (global-set-key (kbd "s-;") 'projectile-mode)
 (global-set-key (kbd "s-<tab>") 'ediprolog-dwim)
 
+(global-set-key (kbd "H-SPC") #'cdr:toggle-input-methods)
 ;;; Audio Controls
 (global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
 (global-set-key (kbd "<XF86AudioNext>") 'emms-next)
