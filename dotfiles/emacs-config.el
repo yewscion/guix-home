@@ -1712,9 +1712,6 @@ None; Inert Data.")
 (pdf-loader-install)
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
-
-;;; Load Pseudotaxus Mode
-
 ;;; Last Minute Settings
 ;;;; BQN glyphs
 (cdr:set-glyphs-for-bqn)
