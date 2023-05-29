@@ -2603,6 +2603,20 @@ the URL of the image to the kill buffer instead."
   (cdr255:toggle-proc-var-alist #'activate-input-method
                              current-input-method
                              cdr:my-input-methods))
+(defun cdr:update-website-timestamp ()
+  (interactive)
+  (let ((now (cdr255:datetime nil)))
+    (save-excursion
+      (goto-char (point-min))
+      (search-forward "Last Updated: <time datetime=\"")
+      (kill-line)
+      (insert now "\">")
+      (next-line)
+      (beginning-of-line)
+      (kill-line)
+      (insert "            "
+              (replace-regexp-in-string "T" " " now)
+              "</time>"))))
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
