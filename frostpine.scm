@@ -105,6 +105,8 @@ package-management ssh tls version-control xdisorg)
              (libvirt-configuration
               (unix-sock-group "libvirt")
               (tls-port "16555")))
+    (extra-special-file "/bin/bash"
+                        (file-append bash "/bin/bash"))
     (set-xorg-configuration
      (xorg-configuration
       (keyboard-layout %my-keyboard-layout)))
