@@ -2617,6 +2617,39 @@ the URL of the image to the kill buffer instead."
       (insert "            "
               (replace-regexp-in-string "T" " " now)
               "</time>"))))
+
+(defun cdr:blog-post-pull-anchors ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward "((blog")
+    (cdr255:delete-current-line)
+    (cdr255:delete-current-line)
+    (let ((begin (point)))
+      (insert "(")
+      (insert (string-join (cdr:blog-gather-anchors) "\n"))
+      (insert ")\n")
+      (indent-region begin (point)))))
+
+(defun web:re-seq (regexp string)
+  "Get a list of all regexp matches in a string"
+  (save-match-data
+    (let ((pos 0)
+          matches)
+      (while (string-match regexp string pos)
+        (push (match-string 0 string) matches)
+        (setq pos (match-end 0)))
+      matches)))
+
+(defun cdr:blog-gather-anchors ()
+  (sort
+   (mapcar
+    (lambda (x)    (replace-regexp-in-string
+                    ")$" " \"\")" (replace-regexp-in-string
+                                   "^" "(" (replace-regexp-in-string
+                                            ",(anchor \".*?\" " "" x))))
+    (web:re-seq ",(anchor .*?)" (buffer-substring-no-properties (point-min) (point-max))))
+   #'string<))
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
