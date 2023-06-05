@@ -95,6 +95,7 @@
      "genpro"
      "gerbil"
      "gfortran-toolchain"
+     "gforth"
      "ghc"
      "ghc-alex"
      "ghc-bnfc"
