@@ -101,6 +101,7 @@
    "emacs-flycheck"
    "emacs-flycheck-elm"
    "emacs-flycheck-guile"
+   "emacs-forth-mode"
    "emacs-fountain-mode"
    "emacs-free-keys"
    "emacs-gameoflife"
