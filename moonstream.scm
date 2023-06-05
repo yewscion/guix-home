@@ -214,7 +214,7 @@ max_execution_time = 1800"))
                        (port 5432)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
-	     (elogind-service)
+	     (service elogind-service-type)
 	     (simple-service 'my-cron-jobs
 			     mcron-service-type
 			     (list updatedb-job))
