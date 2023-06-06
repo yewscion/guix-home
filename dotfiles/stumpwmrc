@@ -141,9 +141,9 @@ otherwise."
 
 ;;; Set up my Mode Line
 (setf *window-format* "%m%n%s%t")
-(setf *screen-mode-line-format* (list "[^B%n^b] %W^>| ䷡ "
+(setf *screen-mode-line-format* (list "[^B%n^b] %W^>| [B] "
                                       '(:eval (get-battery-zero-percent))
-                                      " | ䷟ "
+                                      " | [T] "
                                       '(:eval (stumpwm:run-shell-command "date +%FT%T%z" t))))
 (setf *time-modeline-string* "%a %b %e %k:%M")
 (setf *mode-line-timeout* 2)
