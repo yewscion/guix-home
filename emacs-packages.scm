@@ -340,6 +340,7 @@
    "emacs-unfill"
    "emacs-unicode-fonts"
    "emacs-uuidgen"
+   "emacs-uxntal-mode"
    "emacs-v-mode"
    "emacs-validate"
    "emacs-validate-html"
