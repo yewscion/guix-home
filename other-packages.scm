@@ -4,7 +4,7 @@
   (append
    my-agda-lib-string-list
    '(
-     "agda@2.6.3"
+     "agda"
      "alacritty"
      "alsa-plugins"
      "alsa-plugins:pulseaudio"
