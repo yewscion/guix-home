@@ -80,10 +80,14 @@ package-management ssh tls version-control xdisorg)
                `(("ming"
                   ,(local-file "public-keys/ssh-jory.pub")
                   ,(local-file "public-keys/ssh-crane.pub")
+                  ,(local-file "public-keys/ssh-lark.pub")
+                  ,(local-file "public-keys/ssh-trisana.pub")
                   ,(local-file "public-keys/ssh-frostpine.pub"))
                  ("git"
                   ,(local-file "public-keys/ssh-jory.pub")
                   ,(local-file "public-keys/ssh-crane.pub")
+                  ,(local-file "public-keys/ssh-lark.pub")
+                  ,(local-file "public-keys/ssh-trisana.pub")
                   ,(local-file "public-keys/ssh-frostpine.pub"))))))
     (service postgresql-service-type
              (postgresql-configuration
