@@ -2650,6 +2650,11 @@ the URL of the image to the kill buffer instead."
                                             ",(anchor \".*?\" " "" x))))
     (web:re-seq ",(anchor .*?)" (buffer-substring-no-properties (point-min) (point-max))))
    #'string<))
+
+(fset 'cdr:push-to-four-remotes
+   (kmacro-lambda-form [?P ?u ?P ?e ?l ?a ?r ?k tab return ?P ?e
+                           ?s ?o tab return ?P ?e ?g ?i ?t tab return]
+                       0 "%d"))
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
