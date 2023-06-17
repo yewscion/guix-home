@@ -157,14 +157,16 @@ post_max_size = 200M"))
                            ,(local-file "public-keys/ssh-radicale.pub")
                            ,(local-file "public-keys/ssh-trisana.pub")
                            ,(local-file "public-keys/ssh-lark.pub")
-                           ,(local-file "public-keys/ssh-frostpine.pub"))
+                           ,(local-file "public-keys/ssh-frostpine.pub")
+                           ,(local-file "public-keys/ssh-evvy.pub"))
                           ("git"
                            ,(local-file "public-keys/ssh-jory.pub")
                            ,(local-file "public-keys/ssh-crane.pub")
                            ,(local-file "public-keys/ssh-radicale.pub")
                            ,(local-file "public-keys/ssh-trisana.pub")
                            ,(local-file "public-keys/ssh-lark.pub")
-                           ,(local-file "public-keys/ssh-frostpine.pub"))))))
+                           ,(local-file "public-keys/ssh-frostpine.pub")
+                           ,(local-file "public-keys/ssh-evvy.pub"))))))
              (service docker-service-type)
              (service php-fpm-service-type
                       (php-fpm-configuration
