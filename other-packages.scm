@@ -4,6 +4,7 @@
   (append
    my-agda-lib-string-list
    '(
+     "allegro"
      "agda"
      "alacritty"
      "alsa-plugins"
