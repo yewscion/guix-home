@@ -97,6 +97,11 @@ package-management ssh tls version-control xdisorg)
               (port 5432)
               (data-directory "/var/lib/postgresql/db")
               (log-directory "/var/log/postgresql/db")))
+    (service cups-service-type
+         (cups-configuration
+           (web-interface? #t)
+           (extensions
+             (list cups-filters brlaser))))
     (service qemu-binfmt-service-type
              (qemu-binfmt-configuration
               (platforms (lookup-qemu-platforms "arm"
