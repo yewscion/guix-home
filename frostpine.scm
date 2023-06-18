@@ -9,7 +9,7 @@
 (use-service-modules admin avahi base cuirass cups databases desktop docker games
 mail mcron networking sddm shepherd ssh virtualization web xorg)
 
-(use-package-modules admin base bash certs databases emacs fcitx5 games gtk
+(use-package-modules admin base bash certs cups databases emacs fcitx5 games gtk
 package-management ssh tls version-control xdisorg)
 
 (load "gtk-immodule-cache-fcitx5.scm")
