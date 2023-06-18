@@ -9,7 +9,7 @@
 (use-service-modules admin avahi base cuirass databases desktop docker games
 mail mcron networking sddm shepherd ssh virtualization web xorg)
 
-(use-package-modules admin certs databases emacs fcitx5 games gtk
+(use-package-modules admin base bash certs databases emacs fcitx5 games gtk
 package-management ssh tls version-control xdisorg)
 
 (load "gtk-immodule-cache-fcitx5.scm")
@@ -97,6 +97,11 @@ package-management ssh tls version-control xdisorg)
                                                 "aarch64"
                                                 "risc-v"))))
     (service wesnothd-service-type)
+    (extra-special-file "/usr/bin/env"
+			(file-append coreutils "/bin/env"))
+    (extra-special-file "/bin/bash"
+                        (file-append bash "/bin/bash"))
+
     (simple-service 'my-cron-jobs
                     mcron-service-type
                     (list duckdns-update-job
