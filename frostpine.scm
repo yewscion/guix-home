@@ -98,10 +98,14 @@ package-management ssh tls version-control xdisorg)
               (data-directory "/var/lib/postgresql/db")
               (log-directory "/var/log/postgresql/db")))
     (service cups-service-type
-         (cups-configuration
-           (web-interface? #t)
-           (extensions
-             (list cups-filters brlaser))))
+             (cups-configuration
+              (browsing? #t)
+              (browse-web-if? #t)
+              (web-interface? #t)
+              (default-shared? #t)
+              (default-paper-size "Letter")
+              (extensions
+               (list cups-filters foomatic-filters brlaser))))
     (service qemu-binfmt-service-type
              (qemu-binfmt-configuration
               (platforms (lookup-qemu-platforms "arm"
