@@ -6,7 +6,7 @@
              (guix utils)
              (ice-9 textual-ports))
 
-(use-service-modules admin avahi base cuirass databases desktop docker games
+(use-service-modules admin avahi base cuirass cups databases desktop docker games
 mail mcron networking sddm shepherd ssh virtualization web xorg)
 
 (use-package-modules admin base bash certs databases emacs fcitx5 games gtk
@@ -72,7 +72,7 @@ package-management ssh tls version-control xdisorg)
                     session-environment-service-type
                     %system-wide-environment-variables)
     (service docker-service-type)
-    (elogind-service)
+    (service elogind-service-type)
     (service openssh-service-type
              (openssh-configuration
               (password-authentication? #f)
