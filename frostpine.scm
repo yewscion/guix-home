@@ -108,7 +108,7 @@ package-management ssh tls version-control xdisorg)
               (listen '("*"))
               (ssl-listen '("*"))
               (extensions
-               (list cups-filters foomatic-filters brlaser))))
+               (list cups-filters brlaser))))
     (service qemu-binfmt-service-type
              (qemu-binfmt-configuration
               (platforms (lookup-qemu-platforms "arm"
