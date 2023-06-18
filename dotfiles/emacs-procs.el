@@ -2603,6 +2603,58 @@ the URL of the image to the kill buffer instead."
   (cdr255:toggle-proc-var-alist #'activate-input-method
                              current-input-method
                              cdr:my-input-methods))
+(defun cdr:update-website-timestamp ()
+  (interactive)
+  (let ((now (cdr255:datetime nil)))
+    (save-excursion
+      (goto-char (point-min))
+      (search-forward "Last Updated: <time datetime=\"")
+      (kill-line)
+      (insert now "\">")
+      (next-line)
+      (beginning-of-line)
+      (kill-line)
+      (insert "            "
+              (replace-regexp-in-string "T" " " now)
+              "</time>"))))
+
+(defun cdr:blog-post-pull-anchors ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward "((blog")
+    (cdr255:delete-current-line)
+    (cdr255:delete-current-line)
+    (let ((begin (point)))
+      (insert "(")
+      (insert (string-join (cdr:blog-gather-anchors) "\n"))
+      (insert ")\n")
+      (indent-region begin (point)))))
+
+(defun web:re-seq (regexp string)
+  "Get a list of all regexp matches in a string"
+  (save-match-data
+    (let ((pos 0)
+          matches)
+      (while (string-match regexp string pos)
+        (push (match-string 0 string) matches)
+        (setq pos (match-end 0)))
+      matches)))
+
+(defun cdr:blog-gather-anchors ()
+  (sort
+   (mapcar
+    (lambda (x)    (replace-regexp-in-string
+                    ")$" " \"\")" (replace-regexp-in-string
+                                   "^" "(" (replace-regexp-in-string
+                                            ",(anchor \".*?\" " "" x))))
+    (web:re-seq ",(anchor .*?)" (buffer-substring-no-properties (point-min) (point-max))))
+   #'string<))
+
+(fset 'cdr:push-to-four-remotes
+   (kmacro-lambda-form [?P ?u ?P ?e ?l ?a ?r ?k tab return ?P ?e
+                           ?s ?o tab return ?P ?e ?g ?i ?t tab return]
+                       0 "%d"))
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:

@@ -201,12 +201,14 @@ max_execution_time = 1800"))
                            ,(local-file "public-keys/ssh-crane.pub")
                            ,(local-file "public-keys/ssh-radicale.pub")
                            ,(local-file "public-keys/ssh-trisana.pub")
+                           ,(local-file "public-keys/ssh-lark.pub")
                            ,(local-file "public-keys/ssh-frostpine.pub"))
                           ("git"
                            ,(local-file "public-keys/ssh-jory.pub")
                            ,(local-file "public-keys/ssh-crane.pub")
                            ,(local-file "public-keys/ssh-radicale.pub")
                            ,(local-file "public-keys/ssh-trisana.pub")
+                           ,(local-file "public-keys/ssh-lark.pub")
                            ,(local-file "public-keys/ssh-frostpine.pub"))))))
              (service postgresql-service-type
                       (postgresql-configuration
@@ -214,7 +216,7 @@ max_execution_time = 1800"))
                        (port 5432)
                        (data-directory "/var/lib/postgresql/db")
                        (log-directory "/var/log/postgresql/db")))
-	     (elogind-service)
+	     (service elogind-service-type)
 	     (simple-service 'my-cron-jobs
 			     mcron-service-type
 			     (list updatedb-job))

@@ -458,5 +458,8 @@
                    `(".local/share/bash/yewscion.bash"
                      ,(local-file "dotfiles/yewscion.bash"
                                   "yewscion.bash"))
+                   `(".XCompose"
+                     ,(local-file "dotfiles/xcompose"
+                                  "xcompose"))
                    `(".agda/libraries"
                      ,my-agda-libraries))))))

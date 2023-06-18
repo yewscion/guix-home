@@ -18,7 +18,7 @@
 (use-service-modules admin avahi base cuirass databases desktop docker games
 mail mcron networking sddm shepherd ssh virtualization web xorg)
 
-(use-package-modules admin certs databases emacs fcitx5 games gtk linux
+(use-package-modules admin bash certs databases emacs fcitx5 games gtk linux
 package-management ssh tls version-control xdisorg)
 
 (load "system-packages.scm")
@@ -119,12 +119,18 @@ package-management ssh tls version-control xdisorg)
               (authorized-keys
                `(("ming"
                   ,(local-file "public-keys/ssh-jory.pub")
+                  ,(local-file "public-keys/ssh-lark.pub")
                   ,(local-file "public-keys/ssh-crane.pub")
-                  ,(local-file "public-keys/ssh-frostpine.pub"))
+                  ,(local-file "public-keys/ssh-trisana.pub")
+                  ,(local-file "public-keys/ssh-frostpine.pub")
+                  ,(local-file "public-keys/ssh-evvy.pub"))
                  ("git"
                   ,(local-file "public-keys/ssh-jory.pub")
+                  ,(local-file "public-keys/ssh-lark.pub")
                   ,(local-file "public-keys/ssh-crane.pub")
-                  ,(local-file "public-keys/ssh-frostpine.pub"))))))
+                  ,(local-file "public-keys/ssh-trisana.pub")
+                  ,(local-file "public-keys/ssh-frostpine.pub")
+                  ,(local-file "public-keys/ssh-evvy.pub"))))))
     (service postgresql-service-type
              (postgresql-configuration
               (postgresql postgresql-15)))
@@ -148,12 +154,14 @@ package-management ssh tls version-control xdisorg)
                         (local-file "dotfiles/clamav-freshclam.conf"))
     (extra-special-file "/etc/clamav/clamav-milter.conf"
                         (local-file "dotfiles/clamav-clamav-milter.conf"))
+    (extra-special-file "/bin/bash"
+                        (file-append bash "/bin/bash"))
     (set-xorg-configuration
      (xorg-configuration
       (keyboard-layout %my-keyboard-layout)))
-    (elogind-service
-     #:config (elogind-configuration
-               (handle-power-key 'ignore)))
+    (service elogind-service-type
+	     (elogind-configuration
+              (handle-power-key 'ignore)))
     (service libvirt-service-type
              (libvirt-configuration
               (unix-sock-group "libvirt")

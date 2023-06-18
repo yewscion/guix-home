@@ -80,17 +80,28 @@ package-management ssh tls version-control xdisorg)
                `(("ming"
                   ,(local-file "public-keys/ssh-jory.pub")
                   ,(local-file "public-keys/ssh-crane.pub")
-                  ,(local-file "public-keys/ssh-frostpine.pub"))
+                  ,(local-file "public-keys/ssh-lark.pub")
+                  ,(local-file "public-keys/ssh-trisana.pub")
+                  ,(local-file "public-keys/ssh-frostpine.pub")
+                  ,(local-file "public-keys/ssh-evvy.pub"))
                  ("git"
                   ,(local-file "public-keys/ssh-jory.pub")
                   ,(local-file "public-keys/ssh-crane.pub")
-                  ,(local-file "public-keys/ssh-frostpine.pub"))))))
+                  ,(local-file "public-keys/ssh-lark.pub")
+                  ,(local-file "public-keys/ssh-trisana.pub")
+                  ,(local-file "public-keys/ssh-frostpine.pub")
+                  ,(local-file "public-keys/ssh-evvy.pub"))))))
     (service postgresql-service-type
              (postgresql-configuration
               (postgresql postgresql-15)
               (port 5432)
               (data-directory "/var/lib/postgresql/db")
               (log-directory "/var/log/postgresql/db")))
+    (service cups-service-type
+         (cups-configuration
+           (web-interface? #t)
+           (extensions
+             (list cups-filters brlaser))))
     (service qemu-binfmt-service-type
              (qemu-binfmt-configuration
               (platforms (lookup-qemu-platforms "arm"
@@ -110,6 +121,8 @@ package-management ssh tls version-control xdisorg)
              (libvirt-configuration
               (unix-sock-group "libvirt")
               (tls-port "16555")))
+    (extra-special-file "/bin/bash"
+                        (file-append bash "/bin/bash"))
     (set-xorg-configuration
      (xorg-configuration
       (keyboard-layout %my-keyboard-layout)))

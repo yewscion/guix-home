@@ -4,7 +4,8 @@
   (append
    my-agda-lib-string-list
    '(
-     "agda@2.6.3"
+     "allegro"
+     "agda"
      "alacritty"
      "alsa-plugins"
      "alsa-plugins:pulseaudio"
@@ -95,6 +96,7 @@
      "genpro"
      "gerbil"
      "gfortran-toolchain"
+     "gforth"
      "ghc"
      "ghc-alex"
      "ghc-bnfc"
@@ -146,7 +148,8 @@
      "java-log4j-core"
      "jpegoptim"
      "kawa"
-;     "knock"
+                                        ;     "knock"
+     "kona"
      "krita"
      "le-certs"
      "libadlmidi"

@@ -100,6 +100,7 @@
    "fcitx5-qt"
    "fcitx5-rime"
    "gparted"
+   "gst-plugins-good"
    "icecat"
    "pinentry-emacs"
    "sbcl-clx"
