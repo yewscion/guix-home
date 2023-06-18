@@ -104,6 +104,9 @@ package-management ssh tls version-control xdisorg)
               (web-interface? #t)
               (default-shared? #t)
               (default-paper-size "Letter")
+              (browse-dns-sd-sub-types "_cups" "_print")
+              (listen "*")
+              (ssl-listen "*")
               (extensions
                (list cups-filters foomatic-filters brlaser))))
     (service qemu-binfmt-service-type
